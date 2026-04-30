@@ -344,9 +344,9 @@ body{
 <h1>🛒 Your Cart</h1>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <div class="address-box">
-  <b>Deliver to:</b> Viswa Raj, 641008 
-  <button class="change-btn">Change</button>
-  <p>Fark 618, Kuniyamuthur, Coimbatore</p>
+  <b>Deliver to:</b> <span id="delName"></span>, <span id="delPin"></span>
+  <button class="change-btn" onclick="changeAddress()">Change</button>
+  <p id="delAddress"></p>
 </div>
 <div id="cartList"></div>
 
@@ -460,9 +460,31 @@ function goCart() {
   window.location.href = "cart.html";
 }
 
+function loadDefaultAddress(){
 
+  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+
+  if(addresses.length === 0){
+    document.getElementById("delName").innerText = "No address";
+    document.getElementById("delPin").innerText = "";
+    document.getElementById("delAddress").innerText = "Add address in account page";
+    return;
+  }
+
+  // 🔥 first address default
+  let a = addresses[0];
+
+  document.getElementById("delName").innerText = a.name;
+  document.getElementById("delPin").innerText = a.pincode;
+  document.getElementById("delAddress").innerText =
+    a.address + ", " + a.city + ", " + a.state;
+}
+  function changeAddress(){
+  window.location.href = "account.html";
+}
 // INIT
 loadCart();
+loadDefaultAddress(); 
 function goPage(page){
   window.location.href = page;
 }
