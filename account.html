@@ -326,9 +326,10 @@ body{
 
    <div class="menu">
   <p onclick="showSection('orders')">📦 My Orders</p>
-  <p onclick="showSection('wishlist')">❤️ Wishlist</p>
-  <p onclick="showSection('cart')">🛒 Cart</p>
+ <p onclick="showSection('profile')">👤 Profile Information</p>
   <p onclick="showSection('address')">📍 Manage Address</p>
+  <p onclick="showSection('cart')">🛒 Cart</p>
+  <p onclick="showSection('wishlist')">❤️ Wishlist</p>
   <p onclick="logout()">🚪 Logout</p>
 </div>
   </div>
@@ -353,6 +354,11 @@ body{
       <h2>Cart Items</h2>
       <div id="cartItems"></div>
     </div>
+     </p>
+
+    <button onclick="saveProfile()">Save</button>
+  </div>
+</div>
 <!-- ADDRESS -->
 <div id="addressSection" style="display:none;">
   <h2>Manage Address</h2>
@@ -517,6 +523,7 @@ fetch("footer.html")
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("wishlistSection").style.display = "none";
   document.getElementById("cartSection").style.display = "none";
+ document.getElementById("profileSection").style.display = "none";
   document.getElementById("addressSection").style.display = "none"; // 🔥 add this
 
   if(section === "orders"){
@@ -530,7 +537,10 @@ fetch("footer.html")
   if(section === "cart"){
     document.getElementById("cartSection").style.display = "block";
   }
-
+if(section === "profile"){
+    document.getElementById("profileSection").style.display = "block";
+    loadProfile();
+  }
   if(section === "address"){
     document.getElementById("addressSection").style.display = "block";
     loadAddress(); // 🔥 important
@@ -650,7 +660,29 @@ function clearAddressForm(){
   document.getElementById("a_state").value = "";
   document.getElementById("a_address").value = "";
 }
+function saveProfile(){
+  const data = {
+    name: document.getElementById("p_name").value,
+    email: document.getElementById("p_email").value,
+    mobile: document.getElementById("p_mobile").value,
+    gender: document.querySelector('input[name="gender"]:checked')?.value
+  };
 
+  localStorage.setItem("profile", JSON.stringify(data));
+  alert("Profile saved ✅");
+}
+
+function loadProfile(){
+  const data = JSON.parse(localStorage.getItem("profile")) || {};
+
+  document.getElementById("p_name").value = data.name || "";
+  document.getElementById("p_email").value = data.email || "";
+  document.getElementById("p_mobile").value = data.mobile || "";
+
+  if(data.gender){
+    document.querySelector(`input[value="${data.gender}"]`).checked = true;
+  }
+}
 // 🔻 NAV
 function goHome(){ location.href = "index.html"; }
 function goAccount(){ location.href = "account.html"; }
