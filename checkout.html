@@ -137,13 +137,9 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let checkoutItem = JSON.parse(localStorage.getItem("checkout"));
 
 let products = [];
-let total = 0;// 🔥 IF BUY NOW
-if(checkoutItem){
-  products = [checkoutItem];
-  total = checkoutItem.price;
-} 
-// 🔥 ELSE CART
-else if(cart.length > 0){
+let total = 0;
+
+if(cart.length > 0){
   products = cart;
   cart.forEach(i => total += i.price * (i.qty || 1));
 }
