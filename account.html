@@ -414,11 +414,15 @@ function loadLogin(){
 
   let user = localStorage.getItem("user");
 
-  if(user){
-    document.getElementById("loginBox").innerHTML = `
-      <p>Welcome, <b>${user}</b></p>
-      <button onclick="logout()">Logout</button>
-    `;
+ if(user){
+
+  let profile = JSON.parse(localStorage.getItem("profile_" + user)) || {};
+
+  document.getElementById("loginBox").innerHTML = `
+    <p>Welcome, <b>${profile.name || user}</b></p>
+    <button onclick="logout()">Logout</button>
+  `;
+}
   } else {
     document.getElementById("loginBox").innerHTML = `
       <input id="phone" placeholder="Enter Mobile Number">
@@ -591,6 +595,15 @@ let editIndex = -1;
 
 function saveAddress(){
 
+  let user = localStorage.getItem("user");
+
+  if(!user){
+    alert("Login first ❗");
+    return;
+  }
+
+  let key = "addresses_" + user;
+
   const data = {
     name: document.getElementById("a_name").value,
     phone: document.getElementById("a_phone").value,
@@ -600,7 +613,7 @@ function saveAddress(){
     address: document.getElementById("a_address").value
   };
 
-  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+  let addresses = JSON.parse(localStorage.getItem(key)) || [];
 
   if(editIndex >= 0){
     addresses[editIndex] = data;
@@ -609,17 +622,26 @@ function saveAddress(){
     addresses.push(data);
   }
 
-  localStorage.setItem("addresses", JSON.stringify(addresses));
+  localStorage.setItem(key, JSON.stringify(addresses));
 
   clearAddressForm();
   loadAddress();
-
   alert("Saved ✅");
 }
 
 function loadAddress(){
 
-  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+  let user = localStorage.getItem("user");
+
+  // ❌ login இல்லனா block
+  if(!user){
+    document.getElementById("addressList").innerHTML = "<p class='empty'>Please login</p>";
+    return;
+  }
+
+  let key = "addresses_" + user;
+
+  let addresses = JSON.parse(localStorage.getItem(key)) || [];
 
   let html = "";
 
@@ -654,7 +676,16 @@ function loadAddress(){
 }
 function editAddress(i){
 
-  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+  let user = localStorage.getItem("user");
+
+  if(!user){
+    alert("Login first ❗");
+    return;
+  }
+
+  let key = "addresses_" + user;
+
+  let addresses = JSON.parse(localStorage.getItem(key)) || [];
   let a = addresses[i];
 
   document.getElementById("a_name").value = a.name;
@@ -664,22 +695,30 @@ function editAddress(i){
   document.getElementById("a_state").value = a.state;
   document.getElementById("a_address").value = a.address;
 
-  document.getElementById("addressForm").style.display = "block"; // 🔥 important
+  document.getElementById("addressForm").style.display = "block";
 
   editIndex = i;
 }
 
 function deleteAddress(i){
 
-  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+  let user = localStorage.getItem("user");
+
+  if(!user){
+    alert("Login first ❗");
+    return;
+  }
+
+  let key = "addresses_" + user;
+
+  let addresses = JSON.parse(localStorage.getItem(key)) || [];
 
   if(confirm("Delete this address?")){
     addresses.splice(i,1);
-    localStorage.setItem("addresses", JSON.stringify(addresses));
+    localStorage.setItem(key, JSON.stringify(addresses));
     loadAddress();
   }
 }
-
 function clearAddressForm(){
   document.getElementById("a_name").value = "";
   document.getElementById("a_phone").value = "";
