@@ -114,21 +114,24 @@ function loadWishlist(){
     html = "<p>No items in wishlist</p>";
   } else {
 
-   fav.forEach(p => {
-  html += `
-    <div class="card">
-      <img src="${p.images?.[0] || p.image}">
-      <h3>${p.name || "No Name"}</h3>
-      <p class="price">₹${p.price || 0}</p>
+    fav.forEach(p => {
+      html += `
+        <div class="card">
+          <img src="${p.images?.[0] || p.image}">
+          <h3>${p.name || "No Name"}</h3>
+          <p class="price">₹${p.price || 0}</p>
 
-      <button onclick="removeItem('${p._id || p.id}')">Remove</button>
-    </div>
-  `;
-});
+          <button onclick="removeItem('${p._id || p.id}')">Remove</button>
+        </div>
+      `;
+    });
 
+  }
+
+  // 🔥 THIS MUST BE OUTSIDE else
   document.getElementById("wishlist").innerHTML = html;
-}
 
+} // ✅ THIS WAS MISSING
 // ✅ REMOVE
 function removeItem(id){
 
