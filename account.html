@@ -374,26 +374,26 @@ body{
       <div id="cartItems"></div>
     </div>
 <!-- ADDRESS -->
-<h2>Manage Address</h2>
+<div id="addressSection" style="display:none;">
 
-<!-- ➕ ADD BUTTON -->
-<button onclick="toggleAddressForm()">+ Add New Address</button>
+  <h2>Manage Address</h2>
 
-<!-- FORM (hidden default) -->
-<div id="addressForm" style="display:none;" class="card">
-  <input id="a_name" placeholder="Name"><br>
-  <input id="a_phone" placeholder="Phone"><br>
-  <input id="a_pincode" placeholder="Pincode"><br>
-  <input id="a_city" placeholder="City"><br>
-  <input id="a_state" placeholder="State"><br>
-  <textarea id="a_address" placeholder="Full Address"></textarea>
+  <button onclick="toggleAddressForm()">+ Add New Address</button>
 
-  <button onclick="saveAddress()">Save Address</button>
-</div>
+  <div id="addressForm" style="display:none;" class="card">
+    <input id="a_name" placeholder="Name"><br>
+    <input id="a_phone" placeholder="Phone"><br>
+    <input id="a_pincode" placeholder="Pincode"><br>
+    <input id="a_city" placeholder="City"><br>
+    <input id="a_state" placeholder="State"><br>
+    <textarea id="a_address" placeholder="Full Address"></textarea>
 
-<div id="addressList"></div>
-</div>
+    <button onclick="saveAddress()">Save Address</button>
   </div>
+
+  <div id="addressList"></div>
+
+</div>
 
 </div>
 <div id="footer"></div>
