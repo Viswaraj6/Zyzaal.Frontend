@@ -327,7 +327,6 @@ body{
   <p onclick="showSection('orders')">📦 My Orders</p>
  <p onclick="showSection('profile')">👤 Profile Information</p>
   <p onclick="showSection('address')">📍 Manage Address</p>
-  <p onclick="showSection('cart')">🛒 Cart</p>
   <p onclick="showSection('wishlist')">❤️ Wishlist</p>
  
 </div>
@@ -365,12 +364,6 @@ body{
     <div id="wishlistSection" style="display:none;">
       <h2>Wishlist</h2>
       <div id="wishlistItems"></div>
-    </div>
-
-    <!-- CART -->
-    <div id="cartSection" style="display:none;">
-      <h2>Cart Items</h2>
-      <div id="cartItems"></div>
     </div>
 <!-- ADDRESS -->
 <div id="addressSection" style="display:none;">
@@ -450,35 +443,6 @@ function logout(){
 function goWishlist(){
   location.href = "wishlist.html";
 }
-
-// 🛒 LOAD CART
-function loadCart() {
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  let html = "";
-
-  if (cart.length === 0) {
-    html = "<p class='empty'>No cart items</p>";
-  } else {
-
-    cart.forEach(c => {
-      html += `
-        <div class="card">
-          <h3>${c.name}</h3>
-          <p>₹${c.price}</p>
-          <p>Size: ${c.size || "-"}</p>
-        </div>
-      `;
-    });
-
-  }
-
-  document.getElementById("cartItems").innerHTML = html;
-}
-
-
-
 // 📦 LOAD ORDERS
 function loadOrders(){
 
@@ -544,7 +508,6 @@ fetch("footer.html")
 
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("wishlistSection").style.display = "none";
-  document.getElementById("cartSection").style.display = "none";
  document.getElementById("profileSection").style.display = "none";
   document.getElementById("addressSection").style.display = "none"; // 🔥 add this
 
@@ -554,10 +517,6 @@ fetch("footer.html")
 
   if(section === "wishlist"){
     document.getElementById("wishlistSection").style.display = "block";
-  }
-
-  if(section === "cart"){
-    document.getElementById("cartSection").style.display = "block";
   }
 if(section === "profile"){
     document.getElementById("profileSection").style.display = "block";
