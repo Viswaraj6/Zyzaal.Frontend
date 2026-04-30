@@ -453,8 +453,10 @@ function loadOrders(){
     .then(data => {
 
       // 🔥 filter user orders மட்டும்
-      let myOrders = data.filter(o => o.phone === user);
-
+     let myOrders = data.filter(o =>
+  String(o.user) === String(user) ||
+  String(o.phone) === String(user)
+);
       let html = "";
 
       if(myOrders.length === 0){
