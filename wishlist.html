@@ -249,7 +249,9 @@ button{
 <div id="footer"></div>
   
 <script>
-
+function goPage(page){
+  window.location.href = page;
+}
 function getFav(){
   return JSON.parse(localStorage.getItem("fav")) || [];
 }
