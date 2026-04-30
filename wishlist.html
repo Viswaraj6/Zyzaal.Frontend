@@ -118,7 +118,7 @@ function loadWishlist(){
           <h3>${p.name || "No Name"}</h3>
           <p class="price">₹${p.price || 0}</p>
 
-          <button onclick="removeItem('${p._id}')">Remove ❌</button>
+          <button onclick="removeItem('${p._id}')">Remove </button>
         </div>
       `;
     });
@@ -130,12 +130,15 @@ function loadWishlist(){
 
 // ❌ REMOVE (safe remove using id)
 function removeItem(id){
-  let fav = getFav().filter(p => p.id !== id);
-  localStorage.setItem("fav", JSON.stringify(fav));
-  loadWishlist(); // reload without refresh
-}
 
-loadWishlist();
+  let fav = getFav();
+
+  fav = fav.filter(p => (p._id || p.id) !== id);
+
+  localStorage.setItem("fav", JSON.stringify(fav));
+
+  loadWishlist();
+}
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
