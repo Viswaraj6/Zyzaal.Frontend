@@ -478,35 +478,36 @@ function loadCart() {
 // 📦 LOAD ORDERS
 function loadOrders(){
 
+  let user = localStorage.getItem("user");
+
   fetch(API + "/orders")
     .then(res => res.json())
     .then(data => {
 
+      // 🔥 filter user orders மட்டும்
+      let myOrders = data.filter(o => o.phone === user);
+
       let html = "";
 
-      if(data.length === 0){
+      if(myOrders.length === 0){
         html = "<p class='empty'>No orders</p>";
       } else {
 
-        data.forEach(order => {
-
-         html += `
-  <div class="card">
-    <b>Name:</b> ${order.name || "Guest"}<br>
-    <b>Total:</b> ₹${order.total}<br>
-    <b>Status:</b> ${order.status}<br>
-    <b>Date:</b> ${new Date(order.orderDate || Date.now()).toLocaleDateString("en-IN")}
-  </div>
-`;
+        myOrders.forEach(order => {
+          html += `
+            <div class="card">
+              <b>Total:</b> ₹${order.total}<br>
+              <b>Status:</b> ${order.status}<br>
+              <b>Date:</b> ${new Date(order.orderDate).toLocaleDateString("en-IN")}
+            </div>
+          `;
         });
 
       }
 
       document.getElementById("orders").innerHTML = html;
-
     });
 }
-
 function loadWishlist(){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
@@ -686,24 +687,35 @@ function clearAddressForm(){
   document.getElementById("a_address").value = "";
 }
 function saveProfile(){
+
+  let user = localStorage.getItem("user");
+
+  if(!user){
+    alert("Login first ❗");
+    return;
+  }
+
   const data = {
     name: document.getElementById("p_name").value,
     email: document.getElementById("p_email").value,
-    mobile: document.getElementById("p_mobile").value,
     gender: document.querySelector('input[name="gender"]:checked')?.value
   };
 
-  localStorage.setItem("profile", JSON.stringify(data));
+  // 🔥 முக்கிய line
+  localStorage.setItem("profile_" + user, JSON.stringify(data));
+
   alert("Profile saved ✅");
   updateUserNameUI();
 }
-
 function loadProfile(){
-  const data = JSON.parse(localStorage.getItem("profile")) || {};
+
+  let user = localStorage.getItem("user");
+
+  const data = JSON.parse(localStorage.getItem("profile_" + user)) || {};
 
   document.getElementById("p_name").value = data.name || "";
   document.getElementById("p_email").value = data.email || "";
-  document.getElementById("p_mobile").value = data.mobile || "";
+  document.getElementById("p_mobile").value = user || "";
 
   if(data.gender){
     document.querySelector(`input[value="${data.gender}"]`).checked = true;
@@ -734,12 +746,15 @@ function toggleAddressForm(){
     menu.style.display = "none";
   }
 }
-  function updateUserNameUI(){
-  const profile = JSON.parse(localStorage.getItem("profile")) || {};
+ function updateUserNameUI(){
+
+  let user = localStorage.getItem("user");
+
+  const profile = JSON.parse(localStorage.getItem("profile_" + user)) || {};
   const el = document.getElementById("userName");
 
   if(el){
-    el.innerText = profile.name || localStorage.getItem("user") || "Guest";
+    el.innerText = profile.name || user;
   }
 }
 // 🚀 INIT
