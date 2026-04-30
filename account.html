@@ -160,9 +160,10 @@
 
   <!-- LEFT SIDEBAR -->
   <div class="sidebar">
-    <div class="user-box">
+  <div class="user-box">
       <h3>Hello,</h3>
       <b id="userName"></b>
+     <div id="loginBox"></div>
     </div>
 
     <div class="menu">
@@ -296,7 +297,7 @@ function loadOrders(){
               <b>Name:</b> ${order.name || "Guest"}<br>
               <b>Total:</b> ₹${order.total}<br>
               <b>Status:</b> ${order.status}<br>
-              <b>Date:</b> ${new Date(order.date).toLocaleDateString()}
+              new Date(order.orderDate || Date.now()).toLocaleDateString("en-IN")}
             </div>
           `;
         });
