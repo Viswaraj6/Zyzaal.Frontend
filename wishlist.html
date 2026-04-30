@@ -129,11 +129,11 @@ function loadWishlist(){
 }
 
 // ❌ REMOVE (safe remove using id)
-function removeItem(id){
+function removeWishlist(id){
 
-  let fav = getFav();
+  let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
-  fav = fav.filter(p => (p._id || p.id) !== id);
+  fav = fav.filter(p => p._id !== id);   // ✅ FIX
 
   localStorage.setItem("fav", JSON.stringify(fav));
 
