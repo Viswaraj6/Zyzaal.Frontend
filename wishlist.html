@@ -252,6 +252,10 @@ button{
 function goPage(page){
   window.location.href = page;
 }
+  
+function goHome(){
+  window.location.href = "index.html"; // 🔥 add this
+}
 function getFav(){
   return JSON.parse(localStorage.getItem("fav")) || [];
 }
