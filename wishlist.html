@@ -128,8 +128,7 @@ function loadWishlist(){
   document.getElementById("wishlist").innerHTML = html;
 }
 
-
-// ✅ REMOVE (correct)
+// ✅ REMOVE
 function removeItem(id){
 
   let fav = getFav();
@@ -144,13 +143,13 @@ function removeItem(id){
 // ✅ INIT
 loadWishlist();
 
-</script>
+// ✅ footer load
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("footer").innerHTML = data;
   });
-</script>
 
+</script>
 </body>
 </html>
