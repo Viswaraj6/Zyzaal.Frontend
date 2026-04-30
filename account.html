@@ -12,7 +12,40 @@
   background: #d8f3f0;
  
 }
+.account-container {
+  display: flex;
+}
 
+.sidebar {
+  width: 250px;
+  background: #f1f3f6;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.user-box {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.menu p {
+  padding: 12px;
+  background: white;
+  margin: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu p:hover {
+  background: #e3f2fd;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
 
     h1 {
       text-align: center;
@@ -123,21 +156,47 @@
 </head>
 
 <body>
-<div id="main-content">
-<h1>👤 My Account</h1>
+<div class="account-container">
 
-<!-- 🔐 LOGIN -->
-<div id="loginBox"></div>
-<h2 onclick="goWishlist()">❤️ Wishlist</h2>
-<div id="wishlistItems"></div>
-<!-- 🛒 CART -->
-<h2>🛒 Cart Items</h2>
-<div id="cartItems"></div>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="user-box">
+      <h3>Hello,</h3>
+      <b id="userName"></b>
+    </div>
 
-<!-- 📦 ORDERS (CLICK TO OPEN) -->
-<h2 onclick="toggleOrders()">📦 My Orders ⬇️</h2>
-<div id="orders"></div>
+    <div class="menu">
+      <p onclick="showSection('orders')">📦 My Orders</p>
+      <p onclick="showSection('wishlist')">❤️ Wishlist</p>
+      <p onclick="showSection('cart')">🛒 Cart</p>
+      <p onclick="logout()">🚪 Logout</p>
+    </div>
+  </div>
 
+  <!-- RIGHT CONTENT -->
+  <div class="content">
+
+    <!-- ORDERS -->
+    <div id="ordersSection">
+      <h2>My Orders</h2>
+      <div id="orders"></div>
+    </div>
+
+    <!-- WISHLIST -->
+    <div id="wishlistSection" style="display:none;">
+      <h2>Wishlist</h2>
+      <div id="wishlistItems"></div>
+    </div>
+
+    <!-- CART -->
+    <div id="cartSection" style="display:none;">
+      <h2>Cart Items</h2>
+      <div id="cartItems"></div>
+    </div>
+
+  </div>
+
+</div>
 <div id="footer"></div>
 <script>
 function updateCartCount(){
@@ -147,14 +206,6 @@ function updateCartCount(){
     el.innerText = cart.length;
   }
 }
-
-// 👇 header load
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header").innerHTML = data;
-    updateCartCount(); // ⭐ here call pannunga
-  });
 const API = "https://fark618-backend.onrender.com";
 let user = localStorage.getItem("user");
 
@@ -285,6 +336,24 @@ fetch("footer.html")
   .then(data => {
     document.getElementById("footer").innerHTML = data;
   });
+  function showSection(section){
+
+  document.getElementById("ordersSection").style.display = "none";
+  document.getElementById("wishlistSection").style.display = "none";
+  document.getElementById("cartSection").style.display = "none";
+
+  if(section === "orders"){
+    document.getElementById("ordersSection").style.display = "block";
+  }
+
+  if(section === "wishlist"){
+    document.getElementById("wishlistSection").style.display = "block";
+  }
+
+  if(section === "cart"){
+    document.getElementById("cartSection").style.display = "block";
+  }
+}
 // 🔥 TOGGLE ORDERS
 let ordersLoaded = false;
 
