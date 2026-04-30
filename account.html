@@ -695,6 +695,7 @@ function saveProfile(){
 
   localStorage.setItem("profile", JSON.stringify(data));
   alert("Profile saved ✅");
+  updateUserNameUI();
 }
 
 function loadProfile(){
@@ -733,11 +734,20 @@ function toggleAddressForm(){
     menu.style.display = "none";
   }
 }
+  function updateUserNameUI(){
+  const profile = JSON.parse(localStorage.getItem("profile")) || {};
+  const el = document.getElementById("userName");
+
+  if(el){
+    el.innerText = profile.name || localStorage.getItem("user") || "Guest";
+  }
+}
 // 🚀 INIT
 loadLogin();
 loadCart();
 loadWishlist(); // 👈 add this
 updateCartCount();
+updateUserNameUI();
 </script>
 
 </body>
