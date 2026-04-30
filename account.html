@@ -374,21 +374,24 @@ body{
       <div id="cartItems"></div>
     </div>
 <!-- ADDRESS -->
-<div id="addressSection" style="display:none;">
-  <h2>Manage Address</h2>
+<h2>Manage Address</h2>
 
-  <div class="card">
-    <input id="a_name" placeholder="Name"><br>
-    <input id="a_phone" placeholder="Phone"><br>
-    <input id="a_pincode" placeholder="Pincode"><br>
-    <input id="a_city" placeholder="City"><br>
-    <input id="a_state" placeholder="State"><br>
-    <textarea id="a_address" placeholder="Full Address"></textarea>
+<!-- ➕ ADD BUTTON -->
+<button onclick="toggleAddressForm()">+ Add New Address</button>
 
-    <button onclick="saveAddress()">Save Address</button>
-  </div>
+<!-- FORM (hidden default) -->
+<div id="addressForm" style="display:none;" class="card">
+  <input id="a_name" placeholder="Name"><br>
+  <input id="a_phone" placeholder="Phone"><br>
+  <input id="a_pincode" placeholder="Pincode"><br>
+  <input id="a_city" placeholder="City"><br>
+  <input id="a_state" placeholder="State"><br>
+  <textarea id="a_address" placeholder="Full Address"></textarea>
 
-  <div id="addressList"></div>
+  <button onclick="saveAddress()">Save Address</button>
+</div>
+
+<div id="addressList"></div>
 </div>
   </div>
 
@@ -623,14 +626,21 @@ function loadAddress(){
 
     addresses.forEach((a, i) => {
       html += `
-        <div class="card">
+        <div class="card" style="position:relative;">
+
           <b>${a.name}</b> (${a.phone})<br>
           ${a.address}, ${a.city}, ${a.state} - ${a.pincode}
 
-          <br><br>
+          <!-- 🔥 3 DOTS -->
+          <div style="position:absolute; top:10px; right:10px;">
+            <i class="fa-solid fa-ellipsis-vertical" onclick="toggleMenu(${i})" style="cursor:pointer;"></i>
 
-          <button onclick="editAddress(${i})">Edit</button>
-          <button onclick="deleteAddress(${i})" style="background:red;">Delete</button>
+            <div id="menu${i}" style="display:none; background:#fff; border:1px solid #ddd; padding:5px; position:absolute; right:0;">
+              <div onclick="editAddress(${i})">Edit</div>
+              <div onclick="deleteAddress(${i})" style="color:red;">Delete</div>
+            </div>
+          </div>
+
         </div>
       `;
     });
@@ -639,7 +649,6 @@ function loadAddress(){
 
   document.getElementById("addressList").innerHTML = html;
 }
-
 function editAddress(i){
 
   let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
@@ -651,6 +660,8 @@ function editAddress(i){
   document.getElementById("a_city").value = a.city;
   document.getElementById("a_state").value = a.state;
   document.getElementById("a_address").value = a.address;
+
+  document.getElementById("addressForm").style.display = "block"; // 🔥 important
 
   editIndex = i;
 }
@@ -704,7 +715,24 @@ function goCart(){ location.href = "cart.html"; }
 function goPage(page){
   window.location.href = page;
 }
+function toggleAddressForm(){
+  const form = document.getElementById("addressForm");
 
+  if(form.style.display === "none"){
+    form.style.display = "block";
+  } else {
+    form.style.display = "none";
+  }
+}
+  function toggleMenu(i){
+  const menu = document.getElementById("menu"+i);
+
+  if(menu.style.display === "none"){
+    menu.style.display = "block";
+  } else {
+    menu.style.display = "none";
+  }
+}
 // 🚀 INIT
 loadLogin();
 loadCart();
