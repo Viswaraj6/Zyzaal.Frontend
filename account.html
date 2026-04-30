@@ -342,7 +342,26 @@ body{
       <h2>My Orders</h2>
       <div id="orders"></div>
     </div>
+<!-- PROFILE -->
+<div id="profileSection" style="display:none;">
+  <h2>Profile Information</h2>
 
+  <div class="card">
+    <input id="p_name" placeholder="Name"><br>
+    <input id="p_email" placeholder="Email"><br>
+    <input id="p_mobile" placeholder="Mobile"><br>
+
+    <label>
+      <input type="radio" name="gender" value="Male"> Male
+    </label>
+    <label>
+      <input type="radio" name="gender" value="Female"> Female
+    </label>
+
+    <br><br>
+    <button onclick="saveProfile()">Save</button>
+  </div>
+</div>
     <!-- WISHLIST -->
     <div id="wishlistSection" style="display:none;">
       <h2>Wishlist</h2>
@@ -354,11 +373,6 @@ body{
       <h2>Cart Items</h2>
       <div id="cartItems"></div>
     </div>
-     </p>
-
-    <button onclick="saveProfile()">Save</button>
-  </div>
-</div>
 <!-- ADDRESS -->
 <div id="addressSection" style="display:none;">
   <h2>Manage Address</h2>
