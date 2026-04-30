@@ -412,6 +412,8 @@ let user = localStorage.getItem("user");
 // 🔐 LOGIN UI
 function loadLogin(){
 
+  let user = localStorage.getItem("user");
+
   if(user){
     document.getElementById("loginBox").innerHTML = `
       <p>Welcome, <b>${user}</b></p>
@@ -419,7 +421,7 @@ function loadLogin(){
     `;
   } else {
     document.getElementById("loginBox").innerHTML = `
-      <input id="username" placeholder="Enter name">
+      <input id="phone" placeholder="Enter Mobile Number">
       <button onclick="login()">Login</button>
     `;
   }
@@ -427,17 +429,17 @@ function loadLogin(){
 }
 
 function login(){
-  let name = document.getElementById("username").value;
 
-  if(!name){
-    alert("Enter name ❗");
+  let phone = document.getElementById("phone").value;
+
+  if(!phone || phone.length < 10){
+    alert("Enter valid mobile number ❗");
     return;
   }
 
-  localStorage.setItem("user", name);
+  localStorage.setItem("user", phone);
   location.reload();
 }
-
 function logout(){
   localStorage.removeItem("user");
   location.reload();
@@ -754,7 +756,7 @@ function toggleAddressForm(){
   const el = document.getElementById("userName");
 
   if(el){
-    el.innerText = profile.name || user;
+    el.innerText = profile.name || user; // name இல்லனா mobile show
   }
 }
 // 🚀 INIT
