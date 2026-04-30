@@ -133,7 +133,7 @@ function removeWishlist(id){
 s
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
-  fav = fav.filter(p => p._id !== id);   // ✅ FIX
+  fav = fav.filter(p => p.id !== id);   // ✅ FIX
 
   localStorage.setItem("fav", JSON.stringify(fav));
 
