@@ -324,12 +324,13 @@ body{
      <div id="loginBox"></div>
     </div>
 
-    <div class="menu">
-      <p onclick="showSection('orders')">📦 My Orders</p>
-      <p onclick="showSection('wishlist')">❤️ Wishlist</p>
-      <p onclick="showSection('cart')">🛒 Cart</p>
-      <p onclick="logout()">🚪 Logout</p>
-    </div>
+   <div class="menu">
+  <p onclick="showSection('orders')">📦 My Orders</p>
+  <p onclick="showSection('wishlist')">❤️ Wishlist</p>
+  <p onclick="showSection('cart')">🛒 Cart</p>
+  <p onclick="showSection('address')">📍 Manage Address</p>
+  <p onclick="logout()">🚪 Logout</p>
+</div>
   </div>
 
   <!-- RIGHT CONTENT -->
@@ -352,7 +353,23 @@ body{
       <h2>Cart Items</h2>
       <div id="cartItems"></div>
     </div>
+<!-- ADDRESS -->
+<div id="addressSection" style="display:none;">
+  <h2>Manage Address</h2>
 
+  <div class="card">
+    <input id="a_name" placeholder="Name"><br>
+    <input id="a_phone" placeholder="Phone"><br>
+    <input id="a_pincode" placeholder="Pincode"><br>
+    <input id="a_city" placeholder="City"><br>
+    <input id="a_state" placeholder="State"><br>
+    <textarea id="a_address" placeholder="Full Address"></textarea>
+
+    <button onclick="saveAddress()">Save Address</button>
+  </div>
+
+  <div id="addressList"></div>
+</div>
   </div>
 
 </div>
@@ -500,6 +517,7 @@ fetch("footer.html")
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("wishlistSection").style.display = "none";
   document.getElementById("cartSection").style.display = "none";
+  document.getElementById("addressSection").style.display = "none"; // 🔥 add this
 
   if(section === "orders"){
     document.getElementById("ordersSection").style.display = "block";
@@ -511,6 +529,11 @@ fetch("footer.html")
 
   if(section === "cart"){
     document.getElementById("cartSection").style.display = "block";
+  }
+
+  if(section === "address"){
+    document.getElementById("addressSection").style.display = "block";
+    loadAddress(); // 🔥 important
   }
 }
 // 🔥 TOGGLE ORDERS
@@ -534,7 +557,99 @@ function toggleOrders(){
 
 }
 
+let editIndex = -1;
 
+function saveAddress(){
+
+  const data = {
+    name: document.getElementById("a_name").value,
+    phone: document.getElementById("a_phone").value,
+    pincode: document.getElementById("a_pincode").value,
+    city: document.getElementById("a_city").value,
+    state: document.getElementById("a_state").value,
+    address: document.getElementById("a_address").value
+  };
+
+  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+
+  if(editIndex >= 0){
+    addresses[editIndex] = data;
+    editIndex = -1;
+  } else {
+    addresses.push(data);
+  }
+
+  localStorage.setItem("addresses", JSON.stringify(addresses));
+
+  clearAddressForm();
+  loadAddress();
+
+  alert("Saved ✅");
+}
+
+function loadAddress(){
+
+  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+
+  let html = "";
+
+  if(addresses.length === 0){
+    html = "<p class='empty'>No address added</p>";
+  } else {
+
+    addresses.forEach((a, i) => {
+      html += `
+        <div class="card">
+          <b>${a.name}</b> (${a.phone})<br>
+          ${a.address}, ${a.city}, ${a.state} - ${a.pincode}
+
+          <br><br>
+
+          <button onclick="editAddress(${i})">Edit</button>
+          <button onclick="deleteAddress(${i})" style="background:red;">Delete</button>
+        </div>
+      `;
+    });
+
+  }
+
+  document.getElementById("addressList").innerHTML = html;
+}
+
+function editAddress(i){
+
+  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+  let a = addresses[i];
+
+  document.getElementById("a_name").value = a.name;
+  document.getElementById("a_phone").value = a.phone;
+  document.getElementById("a_pincode").value = a.pincode;
+  document.getElementById("a_city").value = a.city;
+  document.getElementById("a_state").value = a.state;
+  document.getElementById("a_address").value = a.address;
+
+  editIndex = i;
+}
+
+function deleteAddress(i){
+
+  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+
+  if(confirm("Delete this address?")){
+    addresses.splice(i,1);
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+    loadAddress();
+  }
+}
+
+function clearAddressForm(){
+  document.getElementById("a_name").value = "";
+  document.getElementById("a_phone").value = "";
+  document.getElementById("a_pincode").value = "";
+  document.getElementById("a_city").value = "";
+  document.getElementById("a_state").value = "";
+  document.getElementById("a_address").value = "";
+}
 
 // 🔻 NAV
 function goHome(){ location.href = "index.html"; }
