@@ -450,14 +450,14 @@ function loadOrders(){
 
         data.forEach(order => {
 
-          html += `
-            <div class="card">
-              <b>Name:</b> ${order.name || "Guest"}<br>
-              <b>Total:</b> ₹${order.total}<br>
-              <b>Status:</b> ${order.status}<br>
-              new Date(order.orderDate || Date.now()).toLocaleDateString("en-IN")}
-            </div>
-          `;
+         html += `
+  <div class="card">
+    <b>Name:</b> ${order.name || "Guest"}<br>
+    <b>Total:</b> ₹${order.total}<br>
+    <b>Status:</b> ${order.status}<br>
+    <b>Date:</b> ${new Date(order.orderDate || Date.now()).toLocaleDateString("en-IN")}
+  </div>
+`;
         });
 
       }
