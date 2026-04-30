@@ -98,6 +98,7 @@ button{
 
 <div id="wishlist"></div>
 <div id="footer"></div>
+  
 <script>
 
 function getFav(){
@@ -131,11 +132,11 @@ function loadWishlist(){
 }
 
 // ✅ REMOVE
-function removeWishlist(id){
+function removeItem(id){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
-  fav = fav.filter(p => p.id !== id);
+  fav = fav.filter(p => (p._id || p.id) != id);
 
   localStorage.setItem("fav", JSON.stringify(fav));
 
