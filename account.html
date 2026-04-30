@@ -362,7 +362,7 @@ body{
 </div>
     <!-- WISHLIST -->
     <div id="wishlistSection" style="display:none;">
-      <h2>Wishlist</h2>
+     <h2>My Wishlist</h2>
       <div id="wishlistItems"></div>
     </div>
 <!-- ADDRESS -->
@@ -487,18 +487,44 @@ function loadWishlist(){
   } else {
 
     fav.forEach(p => {
-      html += `
-        <div class="card">
-          <h3>${p.name}</h3>
-          <p>₹${p.price}</p>
-        </div>
-      `;
+     html += `
+  <div class="card" style="display:flex; gap:15px; align-items:center; position:relative;">
+
+    <!-- IMAGE -->
+    <img src="${p.image}" width="80" height="80" style="border-radius:8px; cursor:pointer;" onclick="openProduct('${p.id}')">
+
+    <!-- DETAILS -->
+    <div style="flex:1; cursor:pointer;" onclick="openProduct('${p.id}')">
+      <h3 style="margin:0;">${p.name}</h3>
+      <p style="margin:5px 0;">₹${p.price}</p>
+    </div>
+
+    <!-- REMOVE -->
+    <button onclick="removeWishlist(${p.id})" style="width:auto; padding:6px 10px; background:red;">
+      Remove
+    </button>
+
+  </div>
+`;
     });
 
   }
 
   document.getElementById("wishlistItems").innerHTML = html;
                                       }
+  function removeWishlist(id){
+
+  let fav = JSON.parse(localStorage.getItem("fav")) || [];
+
+  fav = fav.filter(p => p.id !== id);
+
+  localStorage.setItem("fav", JSON.stringify(fav));
+
+  loadWishlist();
+}
+  function openProduct(id){
+  window.location.href = "product.html?id=" + id;
+}
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
