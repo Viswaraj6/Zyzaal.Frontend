@@ -447,7 +447,8 @@ function checkout() {
     return;
   }
 
-  // next step page
+  localStorage.removeItem("checkout"); // 🔥 IMPORTANT FIX
+
   window.location.href = "checkout.html";
 }
 fetch("footer.html")
