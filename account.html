@@ -626,34 +626,21 @@ function loadOrders(){
     .then(res => res.json())
     .then(data => {
 
-      let myOrders = data.filter(o =>
-        String(o.user) === String(user) ||
-        String(o.phone) === String(user)
-      );
-
       let html = "";
 
-      if(myOrders.length === 0){
-        html = "<p class='empty'>No orders</p>";
-      } else {
+      data.forEach(order => {
+        html += `
+          <div class="card">
+            <b>Total:</b> ₹${order.total}<br>
+            <b>Status:</b> ${order.status}<br>
+            <b>Date:</b> ${new Date(order.orderDate).toLocaleDateString("en-IN")}
 
-        myOrders.forEach(order => {
-          html += `
-            <div class="card">
-
-              <b>Total:</b> ₹${order.total}<br>
-              <b>Status:</b> ${order.status}<br>
-              <b>Date:</b> ${new Date(order.orderDate).toLocaleDateString("en-IN")}
-
-              <p class="view-order" data-id="${order._id}">
-                See all updates >
-              </p>
-
-            </div>
-          `;
-        });
-
-      }
+            <p class="view-order" data-id="${order._id}">
+              See all updates >
+            </p>
+          </div>
+        `;
+      });
 
       document.getElementById("orders").innerHTML = html;
 
@@ -666,6 +653,11 @@ function loadOrders(){
       }, 0);
 
     });
+
+} // ✅ CLOSE HERE
+
+
+// ✅ OUTSIDE
 function loadWishlist(){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
