@@ -678,10 +678,8 @@ function loadOrders(){
 // ✅ OUTSIDE
 function loadWishlist(){
 
- let fav = JSON.parse(localStorage.getItem("fav")) || [];
+  let fav = JSON.parse(localStorage.getItem("fav")) || [];
   let html = "";
-
-  document.getElementById("count").innerText = fav.length;
 
   if(fav.length === 0){
     html = "<p>No items in wishlist</p>";
@@ -689,25 +687,21 @@ function loadWishlist(){
 
     fav.forEach(p => {
       html += `
-       <div class="card" onclick="openProduct('${p._id || p.id}')">
-          <div class="left">
-            <img src="${p.images?.[0] || p.image}">
-            <div class="details">
-              <h3>${p.name}</h3>
-              <p>₹${p.price}</p>
-            </div>
-          </div>
+        <div class="card" onclick="openProduct('${p._id || p.id}')">
+          <img src="${p.images?.[0] || p.image}" width="80">
+          <h3>${p.name}</h3>
+          <p>₹${p.price}</p>
 
-          <div class="remove" onclick="event.stopPropagation(); removeItem('${p._id || p.id}')">
-            <i class="fa-solid fa-trash"></i>
-          </div>
+          <button onclick="event.stopPropagation(); removeItem('${p._id || p.id}')">
+            Remove
+          </button>
         </div>
       `;
     });
 
   }
 
-  document.getElementById("wishlist").innerHTML = html;
+  document.getElementById("wishlistItems").innerHTML = html;
 }
 function removeItem(id){
 
