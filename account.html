@@ -686,40 +686,41 @@ function loadWishlist(){
     html = "<p class='empty'>No wishlist items</p>";
   } else {
 
-    fav.forEach(p => {
+   fav.forEach(p => {
 
-      html += `
-        <div class="card" style="display:flex; gap:15px; align-items:center;">
+  html += `
+    <div class="card" style="display:flex; gap:15px; align-items:center;">
 
-          <img src="${p.image || 'https://via.placeholder.com/80'}"
-               width="110" height="140"
-               style="border-radius:8px; cursor:pointer;"
-               onclick="openProduct('${p.id}')">
+      <img src="${p.image || 'https://via.placeholder.com/80'}"
+           width="110" height="140"
+           style="border-radius:8px; cursor:pointer;"
+           onclick="openProduct('${p._id || p.id}')">
 
-          <div style="flex:1; cursor:pointer;" onclick="openProduct('${p.id}')">
-            <h3 style="margin:0;">${p.name}</h3>
-            <p style="margin:5px 0;">₹${p.price}</p>
-          </div>
+      <div style="flex:1; cursor:pointer;" onclick="openProduct('${p._id || p.id}')">
+        <h3 style="margin:0;">${p.name}</h3>
+        <p style="margin:5px 0;">₹${p.price}</p>
+      </div>
 
-          <button onclick="removeWishlist('${p.id}')"
-                  style="width:auto; padding:6px 10px; background:red;">
-            Remove
-          </button>
+      <button onclick="removeWishlist('${p._id || p.id}', event)"
+              style="width:auto; padding:6px 10px; background:red;">
+        Remove
+      </button>
 
-        </div>
-      `;
-
-    });
+    </div>
+  `;
+});
 
   }
 
   document.getElementById("wishlistItems").innerHTML = html;
 }
-   function removeWishlist(id){
+   function removeWishlist(id, e){
+
+  if(e) e.stopPropagation(); // 🔥 prevent product open
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
-  fav = fav.filter(p => p.id !== id);
+  fav = fav.filter(p => (p._id || p.id) != id);
 
   localStorage.setItem("fav", JSON.stringify(fav));
 
