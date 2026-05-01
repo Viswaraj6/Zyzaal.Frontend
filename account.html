@@ -678,7 +678,7 @@ function loadOrders(){
 // ✅ OUTSIDE
 function loadWishlist(){
 
-  let fav = getFav();
+ let fav = JSON.parse(localStorage.getItem("fav")) || [];
   let html = "";
 
   document.getElementById("count").innerText = fav.length;
@@ -719,8 +719,6 @@ function removeItem(id){
 
   loadWishlist();
 }
-  const API = "https://fark618-backend.onrender.com";
-
 function openProduct(id){
 
   fetch(API + "/products")
