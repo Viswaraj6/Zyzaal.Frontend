@@ -229,7 +229,36 @@ body{
   border-radius: 6px;
   font-size: 14px;
 }
+.gender-toggle{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
 
+.gender-toggle input{
+  display:none;   /* 🔥 hide radio */
+}
+
+.gender-toggle label{
+  padding:8px 18px;
+  border:1px solid #ccc;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.2s;
+}
+
+/* hover */
+.gender-toggle label:hover{
+  border-color:#2874f0;
+}
+
+/* selected */
+.gender-toggle input:checked + label{
+  background:#2874f0;
+  color:#fff;
+  border-color:#2874f0;
+}
    button{
   width: 100%;
   padding: 12px;
@@ -387,10 +416,15 @@ body{
 <input id="p_email" placeholder="Email" disabled>
 <input id="p_mobile" placeholder="Mobile" disabled>
     <!-- 🔥 THIS PLACE -->
-    <div style="margin-top:10px;">
-      <label><input type="radio" name="gender" value="Male"> Male</label>
-      <label style="margin-left:20px;"><input type="radio" name="gender" value="Female"> Female</label>
-    </div>
+   <div class="gender-toggle">
+
+  <input type="radio" id="male" name="gender" value="Male">
+  <label for="male">Male</label>
+
+  <input type="radio" id="female" name="gender" value="Female">
+  <label for="female">Female</label>
+
+</div>
 
     <br><br>
    <button id="saveBtn" onclick="saveProfile()" style="display:none;">Save</button>
