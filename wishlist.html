@@ -136,16 +136,53 @@ h2{
 }
 
 #wishlist{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:10px;
 }
 
-.card {
-  background:white;
+.card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#fff;
   padding:10px;
-  border-radius:10px;
-  text-align:center;
+  border-radius:8px;
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.left img{
+  width:80px;
+  height:100px;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+.details h3{
+  font-size:14px;
+  margin:0;
+}
+
+.details p{
+  margin:4px 0;
+  color:green;
+  font-weight:bold;
+}
+
+.remove{
+  font-size:18px;
+  color:#888;
+  cursor:pointer;
+}
+
+.remove:hover{
+  color:red;
 }
 
 .card img {
@@ -250,7 +287,7 @@ button{
   </div>
     </div>
 
-<h2>❤️ My Wishlist</h2>
+<h2>❤️ My Wishlist (<span id="count">0</span>)</h2>
 
 <div id="wishlist"></div>
 <div id="footer"></div>
