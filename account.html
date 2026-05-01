@@ -694,14 +694,14 @@ function loadWishlist(){
       <img src="${p.image || 'https://via.placeholder.com/80'}"
            width="110" height="140"
            style="border-radius:8px; cursor:pointer;"
-           onclick="openProduct('${p.id}')">
+           onclick="openProduct('${p._id ? p._id : p.id}')">
 
-      <div style="flex:1; cursor:pointer;" onclick="openProduct('${p.id}')">
+      <div style="flex:1; cursor:pointer;"onclick="openProduct('${p._id ? p._id : p.id}')">
         <h3 style="margin:0;">${p.name}</h3>
         <p style="margin:5px 0;">₹${p.price}</p>
       </div>
 
-      <button onclick="removeWishlist('${p._id || p.id}', event)"
+      <button onclick="removeWishlist('${p._id ? p._id : p.id}', event)"
               style="width:auto; padding:6px 10px; background:red;">
         Remove
       </button>
