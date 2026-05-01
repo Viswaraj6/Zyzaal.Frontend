@@ -164,7 +164,17 @@ body{
 .menu p:hover {
   background: #e3f2fd;
 }
-
+.menu p i{
+  margin-right:8px;
+  color:#555;
+}
+    .menu p:hover i{
+  color:#2874f0;   /* Flipkart blue feel */
+}
+    .menu p.active{
+  background:#e3f2fd;
+  font-weight:600;
+}
 .content {
   flex: 1;
   padding: 20px;
@@ -324,11 +334,21 @@ body{
 </div>
 
    <div class="menu">
-  <p onclick="showSection('orders')">📦 My Orders</p>
- <p onclick="showSection('profile')">👤 Profile Information</p>
-  <p onclick="showSection('address')">📍 Manage Address</p>
-  <p onclick="showSection('wishlist')">❤️My Wishlist</p>
- 
+ <p onclick="showSection('orders')">
+  <i class="fa-solid fa-box"></i> My Orders
+</p>
+
+<p onclick="showSection('profile')">
+  <i class="fa-regular fa-user"></i> Profile Information
+</p>
+
+<p onclick="showSection('address')">
+  <i class="fa-solid fa-location-dot"></i> Manage Address
+</p>
+
+<p onclick="showSection('wishlist')">
+  <i class="fa-regular fa-heart"></i> My Wishlist
+</p>
 </div>
   </div>
 
@@ -535,12 +555,19 @@ fetch("footer.html")
   .then(data => {
     document.getElementById("footer").innerHTML = data;
   });
-  function showSection(section){
+ function showSection(section, event){
 
+  // 🔥 ACTIVE MENU ADD
+  document.querySelectorAll(".menu p")
+    .forEach(x => x.classList.remove("active"));
+
+  event.currentTarget.classList.add("active");
+
+  // 🔽 existing code
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("wishlistSection").style.display = "none";
- document.getElementById("profileSection").style.display = "none";
-  document.getElementById("addressSection").style.display = "none"; // 🔥 add this
+  document.getElementById("profileSection").style.display = "none";
+  document.getElementById("addressSection").style.display = "none";
 
   if(section === "orders"){
     document.getElementById("ordersSection").style.display = "block";
@@ -549,13 +576,15 @@ fetch("footer.html")
   if(section === "wishlist"){
     document.getElementById("wishlistSection").style.display = "block";
   }
-if(section === "profile"){
+
+  if(section === "profile"){
     document.getElementById("profileSection").style.display = "block";
     loadProfile();
   }
+
   if(section === "address"){
     document.getElementById("addressSection").style.display = "block";
-    loadAddress(); // 🔥 important
+    loadAddress();
   }
 }
 // 🔥 TOGGLE ORDERS
