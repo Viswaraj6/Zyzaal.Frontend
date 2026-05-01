@@ -637,20 +637,22 @@ function loadOrders(){
         html = "<p class='empty'>No orders</p>";
       } else {
 
-        myOrders.forEach(order => {
-         html += `
-  <div class="card" style="cursor:pointer;" onclick="openOrder('${order._id}')">
+       myOrders.forEach(order => {
+  html += `
+    <div class="card" style="cursor:pointer;">
 
-    <b>Total:</b> ₹${order.total}<br>
-    <b>Status:</b> ${order.status}<br>
-    <b>Date:</b> ${new Date(order.orderDate).toLocaleDateString("en-IN")}
+      <b>Total:</b> ₹${order.total}<br>
+      <b>Status:</b> ${order.status}<br>
+      <b>Date:</b> ${new Date(order.orderDate).toLocaleDateString("en-IN")}
 
-    <p style="color:#2874f0; margin-top:8px;">See all updates ></p>
+      <p style="color:#2874f0; margin-top:8px; cursor:pointer;"
+         onclick="openOrder('${order._id}')">
+         See all updates >
+      </p>
 
-  </div>
-`;
-        });
-
+    </div>
+  `;
+});
       }
 
       document.getElementById("orders").innerHTML = html;
