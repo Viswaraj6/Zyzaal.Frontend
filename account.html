@@ -267,6 +267,36 @@ body{
   border-radius: 6px;
   font-weight: bold;
 }
+    .add-btn{
+  width:100%;
+  padding:14px;
+  background:#fff;
+  border:1px dashed #2874f0;
+  color:#2874f0;
+  font-weight:600;
+  cursor:pointer;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+
+.add-btn:hover{
+  background:#f5faff;
+}
+    .address-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.address-grid textarea{
+  grid-column: span 2;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+    #addressForm{
+  transition:0.3s;
+}
     #orders {
       display:  block;
     }
@@ -440,18 +470,29 @@ body{
 
   <h2>Manage Address</h2>
 
-  <button onclick="toggleAddressForm()">+ Add New Address</button>
+  <button class="add-btn" onclick="toggleAddressForm()">
+  ADD A NEW ADDRESS
+</button>
 
   <div id="addressForm" style="display:none;" class="card">
-    <input id="a_name" placeholder="Name"><br>
-    <input id="a_phone" placeholder="Phone"><br>
-    <input id="a_pincode" placeholder="Pincode"><br>
-    <input id="a_city" placeholder="City"><br>
-    <input id="a_state" placeholder="State"><br>
-    <textarea id="a_address" placeholder="Full Address"></textarea>
 
-    <button onclick="saveAddress()">Save Address</button>
+  <div class="address-grid">
+
+    <input id="a_name" placeholder="Name">
+    <input id="a_phone" placeholder="10-digit mobile number">
+
+    <input id="a_pincode" placeholder="Pincode">
+    <input id="a_city" placeholder="City">
+
+    <input id="a_state" placeholder="State">
+
+    <textarea id="a_address" placeholder="Address (Area and Street)"></textarea>
+
   </div>
+
+  <button onclick="saveAddress()">Save Address</button>
+
+</div>
 
   <div id="addressList"></div>
 
