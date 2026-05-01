@@ -637,17 +637,16 @@ function loadOrders(){
         html = "<p class='empty'>No orders</p>";
       } else {
 
-       myOrders.forEach(order => {
+      myOrders.forEach(order => {
   html += `
-    <div class="card" style="cursor:pointer;">
+    <div class="card">
 
       <b>Total:</b> ₹${order.total}<br>
       <b>Status:</b> ${order.status}<br>
       <b>Date:</b> ${new Date(order.orderDate).toLocaleDateString("en-IN")}
 
-      <p style="color:#2874f0; margin-top:8px; cursor:pointer;"
-         onclick="openOrder('${order._id}')">
-         See all updates >
+      <p class="view-order" data-id="${order._id}">
+        See all updates >
       </p>
 
     </div>
@@ -656,8 +655,13 @@ function loadOrders(){
       }
 
       document.getElementById("orders").innerHTML = html;
-    });
-}
+   setTimeout(() => {
+  document.querySelectorAll(".view-order").forEach(btn => {
+    btn.onclick = function(){
+      openOrder(this.dataset.id);
+    }
+  });
+}, 0);
 function loadWishlist(){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
