@@ -310,7 +310,7 @@ function loadWishlist(){
 
     fav.forEach(p => {
       html += `
-        <div class="card">
+       <div class="card" onclick="openProduct('${p._id || p.id}')">
           <div class="left">
             <img src="${p.images?.[0] || p.image}">
             <div class="details">
@@ -319,7 +319,7 @@ function loadWishlist(){
             </div>
           </div>
 
-          <div class="remove" onclick="removeItem('${p._id || p.id}')">
+          <div class="remove" onclick="event.stopPropagation(); removeItem('${p._id || p.id}')">
             <i class="fa-solid fa-trash"></i>
           </div>
         </div>
@@ -339,6 +339,22 @@ function removeItem(id){
   localStorage.setItem("fav", JSON.stringify(fav));
 
   loadWishlist();
+}
+  const API = "https://fark618-backend.onrender.com";
+
+function openProduct(id){
+
+  fetch(API + "/products")
+    .then(res => res.json())
+    .then(data => {
+
+      const product = data.find(p => p._id == id);
+
+      localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+      window.location.href = "product.html";
+    });
+
 }
 // ✅ INIT
 loadWishlist();
