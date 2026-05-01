@@ -375,13 +375,17 @@ body{
     </div>
 <!-- PROFILE -->
 <div id="profileSection" style="display:none;">
-  <h2>Profile Information</h2>
+  <h2>
+  Profile Information 
+  <span id="editBtn" onclick="enableEdit()" style="color:#2874f0; cursor:pointer; font-size:14px; margin-left:10px;">
+    Edit
+  </span>
+</h2>
 
   <div class="card">
-    <input id="p_name" placeholder="Name"><br>
-    <input id="p_email" placeholder="Email"><br>
-    <input id="p_mobile" placeholder="Mobile"><br>
-
+    <input id="p_name" placeholder="Name" disabled>
+<input id="p_email" placeholder="Email" disabled>
+<input id="p_mobile" placeholder="Mobile" disabled>
     <!-- 🔥 THIS PLACE -->
     <div style="margin-top:10px;">
       <label><input type="radio" name="gender" value="Male"> Male</label>
@@ -389,7 +393,7 @@ body{
     </div>
 
     <br><br>
-    <button onclick="saveProfile()">Save</button>
+   <button id="saveBtn" onclick="saveProfile()" style="display:none;">Save</button>
   </div>
 </div>
     <!-- WISHLIST -->
@@ -760,24 +764,29 @@ function saveProfile(){
 
   let user = localStorage.getItem("user");
 
-  if(!user){
-    alert("Login first ❗");
-    return;
-  }
-
   const data = {
     name: document.getElementById("p_name").value,
     email: document.getElementById("p_email").value,
     gender: document.querySelector('input[name="gender"]:checked')?.value
   };
 
-  // 🔥 முக்கிய line
   localStorage.setItem("profile_" + user, JSON.stringify(data));
 
-  alert("Profile saved ✅");
+  alert("Saved ✅");
+
+  // 🔥 disable again
+  document.getElementById("p_name").disabled = true;
+  document.getElementById("p_email").disabled = true;
+  document.getElementById("p_mobile").disabled = true;
+
+  document.querySelectorAll('input[name="gender"]').forEach(x => x.disabled = true);
+
+  document.getElementById("saveBtn").style.display = "none";
+  document.getElementById("editBtn").style.display = "inline";
+
   updateUserNameUI();
 }
-function loadProfile(){
+ function loadProfile(){
 
   let user = localStorage.getItem("user");
 
@@ -790,6 +799,14 @@ function loadProfile(){
   if(data.gender){
     document.querySelector(`input[value="${data.gender}"]`).checked = true;
   }
+
+  // 🔥 ADD THIS HERE
+  document.getElementById("p_name").disabled = true;
+  document.getElementById("p_email").disabled = true;
+  document.getElementById("p_mobile").disabled = true;
+
+  document.querySelectorAll('input[name="gender"]')
+    .forEach(x => x.disabled = true);
 }
 // 🔻 NAV
 function goHome(){ location.href = "index.html"; }
@@ -829,6 +846,18 @@ function toggleAddressForm(){
   const profile = JSON.parse(localStorage.getItem("profile_" + user)) || {};
 
   el.innerText = "Hello, " + (profile.name || user);
+}
+  function enableEdit(){
+
+  document.getElementById("p_name").disabled = false;
+  document.getElementById("p_email").disabled = false;
+  document.getElementById("p_mobile").disabled = false;
+
+  // gender enable
+  document.querySelectorAll('input[name="gender"]').forEach(x => x.disabled = false);
+
+  document.getElementById("saveBtn").style.display = "block";
+  document.getElementById("editBtn").style.display = "none";
 }
 // 🚀 INIT
 loadLogin();
