@@ -27,11 +27,14 @@ h1 { text-align: center; }
   #welcome {
   display: none;
 }
-.products,
-.container {
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
+.products{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
 }
 .header{
   display: flex;
@@ -132,6 +135,7 @@ h1 { text-align: center; }
 }    
 body{
   padding-top: 0px; /* header space */
+   min-height: 100vh;
 }
 /* 📱 mobile */
 @media (max-width: 600px){
@@ -194,11 +198,17 @@ height: 320px;
 
 /* 🔥 CARD */
 .card{
-  width: 100%;
-  height: auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  position: relative;
 }
 .card:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -271,9 +281,21 @@ height: 320px;
 .top-header{
   background: #fff;
   padding: 10px 0;
+}
+
+.logo-wrap{
   text-align: center;
 }
 
+.top-nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 15px;
+}
 /* optional shadow when scroll */
 .top-header {
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
@@ -294,24 +316,12 @@ height: 320px;
   background: #eee;
   cursor: pointer;
 }
-.top-nav{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: auto;
-  padding: 10px 15px;
-}
 .logo {
   font-weight: bold;
   font-size: 20px;
   color: #111;
 }
-  .logo-wrap{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
   /* 🔥 icons right side */
 .nav-icons{
   display: flex;
