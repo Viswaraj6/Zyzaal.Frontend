@@ -678,12 +678,13 @@ function loadOrders(){
 // ✅ OUTSIDE
 function loadWishlist(){
 
-  let fav = JSON.parse(localStorage.getItem("fav")) || [];
-
+  let fav = getFav();
   let html = "";
 
+  document.getElementById("count").innerText = fav.length;
+
   if(fav.length === 0){
-    html = "<p class='empty'>No wishlist items</p>";
+    html = "<p>No items in wishlist</p>";
   } else {
 
     fav.forEach(p => {
@@ -702,15 +703,13 @@ function loadWishlist(){
           </div>
         </div>
       `;
-});
+    });
 
   }
 
-  document.getElementById("wishlistItems").innerHTML = html;
+  document.getElementById("wishlist").innerHTML = html;
 }
-   function removeWishlist(id, e){
-
-  if(e) e.stopPropagation(); // 🔥 prevent product open
+function removeItem(id){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
@@ -720,8 +719,21 @@ function loadWishlist(){
 
   loadWishlist();
 }
-  function openProduct(id){
-  window.location.href = "product.html?id=" + id;
+  const API = "https://fark618-backend.onrender.com";
+
+function openProduct(id){
+
+  fetch(API + "/products")
+    .then(res => res.json())
+    .then(data => {
+
+      const product = data.find(p => p._id == id);
+
+      localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+      window.location.href = "product.html";
+    });
+
 }
 fetch("footer.html")
   .then(res => res.text())
