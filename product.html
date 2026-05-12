@@ -1004,21 +1004,37 @@ fetch("footer.html")
 
   heading.innerText = "Delivery To";
 
-  content.innerHTML = `
-    <div style="
-      background:#fff;
-      padding:12px;
-      border-radius:8px;
-      border:1px solid #ddd;
-      margin-bottom:10px;
-    ">
-      <b>${address.name}</b><br>
-      ${address.address},
-      ${address.city},
-      ${address.state} - ${address.pincode}
-    </div>
-  `;
+ content.innerHTML = `
+  <div onclick="openManageAddress()"
+  style="
+    background:#fff;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    margin-bottom:10px;
+    cursor:pointer;
+    position:relative;
+  ">
 
+    <div style="
+      position:absolute;
+      top:12px;
+      right:12px;
+      color:#2874f0;
+      font-size:13px;
+      font-weight:600;
+    ">
+      Change
+    </div>
+
+    <b>${address.name}</b><br>
+
+    ${address.address},
+    ${address.city},
+    ${address.state} - ${address.pincode}
+
+  </div>
+`;
   calculateDelivery(address.pincode);
 }
   function calculateDelivery(pin){
@@ -1059,6 +1075,11 @@ fetch("footer.html")
 }
 
 function goAddAddress(){
+
+  window.location.href =
+    "account.html#addressSection";
+}
+  function openManageAddress(){
 
   window.location.href =
     "account.html#addressSection";
