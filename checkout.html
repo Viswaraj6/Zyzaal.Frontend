@@ -92,17 +92,28 @@
     <div class="step">Payment</div>
   </div>
 
-  <!-- STEP 1 -->
-  <div id="step1" class="step-box">
-    <h3>Delivery Address</h3>
-    <div id="savedAddressBox"></div>
+ <!-- STEP 1 -->
+<div id="step1" class="step-box">
+
+  <h3>Delivery Address</h3>
+
+  <!-- 🔥 ADD THIS -->
+  <div id="savedAddressBox"></div>
+
+  <!-- 🔥 WRAP INPUTS -->
+  <div id="addressForm">
+
     <input id="name" placeholder="Full Name">
+
     <input id="phone" placeholder="Phone Number">
+
     <textarea id="address" placeholder="Address"></textarea>
 
-    <button onclick="goStep2()">Continue</button>
   </div>
 
+  <button onclick="goStep2()">Continue</button>
+
+</div>
   <!-- STEP 2 -->
  <div id="step2" class="step-box" style="display:none;">
 
