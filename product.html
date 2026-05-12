@@ -1000,8 +1000,10 @@ fetch("footer.html")
   }
 
   // ✅ ADDRESS EXISTS
-  const address = addresses[0];
+ const selectedIndex =
+  localStorage.getItem("selectedAddressIndex") || 0;
 
+const address = addresses[selectedIndex];
   heading.innerText = "Delivery To";
 
  content.innerHTML = `
