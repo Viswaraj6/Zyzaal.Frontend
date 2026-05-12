@@ -782,13 +782,16 @@ function loadOrders(){
     (data || []).forEach(o => {
 
       // 🗓️ Order Date & Delivery Date
-    const format = d =>
-  new Date(d).toLocaleDateString("en-IN");
+   const format = d => {
+
+  if(!d) return "Not Available";
+
+  return new Date(d)
+    .toLocaleDateString("en-IN");
+};
 
 const deliveryDate =
-  o.deliveryDate
-  ? o.deliveryDate
-  : "Not Available";
+  o.deliveryDate || "Not Available";
 
       // 🛒 Items
       let items = "";
