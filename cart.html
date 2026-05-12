@@ -471,8 +471,10 @@ function goCart() {
 
 function loadDefaultAddress(){
 
-  let addresses = JSON.parse(localStorage.getItem("addresses")) || [];
+  let user = localStorage.getItem("user");
 
+let addresses =
+  JSON.parse(localStorage.getItem("addresses_" + user)) || [];
   if(addresses.length === 0){
     document.getElementById("delName").innerText = "No address";
     document.getElementById("delPin").innerText = "";
@@ -481,7 +483,10 @@ function loadDefaultAddress(){
   }
 
   // 🔥 first address default
-  let a = addresses[0];
+  const selectedIndex =
+  localStorage.getItem("selectedAddressIndex") || 0;
+
+let a = addresses[selectedIndex];
 
   document.getElementById("delName").innerText = a.name;
   document.getElementById("delPin").innerText = a.pincode;
@@ -489,7 +494,8 @@ function loadDefaultAddress(){
     a.address + ", " + a.city + ", " + a.state;
 }
   function changeAddress(){
-  window.location.href = "account.html";
+  window.location.href =
+    "account.html#addressSection";
 }
 // INIT
 loadCart();
