@@ -327,6 +327,8 @@ function goStep2(){
     <div style="
       border:1px solid #ddd;
       border-radius:10px;
+      width:100%;
+      box-sizing:border-box;
       padding:12px;
       margin-bottom:20px;
       background:#f8f8f8;
@@ -358,12 +360,15 @@ function goStep2(){
         ${name} (${phone})
       </p>
 
-      <p style="
-        margin:0;
-        line-height:1.5;
-      ">
-        ${address}
-      </p>
+     <p style="
+  margin:0;
+  line-height:1.5;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  white-space:pre-line;
+">
+  ${address}
+</p>
 
     </div>
   `;
