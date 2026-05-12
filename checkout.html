@@ -118,12 +118,93 @@
 
 <!-- STEP 3 -->
 <div id="step3" class="step-box" style="display:none;">
-  <h3>Payment</h3>
 
- <button id="payBtn" onclick="payNow()">Pay Now 💳</button>
-<button id="codBtn" onclick="cashOnDelivery()">Cash on Delivery 🚚</button>
+  <h3>Payment Details</h3>
+
+  <div style="
+    border:1px solid #ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:15px;
+  ">
+
+    <!-- ONLINE -->
+    <div onclick="selectPayment('online')"
+    id="onlineBox"
+    style="
+      padding:15px;
+      border-bottom:1px solid #eee;
+      cursor:pointer;
+      background:#fff;
+    ">
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      ">
+        <b>UPI / Card / Net Banking</b>
+
+        <input type="radio"
+        name="payment"
+        checked>
+      </div>
+
+      <p style="
+        margin:8px 0 0;
+        color:gray;
+        font-size:13px;
+      ">
+        Pay securely using Razorpay
+      </p>
+
+    </div>
+
+    <!-- COD -->
+    <div onclick="selectPayment('cod')"
+    id="codBox"
+    style="
+      padding:15px;
+      cursor:pointer;
+      background:#fff;
+    ">
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      ">
+        <b>Cash on Delivery</b>
+
+        <input type="radio"
+        name="payment">
+      </div>
+
+      <p style="
+        margin:8px 0 0;
+        color:gray;
+        font-size:13px;
+      ">
+        Pay when your order arrives
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- ACTION BUTTON -->
+  <button
+  id="placeOrderBtn"
+  onclick="payNow()"
+  style="
+    background:#ffcc00;
+    color:#000;
+    margin-top:20px;
+  ">
+    Pay Now
+  </button>
+
 </div>
-
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
@@ -297,7 +378,29 @@ function goStep3(){
   steps[1].classList.remove("active");
   steps[2].classList.add("active");
 }
+function selectPayment(type){
 
+  const radios =
+    document.querySelectorAll('input[name="payment"]');
+
+  const btn =
+    document.getElementById("placeOrderBtn");
+
+  if(type === "online"){
+
+    radios[0].checked = true;
+
+    btn.innerText = "Pay Now";
+    btn.onclick = payNow;
+
+  } else {
+
+    radios[1].checked = true;
+
+    btn.innerText = "Place Order";
+    btn.onclick = cashOnDelivery;
+  }
+}
 function validateStep1(){
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
