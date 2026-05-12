@@ -223,15 +223,26 @@ ${a.state} - ${a.pincode}`;
     "account.html#addressSection";
 }
 function goStep2(){
+
   if(!validateStep1()) return;
 
   document.getElementById("step1").style.display = "none";
   document.getElementById("step2").style.display = "block";
-}
 
+  const steps = document.querySelectorAll(".step");
+
+  steps[0].classList.remove("active");
+  steps[1].classList.add("active");
+}
 function goStep3(){
+
   document.getElementById("step2").style.display = "none";
   document.getElementById("step3").style.display = "block";
+
+  const steps = document.querySelectorAll(".step");
+
+  steps[1].classList.remove("active");
+  steps[2].classList.add("active");
 }
 
 function validateStep1(){
