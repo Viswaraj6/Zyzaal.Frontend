@@ -1058,7 +1058,7 @@ function toggleAddressForm(){
 function closeOrder(){
   document.getElementById("orderPopup").style.display = "none";
 }
-  function selectAddress(i){
+ function selectAddress(i){
 
   localStorage.setItem(
     "selectedAddressIndex",
@@ -1069,7 +1069,15 @@ function closeOrder(){
 
   loadAddress();
 
-  window.location.href = "product.html";
+  // 🔥 where user came from
+  const fromPage =
+    localStorage.getItem("addressReturnPage");
+
+  if(fromPage){
+    window.location.href = fromPage;
+  } else {
+    window.location.href = "product.html";
+  }
 }
 // 🚀 INIT
 loadLogin();
