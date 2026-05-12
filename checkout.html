@@ -145,7 +145,83 @@ if(cart.length > 0){
 }
 document.getElementById("totalAmount").innerText = total;
 document.getElementById("totalAmount").innerText = "Total: ₹" + total;
+function loadSelectedAddress(){
 
+  const user = localStorage.getItem("user");
+
+  if(!user) return;
+
+  const addresses =
+    JSON.parse(localStorage.getItem("addresses_" + user)) || [];
+
+  if(addresses.length === 0) return;
+
+  const selectedIndex =
+    localStorage.getItem("selectedAddressIndex") || 0;
+
+  const a = addresses[selectedIndex];
+
+  // 🔥 AUTO FILL
+  document.getElementById("name").value =
+    a.name || "";
+
+  document.getElementById("phone").value =
+    a.phone || "";
+
+  document.getElementById("address").value =
+    `${a.address},
+${a.city},
+${a.state} - ${a.pincode}`;
+
+  // 🔥 ADDRESS CARD
+  document.getElementById("savedAddressBox").innerHTML = `
+    <div style="
+      border:1px solid #ddd;
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:15px;
+      background:#fff;
+      position:relative;
+    ">
+
+      <button onclick="changeCheckoutAddress()"
+      style="
+        position:absolute;
+        right:10px;
+        top:10px;
+        border:none;
+        background:none;
+        color:#2874f0;
+        font-weight:600;
+        cursor:pointer;
+      ">
+        Change
+      </button>
+
+      <b>${a.name}</b>
+      (${a.phone})<br><br>
+
+      ${a.address},
+      ${a.city},
+      ${a.state} - ${a.pincode}
+
+    </div>
+  `;
+
+  // 🔥 HIDE FORM
+  document.getElementById("addressForm").style.display =
+    "none";
+}
+  function changeCheckoutAddress(){
+
+  localStorage.setItem(
+    "addressReturnPage",
+    "checkout.html"
+  );
+
+  window.location.href =
+    "account.html#addressSection";
+}
 function goStep2(){
   if(!validateStep1()) return;
 
@@ -317,6 +393,7 @@ if(products.length > 0){
 });
   document.getElementById("productBox").innerHTML = html;
 }
+  loadSelectedAddress();
 </script>
 
 </body>
