@@ -230,6 +230,63 @@ function goStep2(){
 
   steps[0].classList.remove("active");
   steps[1].classList.add("active");
+
+  // 🔥 ADDRESS SUMMARY
+  const name =
+    document.getElementById("name").value;
+
+  const phone =
+    document.getElementById("phone").value;
+
+  const address =
+    document.getElementById("address").value;
+
+  document.getElementById("summaryAddressBox").innerHTML = `
+  
+    <div style="
+      border:1px solid #ddd;
+      border-radius:10px;
+      padding:12px;
+      margin-bottom:20px;
+      background:#f8f8f8;
+      position:relative;
+    ">
+
+      <div style="
+        position:absolute;
+        right:12px;
+        top:12px;
+        color:green;
+        font-size:22px;
+        font-weight:bold;
+      ">
+        ✓
+      </div>
+
+      <p style="
+        margin:0;
+        font-size:13px;
+        color:gray;
+      ">
+        Deliver to:
+      </p>
+
+      <p style="
+        margin:6px 0;
+        font-weight:bold;
+      ">
+        ${name} (${phone})
+      </p>
+
+      <p style="
+        margin:0;
+        line-height:1.5;
+      ">
+        ${address}
+      </p>
+
+    </div>
+  `;
 }
 function goStep3(){
 
