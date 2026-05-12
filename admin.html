@@ -841,6 +841,15 @@ ${o.paymentStatus || "Pending"}
 <b>Method:</b>
 ${o.paymentMethod || "Cash on Delivery"}
 </p>
+${
+o.paymentMethod === "Cash on Delivery"
+? `
+<p style="color:orange;">
+💰 Collect Cash During Delivery
+</p>
+`
+: ""
+}
           <select style="border:2px solid ${statusColor}; padding:6px; border-radius:6px;"
             onchange="updateStatus('${o._id}',this.value)">
 
