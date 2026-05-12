@@ -524,6 +524,15 @@ function saveOrder(userData, status, paymentId) {
      products: products,
       total,
       paymentId,
+      paymentStatus:
+selectedPayment === "online"
+? "Paid"
+: "Pending",
+
+paymentMethod:
+selectedPayment === "online"
+? "Online Payment"
+: "Cash on Delivery",
       status,orderDate: new Date(),
 deliveryDate: cart[0]?.deliveryDate || ""
     })
