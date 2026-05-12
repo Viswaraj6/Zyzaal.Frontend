@@ -782,16 +782,11 @@ function loadOrders(){
     (data || []).forEach(o => {
 
       // 🗓️ Order Date & Delivery Date
-      const orderDate = o.createdAt ? new Date(o.createdAt) : new Date();
+    const format = d =>
+  new Date(d).toLocaleDateString("en-IN");
 
-      let days = 3; // default delivery
-      if(o.status === "Shipped") days = 2;
-      if(o.status === "Delivered") days = 0;
-
-      const estimateDate = new Date(orderDate);
-      estimateDate.setDate(orderDate.getDate() + days);
-
-      const format = d => d.toLocaleDateString("en-IN");
+const deliveryDate =
+  o.deliveryDate || "Not Available";
 
       // 🛒 Items
       let items = "";
