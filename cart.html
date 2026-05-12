@@ -493,7 +493,13 @@ let a = addresses[selectedIndex];
   document.getElementById("delAddress").innerText =
     a.address + ", " + a.city + ", " + a.state;
 }
-  function changeAddress(){
+ function changeAddress(){
+
+  localStorage.setItem(
+    "addressReturnPage",
+    "cart.html"
+  );
+
   window.location.href =
     "account.html#addressSection";
 }
