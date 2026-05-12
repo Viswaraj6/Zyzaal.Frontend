@@ -786,7 +786,9 @@ function loadOrders(){
   new Date(d).toLocaleDateString("en-IN");
 
 const deliveryDate =
-  o.deliveryDate || "Not Available";
+  o.deliveryDate
+  ? o.deliveryDate
+  : "Not Available";
 
       // 🛒 Items
       let items = "";
