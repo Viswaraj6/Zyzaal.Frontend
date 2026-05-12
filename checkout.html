@@ -144,7 +144,6 @@ if(cart.length > 0){
   cart.forEach(i => total += i.price * (i.qty || 1));
 }
 document.getElementById("totalAmount").innerText = total;
-document.getElementById("totalAmount").innerText = "Total: ₹" + total;
 function loadSelectedAddress(){
 
   const user = localStorage.getItem("user");
