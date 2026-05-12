@@ -866,9 +866,9 @@ onclick="event.stopPropagation(); toggleMenu(${i})"
 style="cursor:pointer;"></i>
 
             <div id="menu${i}" style="display:none; background:#fff; border:1px solid #ddd; padding:5px; position:absolute; right:0;">
-              <div onclick="editAddress(${i})">Edit</div>
-              <div onclick="deleteAddress(${i})" style="color:red;">Delete</div>
-            </div>
+              <div onclick="event.stopPropagation(); editAddress(${i})">Edit</div>
+              <div onclick="event.stopPropagation(); deleteAddress(${i})"style="color:red;">Delete</div>
+            </div>s
           </div>
 
         </div>
