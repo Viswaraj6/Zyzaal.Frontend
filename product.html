@@ -537,18 +537,15 @@ h2 { margin: 10px 0 5px; }
 
     <h3>Select Size</h3>
     <div id="sizes" class="sizes"></div>
-<h3>Check Pincode For Accurate Delivery</h3>
+<div id="deliverySection">
 
-<p style="font-size:13px;color:gray;">
-  Estimated delivery time: 2-6 working days
-</p>
+  <h3 id="deliveryHeading">
+    Check Delivery
+  </h3>
 
-<!-- ✅ NEW CODE HERE -->
-<div class="pincode-box">
-  <input type="text" id="pincodeInput" placeholder="Enter Pincode">
-<button id="checkBtn" onclick="checkPincode()">CHECK</button>
+  <div id="deliveryContent"></div>
+
 </div>
-
 <p id="deliveryText"></p>
  <div class="accordion">
 
@@ -938,6 +935,7 @@ function toggleAcc(el){
 }
 loadSimilar();
 checkCartStatus(); 
+initDelivery();
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
@@ -949,25 +947,83 @@ fetch("footer.html")
     document.getElementById("header").innerHTML = data;
     updateCartCount();
   });
- function checkPincode(){
+  function initDelivery(){
 
-  const pin = document.getElementById("pincodeInput").value;
-  const el = document.getElementById("deliveryText");
-  const btn = document.getElementById("checkBtn");
+  const user = localStorage.getItem("user");
 
-  if(pin.length !== 6){
-    el.innerText = "Enter valid pincode ❗";
-    el.style.color = "red";
+  const content = document.getElementById("deliveryContent");
+  const heading = document.getElementById("deliveryHeading");
+  const text = document.getElementById("deliveryText");
+
+  // ❌ NOT LOGGED IN
+  if(!user){
+
+    content.innerHTML = `
+      <button onclick="goLogin()"
+      style="
+      padding:12px 20px;
+      background:black;
+      color:white;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      ">
+        Login to check delivery
+      </button>
+    `;
+
     return;
   }
 
-  // 🔥 BUTTON CHANGE
-btn.innerText = "Checking...";
-btn.disabled = true;
+  // ✅ ADDRESS CHECK
+  const addresses =
+    JSON.parse(localStorage.getItem("addresses_" + user)) || [];
 
-el.innerText = "";
+  // ❌ NO ADDRESS
+  if(addresses.length === 0){
 
-setTimeout(() => {
+    content.innerHTML = `
+      <button onclick="goAddAddress()"
+      style="
+      padding:12px 20px;
+      background:black;
+      color:white;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      ">
+        Add Address
+      </button>
+    `;
+
+    return;
+  }
+
+  // ✅ ADDRESS EXISTS
+  const address = addresses[0];
+
+  heading.innerText = "Delivery To";
+
+  content.innerHTML = `
+    <div style="
+      background:#fff;
+      padding:12px;
+      border-radius:8px;
+      border:1px solid #ddd;
+      margin-bottom:10px;
+    ">
+      <b>${address.name}</b><br>
+      ${address.address},
+      ${address.city},
+      ${address.state} - ${address.pincode}
+    </div>
+  `;
+
+  calculateDelivery(address.pincode);
+}
+  function calculateDelivery(pin){
+
+  const el = document.getElementById("deliveryText");
 
   let days = 4;
 
@@ -977,25 +1033,36 @@ setTimeout(() => {
   else days = 6;
 
   const today = new Date();
+
   today.setDate(today.getDate() + days);
 
-  const options = { weekday: 'long', month: 'short', day: 'numeric' };
-  const deliveryDate = today.toLocaleDateString('en-IN', options);
+  const options = {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric'
+  };
 
-  // 🔥 IMPORTANT (global save)
+  const deliveryDate =
+    today.toLocaleDateString('en-IN', options);
+
   window.selectedDeliveryDate = deliveryDate;
 
-  // 🔥 ALSO SAVE IN LOCAL (backup)
   localStorage.setItem("deliveryDate", deliveryDate);
 
-  el.innerText = "Estimated Delivery by " + deliveryDate;
+  el.innerText =
+    "Estimated Delivery by " + deliveryDate;
+
   el.style.color = "green";
+}
+  function goLogin(){
+  window.location.href = "account.html";
+}
 
-  btn.innerText = "CHECK";
-  btn.disabled = false;
+function goAddAddress(){
 
-}, 500);
- }
+  window.location.href =
+    "account.html#addressSection";
+}
 </script>
 
 </body>
