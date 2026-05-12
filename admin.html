@@ -825,6 +825,22 @@ function loadOrders(){
 
           <p><b>Total:</b> ₹${o.total || 0}</p>
 
+<p>
+<b>Payment:</b>
+
+<span style="
+color:
+${o.paymentStatus === "Paid" ? "green" : "red"};
+font-weight:bold;
+">
+${o.paymentStatus || "Pending"}
+</span>
+</p>
+
+<p>
+<b>Method:</b>
+${o.paymentMethod || "Cash on Delivery"}
+</p>
           <select style="border:2px solid ${statusColor}; padding:6px; border-radius:6px;"
             onchange="updateStatus('${o._id}',this.value)">
 
