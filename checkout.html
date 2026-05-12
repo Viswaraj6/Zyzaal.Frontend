@@ -535,22 +535,24 @@ function saveOrder(userData, status, paymentId) {
      products: products,
       total,
       paymentId,
-      paymentStatus:
-selectedPayment === "online"
+     paymentStatus:
+status === "Paid"
 ? "Paid"
 : "Pending",
 
 paymentMethod:
-selectedPayment === "online"
-? "Online Payment"
-: "Cash on Delivery",
+paymentId === "COD"
+? "Cash on Delivery"
+: "Online Payment",
+
 status: "Pending",
 
-orderDate:
-new Date().toISOString(),
+orderDate: new Date(),
 
 deliveryDate:
-localStorage.getItem("deliveryDate") || ""
+window.selectedDeliveryDate ||
+localStorage.getItem("deliveryDate") ||
+""
     })
   })
   .then(() => {
