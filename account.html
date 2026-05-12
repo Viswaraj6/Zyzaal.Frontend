@@ -845,7 +845,16 @@ function loadAddress(){
 
     addresses.forEach((a, i) => {
       html += `
-        <div class="card" style="position:relative;">
+       <div class="card"
+onclick="selectAddress(${i})"
+style="
+position:relative;
+cursor:pointer;
+border:
+${localStorage.getItem('selectedAddressIndex') == i
+? '2px solid #2874f0'
+: '1px solid #ddd'}
+;">
 
           <b>${a.name}</b> (${a.phone})<br>
           ${a.address}, ${a.city}, ${a.state} - ${a.pincode}
@@ -1048,6 +1057,19 @@ function toggleAddressForm(){
 
 function closeOrder(){
   document.getElementById("orderPopup").style.display = "none";
+}
+  function selectAddress(i){
+
+  localStorage.setItem(
+    "selectedAddressIndex",
+    i
+  );
+
+  alert("Delivery address selected ✅");
+
+  loadAddress();
+
+  window.location.href = "product.html";
 }
 // 🚀 INIT
 loadLogin();
