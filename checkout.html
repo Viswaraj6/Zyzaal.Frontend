@@ -544,10 +544,13 @@ paymentMethod:
 selectedPayment === "online"
 ? "Online Payment"
 : "Cash on Delivery",
-status,
-orderDate: new Date(),
+status: "Pending",
+
+orderDate:
+new Date().toISOString(),
+
 deliveryDate:
-localStorage.getItem("deliveryDate")
+localStorage.getItem("deliveryDate") || ""
     })
   })
   .then(() => {
