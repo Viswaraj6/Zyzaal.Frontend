@@ -533,8 +533,10 @@ paymentMethod:
 selectedPayment === "online"
 ? "Online Payment"
 : "Cash on Delivery",
-      status,orderDate: new Date(),
-deliveryDate: cart[0]?.deliveryDate || ""
+status,
+orderDate: new Date(),
+deliveryDate:
+localStorage.getItem("deliveryDate")
     })
   })
   .then(() => {
