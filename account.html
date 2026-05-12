@@ -1055,6 +1055,20 @@ loadOrders();
 loadWishlist(); // 👈 add this
 updateCartCount();
 updateUserNameUI();
+  if(window.location.hash === "#addressSection"){
+
+  document.getElementById("ordersSection").style.display = "none";
+
+  document.getElementById("addressSection").style.display = "block";
+
+  loadAddress();
+
+  document.querySelectorAll(".menu p")
+    .forEach(x => x.classList.remove("active"));
+
+  document.querySelectorAll(".menu p")[2]
+    .classList.add("active");
+}
 </script>
 
 </body>
