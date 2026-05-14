@@ -657,6 +657,7 @@ function removeItem(index) {
   localStorage.setItem("cart", JSON.stringify(cart));
    updateCartCount();
   loadCart();
+  window.location.reload();
 }
 
 
