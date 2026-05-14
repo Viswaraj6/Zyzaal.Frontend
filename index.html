@@ -451,6 +451,10 @@ async function loadProducts(){
     const data = await res.json();
 
     productsData = data;
+    localStorage.setItem(
+  "products",
+  JSON.stringify(data)
+);
     renderProducts(data);
 
   } catch(e){
