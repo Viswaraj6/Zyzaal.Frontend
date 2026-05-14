@@ -954,12 +954,15 @@ style="
       justify-content:center;
       margin:20px 0;
     ">
-
-      <button onclick="selectSize('S')">S</button>
-      <button onclick="selectSize('M')">M</button>
-      <button onclick="selectSize('L')">L</button>
-      <button onclick="selectSize('XL')">XL</button>
-      <button onclick="selectSize('XXL')">XXL</button>
+<div id="popupSizes"
+style="
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin:20px 0;
+  flex-wrap:wrap;
+"></div>
+     
     </div>
 
     <button onclick="closeSizePopup()"
