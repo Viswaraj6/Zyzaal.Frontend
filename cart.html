@@ -540,6 +540,61 @@ let a = addresses[selectedIndex];
 // INIT
 loadCart();
 loadDefaultAddress(); 
+  if(cart.length === 0){
+
+  let products =
+    JSON.parse(localStorage.getItem("products")) || [];
+
+  let recent =
+    JSON.parse(localStorage.getItem("recentViewed")) || [];
+
+  let suggestedHTML = "";
+  let recentHTML = "";
+
+  products.slice(0,6).forEach(p => {
+
+    suggestedHTML += `
+    <div style="
+      width:160px;
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:8px;
+      padding:10px;
+    ">
+      <img src="${p.image}" width="100%">
+      <p>${p.name}</p>
+      <b>₹${p.price}</b>
+    </div>
+    `;
+  });
+
+  recent.forEach(p => {
+
+    recentHTML += `
+    <div style="
+      width:160px;
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:8px;
+      padding:10px;
+    ">
+      <img src="${p.image}" width="100%">
+      <p>${p.name}</p>
+      <b>₹${p.price}</b>
+    </div>
+    `;
+  });
+
+  document.getElementById("suggestedProducts").innerHTML =
+    `<div style="display:flex; gap:15px; overflow:auto;">
+      ${suggestedHTML}
+    </div>`;
+
+  document.getElementById("recentProducts").innerHTML =
+    `<div style="display:flex; gap:15px; overflow:auto;">
+      ${recentHTML}
+    </div>`;
+}
 function goPage(page){
   window.location.href = page;
 }
