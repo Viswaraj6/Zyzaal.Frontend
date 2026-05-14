@@ -849,12 +849,15 @@ function buyNow(){
     alert("Select size ❗");
     return;
   }
+localStorage.setItem("checkout", JSON.stringify({
+  ...product,
+  size: selectedSize,
 
-  localStorage.setItem("checkout", JSON.stringify({
-    ...product,
-    size: selectedSize
-  }));
+  qty: 1,
 
+  deliveryDate:
+    window.selectedDeliveryDate || ""
+}));
   location.href = "checkout.html";
 }
 // ❤️ WISHLIST FUNCTIONS
