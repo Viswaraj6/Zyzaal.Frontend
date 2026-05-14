@@ -824,16 +824,23 @@ function selectSize(size){
     already.qty =
       (already.qty || 1) + 1;
 
-  }else{
+  } else {
 
-   cart.push({
-  ...product,
-  image: product.images?.[0] || product.image,
-  qty:1,
-  size:size,
-  deliveryDate:
-    localStorage.getItem("deliveryDate") || ""
-});
+    cart.push({
+      ...product,
+      image: product.images?.[0] || product.image,
+      qty:1,
+      size:size,
+      deliveryDate:
+        localStorage.getItem("deliveryDate") || ""
+    });
+
+  }
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
 
   updateCartCount();
 
