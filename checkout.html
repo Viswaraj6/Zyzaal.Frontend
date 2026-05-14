@@ -222,18 +222,37 @@
 
 const API = "https://fark618-backend.onrender.com";
 let selectedPayment = "online";
-// 🧮 CART
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let checkoutItem = JSON.parse(localStorage.getItem("checkout"));
+// 🧮 CART / BUY NOW
+
+let cart =
+  JSON.parse(localStorage.getItem("cart")) || [];
+
+let checkoutItem =
+  JSON.parse(localStorage.getItem("checkout"));
 
 let products = [];
 let total = 0;
 
+// ✅ CART PRODUCTS
 if(cart.length > 0){
+
   products = cart;
-  cart.forEach(i => total += i.price * (i.qty || 1));
+
+  cart.forEach(i => {
+    total += i.price * (i.qty || 1);
+  });
+
 }
-document.getElementById("totalAmount").innerText = total;
+
+// ✅ BUY NOW PRODUCT
+else if(checkoutItem){
+
+  products = [checkoutItem];
+
+  total = checkoutItem.price;
+
+}
+  document.getElementById("totalAmount").innerText = total;
 function loadSelectedAddress(){
 
   const user = localStorage.getItem("user");
