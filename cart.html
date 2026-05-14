@@ -883,6 +883,24 @@ function selectSize(size){
   );
 
   alert("Added to cart ✅");
+  updateCartCount();
+
+closeSizePopup();
+
+// 🔥 scroll top
+window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
+
+// 🔥 reload cart
+setTimeout(() => {
+
+  loadCart();
+
+}, 300);
+
+} // 🔥 THIS closes selectSize function
 function goPage(page){
   window.location.href = page;
 }
