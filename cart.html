@@ -331,12 +331,6 @@ button:hover{
 </head>
 
 <body>
-  <div id="loader">
-
-  <div class="spinner"></div>
-
-  <p>Loading products...</p>
-
 </div>
 <div id="header" class="header">
   <div class="menu-left"></div>
@@ -465,6 +459,11 @@ function loadCart() {
     <h3>Recently Viewed</h3>
 
     <div id="recentProducts"></div>
+<div id="loader">
+
+  <div class="spinner"></div>
+
+  <p>Loading products...</p>
 
   </div>
   `;
@@ -697,15 +696,16 @@ function updateCartCount(){
 
 updateCartCount();
 
-window.addEventListener("load", () => {
+setTimeout(() => {
 
-  setTimeout(() => {
+  const loader =
+    document.getElementById("loader");
 
-    document.getElementById("loader").style.display = "none";
+  if(loader){
+    loader.style.display = "none";
+  }
 
-  }, 1200);
-
-});
+}, 1500);
 </script>
 
 </body>
