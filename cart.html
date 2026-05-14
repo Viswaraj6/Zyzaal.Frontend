@@ -823,10 +823,20 @@ function openSizePopup(id){
   sizes.forEach(size => {
 
     sizeBox.innerHTML += `
-      <button
-      onclick="chooseSize('${size}')">
-        ${size}
-      </button>
+    <button
+onclick="chooseSize('${size}')"
+style="
+  min-width:56px;
+  height:42px;
+  border-radius:10px;
+  border:none;
+  background:#ffcc00;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+">
+  ${size}
+</button>
     `;
   });
 
