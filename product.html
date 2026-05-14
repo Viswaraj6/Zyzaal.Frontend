@@ -644,7 +644,7 @@ document.getElementById("mainImage").src = images[currentIndex];
 
 // 👉 THUMBNAILS
 let thumbsHTML = "";
-ismages.forEach((img, index)=>{
+images.forEach((img, index)=>{
   thumbsHTML += `
     <img src="${img}" 
          onclick="changeImage('${img}', this)"
