@@ -400,73 +400,80 @@ function loadCart() {
   document.querySelector(".address-box").style.display = "none";
   document.querySelector(".price-box").style.display = "none";
 
-  html = `
-  <div style="
-    background:#fff;
-    padding:40px 20px;
-    text-align:center;
-    border-radius:12px;
-  ">
+ html = `
+<div style="
+  background:#fff;
+  padding:40px 20px;
+  text-align:center;
+  border-radius:12px;
+">
 
   <img 
-  src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
-  width="140"
-  style="
-    margin-bottom:10px;
-    animation: cartFloat 2s infinite ease-in-out;
-  "
->
-    <h2>Your cart is empty!</h2>
+    src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+    width="140"
+    style="
+      margin-bottom:10px;
+      animation: cartFloat 2s infinite ease-in-out;
+    "
+  >
 
-    <button 
-      onclick="goHome()"
-      style="
-        background:#2874f0;
-        color:#fff;
-        padding:12px 30px;
-        border:none;
-        border-radius:6px;
-        cursor:pointer;
-        margin-top:10px;
-      "
-    >
-      Shop now
-    </button>
+  <h2>Your cart is empty!</h2>
 
-  </div>
+  <button 
+    onclick="goHome()"
+    style="
+      background:#2874f0;
+      color:#fff;
+      padding:12px 30px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      margin-top:10px;
+    "
+  >
+    Shop now
+  </button>
 
-  <div style="
-    background:#fff;
-    margin-top:20px;
-    padding:20px;
-    border-radius:12px;
-  ">
+</div>
+
 <div id="loader">
 
   <div class="spinner"></div>
 
   <p>Loading products...</p>
 
-  </div>
-  `;
-    <h3>Suggested for You</h3>
-    <p style="color:gray;">Based on Your Activity</p>
+</div>
 
-    <div id="suggestedProducts"></div>
+<div style="
+  background:#fff;
+  margin-top:20px;
+  padding:20px;
+  border-radius:12px;
+">
 
-  </div>
+  <h3>Suggested for You</h3>
 
-  <div style="
-    background:#fff;
-    margin-top:20px;
-    padding:20px;
-    border-radius:12px;
-  ">
+  <p style="color:gray;">
+    Based on Your Activity
+  </p>
 
-    <h3>Recently Viewed</h3>
+  <div id="suggestedProducts"></div>
 
-    <div id="recentProducts"></div>
+</div>
 
+<div style="
+  background:#fff;
+  margin-top:20px;
+  padding:20px;
+  border-radius:12px;
+">
+
+  <h3>Recently Viewed</h3>
+
+  <div id="recentProducts"></div>
+
+</div>
+`;
 } else {
 
     cart.forEach((item, index) => {
