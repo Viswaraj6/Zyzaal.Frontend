@@ -552,39 +552,60 @@ loadDefaultAddress();
   let suggestedHTML = "";
   let recentHTML = "";
 
-  products.slice(0,6).forEach(p => {
+ products.slice(0,6).forEach(p => {
 
-    suggestedHTML += `
-    <div style="
-      width:160px;
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:8px;
-      padding:10px;
+  suggestedHTML += `
+  <div onclick="openProduct('${p._id}')"
+  style="
+    width:160px;
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:8px;
+    padding:10px;
+    cursor:pointer;
+    flex-shrink:0;
+  ">
+    <img src="${p.images?.[0] || p.image}"
+    style="
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-radius:6px;
     ">
-      <img src="${p.image}" width="100%">
-      <p>${p.name}</p>
-      <b>₹${p.price}</b>
-    </div>
-    `;
-  });
 
-  recent.forEach(p => {
+    <p>${p.name}</p>
 
-    recentHTML += `
-    <div style="
-      width:160px;
-      background:#fff;
-      border:1px solid #eee;
-      border-radius:8px;
-      padding:10px;
+    <b>₹${p.price}</b>
+  </div>
+  `;
+});
+recent.forEach(p => {
+
+  recentHTML += `
+  <div onclick="openProduct('${p._id}')"
+  style="
+    width:160px;
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:8px;
+    padding:10px;
+    cursor:pointer;
+    flex-shrink:0;
+  ">
+    <img src="${p.images?.[0] || p.image}"
+    style="
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-radius:6px;
     ">
-      <img src="${p.image}" width="100%">
-      <p>${p.name}</p>
-      <b>₹${p.price}</b>
-    </div>
-    `;
-  });
+
+    <p>${p.name}</p>
+
+    <b>₹${p.price}</b>
+  </div>
+  `;
+});
 
   document.getElementById("suggestedProducts").innerHTML =
     `<div style="display:flex; gap:15px; overflow:auto;">
