@@ -300,10 +300,51 @@ button:hover{
     transform: translateY(0px);
   }
 }
+    #loader{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  background:#d8f3f0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+}
+
+.spinner{
+  width:55px;
+  height:55px;
+  border:5px solid #ddd;
+  border-top:5px solid #2874f0;
+  border-radius:50%;
+  animation: spin 1s linear infinite;
+  margin-bottom:15px;
+}
+
+@keyframes spin{
+
+  0%{
+    transform: rotate(0deg);
+  }
+
+  100%{
+    transform: rotate(360deg);
+  }
+}
   </style>
 </head>
 
 <body>
+  <div id="loader">
+
+  <div class="spinner"></div>
+
+  <p>Loading products...</p>
+
+</div>
 <div id="header" class="header">
   <div class="menu-left"></div>
 
