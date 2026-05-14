@@ -844,6 +844,33 @@ function chooseSize(size){
 
   chosenSize = size;
 
+  // எல்லா size buttons reset
+  document
+    .querySelectorAll("#popupSizes button")
+    .forEach(btn => {
+
+      btn.style.background = "#ffcc00";
+      btn.style.color = "#000";
+      btn.style.border = "none";
+
+    });
+
+  // selected button highlight
+  const buttons =
+    document.querySelectorAll("#popupSizes button");
+
+  buttons.forEach(btn => {
+
+    if(btn.innerText === size){
+
+      btn.style.background = "#2874f0";
+      btn.style.color = "#fff";
+      btn.style.border = "2px solid #0b57d0";
+
+    }
+  });
+
+  // continue button show
   document.getElementById(
     "popupContinueBtn"
   ).style.display = "inline-block";
