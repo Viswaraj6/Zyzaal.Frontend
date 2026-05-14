@@ -806,6 +806,51 @@ setTimeout(() => {
 
 }, 1500);
 </script>
+<div id="sizePopup"
+style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+">
 
+  <div style="
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    width:300px;
+    text-align:center;
+  ">
+
+    <h3>Select Size</h3>
+
+    <div style="
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin:20px 0;
+    ">
+
+      <button onclick="selectSize('S')">S</button>
+      <button onclick="selectSize('M')">M</button>
+      <button onclick="selectSize('L')">L</button>
+      <button onclick="selectSize('XL')">XL</button>
+
+    </div>
+
+    <button onclick="closeSizePopup()"
+    style="
+      background:#ddd;
+      color:#000;
+    ">
+      Cancel
+    </button>
+
+  </div>
+
+</div>
 </body>
 </html>
