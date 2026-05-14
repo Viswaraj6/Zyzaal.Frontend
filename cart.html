@@ -370,7 +370,20 @@ button:hover{
   <p id="delAddress"></p>
 </div>
 <div id="cartList"></div>
-<div style="
+
+<div class="price-box">
+  <h3>Price Details</h3>
+
+  <p>Price: ₹<span id="total"></span></p>
+  <p>Discount: ₹0</p>
+  <p>Delivery: ₹0</p>
+
+  <hr>
+  <div class="total-row">
+  <h2>Total Amount: ₹<span id="totalFinal"></span></h2>
+  <button class="continue-btn" onclick="checkout()">Continue</button>
+</div>
+  <div style="
   background:#fff;
   margin-top:20px;
   padding:20px;
@@ -406,18 +419,6 @@ button:hover{
 
   <div id="recentProducts"></div>
 
-</div>
-<div class="price-box">
-  <h3>Price Details</h3>
-
-  <p>Price: ₹<span id="total"></span></p>
-  <p>Discount: ₹0</p>
-  <p>Delivery: ₹0</p>
-
-  <hr>
-  <div class="total-row">
-  <h2>Total Amount: ₹<span id="totalFinal"></span></h2>
-  <button class="continue-btn" onclick="checkout()">Continue</button>
 </div>
   </div>
 <div id="footer"></div>
