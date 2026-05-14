@@ -780,6 +780,70 @@ recent.forEach(p => {
 
   alert("Added to cart ✅");
 }
+  let selectedProductId = null;
+
+function openSizePopup(id){
+
+  selectedProductId = id;
+
+  document.getElementById("sizePopup")
+    .style.display = "flex";
+}
+
+function closeSizePopup(){
+
+  document.getElementById("sizePopup")
+    .style.display = "none";
+}
+
+function selectSize(size){
+
+  const products =
+    JSON.parse(localStorage.getItem("products")) || [];
+
+  const product =
+    products.find(p => p._id === selectedProductId);
+
+  if(!product){
+    return;
+  }
+
+  let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+  const already =
+    cart.find(x =>
+      x._id === selectedProductId &&
+      x.size === size
+    );
+
+  if(already){
+
+    already.qty =
+      (already.qty || 1) + 1;
+
+  }else{
+
+    cart.push({
+      ...product,
+      qty:1,
+      size:size
+    });
+  }
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
+  updateCartCount();
+
+  closeSizePopup();
+
+  alert("Added to cart ✅");
+
+  loadCart();
+}
 function goPage(page){
   window.location.href = page;
 }
