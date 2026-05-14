@@ -617,6 +617,20 @@ recent.forEach(p => {
       ${recentHTML}
     </div>`;
 }
+  function openProduct(id){
+
+  const products =
+    JSON.parse(localStorage.getItem("products")) || [];
+
+  const p = products.find(x => x._id === id);
+
+  localStorage.setItem(
+    "selectedProduct",
+    JSON.stringify(p)
+  );
+
+  window.location.href = "product.html";
+}
 function goPage(page){
   window.location.href = page;
 }
