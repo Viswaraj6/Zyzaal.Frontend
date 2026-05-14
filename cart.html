@@ -352,9 +352,72 @@ function loadCart() {
   let html = "";
   let total = 0;
 
-  if (cart.length === 0) {
-    html = "<p>No items in cart</p>";
-  } else {
+ if (cart.length === 0) {
+
+  document.querySelector(".address-box").style.display = "none";
+  document.querySelector(".price-box").style.display = "none";
+
+  html = `
+  <div style="
+    background:#fff;
+    padding:40px 20px;
+    text-align:center;
+    border-radius:12px;
+  ">
+
+    <img 
+      src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+      width="120"
+    >
+
+    <h2>Your cart is empty!</h2>
+
+    <button 
+      onclick="goHome()"
+      style="
+        background:#2874f0;
+        color:#fff;
+        padding:12px 30px;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;
+        margin-top:10px;
+      "
+    >
+      Shop now
+    </button>
+
+  </div>
+
+  <div style="
+    background:#fff;
+    margin-top:20px;
+    padding:20px;
+    border-radius:12px;
+  ">
+
+    <h3>Suggested for You</h3>
+    <p style="color:gray;">Based on Your Activity</p>
+
+    <div id="suggestedProducts"></div>
+
+  </div>
+
+  <div style="
+    background:#fff;
+    margin-top:20px;
+    padding:20px;
+    border-radius:12px;
+  ">
+
+    <h3>Recently Viewed</h3>
+
+    <div id="recentProducts"></div>
+
+  </div>
+  `;
+
+} else {
 
     cart.forEach((item, index) => {
 
