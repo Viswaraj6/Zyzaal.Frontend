@@ -683,9 +683,34 @@ recent.forEach(p => {
       border-radius:6px;
     ">
 
-    <p>${p.name}</p>
+    <p style="
+  font-size:14px;
+  margin:10px 0 5px;
+">
+  ${p.name}
+</p>
 
-    <b>₹${p.price}</b>
+<b style="
+  display:block;
+  margin-bottom:10px;
+">
+  ₹${p.price}
+</b>
+
+<button
+  onclick="event.stopPropagation(); openSizePopup('${p._id}')"
+  style="
+    width:100%;
+    background:#ffcc00;
+    border:none;
+    padding:10px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+  "
+>
+  Add to Cart
+</button>
   </div>
   `;
 });
