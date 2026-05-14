@@ -655,6 +655,7 @@ function updateQty(index, value) {
 function removeItem(index) {
   cart.splice(index, 1);
   localStorage.setItem("cart", JSON.stringify(cart));
+   updateCartCount();
   loadCart();
 }
 
