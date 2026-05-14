@@ -877,7 +877,16 @@ function closeSizePopup(){
   document.getElementById("sizePopup")
     .style.display = "none";
 }
+let chosenSize = "";
 
+function chooseSize(size){
+
+  chosenSize = size;
+
+  document.getElementById(
+    "popupContinueBtn"
+  ).style.display = "inline-block";
+}
 function selectSize(size){
 
   const products =
