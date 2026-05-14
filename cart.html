@@ -828,10 +828,50 @@ function openSizePopup(id){
 
   selectedProductId = id;
 
+  const products =
+    JSON.parse(localStorage.getItem("products")) || [];
+
+  const product =
+    products.find(p => p._id === id);
+
+  if(!product){
+    return;
+  }
+
+  const sizeBox =
+    document.getElementById("popupSizes");
+
+  let sizes = [];
+
+  // 🔥 pant sizes
+  if(
+    product.category?.toLowerCase().includes("pant") ||
+    product.typeDetail?.toLowerCase().includes("pant")
+  ){
+
+    sizes = ["30","32","34","36","38","40"];
+
+  } else {
+
+    // 🔥 shirt sizes
+    sizes = ["S","M","L","XL","XXL"];
+  }
+
+  sizeBox.innerHTML = "";
+
+  sizes.forEach(size => {
+
+    sizeBox.innerHTML += `
+      <button
+      onclick="chooseSize('${size}')">
+        ${size}
+      </button>
+    `;
+  });
+
   document.getElementById("sizePopup")
     .style.display = "flex";
 }
-
 function closeSizePopup(){
 
   document.getElementById("sizePopup")
