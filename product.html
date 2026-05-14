@@ -10,7 +10,11 @@ body {
   background: #d8f3f0;
  
 }
-
+#header{
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
 .container {
   padding: 10px;
 }
@@ -640,7 +644,7 @@ document.getElementById("mainImage").src = images[currentIndex];
 
 // 👉 THUMBNAILS
 let thumbsHTML = "";
-images.forEach((img, index)=>{
+ismages.forEach((img, index)=>{
   thumbsHTML += `
     <img src="${img}" 
          onclick="changeImage('${img}', this)"
