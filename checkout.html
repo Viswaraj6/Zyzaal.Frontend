@@ -319,6 +319,68 @@ ${a.state} - ${a.pincode}`;
   // 🔥 HIDE FORM
   document.getElementById("addressForm").style.display =
     "none";
+  // ✅ DIRECT ORDER SUMMARY
+document.getElementById("step1").style.display = "none";
+document.getElementById("step2").style.display = "block";
+
+// ✅ STEP ACTIVE
+const steps = document.querySelectorAll(".step");
+
+steps[0].classList.remove("active");
+steps[1].classList.add("active");
+
+// ✅ SUMMARY ADDRESS
+document.getElementById("summaryAddressBox").innerHTML = `
+  <div style="
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:20px;
+    background:#f8f8f8;
+    position:relative;
+  ">
+
+    <button onclick="changeCheckoutAddress()"
+    style="
+      position:absolute;
+      right:10px;
+      top:10px;
+      border:none;
+      background:none;
+      color:#2874f0;
+      font-weight:600;
+      cursor:pointer;
+    ">
+      Change
+    </button>
+
+    <p style="
+      margin:0;
+      font-size:13px;
+      color:gray;
+    ">
+      Deliver to:
+    </p>
+
+    <p style="
+      margin:6px 0;
+      font-weight:bold;
+    ">
+      ${a.name} (${a.phone})
+    </p>
+
+    <p style="
+      margin:0;
+      line-height:1.5;
+      white-space:pre-line;
+    ">
+      ${a.address},
+      ${a.city},
+      ${a.state} - ${a.pincode}
+    </p>
+
+  </div>
+`;
 }
   function changeCheckoutAddress(){
 
