@@ -663,24 +663,62 @@ if(products.length > 0){
   ? p.deliveryDate
   : "Check pincode in product page";
 
-  html += `
-    <div style="display:flex;gap:10px;margin-bottom:10px;align-items:center;">
-      <img src="${p.images?.[0] || p.image}" width="60">
+   html += `
+<div style="
+display:flex;
+gap:15px;
+align-items:flex-start;
+margin-bottom:20px;
+padding-bottom:15px;
+border-bottom:1px solid #eee;
+">
 
-      <div>
-        <p style="margin:0">${p.name}</p>
-        <b>₹${p.price}</b><br>
-        <small>Size: ${p.size || "-"}</small>
+<img
+src="${p.images?.[0] || p.image}"
+style="
+width:80px;
+height:100px;
+object-fit:cover;
+border-radius:8px;
+"
+>
 
-        <!-- 🔥 ADD THIS -->
-        <p style="color:green; font-size:12px;">
-          Delivery by ${delivery}
-        </p>
+<div style="flex:1;">
 
-      </div>
-    </div>
-  `;
-});
+<p style="
+margin:0 0 6px;
+font-weight:600;
+font-size:16px;
+">
+${p.name}
+</p>
+
+<b style="
+font-size:20px;
+">
+₹${p.price}
+</b>
+
+<p style="
+margin:6px 0;
+font-size:14px;
+">
+Size: ${p.size || "-"}
+</p>
+
+<p style="
+margin:0;
+color:green;
+font-size:13px;
+">
+Delivery by ${delivery}
+</p>
+
+</div>
+</div>
+`;
+  });
+
   document.getElementById("productBox").innerHTML = html;
 }
   loadSelectedAddress();
