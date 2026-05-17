@@ -839,12 +839,23 @@ const deliveryDate =
       (o.products || []).forEach(i => {
         const qty = i.qty || 1;
 
-        items += `<li>
-          ${i.name} - ₹${i.price} 
-          ${i.size ? `(Size: ${i.size})` : ""}
-          | Qty: ${qty}
-          | Total: ₹${i.price * qty}
-        </li>`;
+      items += `
+<div style="
+margin-bottom:8px;
+padding-bottom:8px;
+border-bottom:1px dashed #ddd;
+">
+
+<b>${i.name}</b><br>
+
+₹${i.price}
+
+${i.size ? `| Size: ${i.size}` : ""}
+
+| Qty: ${qty}
+
+</div>
+`;
       });
 
       // 🎨 Status Color (optional nice UI)
