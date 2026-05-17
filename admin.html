@@ -845,20 +845,37 @@ const deliveryDate =
       (o.products || []).forEach(i => {
         const qty = i.qty || 1;
 
-      items += `
+  items += `
 <div style="
-margin-bottom:8px;
-padding-bottom:8px;
+display:flex;
+gap:10px;
+align-items:flex-start;
+margin-bottom:10px;
+padding-bottom:10px;
 border-bottom:1px dashed #ddd;
 ">
 
-<b>${i.name}</b><br>
+  <img
+    src="${i.image || i.images?.[0]}"
+    style="
+      width:55px;
+      height:70px;
+      object-fit:cover;
+      border-radius:8px;
+    "
+  >
 
-₹${i.price}
+  <div>
 
-${i.size ? `| Size: ${i.size}` : ""}
+    <b>${i.name}</b><br>
 
-| Qty: ${qty}
+    ₹${i.price}
+
+    ${i.size ? `| Size: ${i.size}` : ""}
+
+    | Qty: ${qty}
+
+  </div>
 
 </div>
 `;
