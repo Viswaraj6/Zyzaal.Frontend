@@ -900,12 +900,14 @@ function selectSize(size){
   let cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
+  // ✅ SAME PRODUCT + SAME SIZE CHECK
   const already =
     cart.find(x =>
       x._id === selectedProductId &&
       x.size === size
     );
 
+  // ✅ already irundha qty increase
   if(already){
 
     already.qty =
@@ -913,6 +915,7 @@ function selectSize(size){
 
   } else {
 
+    // ✅ different size / new product
     cart.push({
       ...product,
       image: product.images?.[0] || product.image,
@@ -929,16 +932,16 @@ function selectSize(size){
     JSON.stringify(cart)
   );
 
-  alert("Added to cart ✅");
   updateCartCount();
 
-closeSizePopup();
+  closeSizePopup();
 
-// 🔥 scroll top
-window.scrollTo({
-  top: 0,
-  behavior: "smooth"
-});
+  loadCart(); // 🔥 important
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
   window.location.reload();
 } // 🔥 THIS closes selectSize function
   
