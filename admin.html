@@ -713,47 +713,7 @@ function loadProducts(){
   .then(data => {
 
     let html = "";
-html = `
-<div style="
-background:white;
-border-radius:12px;
-overflow:auto;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
-">
 
-<table style="
-width:100%;
-border-collapse:collapse;
-min-width:1000px;
-">
-
-<thead style="
-background:#111827;
-color:white;
-">
-
-<tr>
-
-<th style="padding:14px;text-align:left;">Order ID</th>
-
-<th style="padding:14px;text-align:left;">Customer</th>
-
-<th style="padding:14px;text-align:left;">Products</th>
-
-<th style="padding:14px;text-align:left;">Amount</th>
-
-<th style="padding:14px;text-align:left;">Payment</th>
-
-<th style="padding:14px;text-align:left;">Status</th>
-
-<th style="padding:14px;text-align:left;">Action</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-`;
     data.forEach(p => {
       html += `
         <div class="card">
@@ -818,7 +778,47 @@ function loadOrders(){
   .then(data => {
 
     let html = "";
+html = `
+<div style="
+background:white;
+border-radius:12px;
+overflow:auto;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
+">
 
+<table style="
+width:100%;
+border-collapse:collapse;
+min-width:1000px;
+">
+
+<thead style="
+background:#111827;
+color:white;
+">
+
+<tr>
+
+<th style="padding:14px;text-align:left;">Order ID</th>
+
+<th style="padding:14px;text-align:left;">Customer</th>
+
+<th style="padding:14px;text-align:left;">Products</th>
+
+<th style="padding:14px;text-align:left;">Amount</th>
+
+<th style="padding:14px;text-align:left;">Payment</th>
+
+<th style="padding:14px;text-align:left;">Status</th>
+
+<th style="padding:14px;text-align:left;">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+`;
     (data || []).forEach(o => {
 
       // 🗓️ Order Date & Delivery Date
@@ -853,61 +853,100 @@ const deliveryDate =
       if(o.status === "Shipped") statusColor = "blue";
       if(o.status === "Delivered") statusColor = "green";
 
-      html += `
-        <div class="card">
+     html += `
+<tr style="
+border-bottom:1px solid #eee;
+">
 
-          <p><b>${o.name || ""}</b></p>
-          <p>${o.phone || ""}</p>
-          <p>${o.address || ""}</p>
+<td style="padding:14px;">
+${o._id.slice(-6)}
+</td>
 
-         <p><b>Order Date:</b> ${format(o.orderDate)}</p>
-         <p><b>Delivery Date:</b> ${deliveryDate}</p>
+<td style="padding:14px;">
 
-          <p><b>Total:</b> ₹${o.total || 0}</p>
+<b>${o.name || ""}</b><br>
 
-<p>
-<b>Payment:</b>
+${o.phone || ""}<br>
 
-<span style="
-color:
-${o.paymentStatus === "Paid" ? "green" : "red"};
-font-weight:bold;
+<span style="font-size:13px;color:#666;">
+${o.address || ""}
+</span>
+
+</td>
+
+<td style="padding:14px;">
+
+${items}
+
+</td>
+
+<td style="padding:14px; font-weight:700;">
+₹${o.total || 0}
+</td>
+
+<td style="padding:14px;">
+
+<div style="
+font-weight:600;
+color:${o.paymentStatus === "Paid" ? "green" : "red"};
 ">
 ${o.paymentStatus || "Pending"}
-</span>
-</p>
+</div>
 
-<p>
-<b>Method:</b>
-${o.paymentMethod || "Cash on Delivery"}
-</p>
-${
-o.paymentMethod === "Cash on Delivery"
-? `
-<p style="color:orange;">
-💰 Collect Cash During Delivery
-</p>
-`
-: ""
-}
-          <select style="border:2px solid ${statusColor}; padding:6px; border-radius:6px;"
-            onchange="updateStatus('${o._id}',this.value)">
+<div style="
+font-size:13px;
+color:#666;
+margin-top:4px;
+">
+${o.paymentMethod || "COD"}
+</div>
 
-            <option ${o.status==="Pending"?"selected":""}>Pending</option>
-            <option ${o.status==="Shipped"?"selected":""}>Shipped</option>
-            <option ${o.status==="Delivered"?"selected":""}>Delivered</option>
+</td>
 
-          </select>
+<td style="padding:14px;">
 
-          <ul>${items}</ul>
+<select
+style="
+padding:8px;
+border-radius:8px;
+border:2px solid ${statusColor};
+font-weight:600;
+"
+onchange="updateStatus('${o._id}',this.value)"
+>
 
-<button onclick="deleteOrder('${o._id}')" 
-  style="margin-top:10px; background:red;">
-  Delete Order 
+<option ${o.status==="Pending"?"selected":""}>
+Pending
+</option>
+
+<option ${o.status==="Shipped"?"selected":""}>
+Shipped
+</option>
+
+<option ${o.status==="Delivered"?"selected":""}>
+Delivered
+</option>
+
+</select>
+
+</td>
+
+<td style="padding:14px;">
+
+<button
+onclick="deleteOrder('${o._id}')"
+style="
+background:red;
+padding:8px 12px;
+"
+>
+Delete
 </button>
 
-        </div>
-      `;
+</td>
+
+</tr>
+`;
     });
 
     document.getElementById("orders").innerHTML = html;
