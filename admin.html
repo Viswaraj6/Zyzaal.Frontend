@@ -869,7 +869,18 @@ ${i.size ? `| Size: ${i.size}` : ""}
       if(o.status === "Pending") statusColor = "orange";
       if(o.status === "Shipped") statusColor = "blue";
       if(o.status === "Delivered") statusColor = "green";
+let statusBg = "#fef3c7";
+let statusText = "#d97706";
 
+if(o.status === "Shipped"){
+  statusBg = "#dbeafe";
+  statusText = "#2563eb";
+}
+
+if(o.status === "Delivered"){
+  statusBg = "#dcfce7";
+  statusText = "#16a34a";
+}
      html += `
 <tr style="
 border-bottom:1px solid #eee;
