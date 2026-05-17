@@ -345,10 +345,89 @@ height: 320px;
   #footer {
   margin-top: auto;
 }
+.skeleton{
+  animation:pulse 1.2s infinite;
+}
+
+.skeleton-card{
+  height:380px;
+  background:#eee;
+  border-radius:12px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+
+  0%{
+    opacity:1;
+  }
+
+  50%{
+    opacity:0.5;
+  }
+
+  100%{
+    opacity:1;
+  }
+
+}
 </style>
 </head>
 
 <body>
+  <div id="pageLoader"
+style="
+position:fixed;
+inset:0;
+background:#fff;
+z-index:99999;
+padding:20px;
+overflow:hidden;
+">
+
+  <!-- top -->
+  <div style="
+    width:180px;
+    height:30px;
+    background:#eee;
+    border-radius:8px;
+    margin:auto;
+    margin-bottom:20px;
+  " class="skeleton"></div>
+
+  <!-- search -->
+  <div style="
+    width:100%;
+    height:45px;
+    background:#eee;
+    border-radius:10px;
+    margin-bottom:20px;
+  " class="skeleton"></div>
+
+  <!-- banner -->
+  <div style="
+    width:100%;
+    height:300px;
+    background:#eee;
+    border-radius:12px;
+    margin-bottom:20px;
+  " class="skeleton"></div>
+
+  <!-- cards -->
+  <div style="
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:20px;
+  ">
+
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+
+  </div>
+
+</div>
 <div class="top-header">
 
   <div class="logo-wrap">
@@ -578,8 +657,16 @@ updateCartCount();
 // ==============================
 // 🚀 INIT
 // ==============================
-loadProducts();
-loadBanner();
+
+Promise.all([
+  loadProducts(),
+  loadBanner()
+]).then(() => {
+
+  document.getElementById("pageLoader")
+  .style.display = "none";
+
+});
 
 </script>
 
