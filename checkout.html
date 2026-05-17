@@ -547,7 +547,8 @@ function getUserData() {
 
 // 💳 ONLINE PAYMENT
 function payNow() {
-
+document.getElementById("paymentLoader")
+.style.display = "flex";
   let data = getUserData();
   if (!data) return;
 
@@ -604,7 +605,8 @@ function payNow() {
 
 // 🚚 COD
 function cashOnDelivery() {
-
+document.getElementById("paymentLoader")
+.style.display = "flex";
   let data = getUserData();
   if (!data) return;
 
@@ -723,6 +725,74 @@ Delivery by ${delivery}
 }
   loadSelectedAddress();
 </script>
+<div id="paymentLoader"
+style="
+position:fixed;
+inset:0;
+background:rgba(255,255,255,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:99999;
+flex-direction:column;
+">
 
+  <div style="
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+  ">
+
+    <div class="pay-dot"></div>
+    <div class="pay-dot"></div>
+    <div class="pay-dot"></div>
+    <div class="pay-dot"></div>
+
+  </div>
+
+  <p style="
+    font-size:16px;
+    font-weight:600;
+    color:#333;
+  ">
+    Processing Payment...
+  </p>
+
+</div>
+
+<style>
+.pay-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#2874f0;
+  animation:bounce 0.6s infinite alternate;
+}
+
+.pay-dot:nth-child(2){
+  animation-delay:0.15s;
+}
+
+.pay-dot:nth-child(3){
+  animation-delay:0.3s;
+}
+
+.pay-dot:nth-child(4){
+  animation-delay:0.45s;
+}
+
+@keyframes bounce{
+
+  from{
+    transform:translateY(0);
+    opacity:0.5;
+  }
+
+  to{
+    transform:translateY(-10px);
+    opacity:1;
+  }
+}
+</style>
 </body>
 </html>
