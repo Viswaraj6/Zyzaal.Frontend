@@ -558,21 +558,31 @@ document.getElementById("paymentLoader")
     body: JSON.stringify({amount: total})
   })
   .then(res => res.json())
-  .then(order => {
+  if(!order.id){
 
-    if(!order.id){
-      alert("Payment setup missing ❌");
-      return;
-    }
+  document.getElementById("paymentLoader")
+  .style.display = "none";
+
+  alert("Payment setup missing ❌");
+
+  return;
+}
 
     var options = {
       key: "rzp_test_SfD9BzINtp65Kb",
       amount: order.amount,
       currency: "INR",
-      name: "FARK 618",
+      name: "Zudora",
       description: "Order Payment",
       order_id: order.id,
+      modal: {
+     ondismiss: function () {
 
+     document.getElementById("paymentLoader")
+    .style.display = "none";
+
+  }
+},
       handler: function (response) {
 
         fetch(API + "/verify-payment", {
@@ -599,7 +609,14 @@ document.getElementById("paymentLoader")
     new Razorpay(options).open();
 
   })
-  .catch(() => alert("Server error ❌"));
+ .catch(() => {
+
+  document.getElementById("paymentLoader")
+  .style.display = "none";
+
+  alert("Server error ❌");
+
+});
 }
 
 
