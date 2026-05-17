@@ -249,6 +249,20 @@ margin-bottom:15px;
 "
 oninput="filterOrders()"
 >
+      <select id="statusFilter"
+onchange="filterOrders()"
+style="
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+margin-left:10px;
+">
+<option value="">All</option>
+<option>Pending</option>
+<option>Shipped</option>
+<option>Delivered</option>
+<option>Cancelled</option>
+</select>
       <div id="orders"></div>
     </div>
 
