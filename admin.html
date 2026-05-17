@@ -236,40 +236,7 @@ img {
 
     <!-- ORDERS -->
     <div id="ordersSection" style="display:none;">
-     <h2 style="
-display:flex;
-align-items:center;
-gap:10px;
-">
-  🧾 Orders
-  <span id="pendingBadge"></span>
-</h2>
-      <input
-id="searchOrder"
-placeholder="Search order / phone"
-style="
-padding:10px;
-width:250px;
-border-radius:8px;
-border:1px solid #ddd;
-margin-bottom:15px;
-"
-oninput="filterOrders()"
->
-      <select id="statusFilter"
-onchange="filterOrders()"
-style="
-padding:10px;
-border-radius:8px;
-border:1px solid #ddd;
-margin-left:10px;
-">
-<option value="">All</option>
-<option>Pending</option>
-<option>Shipped</option>
-<option>Delivered</option>
-<option>Cancelled</option>
-</select>
+      <h2>Orders</h2>
       <div id="orders"></div>
     </div>
 
