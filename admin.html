@@ -815,7 +815,22 @@ function loadOrders(){
   fetch(BASE_URL + "/orders")
   .then(res => res.json())
   .then(data => {
+const pendingCount = orders.filter(
+  o => o.status === "Pending"
+).length;
 
+document.getElementById("pendingBadge").innerHTML = `
+<span style="
+background:red;
+color:white;
+padding:4px 10px;
+border-radius:20px;
+font-size:13px;
+font-weight:600;
+">
+${pendingCount} Pending
+</span>
+`;
     let html = "";
 html = `
 <div style="
