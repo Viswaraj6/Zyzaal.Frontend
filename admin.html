@@ -933,12 +933,25 @@ ${o.paymentMethod || "COD"}
 
 <td style="padding:14px;">
 
+<div style="
+padding:6px 12px;
+border-radius:20px;
+background:${statusBg};
+color:${statusText};
+font-weight:600;
+display:inline-block;
+font-size:13px;
+">
+${o.status}
+</div>
+
+<br><br>
+
 <select
 style="
-padding:8px;
-border-radius:8px;
-border:2px solid ${statusColor};
-font-weight:600;
+padding:6px 10px;
+border-radius:10px;
+border:1px solid #ddd;
 "
 onchange="updateStatus('${o._id}',this.value)"
 >
@@ -955,10 +968,13 @@ Shipped
 Delivered
 </option>
 
+<option ${o.status==="Cancelled"?"selected":""}>
+Cancelled
+</option>
+
 </select>
 
 </td>
-
 <td style="padding:14px;">
 
 <button
