@@ -713,7 +713,47 @@ function loadProducts(){
   .then(data => {
 
     let html = "";
+html = `
+<div style="
+background:white;
+border-radius:12px;
+overflow:auto;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
+">
 
+<table style="
+width:100%;
+border-collapse:collapse;
+min-width:1000px;
+">
+
+<thead style="
+background:#111827;
+color:white;
+">
+
+<tr>
+
+<th style="padding:14px;text-align:left;">Order ID</th>
+
+<th style="padding:14px;text-align:left;">Customer</th>
+
+<th style="padding:14px;text-align:left;">Products</th>
+
+<th style="padding:14px;text-align:left;">Amount</th>
+
+<th style="padding:14px;text-align:left;">Payment</th>
+
+<th style="padding:14px;text-align:left;">Status</th>
+
+<th style="padding:14px;text-align:left;">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+`;
     data.forEach(p => {
       html += `
         <div class="card">
