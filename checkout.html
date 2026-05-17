@@ -558,6 +558,7 @@ document.getElementById("paymentLoader")
     body: JSON.stringify({amount: total})
   })
   .then(res => res.json())
+  .then(order => {
   if(!order.id){
 
   document.getElementById("paymentLoader")
