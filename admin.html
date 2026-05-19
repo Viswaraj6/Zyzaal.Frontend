@@ -276,21 +276,54 @@ function logout(){
 document.getElementById("type").addEventListener("change", loadSizeOptions);
 
 function loadSizeOptions(){
-  const type = document.getElementById("type").value;
 
-  let sizes = type === "shirt"
+  const type =
+    document.getElementById("type").value;
+
+  let sizes =
+    type === "shirt"
     ? ["S","M","L","XL","XXL"]
     : ["30","32","34","36","38","40"];
 
-  let html = "<p>Select Sizes:</p>";
+  let html = `
+  <h3 style="margin-bottom:20px;">
+    Size Stock
+  </h3>
+  `;
 
   sizes.forEach(s => {
+
     html += `
-      <label>
-        <input type="checkbox" value="${s}" onchange="toggleStock(this)">
-        ${s}
-        <input type="number" id="stock-${s}" placeholder="Stock" style="display:none;width:80px;">
-      </label><br>
+
+    <div style="
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:14px;
+    background:#f9fafb;
+    padding:12px;
+    border-radius:10px;
+    ">
+
+      <div style="
+      width:70px;
+      font-weight:600;
+      font-size:16px;
+      ">
+      ${s}
+      </div>
+
+      <input
+      type="number"
+      id="stock-${s}"
+      placeholder="Enter stock"
+      min="0"
+      style="
+      width:120px;
+      "
+      >
+
+    </div>
     `;
   });
 
