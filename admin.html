@@ -726,7 +726,34 @@ function loadProducts(){
           <img src="${(p.images && p.images[0]) || p.image || ''}">
           <h3>${p.name}</h3>
           <p>₹${p.price}</p>
-          <p>Stock: ${p.stock}</p>
+          <div style="
+margin:10px 0;
+font-size:14px;
+">
+
+${(p.sizeStock || []).map(s => `
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:4px;
+">
+
+<span>Size ${s.size}</span>
+
+<b ${
+s.stock <= 2
+? 'style="color:red"'
+: ''
+}>
+${s.stock}
+</b>
+
+</div>
+
+`).join("")}
+
+</div>
          <button onclick="editProduct('${p._id}')">Edit</button>
 <button onclick="deleteProduct('${p._id}')">Delete</button>
         </div>
