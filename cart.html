@@ -766,12 +766,12 @@ loadDefaultAddress();
       (already.qty || 1) + 1;
 
   }else{
-
-    cart.push({
-      ...product,
-      qty:1,
-      size:"M"
-    });
+  cart.push({
+  _id: product._id,
+  ...product,
+  qty:1,
+  size:"M"
+});
   }
 
   localStorage.setItem(
