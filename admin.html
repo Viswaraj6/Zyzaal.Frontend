@@ -411,42 +411,45 @@ sizes.forEach(size => {
   // 🔥 Image convert + resize
   if(files.length > 0){
 
-    for(let i=0;i<files.length;i++){
+  const imageArray = [];
 
-      const reader = new FileReader();
+for(let i=0;i<files.length;i++){
 
-      await new Promise(resolve=>{
-        reader.onload = function(e){
+  const reader = new FileReader();
 
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-          const img = new Image();
+  await new Promise(resolve=>{
 
-          img.onload = function(){
+    reader.onload = function(e){
 
-            canvas.width = 600;
-            canvas.height = 800;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
 
-            ctx.drawImage(img,0,0,600,800);
+      img.onload = function(){
 
-            const small = canvas.toDataURL("image/jpeg",0.9);
+        canvas.width = 600;
+        canvas.height = 800;
 
-            images.push(small);
-            resolve();
-            images.sort((a,b)=>0);
-          };
+        ctx.drawImage(img,0,0,600,800);
 
-          img.src = e.target.result;
-        };
+        const small =
+          canvas.toDataURL("image/jpeg",0.9);
 
-        reader.readAsDataURL(files[i]);
-      });
+        imageArray[i] = small;
 
-    }
+        resolve();
+      };
 
-  }
+      img.src = e.target.result;
+    };
 
-  // 🔥 SEND
+    reader.readAsDataURL(files[i]);
+
+  });
+
+}
+
+images = imageArray;  // 🔥 SEND
   if(!name || !price || sizeStock.length === 0 || images.length === 0){
     alert("Fill all fields ❗");
     return;
