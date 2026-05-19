@@ -853,7 +853,52 @@ function loadProducts(){
     data.forEach(p => {
       html += `
         <div class="card">
-          <img src="${(p.images && p.images[0]) || p.image || ''}">
+         <div style="display:flex; gap:10px;">
+
+<div>
+
+<img 
+id="main-${p._id}"
+src="${(p.images && p.images[0]) || p.image || ''}"
+style="
+width:100px;
+height:120px;
+object-fit:cover;
+border-radius:8px;
+border:2px solid #ddd;
+"
+>
+
+</div>
+
+<div style="
+display:flex;
+flex-direction:column;
+gap:6px;
+">
+
+${(p.images || []).map(img => `
+
+<img
+src="${img}"
+onclick="
+document.getElementById('main-${p._id}').src='${img}'
+"
+style="
+width:45px;
+height:55px;
+object-fit:cover;
+cursor:pointer;
+border:1px solid #ccc;
+border-radius:6px;
+"
+>
+
+`).join("")}
+
+</div>
+
+</div>
           <h3>${p.name}</h3>
           <p>₹${p.price}</p>
           <div style="
