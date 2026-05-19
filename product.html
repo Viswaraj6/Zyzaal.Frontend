@@ -811,8 +811,43 @@ function updateImage(){
 let selectedSize = "";
 
 let sizeHTML = "";
-(product.sizes || []).forEach(s=>{
-  sizeHTML += `<div class="size" onclick="selectSize(this,'${s}')">${s}</div>`;
+(product.sizeStock || []).forEach(s=>{
+
+  sizeHTML += `
+
+  <div
+    class="size"
+    
+    onclick="${
+      s.stock <= 0
+      ? ""
+      : `selectSize(this,'${s.size}')`
+    }"
+
+    style="
+      ${
+        s.stock <= 0
+        ? `
+        opacity:0.5;
+        cursor:not-allowed;
+        `
+        : ""
+      }
+    "
+  >
+
+    ${s.size}
+
+    ${
+      s.stock <= 0
+      ? " ❌"
+      : ""
+    }
+
+  </div>
+
+  `;
+
 });
 document.getElementById("sizes").innerHTML = sizeHTML;
 
