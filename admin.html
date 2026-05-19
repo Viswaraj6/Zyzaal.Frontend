@@ -883,7 +883,18 @@ ${(p.images || []).map(img => `
 <img
 src="${img}"
 onclick="
-document.getElementById('main-${p._id}').src='${img}'
+document.getElementById('main-${p._id}').src='${img}';
+
+fetch(BASE_URL + '/products/${p._id}',{
+method:'PUT',
+headers:{
+'Content-Type':'application/json',
+'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+},
+body: JSON.stringify({
+primaryImage:'${img}'
+})
+})
 "
 style="
 width:45px;
