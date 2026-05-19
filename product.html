@@ -864,8 +864,21 @@ document.getElementById("stickyPrice").innerText = "₹" + product.price;
 
 // size dropdown
 let sizeDrop = "";
-(product.sizes || []).forEach(s=>{
-  sizeDrop += `<option>${s}</option>`;
+(product.sizeStock || []).forEach(s=>{
+
+  sizeDrop += `
+  
+  <option
+    ${s.stock <= 0 ? "disabled" : ""}
+  >
+  
+  ${s.size}
+  ${s.stock <= 0 ? "(Out of Stock)" : ""}
+  
+  </option>
+  
+  `;
+
 });
 document.getElementById("stickySize").innerHTML = sizeDrop;
 document.getElementById("stickySize").addEventListener("change", function(){
