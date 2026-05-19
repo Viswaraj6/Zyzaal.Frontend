@@ -874,7 +874,10 @@ function selectSize(el,size){
   checkCartStatus();
 }
 // sticky data set
-document.getElementById("stickyImg").src = product.images?.[0] || product.image;
+document.getElementById("stickyImg").src =
+  product.primaryImage ||
+  product.images?.[0] ||
+  product.image;
 document.getElementById("stickyName").innerText = product.name;
 document.getElementById("stickyPrice").innerText = "₹" + product.price;
 
