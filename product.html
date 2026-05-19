@@ -868,18 +868,19 @@ function addToCart(){
     exists.qty = (exists.qty || 1) + 1;
   } 
   else {
-    cart.push({
-      name: product.name,
-      price: product.price,
-      size: selectedSize,
-      image: product.images?.[0] || product.image,
-      qty: 1,
+  cart.push({
 
-      // 🔥 IMPORTANT (delivery fix)
-      deliveryDate: window.selectedDeliveryDate || ""
-    });
-  }
+  _id: product._id,   // 🔥 IMPORTANT
 
+  name: product.name,
+  price: product.price,
+  size: selectedSize,
+  image: product.images?.[0] || product.image,
+  qty: 1,
+
+  deliveryDate: window.selectedDeliveryDate || ""
+
+});
   // save
   localStorage.setItem("cart", JSON.stringify(cart));
 
