@@ -858,38 +858,54 @@ function addToCart(){
     return;
   }
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
 
-  const exists = cart.find(p => 
-    p.name === product.name && p.size === selectedSize
+  const exists = cart.find(p =>
+    p._id === product._id &&
+    p.size === selectedSize
   );
 
+  // ✅ already exists
   if(exists){
+
     exists.qty = (exists.qty || 1) + 1;
-  } 
+
+  }
+
+  // ✅ new item
   else {
-  cart.push({
 
-  _id: product._id,   // 🔥 IMPORTANT
+    cart.push({
 
-  name: product.name,
-  price: product.price,
-  size: selectedSize,
-  image: product.images?.[0] || product.image,
-  qty: 1,
+      _id: product._id,
 
-  deliveryDate: window.selectedDeliveryDate || ""
+      name: product.name,
+      price: product.price,
+      size: selectedSize,
+      image: product.images?.[0] || product.image,
+      qty: 1,
 
-});
-  // save
-  localStorage.setItem("cart", JSON.stringify(cart));
+      deliveryDate:
+        window.selectedDeliveryDate || ""
 
-  // UI updates
+    });
+
+  }
+
+  // ✅ save
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
+  // ✅ update UI
   checkCartStatus();
   updateCartCount();
   showCartToast();
+
 }
- function checkCartStatus(){
+  function checkCartStatus(){
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
