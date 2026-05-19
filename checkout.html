@@ -666,11 +666,42 @@ localStorage.getItem("deliveryDate") ||
 ""
     })
   })
-  .then(() => {
-    alert("Order placed ✅");
-    localStorage.removeItem("cart");
-    window.location.href = "account.html";
-  })
+ .then(async () => {
+
+  // 🔥 reduce stock
+  for(const item of products){
+
+    await fetch(
+      API + "/reduce-stock",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify({
+
+          productId: item._id,
+
+          size: item.size,
+
+          qty: item.qty || 1
+
+        })
+
+      }
+    );
+
+  }
+
+  alert("Order placed ✅");
+
+  localStorage.removeItem("cart");
+
+  window.location.href = "account.html";
+
+})
   .catch(() => alert("Order save failed ❌"));
 }
 // 🖼 SHOW PRODUCT
