@@ -919,7 +919,10 @@ function selectSize(size){
    cart.push({
   _id: product._id,
   ...product,
-  image: product.images?.[0] || product.image,
+ image:
+  product.primaryImage ||
+  product.images?.[0] ||
+  product.image,
   qty:1,
   size:size,
   deliveryDate:
