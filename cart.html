@@ -482,7 +482,7 @@ function loadCart() {
       html += `
 <div class="cart-item">
  <img 
-  src="${item.image || item.images?.[0] || 'https://via.placeholder.com/150'}" 
+  src="${item.primaryImage || item.image || item.images?.[0] || 'https://via.placeholder.com/150'}" 
   class="cart-img"
 >
   <div class="cart-details">
