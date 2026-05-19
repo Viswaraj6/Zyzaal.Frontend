@@ -539,7 +539,7 @@ function loadSuggestedProducts(){
     ">
 
       <img 
-      src="${p.images?.[0] || p.image}"
+    src="${p.primaryImage || p.images?.[0] || p.image}"
       style="
         width:100%;
         height:180px;
@@ -583,7 +583,7 @@ function loadSuggestedProducts(){
     ">
 
       <img 
-      src="${p.images?.[0] || p.image}"
+     src="${p.primaryImage || p.images?.[0] || p.image}"
       style="
         width:100%;
         height:180px;
