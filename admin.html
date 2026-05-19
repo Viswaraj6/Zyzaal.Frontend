@@ -405,20 +405,6 @@ sizes.forEach(size => {
   }
 
 });
-  const sizes = [];
-  const sizeStock = [];
-
-  checkboxes.forEach(cb => {
-    sizes.push(cb.value);
-
-    const val = document.getElementById("stock-" + cb.value).value;
-
-    sizeStock.push({
-      size: cb.value,
-      stock: Number(val || 0)
-    });
-  });
-
   const files = document.getElementById("imageFiles").files;
   let images = [];
 
