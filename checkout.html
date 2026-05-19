@@ -666,7 +666,21 @@ localStorage.getItem("deliveryDate") ||
 ""
     })
   })
-.then(() => {
+.then(async(res) => {
+
+  const data = await res.json();
+
+  console.log(data);
+
+  if(!res.ok){
+
+    document.getElementById("paymentLoader")
+    .style.display = "none";
+
+    alert("Order failed ❌");
+
+    return;
+  }
 
   alert("Order placed ✅");
 
