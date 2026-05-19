@@ -424,7 +424,6 @@ sizes.forEach(size => {
 
           img.onload = function(){
 
-            // 👉 BEST SIZE (product)
             canvas.width = 600;
             canvas.height = 800;
 
@@ -444,13 +443,86 @@ sizes.forEach(size => {
 
     }
 
-    send();
   }
-  else{
-    send();
-  }
-}
 
+  // 🔥 SEND
+  if(!name || !price || sizeStock.length === 0 || images.length === 0){
+    alert("Fill all fields ❗");
+    return;
+  }
+
+  try{
+
+    const url = window.editId
+      ? BASE_URL + "/products/" + window.editId
+      : BASE_URL + "/add-product";
+
+    const method = window.editId ? "PUT" : "POST";
+
+    const res = await fetch(url,{
+      method: method,
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + localStorage.getItem("adminToken")
+      },
+      body: JSON.stringify({
+        name,
+        styleNo: document.getElementById("styleNo").value,
+        price,
+        stock:0,
+        type,
+        category,
+        sizes,
+        sizeStock,
+        images,
+        brand,
+        fabric,
+        typeDetail,
+        fit,
+        pattern,
+        color,
+        occasion,
+        description
+      })
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+
+      alert(
+        window.editId
+        ? "Product Updated ✅"
+        : "Product Added ✅"
+      );
+
+      window.editId = null;
+
+      loadProducts();
+
+      document
+      .querySelectorAll("input:not([type='file'])")
+      .forEach(i => i.value = "");
+
+      document.getElementById("imageFiles").value = "";
+      document.getElementById("previewBox").innerHTML = "";
+
+      loadSizeOptions();
+
+    }else{
+
+      alert(data.message || "Error ❌");
+
+    }
+
+  }catch(err){
+
+    console.log(err);
+    alert("Server error ❌");
+
+  }
+
+}
   function exportExcel(){
   fetch(BASE_URL + "/products")
     .then(res => res.json())
