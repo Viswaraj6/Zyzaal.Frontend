@@ -548,7 +548,7 @@ async function addProduct(){
   // 🔥 SEND DATA
   async function send(){
 
-    if(!name || !price || !stock || images.length === 0){
+    if(!name || !price || sizeStock.length === 0 || images.length === 0){
       alert("Fill all fields ❗");
       return;
     }
