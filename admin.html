@@ -383,8 +383,28 @@ async function addProduct(){
   const occasion = document.getElementById("occasion").value;
   const description = document.getElementById("description").value;
 
-  const checkboxes = document.querySelectorAll("#sizeBox input:checked");
+const sizes =
+type === "shirt"
+? ["S","M","L","XL","XXL"]
+: ["30","32","34","36","38","40"];
 
+const sizeStock = [];
+
+sizes.forEach(size => {
+
+  const val =
+    document.getElementById("stock-" + size).value;
+
+  if(val && Number(val) > 0){
+
+    sizeStock.push({
+      size,
+      stock:Number(val)
+    });
+
+  }
+
+});
   const sizes = [];
   const sizeStock = [];
 
