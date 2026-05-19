@@ -860,7 +860,7 @@ function loadProducts(){
 
 <img 
 id="main-${p._id}"
-src="${(p.images && p.images[0]) || p.image || ''}"
+src="${p.primaryImage || (p.images && p.images[0]) || ''}"
 style="
 width:100px;
 height:120px;
