@@ -433,6 +433,7 @@ sizes.forEach(size => {
 
             images.push(small);
             resolve();
+            images.sort((a,b)=>0);
           };
 
           img.src = e.target.result;
