@@ -783,10 +783,24 @@ fetch(API + "/products/" + id)
 
   product = data;
 
+  let recent =
+    JSON.parse(localStorage.getItem("recentViewed")) || [];
+
+  recent =
+    recent.filter(x => x._id !== product._id);
+
+  recent.unshift(product);
+
+  recent = recent.slice(0,10);
+
+  localStorage.setItem(
+    "recentViewed",
+    JSON.stringify(recent)
+  );
+
   startProduct();
 
 })
-
 .catch(err => {
 
   console.log(err);
