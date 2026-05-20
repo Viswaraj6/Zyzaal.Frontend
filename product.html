@@ -1128,25 +1128,50 @@ function updateCartCount(){
   window.location.href = page;
 }
 function openProduct(id){
+
   fetch(API + "/products")
-  .then(r=>r.json())
-  .then(data=>{
-    const p = data.find(x=>x._id===id);
+
+  .then(r => r.json())
+
+  .then(data => {
+
+    const p = data.find(x => x._id === id);
+
+    // ✅ recent viewed
     let recent =
-  JSON.parse(localStorage.getItem("recentViewed")) || [];
+      JSON.parse(localStorage.getItem("recentViewed")) || [];
 
-recent.unshift(product);
+    // duplicate remove
+    recent = recent.filter(x => x._id !== p._id);
 
-recent = recent.slice(0,6);
+    // ⭐ SMALL DATA ONLY SAVE
+    recent.unshift({
+      _id: p._id,
+      name: p.name,
+      price: p.price,
+      image: p.images?.[0] || p.image
+    });
 
-localStorage.setItem(
-  "recentViewed",
-  JSON.stringify(recent)
-);
-    localStorage.setItem("selectedProduct", JSON.stringify(p));
+    // only 6 items
+    recent = recent.slice(0,6);
+
+    localStorage.setItem(
+      "recentViewed",
+      JSON.stringify(recent)
+    );
+
+    // selected product
+    localStorage.setItem(
+      "selectedProduct",
+      JSON.stringify(p)
+    );
+
     window.scrollTo(0,0);
+
     location.reload();
+
   });
+
 }
 function toggleAcc(el){
   el.parentElement.classList.toggle("active");
