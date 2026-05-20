@@ -768,8 +768,7 @@ loadDefaultAddress();
 }
   function addSuggestedToCart(id){
 
-  const products =
-    JSON.parse(localStorage.getItem("products")) || [];
+ const products = window.allProducts || [];
 
   const product =
     products.find(p => p._id === id);
@@ -813,9 +812,7 @@ function openSizePopup(id){
 
   selectedProductId = id;
 
-  const products =
-    JSON.parse(localStorage.getItem("products")) || [];
-
+ const products = window.allProducts || [];
   const product =
     products.find(p => p._id === id);
 
