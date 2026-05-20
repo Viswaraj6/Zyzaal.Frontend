@@ -771,6 +771,18 @@ overflow:hidden;
 const API = "https://fark618-backend.onrender.com";
 
 const product = JSON.parse(localStorage.getItem("selectedProduct"));
+  if(!product){
+
+  document.getElementById("productLoader").style.display = "none";
+
+  document.querySelector(".container").innerHTML = `
+    <h2 style="padding:20px;">
+      Product not found
+    </h2>
+  `;
+
+  throw new Error("No product");
+}
 let recent =
   JSON.parse(localStorage.getItem("recentViewed")) || [];
 
