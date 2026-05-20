@@ -632,8 +632,7 @@ function updateQty(index, value) {
   const item = cart[index];
 
   // 🔥 product list la irundhu current product find
-  const products =
-    JSON.parse(localStorage.getItem("products")) || [];
+const products = window.allProducts || [];
 
   const product =
     products.find(p => p._id === item._id);
