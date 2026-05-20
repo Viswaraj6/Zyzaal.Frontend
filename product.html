@@ -1203,15 +1203,15 @@ function updateCartCount(){
   window.location.href = page;
 }
 function openProduct(id){
-  fetch(API + "/products")
-  .then(r=>r.json())
-  .then(data=>{
-    const p = data.find(x=>x._id===id);
-  
-    localStorage.setItem("selectedProduct", JSON.stringify(p));
-    window.scrollTo(0,0);
-    location.reload();
-  });
+
+  const p = window.allProducts.find(x => x._id === id);
+
+  localStorage.setItem(
+    "selectedProduct",
+    JSON.stringify(p)
+  );
+
+  window.location.href = "product.html";
 }
 function toggleAcc(el){
   el.parentElement.classList.toggle("active");
