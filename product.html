@@ -1132,17 +1132,7 @@ function openProduct(id){
   .then(r=>r.json())
   .then(data=>{
     const p = data.find(x=>x._id===id);
-    let recent =
-  JSON.parse(localStorage.getItem("recentViewed")) || [];
-
-recent.unshift(product);
-
-recent = recent.slice(0,6);
-
-localStorage.setItem(
-  "recentViewed",
-  JSON.stringify(recent)
-);
+  
     localStorage.setItem("selectedProduct", JSON.stringify(p));
     window.scrollTo(0,0);
     location.reload();
