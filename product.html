@@ -1214,10 +1214,10 @@ function openProduct(id){
 
   const p = window.allProducts.find(x => x._id === id);
 
-  localStorage.setItem(
-    "selectedProduct",
-    JSON.stringify(p)
-  );
+localStorage.setItem(
+  "selectedProductId",
+  p._id
+);
 
   window.location.href = "product.html";
 }
