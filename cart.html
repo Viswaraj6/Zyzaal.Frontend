@@ -930,11 +930,31 @@ function selectSize(size){
     );
 
   // ✅ already irundha qty increase
-  if(already){
+if(already){
 
-    already.qty =
-      (already.qty || 1) + 1;
+  const stockObj =
+    product.sizeStock?.find(
+      x => x.size === size
+    );
 
+  const stock =
+    stockObj ? stockObj.stock : 0;
+
+  if(already.qty >= stock){
+
+    alert(
+      "Only " +
+      stock +
+      " stock available"
+    );
+
+    return;
+  }
+
+  already.qty =
+    (already.qty || 1) + 1;
+
+}
   } else {
 
     // ✅ different size / new product
