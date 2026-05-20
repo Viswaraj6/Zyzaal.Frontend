@@ -1004,10 +1004,11 @@ function showSection(section, btn){
   if(btn) btn.classList.add("active");
 
   // hide all
-  document.getElementById("productWrapper").style.display = "none";
-  document.getElementById("productsSection").style.display = "none";
-  document.getElementById("ordersSection").style.display = "none";
-  document.getElementById("bannerSection").style.display = "none";
+ document.getElementById("productWrapper").style.display = "none";
+
+document.getElementById("ordersSection").style.display = "none";
+
+document.getElementById("bannerSection").style.display = "none";
 
   // 🔥 PRODUCT
   if(section === "product"){
