@@ -755,8 +755,7 @@ loadCart();
 loadDefaultAddress(); 
   function openProduct(id){
 
-  const products =
-    JSON.parse(localStorage.getItem("products")) || [];
+ const products = window.allProducts || [];
 
   const p = products.find(x => x._id === id);
 
