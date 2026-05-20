@@ -538,6 +538,52 @@ h2 { margin: 10px 0 5px; }
   }
 
 }
+  @media(max-width:600px){
+
+  .product-layout{
+    flex-direction:column;
+  }
+
+  .image-section{
+    width:100%;
+    flex-direction:column-reverse;
+  }
+
+  .product-details{
+    width:100%;
+  }
+
+  .thumbs{
+    flex-direction:row;
+    overflow-x:auto;
+  }
+
+  .thumbs img{
+    width:55px;
+    height:70px;
+  }
+
+  .main-wrapper{
+    width:100%;
+    max-width:100%;
+  }
+
+  .main-img{
+    width:100%;
+    height:auto;
+  }
+
+  /* 🔥 SKELETON FIX */
+  #productLoader > div{
+    flex-direction:column;
+  }
+
+  #productLoader .skeleton:first-child{
+    width:100% !important;
+    height:350px !important;
+  }
+
+}
 </style>
 
 </head>
