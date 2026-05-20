@@ -666,25 +666,37 @@ images,
 
     if(res.ok){
 
-     alert(
-  window.editId
-  ? "Product Updated ✅"
-  : "Product Added ✅"
-);
+  alert(
+    window.editId
+    ? "Product Updated ✅"
+    : "Product Added ✅"
+  );
 
-window.editId = null;
+  window.editId = null;
 
-loadProducts();
+  // 🔥 form hide
+  document.getElementById("productSection")
+    .style.display = "none";
 
-      
-      document
-      .querySelectorAll("input:not([type='file'])")
-      .forEach(i => i.value = "");
+  // 🔥 add button show
+  document.getElementById("addBtnWrap")
+    .style.display = "flex";
 
-      document.getElementById("imageFiles").value = "";
-      document.getElementById("previewBox").innerHTML = "";
+  // 🔥 products reload
+  loadProducts();
 
-     loadSizeOptions();
+  // 🔥 clear inputs
+  document
+    .querySelectorAll("input:not([type='file'])")
+    .forEach(i => i.value = "");
+
+  document.getElementById("imageFiles").value = "";
+
+  document.getElementById("previewBox").innerHTML = "";
+
+  loadSizeOptions();
+
+}
 document.getElementById("productsSection")
   .style.display = "block";
 
