@@ -1219,12 +1219,12 @@ function toggleAcc(el){
 loadSimilar();
 checkCartStatus(); 
 initDelivery();
-  window.addEventListener("load", ()=>{
+ setTimeout(() => {
 
   document.getElementById("productLoader")
   .style.display = "none";
 
-});
+}, 500);
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
