@@ -543,6 +543,7 @@ async function loadProducts(){
     const data = await res.json();
 
     productsData = data;
+
     renderProducts(data);
 
   } catch(e){
