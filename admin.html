@@ -1624,6 +1624,14 @@ function openProduct(id){
  
 /* INIT */
 loadOrders();
+  document.getElementById("productSection")
+  .style.display = "none";
+
+document.getElementById("productsSection")
+  .style.display = "block";
+
+document.getElementById("addBtnWrap")
+  .style.display = "flex";
 showSection("product", document.querySelector(".sidebar button"));
   function toggleMenu(){
 
