@@ -519,7 +519,7 @@ async function loadSuggestedProducts(){
     await fetch("https://fark618-backend.onrender.com/products");
 
   const products = await res.json();
-
+window.allProducts = products;
   let recent =
     JSON.parse(localStorage.getItem("recentViewed")) || [];
 
