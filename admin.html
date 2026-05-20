@@ -1076,6 +1076,9 @@ function showSection(section, btn){
 }
 /* LOAD PRODUCTS */
 function loadProducts(){
+  document.getElementById("productsSection")
+  .style.display = "block";
+  
   fetch(BASE_URL + "/products")
   .then(res => res.json())
   .then(data => {
