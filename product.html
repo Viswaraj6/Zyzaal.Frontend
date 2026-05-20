@@ -538,52 +538,6 @@ h2 { margin: 10px 0 5px; }
   }
 
 }
-  @media(max-width:600px){
-
-  .product-layout{
-    flex-direction:column;
-  }
-
-  .image-section{
-    width:100%;
-    flex-direction:column-reverse;
-  }
-
-  .product-details{
-    width:100%;
-  }
-
-  .thumbs{
-    flex-direction:row;
-    overflow-x:auto;
-  }
-
-  .thumbs img{
-    width:55px;
-    height:70px;
-  }
-
-  .main-wrapper{
-    width:100%;
-    max-width:100%;
-  }
-
-  .main-img{
-    width:100%;
-    height:auto;
-  }
-
-  /* 🔥 SKELETON FIX */
-  #productLoader > div{
-    flex-direction:column;
-  }
-
-  #productLoader .skeleton:first-child{
-    width:100% !important;
-    height:350px !important;
-  }
-
-}
 </style>
 
 </head>
@@ -770,71 +724,25 @@ overflow:hidden;
 
 const API = "https://fark618-backend.onrender.com";
 
-const id =
-  localStorage.getItem("selectedProductId");
+const product = JSON.parse(localStorage.getItem("selectedProduct"));
 
-let product = null;
-  function startProduct(){
+document.getElementById("name").innerText = product.name;
+document.getElementById("price").innerText = "₹" + product.price;
+document.getElementById("specs").innerHTML = `
+  <ul style="padding-left:15px;">
+    <li><b>Brand:</b> ${product.brand || "-"}</li>
+    <li><b>Fabric:</b> ${product.fabric || "-"}</li>
+    <li><b>Type:</b> ${product.typeDetail || "-"}</li>
+    <li><b>Fit:</b> ${product.fit || "-"}</li>
+    <li><b>Pattern:</b> ${product.pattern || "-"}</li>
+    <li><b>Color:</b> ${product.color || "-"}</li>
+    <li><b>Occasion:</b> ${product.occasion || "-"}</li>
+  </ul>
 
-  document.getElementById("name").innerText =
-    product.name;
-
-  document.getElementById("price").innerText =
-    "₹" + product.price;
-
-  document.getElementById("specs").innerHTML = `
-    <ul style="padding-left:15px;">
-      <li><b>Brand:</b> ${product.brand || "-"}</li>
-      <li><b>Fabric:</b> ${product.fabric || "-"}</li>
-      <li><b>Type:</b> ${product.typeDetail || "-"}</li>
-      <li><b>Fit:</b> ${product.fit || "-"}</li>
-      <li><b>Pattern:</b> ${product.pattern || "-"}</li>
-      <li><b>Color:</b> ${product.color || "-"}</li>
-      <li><b>Occasion:</b> ${product.occasion || "-"}</li>
-    </ul>
-
-    <p style="margin-top:10px;">
-      <b>Description:</b>
-      ${product.description || "-"}
-    </p>
-  `;
-
-}
-
-fetch(API + "/products/" + id)
-
-.then(r => r.json())
-
-.then(data => {
-
-  product = data;
-
-  let recent =
-    JSON.parse(localStorage.getItem("recentViewed")) || [];
-
-  recent =
-    recent.filter(x => x._id !== product._id);
-
-  recent.unshift(product);
-
-  recent = recent.slice(0,10);
-
-  localStorage.setItem(
-    "recentViewed",
-    JSON.stringify(recent)
-  );
-
-  startProduct();
-
-})
-.catch(err => {
-
-  console.log(err);
-
-  document.getElementById("productLoader")
-    .style.display = "none";
-
-});
+  <p style="margin-top:10px;">
+    <b>Description:</b> ${product.description || "-"}
+  </p>
+`;
 // IMAGE
 let images = [];
 
@@ -948,7 +856,7 @@ let sizeHTML = "";
 
     ${
       s.stock <= 0
-      ? " "
+      ? " ❌"
       : ""
     }
 
@@ -1220,15 +1128,25 @@ function updateCartCount(){
   window.location.href = page;
 }
 function openProduct(id){
+  fetch(API + "/products")
+  .then(r=>r.json())
+  .then(data=>{
+    const p = data.find(x=>x._id===id);
+    let recent =
+  JSON.parse(localStorage.getItem("recentViewed")) || [];
 
-  const p = window.allProducts.find(x => x._id === id);
+recent.unshift(product);
+
+recent = recent.slice(0,6);
 
 localStorage.setItem(
-  "selectedProductId",
-  p._id
+  "recentViewed",
+  JSON.stringify(recent)
 );
-
-  window.location.href = "product.html";
+    localStorage.setItem("selectedProduct", JSON.stringify(p));
+    window.scrollTo(0,0);
+    location.reload();
+  });
 }
 function toggleAcc(el){
   el.parentElement.classList.toggle("active");
@@ -1236,12 +1154,12 @@ function toggleAcc(el){
 loadSimilar();
 checkCartStatus(); 
 initDelivery();
- setTimeout(() => {
+  window.addEventListener("load", ()=>{
 
   document.getElementById("productLoader")
   .style.display = "none";
 
-}, 500);
+});
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
