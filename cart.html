@@ -907,9 +907,7 @@ function chooseSize(size){
 }
 function selectSize(size){
 
-  const products =
-    JSON.parse(localStorage.getItem("products")) || [];
-
+ const products = window.allProducts || [];
   const product =
     products.find(p => p._id === selectedProductId);
 
