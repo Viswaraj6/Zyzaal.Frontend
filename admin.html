@@ -1262,7 +1262,90 @@ function updateStatus(id,status){
   })
   .then(()=>loadOrders());
 }
+function openProduct(id){
 
+  fetch(BASE_URL + "/products")
+  .then(res => res.json())
+  .then(data => {
+
+    const p = data.find(x => x._id === id);
+
+    document.getElementById("productPopup").innerHTML = `
+
+    <div style="
+    position:fixed;
+    top:0;
+    right:0;
+    width:500px;
+    height:100vh;
+    background:white;
+    z-index:9999;
+    overflow:auto;
+    padding:20px;
+    box-shadow:-4px 0 10px rgba(0,0,0,0.2);
+    ">
+
+      <h2>${p.name}</h2>
+
+      <img
+      src="${p.primaryImage}"
+      style="
+      width:100%;
+      border-radius:10px;
+      "
+      >
+
+      <br><br>
+
+      <b>Price:</b> ₹${p.price}<br><br>
+
+      <b>Fabric:</b> ${p.fabric}<br><br>
+
+      <b>Color:</b> ${p.color}<br><br>
+
+      <b>Pattern:</b> ${p.pattern}<br><br>
+
+      <b>Fit:</b> ${p.fit}<br><br>
+
+      <h3>Stock</h3>
+
+      ${(p.sizeStock || []).map(s => `
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:8px;
+        ">
+          <span>${s.size}</span>
+          <b>${s.stock}</b>
+        </div>
+      `).join("")}
+
+      <br>
+
+      <button onclick="editProduct('${p._id}')">
+        Edit
+      </button>
+
+      <button
+      onclick="deleteProduct('${p._id}')"
+      style="background:red;">
+        Delete
+      </button>
+
+      <button
+      onclick="
+      document.getElementById('productPopup').innerHTML=''
+      "
+      style="
+      background:#666;
+      ">
+        Close
+      </button>
+
+    </div>
+    `;
+  });
+}
 /* INIT */
 loadProducts();
 loadOrders();
