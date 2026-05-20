@@ -866,7 +866,17 @@ let sizeHTML = "";
 
 });
 document.getElementById("sizes").innerHTML = sizeHTML;
+const firstAvailable =
+  document.querySelector(".size");
 
+if(firstAvailable){
+
+  firstAvailable.classList.add("active");
+
+  selectedSize =
+    firstAvailable.innerText.replace("❌","").trim();
+
+}
 function selectSize(el,size){
   document.querySelectorAll(".size").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
