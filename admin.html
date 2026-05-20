@@ -850,7 +850,9 @@ function loadProducts(){
 
     data.forEach(p => {
       html += `
-        <div class="card">
+       <div class="card"
+onclick="openProduct('${p._id}')"
+style="cursor:pointer;">
          <div style="display:flex; gap:10px;">
 
 <div>
