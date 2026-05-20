@@ -1625,16 +1625,27 @@ function openProduct(id){
 }
  
 /* INIT */
-loadOrders();
+
+window.onload = () => {
+
   document.getElementById("productSection")
-  .style.display = "none";
+    .style.display = "none";
 
-document.getElementById("productsSection")
-  .style.display = "block";
+  document.getElementById("productWrapper")
+    .style.display = "block";
 
-document.getElementById("addBtnWrap")
-  .style.display = "flex";
-showSection("product", document.querySelector(".sidebar button"));
+  document.getElementById("productsSection")
+    .style.display = "block";
+
+  document.getElementById("addBtnWrap")
+    .style.display = "flex";
+
+  showSection(
+    "product",
+    document.querySelector(".sidebar button")
+  );
+
+};
   function toggleMenu(){
 
   const menu =
