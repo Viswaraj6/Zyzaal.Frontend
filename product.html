@@ -835,23 +835,6 @@ fetch(API + "/products/" + id)
     .style.display = "none";
 
 });
-document.getElementById("name").innerText = product.name;
-document.getElementById("price").innerText = "₹" + product.price;
-document.getElementById("specs").innerHTML = `
-  <ul style="padding-left:15px;">
-    <li><b>Brand:</b> ${product.brand || "-"}</li>
-    <li><b>Fabric:</b> ${product.fabric || "-"}</li>
-    <li><b>Type:</b> ${product.typeDetail || "-"}</li>
-    <li><b>Fit:</b> ${product.fit || "-"}</li>
-    <li><b>Pattern:</b> ${product.pattern || "-"}</li>
-    <li><b>Color:</b> ${product.color || "-"}</li>
-    <li><b>Occasion:</b> ${product.occasion || "-"}</li>
-  </ul>
-
-  <p style="margin-top:10px;">
-    <b>Description:</b> ${product.description || "-"}
-  </p>
-`;
 // IMAGE
 let images = [];
 
