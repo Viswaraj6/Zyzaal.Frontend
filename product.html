@@ -725,7 +725,24 @@ overflow:hidden;
 const API = "https://fark618-backend.onrender.com";
 
 const product = JSON.parse(localStorage.getItem("selectedProduct"));
+let recent =
+  JSON.parse(localStorage.getItem("recentViewed")) || [];
 
+// duplicate remove
+recent =
+  recent.filter(x => x._id !== product._id);
+
+// latest first
+recent.unshift(product);
+
+// max 10 only
+recent = recent.slice(0,10);
+
+// save
+localStorage.setItem(
+  "recentViewed",
+  JSON.stringify(recent)
+);
 document.getElementById("name").innerText = product.name;
 document.getElementById("price").innerText = "₹" + product.price;
 document.getElementById("specs").innerHTML = `
