@@ -601,16 +601,21 @@ images,
 
     if(res.ok){
 
-      alert(
-        window.editId
-        ? "Product Updated ✅"
-        : "Product Added ✅"
-      );
+     alert(
+  window.editId
+  ? "Product Updated ✅"
+  : "Product Added ✅"
+);
 
-      window.editId = null;
+window.editId = null;
 
-      loadProducts();
+/* 🔥 NOW SHOW PRODUCTS */
+document.getElementById("productsSection")
+  .style.display = "block";
 
+loadProducts();
+
+      
       document
       .querySelectorAll("input:not([type='file'])")
       .forEach(i => i.value = "");
