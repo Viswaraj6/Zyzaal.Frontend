@@ -555,7 +555,7 @@ async function loadProducts(){
 // ==============================
 function openProduct(id){
   const product = productsData.find(p => p._id === id);
-  localStorage.setItem("selectedProduct", JSON.stringify(product));
+ localStorage.setItem("selectedProductId", product._id);
   location.href = "product.html";
 }
 function goPage(page){
