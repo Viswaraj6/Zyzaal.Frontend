@@ -868,6 +868,20 @@ if(section === "product"){
     document.getElementById("bannerSection").style.display = "block";
   }
 }
+  function openAddProduct(){
+
+  document.getElementById("addBtnWrap")
+    .style.display = "none";
+
+  document.getElementById("productSection")
+    .style.display = "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
 /* LOAD PRODUCTS */
 function loadProducts(){
   fetch(BASE_URL + "/products")
