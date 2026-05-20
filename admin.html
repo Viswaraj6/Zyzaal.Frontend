@@ -306,17 +306,82 @@ margin-top:15px;
 </div>
 
       <!-- ACTIONS -->
-      <div class="card">
-        <button onclick="addProduct()">Add Product</button>
-       
-        <input type="file" id="excelFile">
-        <button onclick="importExcel()">Import Excel</button>
+<div style="
+position:fixed;
+top:20px;
+right:20px;
+z-index:9999;
+">
 
-        <input type="file" id="zipFile">
-        <button onclick="importZip()">Import ZIP</button>
-      </div>
+<button
+onclick="toggleMenu()"
 
-    </div>
+style="
+width:45px;
+height:45px;
+border-radius:50%;
+font-size:22px;
+background:#111827;
+"
+>
+⋮
+</button>
+
+<div
+id="actionMenu"
+
+style="
+display:none;
+position:absolute;
+right:0;
+top:55px;
+background:white;
+padding:15px;
+border-radius:12px;
+width:220px;
+box-shadow:0 4px 14px rgba(0,0,0,0.15);
+"
+>
+
+<button
+onclick="addProduct()"
+style="
+width:100%;
+margin-bottom:10px;
+background:#2563eb;
+"
+>
+Add Product
+</button>
+
+<input type="file" id="excelFile">
+
+<button
+onclick="importExcel()"
+style="
+width:100%;
+margin-top:8px;
+margin-bottom:12px;
+"
+>
+Import Excel
+</button>
+
+<input type="file" id="zipFile">
+
+<button
+onclick="importZip()"
+style="
+width:100%;
+margin-top:8px;
+"
+>
+Import ZIP
+</button>
+
+</div>
+
+</div>
   </div>
 
     <!-- BANNER SECTION -->
