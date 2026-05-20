@@ -953,20 +953,27 @@ function addToCart(){
   // ✅ new item
   else {
 
-    cart.push({
+   cart.push({
 
-      _id: product._id,
+  _id: product._id,
 
-      name: product.name,
-      price: product.price,
-      size: selectedSize,
-      image: product.images?.[0] || product.image,
-      qty: 1,
+  name: product.name,
 
-      deliveryDate:
-        window.selectedDeliveryDate || ""
+  price: product.price,
 
-    });
+  size: selectedSize,
+
+  image:
+    product.primaryImage ||
+    product.images?.[0] ||
+    product.image,
+
+  qty: 1,
+
+  deliveryDate:
+    window.selectedDeliveryDate || ""
+
+});
 
   }
 
