@@ -1629,22 +1629,33 @@ function openProduct(id){
 
 window.onload = () => {
 
-  document.getElementById("productSection")
-    .style.display = "none";
-
+  // PRODUCT MAIN WRAPPER
   document.getElementById("productWrapper")
     .style.display = "block";
 
+  // PRODUCT LIST SHOW
   document.getElementById("productsSection")
     .style.display = "block";
 
+  // FORM HIDE
+  document.getElementById("productSection")
+    .style.display = "none";
+
+  // ADD BUTTON SHOW
   document.getElementById("addBtnWrap")
     .style.display = "flex";
 
+  // OTHER SECTIONS HIDE
+  document.getElementById("ordersSection")
+    .style.display = "none";
+
+  document.getElementById("bannerSection")
+    .style.display = "none";
+
+  // LOAD PRODUCTS
   loadProducts();
 
-};
-  function toggleMenu(){
+};  function toggleMenu(){
 
   const menu =
     document.getElementById("actionMenu");
