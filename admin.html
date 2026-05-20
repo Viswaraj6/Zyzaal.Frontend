@@ -1583,6 +1583,19 @@ function openProduct(id){
 /* INIT */
 loadOrders();
 showSection("product", document.querySelector(".sidebar button"));
+  function toggleMenu(){
+
+  const menu =
+    document.getElementById("actionMenu");
+
+  if(menu.style.display === "block"){
+    menu.style.display = "none";
+  }
+  else{
+    menu.style.display = "block";
+  }
+
+}
 </script>
 <div id="productPopup"></div>
 </body>
