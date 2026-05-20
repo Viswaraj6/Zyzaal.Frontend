@@ -1043,9 +1043,15 @@ function showSection(section, btn){
 }
   function openAddProduct(){
 
+  // 🔥 hide product list
+  document.getElementById("productsSection")
+    .style.display = "none";
+
+  // 🔥 hide add button
   document.getElementById("addBtnWrap")
     .style.display = "none";
 
+  // 🔥 show form
   document.getElementById("productSection")
     .style.display = "block";
 
