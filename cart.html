@@ -520,12 +520,6 @@ async function loadSuggestedProducts(){
 
   const products = await res.json();
 
-  // 🔥 save locally
-  localStorage.setItem(
-    "products",
-    JSON.stringify(products)
-  );
-
   let recent =
     JSON.parse(localStorage.getItem("recentViewed")) || [];
 
