@@ -980,21 +980,51 @@ function editProduct(id){
 
       const p = data.find(x => x._id === id);
 
-      document.getElementById("name").value = p.name;
-      document.getElementById("price").value = p.price;
-      document.getElementById("category").value = p.category;
-      document.getElementById("type").value = p.type;
+      // 🔥 FORM OPEN
+      document.getElementById("productSection")
+        .style.display = "block";
 
-      document.getElementById("brand").value = p.brand;
-      document.getElementById("fabric").value = p.fabric;
-      document.getElementById("typeDetail").value = p.typeDetail;
-      document.getElementById("fit").value = p.fit;
-      document.getElementById("pattern").value = p.pattern;
-      document.getElementById("color").value = p.color;
-      document.getElementById("occasion").value = p.occasion;
-      document.getElementById("description").value = p.description;
+      // 🔥 TOP SCROLL
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
 
-      window.editId = id; // ⭐ important
+      // 🔥 VALUES
+      document.getElementById("name").value = p.name || "";
+      document.getElementById("styleNo").value = p.styleNo || "";
+      document.getElementById("price").value = p.price || "";
+
+      document.getElementById("category").value = p.category || "";
+      document.getElementById("type").value = p.type || "";
+
+      document.getElementById("brand").value = p.brand || "";
+      document.getElementById("fabric").value = p.fabric || "";
+      document.getElementById("typeDetail").value = p.typeDetail || "";
+      document.getElementById("fit").value = p.fit || "";
+      document.getElementById("pattern").value = p.pattern || "";
+      document.getElementById("color").value = p.color || "";
+      document.getElementById("occasion").value = p.occasion || "";
+      document.getElementById("description").value = p.description || "";
+
+      // 🔥 LOAD SIZE BOX
+      loadSizeOptions();
+
+      // 🔥 STOCK FILL
+      (p.sizeStock || []).forEach(s => {
+
+        const input =
+          document.getElementById("stock-" + s.size);
+
+        if(input){
+          input.value = s.stock;
+        }
+
+      });
+
+      // 🔥 EDIT ID
+      window.editId = id;
+
     });
 }
 /* ORDERS */
