@@ -635,19 +635,29 @@ function updateQty(index, value) {
 
   let qty = parseInt(value) || 1;
 
-  // current item
   const item = cart[index];
 
-  // size stock find
+  // 🔥 product list la irundhu current product find
+  const products =
+    JSON.parse(localStorage.getItem("products")) || [];
+
+  const product =
+    products.find(p => p._id === item._id);
+
+  if(!product){
+    return;
+  }
+
+  // 🔥 selected size stock
   const stockObj =
-    item.sizeStock?.find(
+    product.sizeStock?.find(
       x => x.size === item.size
     );
 
   const stock =
     stockObj ? stockObj.stock : 0;
 
-  // stop oversell
+  // ❌ oversell stop
   if(qty > stock){
 
     alert(
@@ -672,7 +682,6 @@ function updateQty(index, value) {
 
   loadCart();
 }
-
 // REMOVE ITEM
 function removeItem(index) {
   cart.splice(index, 1);
