@@ -234,12 +234,76 @@ align-items:flex-start;
         <div id="sizeBox"></div>
       </div>
 
-      <!-- IMAGE -->
-      <div class="card">
-        <b>Upload Product Images</b><br><br>
-        <input type="file" id="imageFiles" multiple>
-        <div id="previewBox" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;"></div>
-      </div>
+    <!-- IMAGE -->
+<div class="card"
+style="
+width:320px;
+position:sticky;
+top:20px;
+">
+
+<h3 style="
+margin-top:0;
+margin-bottom:15px;
+">
+Upload Images
+</h3>
+
+<label
+for="imageFiles"
+
+style="
+height:420px;
+border:2px dashed #cbd5e1;
+border-radius:12px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+
+cursor:pointer;
+background:#f8fafc;
+"
+
+>
+
+<div style="
+font-size:50px;
+margin-bottom:10px;
+">
+📸
+</div>
+
+<b>Select Images</b>
+
+<p style="
+font-size:13px;
+color:#666;
+margin-top:8px;
+">
+Click to upload
+</p>
+
+<input
+type="file"
+id="imageFiles"
+multiple
+style="display:none;"
+>
+
+</label>
+
+<div id="previewBox"
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px;
+">
+</div>
+
+</div>
 
       <!-- ACTIONS -->
       <div class="card">
