@@ -1007,16 +1007,20 @@ function showSection(section, btn){
 
   if(btn) btn.classList.add("active");
 
-  // 🔥 hide all
-  document.getElementById("productWrapper").style.display = "none";
+  // 🔥 HIDE ALL
+  document.getElementById("productWrapper")
+    .style.display = "none";
 
-  document.getElementById("productsSection").style.display = "none";
+  document.getElementById("productsSection")
+    .style.display = "none";
 
-  document.getElementById("ordersSection").style.display = "none";
+  document.getElementById("ordersSection")
+    .style.display = "none";
 
-  document.getElementById("bannerSection").style.display = "none";
+  document.getElementById("bannerSection")
+    .style.display = "none";
 
-  // ✅ PRODUCT
+  // ✅ PRODUCTS
   if(section === "product"){
 
     document.getElementById("productWrapper")
@@ -1049,6 +1053,7 @@ function showSection(section, btn){
     document.getElementById("bannerSection")
       .style.display = "block";
   }
+
 }
   function openAddProduct(){
 
