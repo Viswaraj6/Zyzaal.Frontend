@@ -674,18 +674,22 @@ images,
 
   window.editId = null;
 
-  // 🔥 form hide
+  // hide form
   document.getElementById("productSection")
     .style.display = "none";
 
-  // 🔥 add button show
+  // show products
+  document.getElementById("productsSection")
+    .style.display = "block";
+
+  // show add button
   document.getElementById("addBtnWrap")
     .style.display = "flex";
 
-  // 🔥 products reload
+  // reload products
   loadProducts();
 
-  // 🔥 clear inputs
+  // clear inputs
   document
     .querySelectorAll("input:not([type='file'])")
     .forEach(i => i.value = "");
@@ -696,20 +700,12 @@ images,
 
   loadSizeOptions();
 
+}else{
+
+  alert(data.message || "Error ❌");
+
 }
-document.getElementById("productsSection")
-  .style.display = "block";
-
-document.getElementById("addBtnWrap")
-  .style.display = "flex";
-}
-    else{
-
-      alert(data.message || "Error ❌");
-
-    }
-
-  }catch(err){
+    catch(err){
 
     console.log(err);
     alert("Server error ❌");
