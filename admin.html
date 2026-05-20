@@ -528,9 +528,13 @@ images,
       document.getElementById("imageFiles").value = "";
       document.getElementById("previewBox").innerHTML = "";
 
-      loadSizeOptions();
+     loadSizeOptions();
 
-    }else{
+document.getElementById("productSection")
+  .style.display = "none";
+
+}
+    else{
 
       alert(data.message || "Error ❌");
 
