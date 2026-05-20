@@ -859,101 +859,99 @@ function loadProducts(){
     let html = "";
 
     data.forEach(p => {
-      html += `
-       <div class="card"
-onclick="openProduct('${p._id}')"
-style="cursor:pointer;">
-         <div style="display:flex; gap:10px;">
+     html += `
+
+<div class="card" style="
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<img
+src="${p.primaryImage || ''}"
+style="
+width:80px;
+height:100px;
+object-fit:cover;
+border-radius:10px;
+border:1px solid #ddd;
+"
+>
 
 <div>
 
-<img 
-id="main-${p._id}"
-src="${p.primaryImage || (p.images && p.images[0]) || ''}"
+<div
+onclick="openProduct('${p._id}')"
 style="
-width:100px;
-height:120px;
-object-fit:cover;
-border-radius:8px;
-border:2px solid #ddd;
+font-size:20px;
+font-weight:700;
+cursor:pointer;
+color:#111827;
+margin-bottom:6px;
 "
 >
+${p.name}
+</div>
 
+<div style="
+color:#666;
+font-size:14px;
+margin-bottom:6px;
+">
+${p.color || ""}
 </div>
 
 <div style="
 display:flex;
-flex-direction:column;
-gap:6px;
-">
-
-${(p.images || []).map(img => `
-
-<img
-src="${img}"
-onclick="
-document.getElementById('main-${p._id}').src='${img}';
-
-fetch(BASE_URL + '/products/${p._id}',{
-method:'PUT',
-headers:{
-'Content-Type':'application/json',
-'Authorization':'Bearer ' + localStorage.getItem('adminToken')
-},
-body: JSON.stringify({
-primaryImage:'${img}'
-})
-})
-"
-style="
-width:45px;
-height:55px;
-object-fit:cover;
-cursor:pointer;
-border:1px solid #ccc;
-border-radius:6px;
-"
->
-
-`).join("")}
-
-</div>
-
-</div>
-          <h3>${p.name}</h3>
-          <p>₹${p.price}</p>
-          <div style="
-margin:10px 0;
-font-size:14px;
+gap:8px;
+flex-wrap:wrap;
 ">
 
 ${(p.sizeStock || []).map(s => `
-
 <div style="
-display:flex;
-justify-content:space-between;
-margin-bottom:4px;
+background:#f3f4f6;
+padding:4px 10px;
+border-radius:20px;
+font-size:13px;
 ">
-
-<span>Size ${s.size}</span>
-
-<b ${
-s.stock <= 2
-? 'style="color:red"'
-: ''
-}>
-${s.stock}
-</b>
-
+${s.size}
 </div>
-
 `).join("")}
 
 </div>
-         <button onclick="editProduct('${p._id}')">Edit</button>
-<button onclick="deleteProduct('${p._id}')">Delete</button>
-        </div>
-      `;
+
+</div>
+
+</div>
+
+<div style="
+display:flex;
+gap:10px;
+">
+
+<button onclick="editProduct('${p._id}')">
+Edit
+</button>
+
+<button
+onclick="deleteProduct('${p._id}')"
+style="background:red;"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
     });
 
     document.getElementById("products").innerHTML = html;
