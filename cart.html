@@ -632,11 +632,46 @@ async function loadSuggestedProducts(){
 }
 // UPDATE QTY
 function updateQty(index, value) {
-  cart[index].qty = parseInt(value) || 1;
-  localStorage.setItem("cart", JSON.stringify(cart));
+
+  let qty = parseInt(value) || 1;
+
+  // current item
+  const item = cart[index];
+
+  // size stock find
+  const stockObj =
+    item.sizeStock?.find(
+      x => x.size === item.size
+    );
+
+  const stock =
+    stockObj ? stockObj.stock : 0;
+
+  // stop oversell
+  if(qty > stock){
+
+    alert(
+      "Only " +
+      stock +
+      " stock available"
+    );
+
+    qty = stock;
+  }
+
+  if(qty < 1){
+    qty = 1;
+  }
+
+  cart[index].qty = qty;
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
   loadCart();
 }
-
 
 // REMOVE ITEM
 function removeItem(index) {
