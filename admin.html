@@ -206,7 +206,8 @@ align-items:flex-start;
             <option value="shirt">Shirt</option>
             <option value="pant">Pant</option>
           </select>
-       
+        </div>
+    
 
       <!-- SIZE -->
       <div class="card">
@@ -224,8 +225,6 @@ align-items:flex-start;
       <div class="card">
         <button onclick="addProduct()">Add Product</button>
         </div>
-         </div>
-    
         <input type="file" id="excelFile">
         <button onclick="importExcel()">Import Excel</button>
 
@@ -854,15 +853,12 @@ function showSection(section, btn){
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("bannerSection").style.display = "none";
 
-  if(section === "product"){
-    document.getElementById("productWrapper").style.display = "block";
-    document.getElementById("productsSection").style.display = "block";
-    loadProducts();
-  }
-
+if(section === "product"){
+  document.getElementById("productWrapper").style.display = "block";
+  document.getElementById("productsSection").style.display = "block";
+}
   if(section === "orders"){
     document.getElementById("ordersSection").style.display = "block";
-    loadOrders();
   }
 
   if(section === "banner"){
