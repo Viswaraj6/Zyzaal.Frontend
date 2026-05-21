@@ -127,10 +127,29 @@ img {
   <!-- MAIN -->
   <div class="main">
 
-    <!-- PRODUCT SECTION -->
-    <div id="productSection">
+  <!-- PRODUCT SECTION -->
+<div id="productWrapper">
+     <div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+">
 
-      <h2>Admin Panel 🔧</h2>
+<h2>Products</h2>
+
+<button onclick="openAddProduct()"
+style="
+background:#2563eb;
+padding:10px 18px;
+">
++ Add New
+</button>
+
+</div>
+  
+  <div id="productSection" style="display:none;">
+
         <div class="card">
      <input id="name" placeholder="Product Name">
 
@@ -228,7 +247,6 @@ Size Wise Stock
         <button onclick="uploadBanner()">Upload Banner</button>
       </div>
     </div>
-</div>
     <!-- PRODUCTS -->
    <div id="productsSection">
 
@@ -512,9 +530,13 @@ images,
       document.getElementById("imageFiles").value = "";
       document.getElementById("previewBox").innerHTML = "";
 
-      loadSizeOptions();
+     loadSizeOptions();
 
-    }else{
+document.getElementById("productSection")
+  .style.display = "none";
+
+}
+    else{
 
       alert(data.message || "Error ❌");
 
@@ -822,16 +844,15 @@ function showSection(section, btn){
   if(btn) btn.classList.add("active");
 
   // hide all
-  document.getElementById("productSection").style.display = "none";
+  document.getElementById("productWrapper").style.display = "none";
   document.getElementById("productsSection").style.display = "none";
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("bannerSection").style.display = "none";
 
-  if(section === "product"){
-    document.getElementById("productSection").style.display = "block";
-    document.getElementById("productsSection").style.display = "block";
-  }
-
+if(section === "product"){
+  document.getElementById("productWrapper").style.display = "block";
+  document.getElementById("productsSection").style.display = "block";
+}
   if(section === "orders"){
     document.getElementById("ordersSection").style.display = "block";
   }
@@ -1342,6 +1363,17 @@ function openProduct(id){
     </div>
     `;
   });
+}
+  function openAddProduct(){
+
+  document.getElementById("productSection")
+    .style.display = "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
 /* INIT */
 loadProducts();
