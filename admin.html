@@ -1068,8 +1068,11 @@ function showSection(section, btn){
 }
 /* LOAD PRODUCTS */
 function loadProducts(){
-  document.getElementById("productsSection")
-  .style.display = "block";
+  document.getElementById("productWrapper").style.display = "block";
+
+document.getElementById("productsSection").style.display = "block";
+
+document.getElementById("productSection").style.display = "none";
   
   fetch(BASE_URL + "/products")
   .then(res => res.json())
