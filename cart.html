@@ -423,7 +423,39 @@ button:hover{
 <div id="footer"></div>
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+try{
+
+  const oldCart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+  const cleaned = oldCart.map(item => ({
+    _id: item._id,
+    name: item.name,
+    price: item.price,
+
+    image:
+      item.image ||
+      item.primaryImage ||
+      item.images?.[0],
+
+    qty: item.qty || 1,
+    size: item.size || "M",
+
+    deliveryDate:
+      item.deliveryDate || ""
+  }));
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cleaned)
+  );
+
+}catch(e){
+  console.log(e);
+}
+
+let cart =
+  JSON.parse(localStorage.getItem("cart")) || [];
 
 // LOAD CART
 function loadCart() {
