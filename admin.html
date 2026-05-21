@@ -71,30 +71,12 @@ body {
   grid-template-columns: repeat(4,1fr);
   gap:10px;
 }
-label{
-  display:block;
-  margin-top:10px;
-  margin-bottom:4px;
-  font-size:14px;
-  font-weight:600;
-  color:#111827;
-}
+
 input, select {
-
-  height:42px;
-  padding:0 12px;
-
-  border:1px solid #d1d5db;
+  padding:10px;
+  border:1px solid #ddd;
   border-radius:6px;
-
   width:100%;
-
-  font-size:14px;
-
-  box-sizing:border-box;
-
-  background:#fff;
-
 }
 
 /* BUTTON */
@@ -145,44 +127,28 @@ img {
   <!-- MAIN -->
   <div class="main">
 
-  <!-- PRODUCT SECTION -->
-<div id="productWrapper" style="display:block;">
-    <div id="addBtnWrap"
-style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-">
-       
+    <!-- PRODUCT SECTION -->
+    <div id="productSection">
 
-<button onclick="openAddProduct()"
-style="
-background:#2563eb;
-padding:10px 18px;
-">
-+ Add New3
-</button>
+      <h2>Admin Panel 🔧</h2>
+        <div class="card">
+     <input id="name" placeholder="Product Name">
 
-</div>
-  
-  <div id="productSection" style="display:none;">
+<input id="styleNo" placeholder="Style No">
+
+<input id="price" placeholder="Price">
 
 <div style="
 display:flex;
-gap:20px;
-align-items:flex-start;
+align-items:center;
+justify-content:center;
+background:#f3f4f6;
+border-radius:8px;
+font-weight:600;
+color:#374151;
 ">
-        <div class="card">
-   <label>Product Name</label>
-<input id="name">
-
-<label>Style No</label>
-<input id="styleNo">
-<label>Price</label>
-<input id="price">
-
-
+Size Wise Stock
+</div>
 
           <select id="category">
             <option value="">Select Category</option>
@@ -203,24 +169,15 @@ align-items:flex-start;
             </optgroup>
           </select>
 
-         <label>Brand</label>
-<input id="brand">
-          <label>Fabric</label>
-<input id="fabric">
-         <label>Type</label>
-<input id="typeDetail">
-         <label>Fit</label>
-<input id="fit">
-          <label>Pattern</label>
-<input id="pattern">
- <label>Color</label>
-<input id="color">
-           <label>Occasion</label>
-<input id="occasion">
-            <label>Description</label>
-<input id="description">
-        
-          
+          <input id="brand" placeholder="Brand">
+          <input id="fabric" placeholder="Fabric">
+          <input id="typeDetail" placeholder="Type">
+          <input id="fit" placeholder="Fit">
+
+          <input id="pattern" placeholder="Pattern">
+          <input id="color" placeholder="Color">
+          <input id="occasion" placeholder="Occasion">
+          <input id="description" placeholder="Description">
 
           <select id="type">
             <option value="shirt">Shirt</option>
@@ -228,205 +185,76 @@ align-items:flex-start;
           </select>
 
         </div>
-    
+      </div>
 
       <!-- SIZE -->
       <div class="card">
         <div id="sizeBox"></div>
       </div>
 
-    <!-- IMAGE -->
-<div class="card"
-style="
-width:320px;
-position:sticky;
-top:20px;
-">
-
-<h3 style="
-margin-top:0;
-margin-bottom:15px;
-">
-Upload Images
-</h3>
-
-<label
-for="imageFiles"
-
-style="
-height:420px;
-border:2px dashed #cbd5e1;
-border-radius:12px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-
-cursor:pointer;
-background:#f8fafc;
-"
-
->
-
-<div style="
-font-size:50px;
-margin-bottom:10px;
-">
-📸
-</div>
-
-<b>Select Images</b>
-
-<p style="
-font-size:13px;
-color:#666;
-margin-top:8px;
-">
-Click to upload
-</p>
-
-<input
-type="file"
-id="imageFiles"
-multiple
-style="display:none;"
->
-
-</label>
-
-<div id="previewBox"
-style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
-">
-</div>
-
-</div>
+      <!-- IMAGE -->
+      <div class="card">
+        <b>Upload Product Images</b><br><br>
+        <input type="file" id="imageFiles" multiple>
+        <div id="previewBox" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;"></div>
+      </div>
 
       <!-- ACTIONS -->
-<div style="
-position:fixed;
-top:20px;
-right:20px;
-z-index:9999;
-">
+      <div class="card">
+        <button onclick="addProduct()">Add Product</button>
+       
+        <input type="file" id="excelFile">
+        <button onclick="importExcel()">Import Excel</button>
 
-<button
-onclick="toggleMenu()"
+        <input type="file" id="zipFile">
+        <button onclick="importZip()">Import ZIP</button>
+      </div>
 
-style="
-width:45px;
-height:45px;
-border-radius:50%;
-font-size:22px;
-background:#111827;
-"
->
-⋮
-</button>
+    </div>
 
-<div
-id="actionMenu"
+    <!-- BANNER SECTION -->
+    <div id="bannerSection" style="display:none;">
+      <h2>Banner Upload</h2>
 
-style="
-display:none;
-position:absolute;
-right:0;
-top:55px;
-background:white;
-padding:15px;
-border-radius:12px;
-width:220px;
-box-shadow:0 4px 14px rgba(0,0,0,0.15);
-"
->
+      <div class="card">
+        <select id="bannerType">
+          <option value="video">Video</option>
+          <option value="slider">Image Slider</option>
+        </select><br><br>
 
-<button
-onclick="addProduct()"
-style="
-width:100%;
-margin-bottom:10px;
-background:#2563eb;
-"
->
-Add Product
-</button>
+        <input type="file" id="bannerVideoFile"><br><br>
+        <input type="file" id="bannerImages" multiple><br><br>
 
-<input type="file" id="excelFile">
-
-<button
-onclick="importExcel()"
-style="
-width:100%;
-margin-top:8px;
-margin-bottom:12px;
-"
->
-Import Excel
-</button>
-
-<input type="file" id="zipFile">
-
-<button
-onclick="importZip()"
-style="
-width:100%;
-margin-top:8px;
-"
->
-Import ZIP
-</button>
-
+        <button onclick="uploadBanner()">Upload Banner</button>
+      </div>
+    </div>
 </div>
-
-</div>
-  </div>
-
-   <!-- BANNER SECTION -->
-<div id="bannerSection" style="display:none;">
-  <h2>Banner Upload</h2>
-
-  <div class="card">
-    <select id="bannerType">
-      <option value="video">Video</option>
-      <option value="slider">Image Slider</option>
-    </select><br><br>
-
-    <input type="file" id="bannerVideoFile"><br><br>
-    <input type="file" id="bannerImages" multiple><br><br>
-
-    <button onclick="uploadBanner()">Upload Banner</button>
-  </div>
-</div>
-
-<!-- PRODUCTS -->
-<div id="productsSection">
+    <!-- PRODUCTS -->
+   <div id="productsSection">
 
   <div style="display:flex; justify-content:space-between; align-items:center;">
     <h2>Products</h2>
 
-    <button class="export-btn" onclick="exportExcel()">
-      Export Excel
-    </button>
+    <!-- 🔥 INGA paste pannum -->
+    <button class="export-btn" onclick="exportExcel()">Export Excel</button>
+
   </div>
 
   <div id="products"></div>
 
 </div>
-<!-- ORDERS -->
-<div id="ordersSection" style="display:none;">
-  <h2>Orders</h2>
-  <div id="orders"></div>
+
+    <!-- ORDERS -->
+    <div id="ordersSection" style="display:none;">
+      <h2>Orders</h2>
+      <div id="orders"></div>
+    </div>
+
+  </div>
+
 </div>
-
-</div> <!-- main -->
-
-</div> <!-- container -->
-
 <script>
+
 const BASE_URL = "https://fark618-backend.onrender.com";
 
 /* LOGIN CHECK */
@@ -667,47 +495,32 @@ images,
 
     if(res.ok){
 
-  alert(
-    window.editId
-    ? "Product Updated ✅"
-    : "Product Added ✅"
-  );
+      alert(
+        window.editId
+        ? "Product Updated ✅"
+        : "Product Added ✅"
+      );
 
-  window.editId = null;
+      window.editId = null;
 
-  // hide form
-  document.getElementById("productSection")
-    .style.display = "none";
+      loadProducts();
 
-  // show products
-  document.getElementById("productsSection")
-    .style.display = "block";
+      document
+      .querySelectorAll("input:not([type='file'])")
+      .forEach(i => i.value = "");
 
-  // show add button
-  document.getElementById("addBtnWrap")
-    .style.display = "flex";
+      document.getElementById("imageFiles").value = "";
+      document.getElementById("previewBox").innerHTML = "";
 
-  // reload products
-  loadProducts();
+      loadSizeOptions();
 
-  // clear inputs
-  document
-    .querySelectorAll("input:not([type='file'])")
-    .forEach(i => i.value = "");
+    }else{
 
-  document.getElementById("imageFiles").value = "";
+      alert(data.message || "Error ❌");
 
-  document.getElementById("previewBox").innerHTML = "";
+    }
 
-  loadSizeOptions();
-
-}else{
-
-  alert(data.message || "Error ❌");
-
-}
- }   
-    catch(err){
+  }catch(err){
 
     console.log(err);
     alert("Server error ❌");
@@ -1001,29 +814,34 @@ async function uploadBanner(){
     alert("Slider Updated ✅");
   }
 }
-  function openAddProduct(){
+function showSection(section, btn){
 
-  // 🔥 hide product list
-  document.getElementById("productsSection")
-    .style.display = "none";
+  document.querySelectorAll(".sidebar button")
+    .forEach(b => b.classList.remove("active"));
 
-  // 🔥 hide add button
-  document.getElementById("addBtnWrap")
-    .style.display = "none";
+  if(btn) btn.classList.add("active");
 
-  // 🔥 show form
-  document.getElementById("productSection")
-    .style.display = "block";
+  // hide all
+  document.getElementById("productSection").style.display = "none";
+  document.getElementById("productsSection").style.display = "none";
+  document.getElementById("ordersSection").style.display = "none";
+  document.getElementById("bannerSection").style.display = "none";
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  if(section === "product"){
+    document.getElementById("productSection").style.display = "block";
+    document.getElementById("productsSection").style.display = "block";
+  }
 
+  if(section === "orders"){
+    document.getElementById("ordersSection").style.display = "block";
+  }
+
+  if(section === "banner"){
+    document.getElementById("bannerSection").style.display = "block";
+  }
 }
 /* LOAD PRODUCTS */
 function loadProducts(){
-  
   fetch(BASE_URL + "/products")
   .then(res => res.json())
   .then(data => {
@@ -1031,113 +849,101 @@ function loadProducts(){
     let html = "";
 
     data.forEach(p => {
-     html += `
-
-<div class="card" style="
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-">
-
-<div style="
-display:flex;
-align-items:center;
-gap:15px;
-">
-
-<img
-src="${p.primaryImage || ''}"
-style="
-width:80px;
-height:100px;
-object-fit:cover;
-border-radius:10px;
-border:1px solid #ddd;
-"
->
+      html += `
+       <div class="card"
+onclick="openProduct('${p._id}')"
+style="cursor:pointer;">
+         <div style="display:flex; gap:10px;">
 
 <div>
 
-<div
-onclick="openProduct('${p._id}')"
+<img 
+id="main-${p._id}"
+src="${p.primaryImage || (p.images && p.images[0]) || ''}"
 style="
-font-size:20px;
-font-weight:700;
-cursor:pointer;
-color:#111827;
-margin-bottom:6px;
+width:100px;
+height:120px;
+object-fit:cover;
+border-radius:8px;
+border:2px solid #ddd;
 "
 >
-${p.name}
-</div>
 
-<div style="
-color:#666;
-font-size:14px;
-margin-bottom:6px;
-">
-${p.color || ""}
 </div>
 
 <div style="
 display:flex;
-gap:8px;
-flex-wrap:wrap;
+flex-direction:column;
+gap:6px;
+">
+
+${(p.images || []).map(img => `
+
+<img
+src="${img}"
+onclick="
+document.getElementById('main-${p._id}').src='${img}';
+
+fetch(BASE_URL + '/products/${p._id}',{
+method:'PUT',
+headers:{
+'Content-Type':'application/json',
+'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+},
+body: JSON.stringify({
+primaryImage:'${img}'
+})
+})
+"
+style="
+width:45px;
+height:55px;
+object-fit:cover;
+cursor:pointer;
+border:1px solid #ccc;
+border-radius:6px;
+"
+>
+
+`).join("")}
+
+</div>
+
+</div>
+          <h3>${p.name}</h3>
+          <p>₹${p.price}</p>
+          <div style="
+margin:10px 0;
+font-size:14px;
 ">
 
 ${(p.sizeStock || []).map(s => `
-<div style="
-background:#f3f4f6;
-padding:5px 12px;
-border-radius:20px;
-font-size:13px;
-display:flex;
-align-items:center;
-gap:6px;
-">
-<span>${s.size}</span>
 
-<span style="
-background:#111827;
-color:white;
-padding:2px 7px;
-border-radius:10px;
-font-size:11px;
-font-weight:600;
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:4px;
 ">
+
+<span>Size ${s.size}</span>
+
+<b ${
+s.stock <= 2
+? 'style="color:red"'
+: ''
+}>
 ${s.stock}
-</span>
+</b>
 
 </div>
+
 `).join("")}
-</div>
 
 </div>
-
-</div>
-
-<div style="
-display:flex;
-gap:10px;
-">
-
-<button onclick="editProduct('${p._id}')">
-Edit
-</button>
-
-<button
-onclick="deleteProduct('${p._id}')"
-style="background:red;"
->
-Delete
-</button>
-
-</div>
-
-</div>
-
-`;
+         <button onclick="editProduct('${p._id}')">Edit</button>
+<button onclick="deleteProduct('${p._id}')">Delete</button>
+        </div>
+      `;
     });
 
     document.getElementById("products").innerHTML = html;
@@ -1166,56 +972,21 @@ function editProduct(id){
 
       const p = data.find(x => x._id === id);
 
-      // 🔥 FORM OPEN
-      document.getElementById("productSection")
-        .style.display = "block";
-      document.getElementById("productsSection")
-  .style.display = "none";
+      document.getElementById("name").value = p.name;
+      document.getElementById("price").value = p.price;
+      document.getElementById("category").value = p.category;
+      document.getElementById("type").value = p.type;
 
-document.getElementById("addBtnWrap")
-  .style.display = "none";
+      document.getElementById("brand").value = p.brand;
+      document.getElementById("fabric").value = p.fabric;
+      document.getElementById("typeDetail").value = p.typeDetail;
+      document.getElementById("fit").value = p.fit;
+      document.getElementById("pattern").value = p.pattern;
+      document.getElementById("color").value = p.color;
+      document.getElementById("occasion").value = p.occasion;
+      document.getElementById("description").value = p.description;
 
-      // 🔥 TOP SCROLL
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-      // 🔥 VALUES
-      document.getElementById("name").value = p.name || "";
-      document.getElementById("styleNo").value = p.styleNo || "";
-      document.getElementById("price").value = p.price || "";
-
-      document.getElementById("category").value = p.category || "";
-      document.getElementById("type").value = p.type || "";
-
-      document.getElementById("brand").value = p.brand || "";
-      document.getElementById("fabric").value = p.fabric || "";
-      document.getElementById("typeDetail").value = p.typeDetail || "";
-      document.getElementById("fit").value = p.fit || "";
-      document.getElementById("pattern").value = p.pattern || "";
-      document.getElementById("color").value = p.color || "";
-      document.getElementById("occasion").value = p.occasion || "";
-      document.getElementById("description").value = p.description || "";
-
-      // 🔥 LOAD SIZE BOX
-      loadSizeOptions();
-
-      // 🔥 STOCK FILL
-      (p.sizeStock || []).forEach(s => {
-
-        const input =
-          document.getElementById("stock-" + s.size);
-
-        if(input){
-          input.value = s.stock;
-        }
-
-      });
-
-      // 🔥 EDIT ID
-      window.editId = id;
-
+      window.editId = id; // ⭐ important
     });
 }
 /* ORDERS */
@@ -1572,54 +1343,10 @@ function openProduct(id){
     `;
   });
 }
- 
 /* INIT */
-
-/* INIT */
-
-window.onload = () => {
-
-  // PRODUCT PAGE OPEN
-  document.getElementById("productWrapper")
-    .style.display = "block";
-
-  // PRODUCT LIST SHOW
-  document.getElementById("productsSection")
-    .style.display = "block";
-
-  // PRODUCT FORM HIDE
-  document.getElementById("productSection")
-    .style.display = "none";
-
-  // ORDERS HIDE
-  document.getElementById("ordersSection")
-    .style.display = "none";
-
-  // BANNER HIDE
-  document.getElementById("bannerSection")
-    .style.display = "none";
-
-  // ADD BUTTON SHOW
-  document.getElementById("addBtnWrap")
-    .style.display = "flex";
-
-  // LOAD PRODUCTS
-  loadProducts();
-
-};
-  function toggleMenu(){
-
-  const menu =
-    document.getElementById("actionMenu");
-
-  if(menu.style.display === "block"){
-    menu.style.display = "none";
-  }
-  else{
-    menu.style.display = "block";
-  }
-
-}
+loadProducts();
+loadOrders();
+showSection("product", document.querySelector(".sidebar button"));
 </script>
 <div id="productPopup"></div>
 </body>
