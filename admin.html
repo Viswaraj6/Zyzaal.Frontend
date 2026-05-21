@@ -1001,32 +1001,6 @@ async function uploadBanner(){
     alert("Slider Updated ✅");
   }
 }
-function showSection(section, btn){
-
-  // active button
-  document.querySelectorAll(".sidebar button")
-    .forEach(b => b.classList.remove("active"));
-
-  if(btn){
-    btn.classList.add("active");
-  }
-    loadProducts();
-  }
-
-  // ORDERS
-  if(section === "orders"){
-
-    document.getElementById("ordersSection").style.display = "block";
-
-    loadOrders();
-  }
-
-  // BANNER
-  if(section === "banner"){
-
-    document.getElementById("bannerSection").style.display = "block";
-  }
-}
   function openAddProduct(){
 
   // 🔥 hide product list
