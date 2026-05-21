@@ -2,129 +2,144 @@
 <html>
 <head>
 <title>Admin Panel</title>
+
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
 <style>
-body {
-  font-family: 'Segoe UI';
-  margin: 0;
-  padding: 0px;
-  background: #d8f3f0;
+
+body{
+  margin:0;
+  font-family:'Segoe UI';
+  background:#d8f3f0;
 }
 
-.container {
+.container{
   display:flex;
 }
 
 /* SIDEBAR */
-.sidebar {
+
+.sidebar{
   width:220px;
   height:100vh;
   background:#111827;
   color:white;
   padding:20px;
-
-  position: fixed;   /* ⭐ MAIN FIX */
-  top: 0;
-  left: 0;
+  position:fixed;
+  left:0;
+  top:0;
 }
 
-.sidebar h2 {
+.sidebar h2{
   margin-bottom:20px;
 }
 
-.sidebar button {
+.sidebar button{
   width:100%;
+  padding:12px;
   margin:10px 0;
-  padding:10px;
-  background:#1f2937;
   border:none;
+  border-radius:8px;
+  background:#1f2937;
   color:white;
-  border-radius:6px;
   cursor:pointer;
 }
-.sidebar button.active {
-  background:#2563eb;
-}
-.sidebar button:hover {
+
+.sidebar button:hover{
   background:#374151;
 }
 
+.sidebar button.active{
+  background:#2563eb;
+}
+
 /* MAIN */
-.main {
+
+.main{
   flex:1;
+  margin-left:260px;
   padding:20px;
-  margin-left: 250px;  /* same as sidebar width */
 }
 
 /* CARD */
-.card {
+
+.card{
   background:white;
   padding:15px;
-  border-radius:10px;
-  margin-bottom:15px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* FORM GRID */
-.form-grid {
-  display:grid;
-  grid-template-columns: repeat(4,1fr);
-  gap:10px;
+input,
+select{
+  width:100%;
+  height:42px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  padding:0 10px;
+  margin-bottom:15px;
+  box-sizing:border-box;
 }
+
 label{
-  display:block;
-  margin-top:10px;
-  margin-bottom:4px;
   font-size:14px;
   font-weight:600;
-  color:#111827;
-}
-input, select {
-
-  height:42px;
-  padding:0 12px;
-
-  border:1px solid #d1d5db;
-  border-radius:6px;
-
-  width:100%;
-
-  font-size:14px;
-
-  box-sizing:border-box;
-
-  background:#fff;
-
 }
 
 /* BUTTON */
-button {
-  padding:10px 15px;
+
+button{
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
   background:#111827;
   color:white;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
 }
-.export-btn {
+
+.blue-btn{
   background:#2563eb;
 }
-.export-btn:hover {
-  background:#1d4ed8;
+
+.red-btn{
+  background:red;
 }
-/* IMAGE */
-img {
-  width:100px;
-  height:120px;
+
+/* PRODUCT CARD */
+
+.product-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.product-left{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+
+.product-img{
+  width:90px;
+  height:110px;
   object-fit:cover;
-  border-radius:8px;
+  border-radius:10px;
 }
-  tr:hover{
-  background:#f9fafb;
+
+.stock-wrap{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
-  td{
-  vertical-align:top;
+
+.stock-box{
+  background:#f3f4f6;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:13px;
 }
+
 </style>
 </head>
 
@@ -133,94 +148,91 @@ img {
 <div class="container">
 
   <!-- SIDEBAR -->
+
   <div class="sidebar">
+
     <h2>Zudora</h2>
 
-   <button onclick="showSection('product', this)">📦 Products</button>
-<button onclick="showSection('orders', this)">🧾 Orders</button>
-<button onclick="showSection('banner', this)">🎬 Banner</button>
-    <button class="logout" onclick="logout()">Logout</button>
+    <button class="active"
+    onclick="showSection('products',this)">
+    📦 Products
+    </button>
+
+    <button onclick="showSection('orders',this)">
+    🧾 Orders
+    </button>
+
+    <button onclick="showSection('banner',this)">
+    🎬 Banner
+    </button>
+
+    <button onclick="logout()">
+    Logout
+    </button>
+
   </div>
 
   <!-- MAIN -->
+
   <div class="main">
 
-  <!-- PRODUCT SECTION -->
-<div id="productWrapper" style="display:block;">
+    <!-- ADD BUTTON -->
+
     <div id="addBtnWrap"
-style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-">
-       
+    style="
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+    ">
 
-<button onclick="openAddProduct()"
-style="
-background:#2563eb;
-padding:10px 18px;
-">
-+ Add New3
-</button>
+      <button
+      class="blue-btn"
+      onclick="openAddProduct()">
+      + Add New
+      </button>
 
-</div>
-  
-  <div id="productSection" style="display:none;">
+    </div>
 
-<div style="
-display:flex;
-gap:20px;
-align-items:flex-start;
-">
+    <!-- PRODUCT FORM -->
+
+    <div id="productSection"
+    style="display:none;">
+
+      <div style="
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:20px;
+      ">
+
+        <!-- DETAILS -->
+
         <div class="card">
-   <label>Product Name</label>
-<input id="name">
 
-<label>Style No</label>
-<input id="styleNo">
-<label>Price</label>
-<input id="price">
+          <label>Product Name</label>
+          <input id="name">
 
+          <label>Style No</label>
+          <input id="styleNo">
 
+          <label>Price</label>
+          <input id="price">
+
+          <label>Category</label>
 
           <select id="category">
             <option value="">Select Category</option>
-
-            <optgroup label="Shirts">
-              <option value="smart shirt">Smart Shirt</option>
-              <option value="casual shirt">Casual Shirt</option>
-            </optgroup>
-
-            <optgroup label="Pants">
-              <option value="linen pant">Linen Pant</option>
-              <option value="relax pant">Relax Pant</option>
-              <option value="jeans">Jeans</option>
-            </optgroup>
-
-            <optgroup label="T-Shirts">
-              <option value="tshirt">T-Shirt</option>
-            </optgroup>
+            <option value="smart shirt">Smart Shirt</option>
+            <option value="casual shirt">Casual Shirt</option>
+            <option value="linen pant">Linen Pant</option>
           </select>
 
-         <label>Brand</label>
-<input id="brand">
-          <label>Fabric</label>
-<input id="fabric">
-         <label>Type</label>
-<input id="typeDetail">
-         <label>Fit</label>
-<input id="fit">
-          <label>Pattern</label>
-<input id="pattern">
- <label>Color</label>
-<input id="color">
-           <label>Occasion</label>
-<input id="occasion">
-            <label>Description</label>
-<input id="description">
-        
-          
+          <label>Color</label>
+          <input id="color">
+
+          <label>Description</label>
+          <input id="description">
+
+          <label>Type</label>
 
           <select id="type">
             <option value="shirt">Shirt</option>
@@ -228,1444 +240,159 @@ align-items:flex-start;
           </select>
 
         </div>
-    
 
-      <!-- SIZE -->
-      <div class="card">
-        <div id="sizeBox"></div>
+        <!-- SIZE -->
+
+        <div class="card">
+
+          <h3>Size Stock</h3>
+
+          <div id="sizeBox"></div>
+
+        </div>
+
+        <!-- IMAGE -->
+
+        <div class="card">
+
+          <h3>Upload Images</h3>
+
+          <input
+          type="file"
+          id="imageFiles"
+          multiple>
+
+          <div id="previewBox"
+          style="
+          display:flex;
+          gap:10px;
+          flex-wrap:wrap;
+          margin-top:15px;
+          ">
+          </div>
+
+        </div>
+
       </div>
 
-    <!-- IMAGE -->
-<div class="card"
-style="
-width:320px;
-position:sticky;
-top:20px;
-">
-
-<h3 style="
-margin-top:0;
-margin-bottom:15px;
-">
-Upload Images
-</h3>
-
-<label
-for="imageFiles"
-
-style="
-height:420px;
-border:2px dashed #cbd5e1;
-border-radius:12px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-
-cursor:pointer;
-background:#f8fafc;
-"
-
->
-
-<div style="
-font-size:50px;
-margin-bottom:10px;
-">
-📸
-</div>
-
-<b>Select Images</b>
-
-<p style="
-font-size:13px;
-color:#666;
-margin-top:8px;
-">
-Click to upload
-</p>
-
-<input
-type="file"
-id="imageFiles"
-multiple
-style="display:none;"
->
-
-</label>
-
-<div id="previewBox"
-style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
-">
-</div>
-
-</div>
-
-      <!-- ACTIONS -->
-<div style="
-position:fixed;
-top:20px;
-right:20px;
-z-index:9999;
-">
-
-<button
-onclick="toggleMenu()"
-
-style="
-width:45px;
-height:45px;
-border-radius:50%;
-font-size:22px;
-background:#111827;
-"
->
-⋮
-</button>
-
-<div
-id="actionMenu"
-
-style="
-display:none;
-position:absolute;
-right:0;
-top:55px;
-background:white;
-padding:15px;
-border-radius:12px;
-width:220px;
-box-shadow:0 4px 14px rgba(0,0,0,0.15);
-"
->
-
-<button
-onclick="addProduct()"
-style="
-width:100%;
-margin-bottom:10px;
-background:#2563eb;
-"
->
-Add Product
-</button>
-
-<input type="file" id="excelFile">
-
-<button
-onclick="importExcel()"
-style="
-width:100%;
-margin-top:8px;
-margin-bottom:12px;
-"
->
-Import Excel
-</button>
-
-<input type="file" id="zipFile">
-
-<button
-onclick="importZip()"
-style="
-width:100%;
-margin-top:8px;
-"
->
-Import ZIP
-</button>
-
-</div>
-
-</div>
-  </div>
-
-   <!-- BANNER SECTION -->
-<div id="bannerSection" style="display:none;">
-
-  <h2>Banner Upload</h2>
-
-  <div class="card">
-
-    <select id="bannerType">
-      <option value="video">Video</option>
-      <option value="slider">Image Slider</option>
-    </select>
-
-    <br><br>
-
-    <input type="file" id="bannerVideoFile">
-
-    <br><br>
-
-    <input type="file" id="bannerImages" multiple>
-
-    <br><br>
-
-    <button onclick="uploadBanner()">
-      Upload Banner
-    </button>
-
-  </div>
-
-</div>
-
-<!-- PRODUCTS -->
-<div id="productsSection">
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <h2>Products</h2>
-
-    <!-- 🔥 INGA paste pannum -->
-    <button class="export-btn" onclick="exportExcel()">Export Excel</button>
-
-  </div>
-
-<div id="products"></div>
-
-</div> <!-- productsSection -->
-
-</div> <!-- productWrapper -->
-
-<!-- ORDERS -->
-<div id="ordersSection" style="display:none;">
-  <h2>Orders</h2>
-  <div id="orders"></div>
-</div>
-
-</div> <!-- main -->
-
-</div> <!-- container -->
-
-<script>
-const BASE_URL = "https://fark618-backend.onrender.com";
-
-/* LOGIN CHECK */
-if(!localStorage.getItem("adminToken")){
-  alert("Login first ❌");
-  window.location.href = "admin-login.html";
-}
-
-/* LOGOUT */
-function logout(){
-  localStorage.removeItem("adminToken");
-  window.location.href = "admin-login.html";
-}
-
-/* SIZE LOAD */
-document.getElementById("type").addEventListener("change", loadSizeOptions);
-
-function loadSizeOptions(){
-
-  const type =
-    document.getElementById("type").value;
-
-  let sizes =
-    type === "shirt"
-    ? ["S","M","L","XL","XXL"]
-    : ["30","32","34","36","38","40"];
-
-  let html = `
-  <h3 style="margin-bottom:20px;">
-    Size Stock
-  </h3>
-  `;
-
-  sizes.forEach(s => {
-
-    html += `
-
-    <div style="
-    display:flex;
-    align-items:center;
-    gap:15px;
-    margin-bottom:14px;
-    background:#f9fafb;
-    padding:12px;
-    border-radius:10px;
-    ">
+      <!-- ACTION -->
 
       <div style="
-      width:70px;
-      font-weight:600;
-      font-size:16px;
+      position:fixed;
+      top:20px;
+      right:20px;
       ">
-      ${s}
+
+        <button onclick="toggleMenu()">
+        ⋮
+        </button>
+
+        <div id="actionMenu"
+        style="
+        display:none;
+        background:white;
+        padding:15px;
+        border-radius:12px;
+        width:220px;
+        margin-top:10px;
+        box-shadow:0 2px 10px rgba(0,0,0,0.2);
+        ">
+
+          <button
+          class="blue-btn"
+          style="width:100%;margin-bottom:10px;"
+          onclick="addProduct()">
+          Add Product
+          </button>
+
+          <input type="file" id="excelFile">
+
+          <button
+          style="width:100%;margin-bottom:10px;"
+          onclick="importExcel()">
+          Import Excel
+          </button>
+
+          <input type="file" id="zipFile">
+
+          <button
+          style="width:100%;"
+          onclick="importZip()">
+          Import ZIP
+          </button>
+
+        </div>
+
       </div>
 
-      <input
-      type="number"
-      id="stock-${s}"
-      placeholder="Enter stock"
-      min="0"
-      style="
-      width:120px;
-      "
-      >
+    </div>
+
+    <!-- PRODUCTS -->
+
+    <div id="productsSection">
+
+      <h2>Products</h2>
+
+      <div id="products"></div>
 
     </div>
-    `;
-  });
 
-  document.getElementById("sizeBox").innerHTML = html;
-}
+    <!-- ORDERS -->
 
-loadSizeOptions();
+    <div id="ordersSection"
+    style="display:none;">
 
-/* TOGGLE STOCK */
-function toggleStock(cb){
-  const input = document.getElementById("stock-" + cb.value);
-  input.style.display = cb.checked ? "inline-block" : "none";
-}
-document.getElementById("imageFiles").addEventListener("change", function(e){
+      <h2>Orders</h2>
 
-  const files = e.target.files;
-  const preview = document.getElementById("previewBox");
+      <div id="orders"></div>
 
-  preview.innerHTML = "";
+    </div>
 
-  for(let i=0; i<files.length; i++){
+    <!-- BANNER -->
 
-    const reader = new FileReader();
+    <div id="bannerSection"
+    style="display:none;">
 
-    reader.onload = function(ev){
+      <h2>Banner</h2>
 
-      const img = document.createElement("img");
-      img.src = ev.target.result;
+      <div class="card">
 
-      img.style.width = "80px";
-      img.style.height = "100px";
-      img.style.objectFit = "cover";
-      img.style.borderRadius = "6px";
-      img.style.border = "1px solid #ccc";
+        <input type="file">
 
-      preview.appendChild(img);
-    };
+        <button class="blue-btn">
+        Upload Banner
+        </button>
 
-    reader.readAsDataURL(files[i]);
-  }
+      </div>
 
-});
-/* ADD PRODUCT */
-async function addProduct(){
-
-  const name = document.getElementById("name").value;
-  const price = Number(document.getElementById("price").value);
-  const type = document.getElementById("type").value;
-  const category = document.getElementById("category").value;
-
-  const brand = document.getElementById("brand").value;
-  const fabric = document.getElementById("fabric").value;
-  const typeDetail = document.getElementById("typeDetail").value;
-  const fit = document.getElementById("fit").value;
-  const pattern = document.getElementById("pattern").value;
-  const color = document.getElementById("color").value;
-  const occasion = document.getElementById("occasion").value;
-  const description = document.getElementById("description").value;
-
-const sizes =
-type === "shirt"
-? ["S","M","L","XL","XXL"]
-: ["30","32","34","36","38","40"];
-
-const sizeStock = [];
-
-sizes.forEach(size => {
-
-  const val =
-    document.getElementById("stock-" + size).value;
-
-  if(val && Number(val) > 0){
-
-    sizeStock.push({
-      size,
-      stock:Number(val)
-    });
-
-  }
-
-});
-  const files = document.getElementById("imageFiles").files;
-  let images = [];
-
-  // 🔥 Image convert + resize
-  if(files.length > 0){
-
-  const imageArray = [];
-
-for(let i=0;i<files.length;i++){
-
-  const reader = new FileReader();
-
-  await new Promise(resolve=>{
-
-    reader.onload = function(e){
-
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      const img = new Image();
-
-      img.onload = function(){
-
-        canvas.width = 600;
-        canvas.height = 800;
-
-        ctx.drawImage(img,0,0,600,800);
-
-        const small =
-          canvas.toDataURL("image/jpeg",0.9);
-
-        imageArray[i] = small;
-
-        resolve();
-      };
-
-      img.src = e.target.result;
-    };
-
-    reader.readAsDataURL(files[i]);
-
-  });
-
-}
-
-images = imageArray;  
-    }
-
-    // 🔥 SEND
-  if(!name || !price || sizeStock.length === 0 || images.length === 0){
-    alert("Fill all fields ❗");
-    return;
-  }
-
-  try{
-
-    const url = window.editId
-      ? BASE_URL + "/products/" + window.editId
-      : BASE_URL + "/add-product";
-
-    const method = window.editId ? "PUT" : "POST";
-
-    const res = await fetch(url,{
-      method: method,
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":"Bearer " + localStorage.getItem("adminToken")
-      },
-      body: JSON.stringify({
-        name,
-        styleNo: document.getElementById("styleNo").value,
-        price,
-        stock:0,
-        type,
-        category,
-        sizes,
-        sizeStock,
-       primaryImage: images[0],
-images,
-        brand,
-        fabric,
-        typeDetail,
-        fit,
-        pattern,
-        color,
-        occasion,
-        description
-      })
-    });
-
-    const data = await res.json();
-
-    if(res.ok){
-
-  alert(
-    window.editId
-    ? "Product Updated ✅"
-    : "Product Added ✅"
-  );
-
-  window.editId = null;
-
-  // hide form
-  document.getElementById("productSection")
-    .style.display = "none";
-
-  // show products
-  document.getElementById("productsSection")
-    .style.display = "block";
-
-  // show add button
-  document.getElementById("addBtnWrap")
-    .style.display = "flex";
-
-  // reload products
-  loadProducts();
-
-  // clear inputs
-  document
-    .querySelectorAll("input:not([type='file'])")
-    .forEach(i => i.value = "");
-
-  document.getElementById("imageFiles").value = "";
-
-  document.getElementById("previewBox").innerHTML = "";
-
-  loadSizeOptions();
-
-}else{
-
-  alert(data.message || "Error ❌");
-
-}
- }   
-    catch(err){
-
-    console.log(err);
-    alert("Server error ❌");
-
-  }
-
-}
-  function exportExcel(){
-  fetch(BASE_URL + "/products")
-    .then(res => res.json())
-    .then(data => {
-
-      let csv = "Name,Price,Stock,Category,Type,Color\n";
-
-      data.forEach(p => {
-        csv += `${p.name},${p.price},${p.stock},${p.category},${p.type},${p.color}\n`;
-      });
-
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "products.csv";
-      a.click();
-    });
-}
-  function importExcel(){
-
-  const file = document.getElementById("excelFile").files[0];
-
-  if(!file){
-    alert("Select file ❗");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = async function(e){
-
-    const text = e.target.result;
-    const rows = text.split("\n");
-
-    for(let i=1; i<rows.length; i++){
-
-      const cols = rows[i].split(",");
-
-      if(cols.length < 3) continue;
-
-      await fetch(BASE_URL + "/add-product", {
-        method: "POST",
-        headers: {
-          "Content-Type":"application/json",
-          "Authorization":"Bearer " + localStorage.getItem("adminToken")
-        },
-        body: JSON.stringify({
-          name: cols[0],
-          price: Number(cols[1]),
-          stock: Number(cols[2]),
-          category: cols[3] || "",
-          type: cols[4] || "",
-          color: cols[5] || "",
-          images: []   // ⚠️ images must be added later
-        })
-      });
-
-    }
-
-    alert("Import Done ✅");
-    loadProducts();
-  };
-
-  reader.readAsText(file);
-}
-  async function importZip(){
-
-  const file = document.getElementById("zipFile").files[0];
-
-  if(!file){
-    alert("Select ZIP ❗");
-    return;
-  }
-
-  const zip = await JSZip.loadAsync(file);
-
-  let csvFile = null;
-
-  // 🔍 Find CSV
-  for(const filename in zip.files){
-    if(filename.endsWith(".csv")){
-      csvFile = zip.files[filename];
-    }
-  }
-
-  if(!csvFile){
-    alert("CSV not found ❌");
-    return;
-  }
-
-  const csvText = await csvFile.async("text");
-  const rows = csvText.split("\n");
-
-  for(let i=1; i<rows.length; i++){
-
-    const cols = rows[i].split(",");
-
-    if(cols.length < 6) continue;
-
-    const styleNo = cols[0]; // 🔥 MAIN KEY
-
-    let images = [];
-
-    // 🔥 AUTO MATCH IMAGES
-    for(const filename in zip.files){
-
-      if(filename.startsWith(styleNo)){
-
-        const file = zip.files[filename];
-
-        if(!file.dir){
-
-          const base64 = await file.async("base64");
-
-          images.push("data:image/jpeg;base64," + base64);
-        }
-      }
-    }
-
-    // 🚀 SEND TO BACKEND
-    await fetch(BASE_URL + "/add-product", {
-      method: "POST",
-      headers: {
-        "Content-Type":"application/json",
-        "Authorization":"Bearer " + localStorage.getItem("adminToken")
-      },
-      body: JSON.stringify({
-        styleNo,
-        name: cols[1],
-        price: Number(cols[2]),
-        stock: Number(cols[3]),
-        category: cols[4] || "",
-        type: cols[5] || "",
-        color: cols[6] || "",
-        images
-      })
-    });
-
-  }
-
-  alert("ZIP Import Success ✅🔥");
-  loadProducts();
-}
-  // 🔥 SEND DATA
-  async function send(){
-
-    if(!name || !price || sizeStock.length === 0 || images.length === 0){
-      alert("Fill all fields ❗");
-      return;
-    }
-
-    console.log("Token:", localStorage.getItem("adminToken"));
-
-    try{
-
-     const url = window.editId 
-  ? BASE_URL + "/products/" + window.editId
-  : BASE_URL + "/add-product";
-
-const method = window.editId ? "PUT" : "POST";
-
-const res = await fetch(url,{
-  method: method,
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":"Bearer " + localStorage.getItem("adminToken")
-        },
-        body: JSON.stringify({
-          name,
-          price,
-          stock: 0,
-          type,
-          category,
-          sizes,
-          sizeStock,
-          images: images.length > 0 ? images : undefined,
-          brand,
-          fabric,
-          typeDetail,
-          fit,
-          pattern,
-          color,
-          occasion,
-          description
-        })
-      });
-
-     const data = await res.json();
-
-if(res.ok){
-
-  if(window.editId){
-    alert("Product Updated ✅");
-    window.editId = null;
-  } else {
-    alert("Product Added ✅");
-  }
-
-  loadProducts();
-
-  document.querySelectorAll("input:not([type='file'])")
-    .forEach(i => i.value = "");
-
-  document.getElementById("imageFiles").value = "";
-  document.getElementById("previewBox").innerHTML = "";
-
-}else{
-  alert("Error: " + (data.message || "Unauthorized ❌"));
-}
-
-    }catch(err){
-      console.log(err);
-      alert("Server error ❌");
-    }
-  }
-/* BANNER UPLOAD */
-async function uploadBanner(){
-
-  const type = document.getElementById("bannerType").value;
-
-  // VIDEO
-  if(type === "video"){
-    const file = document.getElementById("bannerVideoFile").files[0];
-
-    if(!file){
-      alert("Select video ❗");
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = async function(e){
-      await fetch(BASE_URL + "/banner",{
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({
-          type:"video",
-          videoUrl:e.target.result,
-          images:[]
-        })
-      });
-
-      alert("Video Updated ✅");
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  // SLIDER
-  if(type === "slider"){
-    const files = document.getElementById("bannerImages").files;
-
-    if(files.length === 0){
-      alert("Select images ❗");
-      return;
-    }
-
-    let images = [];
-
-    for(let i=0;i<files.length;i++){
-      const reader = new FileReader();
-
-      await new Promise(resolve=>{
-        reader.onload = function(e){
-          images.push(e.target.result);
-          resolve();
-        };
-        reader.readAsDataURL(files[i]);
-      });
-    }
-
-    await fetch(BASE_URL + "/banner",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({
-        type:"slider",
-        videoUrl:"",
-        images
-      })
-    });
-
-    alert("Slider Updated ✅");
-  }
-}
-function showSection(section, btn){
-
-  // active button
-  document.querySelectorAll(".sidebar button")
-    .forEach(b => b.classList.remove("active"));
-
-  if(btn){
-    btn.classList.add("active");
-  }
-
-  // HIDE ALL
-  document.getElementById("productWrapper").style.display = "none";
-  document.getElementById("ordersSection").style.display = "none";
-  document.getElementById("bannerSection").style.display = "none";
-
-  // PRODUCTS
-  if(section === "product"){
-
-    document.getElementById("productWrapper").style.display = "block";
-
-    document.getElementById("productsSection").style.display = "block";
-
-    document.getElementById("productSection").style.display = "none";
-
-    document.getElementById("addBtnWrap").style.display = "flex";
-
-    loadProducts();
-  }
-
-  // ORDERS
-  if(section === "orders"){
-
-    document.getElementById("ordersSection").style.display = "block";
-
-    loadOrders();
-  }
-
-  // BANNER
-  if(section === "banner"){
-
-    document.getElementById("bannerSection").style.display = "block";
-  }
-}
-  function openAddProduct(){
-
-  // 🔥 hide product list
-  document.getElementById("productsSection")
-    .style.display = "none";
-
-  // 🔥 hide add button
-  document.getElementById("addBtnWrap")
-    .style.display = "none";
-
-  // 🔥 show form
-  document.getElementById("productSection")
-    .style.display = "block";
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-/* LOAD PRODUCTS */
-function loadProducts(){
-  document.getElementById("productWrapper").style.display = "block";
-
-document.getElementById("productsSection").style.display = "block";
-
-document.getElementById("productSection").style.display = "none";
-  
-  fetch(BASE_URL + "/products")
-  .then(res => res.json())
-  .then(data => {
-
-    let html = "";
-
-    data.forEach(p => {
-     html += `
-
-<div class="card" style="
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-">
-
-<div style="
-display:flex;
-align-items:center;
-gap:15px;
-">
-
-<img
-src="${p.primaryImage || ''}"
-style="
-width:80px;
-height:100px;
-object-fit:cover;
-border-radius:10px;
-border:1px solid #ddd;
-"
->
-
-<div>
-
-<div
-onclick="openProduct('${p._id}')"
-style="
-font-size:20px;
-font-weight:700;
-cursor:pointer;
-color:#111827;
-margin-bottom:6px;
-"
->
-${p.name}
-</div>
-
-<div style="
-color:#666;
-font-size:14px;
-margin-bottom:6px;
-">
-${p.color || ""}
-</div>
-
-<div style="
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-">
-
-${(p.sizeStock || []).map(s => `
-<div style="
-background:#f3f4f6;
-padding:5px 12px;
-border-radius:20px;
-font-size:13px;
-display:flex;
-align-items:center;
-gap:6px;
-">
-<span>${s.size}</span>
-
-<span style="
-background:#111827;
-color:white;
-padding:2px 7px;
-border-radius:10px;
-font-size:11px;
-font-weight:600;
-">
-${s.stock}
-</span>
-
-</div>
-`).join("")}
-</div>
-
-</div>
-
-</div>
-
-<div style="
-display:flex;
-gap:10px;
-">
-
-<button onclick="editProduct('${p._id}')">
-Edit
-</button>
-
-<button
-onclick="deleteProduct('${p._id}')"
-style="background:red;"
->
-Delete
-</button>
-
-</div>
-
-</div>
-
-`;
-    });
-
-    document.getElementById("products").innerHTML = html;
-  });
-}
-
-/* DELETE */
-function deleteProduct(id){
-
-  if(!confirm("Delete?")) return;
-
-  fetch(BASE_URL + "/products/" + id, {
-    method: "DELETE",
-    headers: {
-      "Authorization": "Bearer " + localStorage.getItem("adminToken")
-    }
-  })
-  .then(res => res.json())
-  .then(() => loadProducts());
-}
-function editProduct(id){
-
-  fetch(BASE_URL + "/products")
-    .then(res => res.json())
-    .then(data => {
-
-      const p = data.find(x => x._id === id);
-
-      // 🔥 FORM OPEN
-      document.getElementById("productSection")
-        .style.display = "block";
-      document.getElementById("productsSection")
-  .style.display = "none";
-
-document.getElementById("addBtnWrap")
-  .style.display = "none";
-
-      // 🔥 TOP SCROLL
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-      // 🔥 VALUES
-      document.getElementById("name").value = p.name || "";
-      document.getElementById("styleNo").value = p.styleNo || "";
-      document.getElementById("price").value = p.price || "";
-
-      document.getElementById("category").value = p.category || "";
-      document.getElementById("type").value = p.type || "";
-
-      document.getElementById("brand").value = p.brand || "";
-      document.getElementById("fabric").value = p.fabric || "";
-      document.getElementById("typeDetail").value = p.typeDetail || "";
-      document.getElementById("fit").value = p.fit || "";
-      document.getElementById("pattern").value = p.pattern || "";
-      document.getElementById("color").value = p.color || "";
-      document.getElementById("occasion").value = p.occasion || "";
-      document.getElementById("description").value = p.description || "";
-
-      // 🔥 LOAD SIZE BOX
-      loadSizeOptions();
-
-      // 🔥 STOCK FILL
-      (p.sizeStock || []).forEach(s => {
-
-        const input =
-          document.getElementById("stock-" + s.size);
-
-        if(input){
-          input.value = s.stock;
-        }
-
-      });
-
-      // 🔥 EDIT ID
-      window.editId = id;
-
-    });
-}
-/* ORDERS */
-function loadOrders(){
-  fetch(BASE_URL + "/orders")
-  .then(res => res.json())
-  .then(data => {
-
-    let html = "";
-html = `
-<div style="
-background:white;
-border-radius:12px;
-overflow-x:auto;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
-">
-
-<table style="
-width:100%;
-border-collapse:collapse;
-min-width:1000px;
-">
-
-<thead style="
-background:#111827;
-color:white;
-">
-
-<tr>
-
-<th style="padding:14px;text-align:left;">Order ID</th>
-
-<th style="padding:14px;text-align:left;">Customer</th>
-
-<th style="padding:14px;text-align:left;">Products</th>
-
-<th style="padding:14px;text-align:left;">Amount</th>
-
-<th style="padding:14px;text-align:left;">Payment</th>
-
-<th style="padding:14px;text-align:left;">Status</th>
-
-<th style="padding:14px;text-align:left;">Action</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-`;
-    (data || []).forEach(o => {
-
-      // 🗓️ Order Date & Delivery Date
-   const format = d => {
-
-  if(!d) return "Not Available";
-
-  return new Date(d)
-    .toLocaleDateString("en-IN");
-};
-
-const deliveryDate =
-  o.deliveryDate || "Not Available";
-
-      // 🛒 Items
-      let items = "";
-
-      (o.products || []).forEach(i => {
-        const qty = i.qty || 1;
-
-  items += `
-<div style="
-display:flex;
-gap:10px;
-align-items:flex-start;
-margin-bottom:10px;
-padding-bottom:10px;
-border-bottom:1px dashed #ddd;
-">
-
-  <img
-    src="${i.image || i.images?.[0]}"
-    style="
-      width:55px;
-      height:70px;
-      object-fit:cover;
-      border-radius:8px;
-    "
-  >
-
-  <div>
-
-    <b>${i.name}</b><br>
-
-    ₹${i.price}
-
-    ${i.size ? `| Size: ${i.size}` : ""}
-
-    | Qty: ${qty}
+    </div>
 
   </div>
 
 </div>
-`;
-      });
 
-      // 🎨 Status Color (optional nice UI)
-      let statusColor = "#999";
-      if(o.status === "Pending") statusColor = "orange";
-      if(o.status === "Shipped") statusColor = "blue";
-      if(o.status === "Delivered") statusColor = "green";
-let statusBg = "#fef3c7";
-let statusText = "#d97706";
+<script>
 
-if(o.status === "Shipped"){
-  statusBg = "#dbeafe";
-  statusText = "#2563eb";
+const BASE_URL =
+"https://fark618-backend.onrender.com";
+
+/* LOGOUT */
+
+function logout(){
+
+  localStorage.removeItem("adminToken");
+
+  window.location.href =
+  "admin-login.html";
+
 }
 
-if(o.status === "Delivered"){
-  statusBg = "#dcfce7";
-  statusText = "#16a34a";
-}
-     html += `
-<tr style="
-border-bottom:1px solid #eee;
-background:white;
-">
+/* MENU */
 
-<td style="padding:14px;">
-${o._id.slice(-6)}
-</td>
-
-<td style="padding:14px;">
-
-<b>${o.name || ""}</b><br>
-
-${o.phone || ""}<br>
-
-<span style="font-size:13px;color:#666;">
-${o.address || ""}
-</span>
-
-</td>
-
-<td style="padding:14px;">
-
-${items}
-
-</td>
-
-<td style="padding:14px; font-weight:700;">
-₹${o.total || 0}
-</td>
-
-<td style="padding:14px;">
-
-<div style="
-font-weight:600;
-color:${o.paymentStatus === "Paid" ? "green" : "red"};
-">
-${o.paymentStatus || "Pending"}
-</div>
-
-<div style="
-font-size:13px;
-color:#666;
-margin-top:4px;
-">
-${o.paymentMethod || "COD"}
-</div>
-
-</td>
-
-<td style="padding:14px;">
-
-<div style="
-padding:6px 12px;
-border-radius:20px;
-background:${statusBg};
-color:${statusText};
-font-weight:600;
-display:inline-block;
-font-size:13px;
-">
-${o.status}
-</div>
-
-<br><br>
-
-<select
-style="
-padding:6px 10px;
-border-radius:10px;
-border:1px solid #ddd;
-"
-onchange="updateStatus('${o._id}',this.value)"
->
-
-<option ${o.status==="Pending"?"selected":""}>
-Pending
-</option>
-
-<option ${o.status==="Shipped"?"selected":""}>
-Shipped
-</option>
-
-<option ${o.status==="Delivered"?"selected":""}>
-Delivered
-</option>
-
-<option ${o.status==="Cancelled"?"selected":""}>
-Cancelled
-</option>
-
-</select>
-
-</td>
-<td style="padding:14px;">
-
-<button
-onclick="deleteOrder('${o._id}')"
-style="
-background:red;
-padding:8px 12px;
-"
->
-Delete
-</button>
-
-</td>
-
-</tr>
-`;
-    });
-html += `
-</tbody>
-</table>
-</div>
-`;
-    document.getElementById("orders").innerHTML = html;
-  });
-}
-  function deleteOrder(id){
-
-  if(!confirm("Delete this order? ❗")) return;
-
-  fetch(BASE_URL + "/orders/" + id, {
-    method: "DELETE",
-    headers: {
-      "Authorization": "Bearer " + localStorage.getItem("adminToken")
-    }
-  })
-  .then(res => res.json())
-  .then(() => {
-    alert("Order Deleted ✅");
-    loadOrders();
-  })
-  .catch(() => alert("Delete failed ❌"));
-}
-/* UPDATE STATUS */
-function updateStatus(id,status){
-  fetch(BASE_URL+"/orders/"+id,{
-    method:"PUT",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer "+localStorage.getItem("adminToken")
-    },
-    body: JSON.stringify({status})
-  })
-  .then(()=>loadOrders());
-}
-function openProduct(id){
-
-  fetch(BASE_URL + "/products")
-  .then(res => res.json())
-  .then(data => {
-
-    const p = data.find(x => x._id === id);
-
-    document.getElementById("productPopup").innerHTML = `
-
-    <div style="
-    position:fixed;
-    top:0;
-    right:0;
-    width:500px;
-    height:100vh;
-    background:white;
-    z-index:9999;
-    overflow:auto;
-    padding:20px;
-    box-shadow:-4px 0 10px rgba(0,0,0,0.2);
-    ">
-
-      <h2>${p.name}</h2>
-
-      <img
-      src="${p.primaryImage}"
-      style="
-      width:100%;
-      border-radius:10px;
-      "
-      >
-
-      <br><br>
-
-      <b>Price:</b> ₹${p.price}<br><br>
-
-      <b>Fabric:</b> ${p.fabric}<br><br>
-
-      <b>Color:</b> ${p.color}<br><br>
-
-      <b>Pattern:</b> ${p.pattern}<br><br>
-
-      <b>Fit:</b> ${p.fit}<br><br>
-
-      <h3>Stock</h3>
-
-      ${(p.sizeStock || []).map(s => `
-        <div style="
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:8px;
-        ">
-          <span>${s.size}</span>
-          <b>${s.stock}</b>
-        </div>
-      `).join("")}
-
-      <br>
-
-      <button onclick="editProduct('${p._id}')">
-        Edit
-      </button>
-
-      <button
-      onclick="deleteProduct('${p._id}')"
-      style="background:red;">
-        Delete
-      </button>
-
-      <button
-      onclick="
-      document.getElementById('productPopup').innerHTML=''
-      "
-      style="
-      background:#666;
-      ">
-        Close
-      </button>
-
-    </div>
-    `;
-  });
-}
- 
-/* INIT */
-
-window.onload = () => {
-
-  // products default open
-  document.getElementById("productWrapper").style.display = "block";
-
-  // product list show
-  document.getElementById("productsSection").style.display = "block";
-
-  // form hide
-  document.getElementById("productSection").style.display = "none";
-
-  // orders hide
-  document.getElementById("ordersSection").style.display = "none";
-
-  // banner hide
-  document.getElementById("bannerSection").style.display = "none";
-
-  // add button show
-  document.getElementById("addBtnWrap").style.display = "flex";
-
-  // load products
-  loadProducts();
-
-};
-  function toggleMenu(){
+function toggleMenu(){
 
   const menu =
-    document.getElementById("actionMenu");
+  document.getElementById("actionMenu");
 
   if(menu.style.display === "block"){
     menu.style.display = "none";
@@ -1675,7 +402,263 @@ window.onload = () => {
   }
 
 }
+
+/* SECTION */
+
+function showSection(section,btn){
+
+  document.querySelectorAll(".sidebar button")
+  .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  document.getElementById("productsSection")
+  .style.display="none";
+
+  document.getElementById("ordersSection")
+  .style.display="none";
+
+  document.getElementById("bannerSection")
+  .style.display="none";
+
+  document.getElementById("productSection")
+  .style.display="none";
+
+  if(section==="products"){
+
+    document.getElementById("productsSection")
+    .style.display="block";
+
+    document.getElementById("addBtnWrap")
+    .style.display="flex";
+
+    loadProducts();
+
+  }
+
+  if(section==="orders"){
+
+    document.getElementById("ordersSection")
+    .style.display="block";
+
+  }
+
+  if(section==="banner"){
+
+    document.getElementById("bannerSection")
+    .style.display="block";
+
+  }
+
+}
+
+/* OPEN FORM */
+
+function openAddProduct(){
+
+  document.getElementById("productsSection")
+  .style.display="none";
+
+  document.getElementById("addBtnWrap")
+  .style.display="none";
+
+  document.getElementById("productSection")
+  .style.display="block";
+
+}
+
+/* SIZE */
+
+document.getElementById("type")
+.addEventListener("change",loadSizeOptions);
+
+function loadSizeOptions(){
+
+  const type =
+  document.getElementById("type").value;
+
+  let sizes =
+  type==="shirt"
+  ? ["S","M","L","XL","XXL"]
+  : ["30","32","34","36","38"];
+
+  let html = "";
+
+  sizes.forEach(s=>{
+
+    html += `
+    
+    <div style="
+    display:flex;
+    gap:10px;
+    margin-bottom:12px;
+    align-items:center;
+    ">
+
+      <div style="width:60px;">
+      ${s}
+      </div>
+
+      <input
+      type="number"
+      id="stock-${s}"
+      placeholder="Stock">
+
+    </div>
+    
+    `;
+
+  });
+
+  document.getElementById("sizeBox")
+  .innerHTML = html;
+
+}
+
+loadSizeOptions();
+
+/* PREVIEW */
+
+document.getElementById("imageFiles")
+.addEventListener("change",function(e){
+
+  const files = e.target.files;
+
+  let html = "";
+
+  for(let i=0;i<files.length;i++){
+
+    html += `
+    
+    <img
+    src="${URL.createObjectURL(files[i])}"
+    style="
+    width:80px;
+    height:100px;
+    object-fit:cover;
+    border-radius:8px;
+    ">
+    
+    `;
+
+  }
+
+  document.getElementById("previewBox")
+  .innerHTML = html;
+
+});
+
+/* LOAD PRODUCTS */
+
+function loadProducts(){
+
+  fetch(BASE_URL + "/products")
+  .then(res=>res.json())
+  .then(data=>{
+
+    let html = "";
+
+    data.forEach(p=>{
+
+      html += `
+      
+      <div class="card product-card">
+
+        <div class="product-left">
+
+          <img
+          src="${p.primaryImage || ''}"
+          class="product-img">
+
+          <div>
+
+            <h3>
+            ${p.name}
+            </h3>
+
+            <p>
+            ${p.color || ""}
+            </p>
+
+            <div class="stock-wrap">
+
+              ${(p.sizeStock || []).map(s => `
+              
+              <div class="stock-box">
+              ${s.size} - ${s.stock}
+              </div>
+              
+              `).join("")}
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div>
+
+          <button
+          onclick="editProduct('${p._id}')">
+          Edit
+          </button>
+
+          <button
+          class="red-btn"
+          onclick="deleteProduct('${p._id}')">
+          Delete
+          </button>
+
+        </div>
+
+      </div>
+      
+      `;
+
+    });
+
+    document.getElementById("products")
+    .innerHTML = html;
+
+  });
+
+}
+
+/* DELETE */
+
+function deleteProduct(id){
+
+  if(!confirm("Delete?")) return;
+
+  fetch(BASE_URL + "/products/" + id,{
+    method:"DELETE",
+    headers:{
+      "Authorization":
+      "Bearer " +
+      localStorage.getItem("adminToken")
+    }
+  })
+  .then(()=>loadProducts());
+
+}
+
+/* EDIT */
+
+function editProduct(id){
+
+  openAddProduct();
+
+}
+
+/* INIT */
+
+window.onload = ()=>{
+
+  loadProducts();
+
+};
+
 </script>
-<div id="productPopup"></div>
+
 </body>
 </html>
