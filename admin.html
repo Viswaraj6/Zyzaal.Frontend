@@ -385,25 +385,38 @@ Import ZIP
 </div>
   </div>
 
-    <!-- BANNER SECTION -->
-    <div id="bannerSection" style="display:none;">
-      <h2>Banner Upload</h2>
+   <!-- BANNER SECTION -->
+<div id="bannerSection" style="display:none;">
 
-      <div class="card">
-        <select id="bannerType">
-          <option value="video">Video</option>
-          <option value="slider">Image Slider</option>
-        </select><br><br>
+  <h2>Banner Upload</h2>
 
-        <input type="file" id="bannerVideoFile"><br><br>
-        <input type="file" id="bannerImages" multiple><br><br>
+  <div class="card">
 
-        <button onclick="uploadBanner()">Upload Banner</button>
-      </div>
-    </div>
-    <!-- PRODUCTS -->
-   <div id="productsSection">
+    <select id="bannerType">
+      <option value="video">Video</option>
+      <option value="slider">Image Slider</option>
+    </select>
 
+    <br><br>
+
+    <input type="file" id="bannerVideoFile">
+
+    <br><br>
+
+    <input type="file" id="bannerImages" multiple>
+
+    <br><br>
+
+    <button onclick="uploadBanner()">
+      Upload Banner
+    </button>
+
+  </div>
+
+</div>
+
+<!-- PRODUCTS -->
+<div id="productsSection">
   <div style="display:flex; justify-content:space-between; align-items:center;">
     <h2>Products</h2>
 
