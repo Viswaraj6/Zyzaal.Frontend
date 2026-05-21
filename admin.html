@@ -1625,27 +1625,35 @@ function openProduct(id){
  
 /* INIT */
 
+/* INIT */
+
 window.onload = () => {
 
-  // products default open
-  document.getElementById("productWrapper").style.display = "block";
+  // PRODUCT PAGE OPEN
+  document.getElementById("productWrapper")
+    .style.display = "block";
 
-  // product list show
-  document.getElementById("productsSection").style.display = "block";
+  // PRODUCT LIST SHOW
+  document.getElementById("productsSection")
+    .style.display = "block";
 
-  // form hide
-  document.getElementById("productSection").style.display = "none";
+  // PRODUCT FORM HIDE
+  document.getElementById("productSection")
+    .style.display = "none";
 
-  // orders hide
-  document.getElementById("ordersSection").style.display = "none";
+  // ORDERS HIDE
+  document.getElementById("ordersSection")
+    .style.display = "none";
 
-  // banner hide
-  document.getElementById("bannerSection").style.display = "none";
+  // BANNER HIDE
+  document.getElementById("bannerSection")
+    .style.display = "none";
 
-  // add button show
-  document.getElementById("addBtnWrap").style.display = "flex";
+  // ADD BUTTON SHOW
+  document.getElementById("addBtnWrap")
+    .style.display = "flex";
 
-  // load products
+  // LOAD PRODUCTS
   loadProducts();
 
 };
