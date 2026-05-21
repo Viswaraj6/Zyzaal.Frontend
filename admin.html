@@ -1624,26 +1624,25 @@ function openProduct(id){
 
 window.onload = () => {
 
-  document.getElementById("products").innerHTML = "";
+  // products default open
+  document.getElementById("productWrapper").style.display = "block";
 
-  document.getElementById("productWrapper")
-    .style.display = "block";
+  // product list show
+  document.getElementById("productsSection").style.display = "block";
 
-  document.getElementById("productsSection")
-    .style.display = "block";
+  // form hide
+  document.getElementById("productSection").style.display = "none";
 
-  document.getElementById("productSection")
-    .style.display = "none";
+  // orders hide
+  document.getElementById("ordersSection").style.display = "none";
 
-  document.getElementById("addBtnWrap")
-    .style.display = "flex";
+  // banner hide
+  document.getElementById("bannerSection").style.display = "none";
 
-  document.getElementById("ordersSection")
-    .style.display = "none";
+  // add button show
+  document.getElementById("addBtnWrap").style.display = "flex";
 
-  document.getElementById("bannerSection")
-    .style.display = "none";
-
+  // load products
   loadProducts();
 
 };
