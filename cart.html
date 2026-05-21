@@ -554,7 +554,23 @@ async function loadSuggestedProducts(){
 window.allProducts = products;
   let recent =
     JSON.parse(localStorage.getItem("recentViewed")) || [];
+recent = recent.map(p => ({
+  _id: p._id,
+  name: p.name,
+  price: p.price,
 
+  image:
+    p.image ||
+    p.primaryImage ||
+    p.images?.[0] ||
+    "",
+
+  primaryImage:
+    p.primaryImage ||
+    p.image ||
+    p.images?.[0] ||
+    ""
+}));
   let suggestedHTML = "";
   let recentHTML = "";
 
