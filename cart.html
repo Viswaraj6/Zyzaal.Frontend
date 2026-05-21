@@ -954,19 +954,22 @@ if(already){
    else {
 
     // ✅ different size / new product
-   cart.push({
+ cart.push({
   _id: product._id,
-  ...product,
- image:
-  product.primaryImage ||
-  product.images?.[0] ||
-  product.image,
-  qty:1,
-  size:size,
+  name: product.name,
+  price: product.price,
+
+  image:
+    product.primaryImage ||
+    product.images?.[0] ||
+    product.image,
+
+  qty: 1,
+  size: size,
+
   deliveryDate:
     localStorage.getItem("deliveryDate") || ""
 });
-
   }
 
   localStorage.setItem(
