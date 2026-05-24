@@ -868,6 +868,510 @@ function loadProducts(){
 
     data.forEach(p => {
       html += `
+       <div class="card"
+onclick="openProduct('${p._id}')"
+style="cursor:pointer;">
+         <div style="display:flex; gap:10px;">
+
+<div>
+
+<img 
+id="main-${p._id}"
+src="${p.primaryImage || (p.images && p.images[0]) || ''}"
+style="
+width:100px;
+height:120px;
+object-fit:cover;
+border-radius:8px;
+border:2px solid #ddd;
+"
+>
+
+</div>
+
+<div style="
+display:flex;
+flex-direction:column;
+gap:6px;
+">
+
+${(p.images || []).map(img => `
+
+<img
+src="${img}"
+onclick="
+document.getElementById('main-${p._id}').src='${img}';
+
+fetch(BASE_URL + '/products/${p._id}',{
+method:'PUT',
+headers:{
+'Content-Type':'application/json',
+'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+},
+body: JSON.stringify({
+primaryImage:'${img}'
+})
+})
+"
+style="
+width:45px;
+height:55px;
+object-fit:cover;
+cursor:pointer;
+border:1px solid #ccc;
+border-radius:6px;
+"
+>
+
+`).join("")}
+
+</div>
+
+</div>
+          <h3>${p.name}</h3>
+          <p>₹${p.price}</p>
+          <div style="
+margin:10px 0;
+font-size:14px;
+">
+
+${(p.sizeStock || []).map(s => `
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:4px;
+">
+
+<span>Size ${s.size}</span>
+
+<b ${
+s.stock <= 2
+? 'style="color:red"'
+: ''
+}>
+${s.stock}
+</b>
+
+</div>
+
+`).join("")}
+
+</div>
+         <button onclick="editProduct('${p._id}')">Edit</button>
+<button onclick="deleteProduct('${p._id}')">Delete</button>
+        </div>
+      `;
+    });
+
+    document.getElementById("products").innerHTML = html;
+  });
+}
+
+/* DELETE */
+function deleteProduct(id){
+
+  if(!confirm("Delete?")) return;
+
+  fetch(BASE_URL + "/products/" + id, {
+    method: "DELETE",
+    headers: {
+      "Authorization": "Bearer " + localStorage.getItem("adminToken")
+    }
+  })
+  .then(res => res.json())
+  .then(() => loadProducts());
+}
+function editProduct(id){
+
+  fetch(BASE_URL + "/products")
+    .then(res => res.json())
+    .then(data => {
+
+      const p = data.find(x => x._id === id);
+
+      document.getElementById("name").value = p.name;
+      document.getElementById("price").value = p.price;
+    stock:0,
+        type,
+        category,
+        sizes,
+        sizeStock,
+       primaryImage: images[0],
+images,
+        brand,
+        fabric,
+        typeDetail,
+        fit,
+        pattern,
+        color,
+        occasion,
+        description
+      })
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+
+      alert(
+        window.editId
+        ? "Product Updated ✅"
+        : "Product Added ✅"
+      );
+
+      window.editId = null;
+
+      loadProducts();
+
+      document
+      .querySelectorAll("input:not([type='file'])")
+      .forEach(i => i.value = "");
+
+      document.getElementById("imageFiles").value = "";
+      document.getElementById("previewBox").innerHTML = "";
+
+     loadSizeOptions();
+
+document.getElementById("productSection")
+  .style.display = "none";
+
+}
+    else{
+
+      alert(data.message || "Error ❌");
+
+    }
+
+  }catch(err){
+
+    console.log(err);
+    alert("Server error ❌");
+
+  }
+
+}
+  function exportExcel(){
+  fetch(BASE_URL + "/products")
+    .then(res => res.json())
+    .then(data => {
+
+      let csv = "Name,Price,Stock,Category,Type,Color\n";
+
+      data.forEach(p => {
+        csv += `${p.name},${p.price},${p.stock},${p.category},${p.type},${p.color}\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "products.csv";
+      a.click();
+    });
+}
+  function importExcel(){
+
+  const file = document.getElementById("excelFile").files[0];
+
+  if(!file){
+    alert("Select file ❗");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = async function(e){
+
+    const text = e.target.result;
+    const rows = text.split("\n");
+
+    for(let i=1; i<rows.length; i++){
+
+      const cols = rows[i].split(",");
+
+      if(cols.length < 3) continue;
+
+      await fetch(BASE_URL + "/add-product", {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json",
+          "Authorization":"Bearer " + localStorage.getItem("adminToken")
+        },
+        body: JSON.stringify({
+          name: cols[0],
+          price: Number(cols[1]),
+          stock: Number(cols[2]),
+          category: cols[3] || "",
+          type: cols[4] || "",
+          color: cols[5] || "",
+          images: []   // ⚠️ images must be added later
+        })
+      });
+
+    }
+
+    alert("Import Done ✅");
+    loadProducts();
+  };
+
+  reader.readAsText(file);
+}
+  async function importZip(){
+
+  const file = document.getElementById("zipFile").files[0];
+
+  if(!file){
+    alert("Select ZIP ❗");
+    return;
+  }
+
+  const zip = await JSZip.loadAsync(file);
+
+  let csvFile = null;
+
+  // 🔍 Find CSV
+  for(const filename in zip.files){
+    if(filename.endsWith(".csv")){
+      csvFile = zip.files[filename];
+    }
+  }
+
+  if(!csvFile){
+    alert("CSV not found ❌");
+    return;
+  }
+
+  const csvText = await csvFile.async("text");
+  const rows = csvText.split("\n");
+
+  for(let i=1; i<rows.length; i++){
+
+    const cols = rows[i].split(",");
+
+    if(cols.length < 6) continue;
+
+    const styleNo = cols[0]; // 🔥 MAIN KEY
+
+    let images = [];
+
+    // 🔥 AUTO MATCH IMAGES
+    for(const filename in zip.files){
+
+      if(filename.startsWith(styleNo)){
+
+        const file = zip.files[filename];
+
+        if(!file.dir){
+
+          const base64 = await file.async("base64");
+
+          images.push("data:image/jpeg;base64," + base64);
+        }
+      }
+    }
+
+    // 🚀 SEND TO BACKEND
+    await fetch(BASE_URL + "/add-product", {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + localStorage.getItem("adminToken")
+      },
+      body: JSON.stringify({
+        styleNo,
+        name: cols[1],
+        price: Number(cols[2]),
+        stock: Number(cols[3]),
+        category: cols[4] || "",
+        type: cols[5] || "",
+        color: cols[6] || "",
+        images
+      })
+    });
+
+  }
+
+  alert("ZIP Import Success ✅🔥");
+  loadProducts();
+}
+  // 🔥 SEND DATA
+  async function send(){
+
+    if(!name || !price || sizeStock.length === 0 || images.length === 0){
+      alert("Fill all fields ❗");
+      return;
+    }
+
+    console.log("Token:", localStorage.getItem("adminToken"));
+
+    try{
+
+     const url = window.editId 
+  ? BASE_URL + "/products/" + window.editId
+  : BASE_URL + "/add-product";
+
+const method = window.editId ? "PUT" : "POST";
+
+const res = await fetch(url,{
+  method: method,
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer " + localStorage.getItem("adminToken")
+        },
+        body: JSON.stringify({
+          name,
+          price,
+          stock: 0,
+          type,
+          category,
+          sizes,
+          sizeStock,
+          images: images.length > 0 ? images : undefined,
+          brand,
+          fabric,
+          typeDetail,
+          fit,
+          pattern,
+          color,
+          occasion,
+          description
+        })
+      });
+
+     const data = await res.json();
+
+if(res.ok){
+
+  if(window.editId){
+    alert("Product Updated ✅");
+    window.editId = null;
+  } else {
+    alert("Product Added ✅");
+  }
+
+  loadProducts();
+
+  document.querySelectorAll("input:not([type='file'])")
+    .forEach(i => i.value = "");
+
+  document.getElementById("imageFiles").value = "";
+  document.getElementById("previewBox").innerHTML = "";
+
+}else{
+  alert("Error: " + (data.message || "Unauthorized ❌"));
+}
+
+    }catch(err){
+      console.log(err);
+      alert("Server error ❌");
+    }
+  }
+/* BANNER UPLOAD */
+async function uploadBanner(){
+
+  const type = document.getElementById("bannerType").value;
+
+  // VIDEO
+  if(type === "video"){
+    const file = document.getElementById("bannerVideoFile").files[0];
+
+    if(!file){
+      alert("Select video ❗");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = async function(e){
+      await fetch(BASE_URL + "/banner",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({
+          type:"video",
+          videoUrl:e.target.result,
+          images:[]
+        })
+      });
+
+      alert("Video Updated ✅");
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  // SLIDER
+  if(type === "slider"){
+    const files = document.getElementById("bannerImages").files;
+
+    if(files.length === 0){
+      alert("Select images ❗");
+      return;
+    }
+
+    let images = [];
+
+    for(let i=0;i<files.length;i++){
+      const reader = new FileReader();
+
+      await new Promise(resolve=>{
+        reader.onload = function(e){
+          images.push(e.target.result);
+          resolve();
+        };
+        reader.readAsDataURL(files[i]);
+      });
+    }
+
+    await fetch(BASE_URL + "/banner",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        type:"slider",
+        videoUrl:"",
+        images
+      })
+    });
+
+    alert("Slider Updated ✅");
+  }
+}
+function showSection(section, btn){
+
+  document.querySelectorAll(".sidebar button")
+    .forEach(b => b.classList.remove("active"));
+
+  if(btn) btn.classList.add("active");
+
+  // hide all
+  document.getElementById("productWrapper").style.display = "none";
+  document.getElementById("productsSection").style.display = "none";
+  document.getElementById("ordersSection").style.display = "none";
+  document.getElementById("bannerSection").style.display = "none";
+
+if(section === "product"){
+  document.getElementById("productWrapper").style.display = "block";
+  document.getElementById("productsSection").style.display = "block";
+}
+  if(section === "orders"){
+    document.getElementById("ordersSection").style.display = "block";
+  }
+
+  if(section === "banner"){
+    document.getElementById("bannerSection").style.display = "block";
+  }
+}
+/* LOAD PRODUCTS */
+function loadProducts(){
+  fetch(BASE_URL + "/products")
+  .then(res => res.json())
+  .then(data => {
+
+    let html = "";
+
+    data.forEach(p => {
+      html += `
  <div class="card"
 style="
 padding:15px;
