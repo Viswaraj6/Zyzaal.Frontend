@@ -1001,20 +1001,181 @@ Qty
 </th>
 
 </tr>
+html += `
+
+<div class="card"
+style="
+padding:18px;
+border-radius:14px;
+background:#fff;
+margin-bottom:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+">
+
+<div style="
+display:flex;
+gap:18px;
+align-items:flex-start;
+flex-wrap:wrap;
+">
+
+<!-- LEFT -->
+<div>
+
+<img 
+id="main-${p._id}"
+src="${p.primaryImage || (p.images && p.images[0]) || ''}"
+style="
+width:120px;
+height:145px;
+object-fit:cover;
+border-radius:10px;
+border:1px solid #ddd;
+display:block;
+"
+>
+
+<!-- THUMBNAILS -->
+<div style="
+display:flex;
+gap:6px;
+margin-top:10px;
+flex-wrap:wrap;
+max-width:120px;
+">
+
+${(p.images || []).map(img => `
+
+<img
+src="${img}"
+onclick="
+document.getElementById('main-${p._id}').src='${img}';
+
+fetch(BASE_URL + '/products/${p._id}',{
+method:'PUT',
+headers:{
+'Content-Type':'application/json',
+'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+},
+body: JSON.stringify({
+primaryImage:'${img}'
+})
+})
+"
+style="
+width:36px;
+height:46px;
+object-fit:cover;
+cursor:pointer;
+border-radius:6px;
+border:1px solid #ccc;
+"
+>
+
+`).join("")}
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div style="
+flex:1;
+min-width:220px;
+">
+
+<!-- TOP -->
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+flex-wrap:wrap;
+">
+
+<div>
+
+<h2 style="
+margin:0;
+font-size:22px;
+font-weight:700;
+color:#111827;
+">
+${p.name}
+</h2>
+
+<div style="
+margin-top:6px;
+font-size:15px;
+color:#6b7280;
+">
+Style No : 
+<b style="color:#111827;">
+${p.styleNo || "-"}
+</b>
+</div>
+
+</div>
+
+<div style="
+font-size:22px;
+font-weight:700;
+color:#111827;
+">
+₹${p.price}
+</div>
+
+</div>
+
+<!-- STOCK TABLE -->
+<div style="
+margin-top:18px;
+overflow-x:auto;
+">
+
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:15px;
+min-width:220px;
+">
+
+<tr style="
+background:#f3f4f6;
+">
+
+<th style="
+padding:10px;
+text-align:left;
+font-weight:600;
+">
+Size
+</th>
+
+<th style="
+padding:10px;
+text-align:right;
+font-weight:600;
+">
+Qty
+</th>
+
+</tr>
 
 ${(p.sizeStock || []).map(s => `
 
 <tr>
 
 <td style="
-padding:10px 8px;
+padding:10px;
 border-bottom:1px solid #eee;
+font-weight:500;
 ">
 ${s.size}
 </td>
 
 <td style="
-padding:10px 8px;
+padding:10px;
 text-align:right;
 border-bottom:1px solid #eee;
 font-weight:700;
@@ -1036,21 +1197,34 @@ ${s.stock}
 display:flex;
 gap:10px;
 margin-top:18px;
+flex-wrap:wrap;
 ">
 
-<button onclick="editProduct('${p._id}')"
+<button 
+onclick="editProduct('${p._id}')"
 style="
 background:#111827;
-padding:10px 16px;
-">
+padding:10px 18px;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+"
+>
 Edit
 </button>
 
-<button onclick="deleteProduct('${p._id}')"
+<button 
+onclick="deleteProduct('${p._id}')"
 style="
 background:#dc2626;
-padding:10px 16px;
-">
+padding:10px 18px;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+"
+>
 Delete
 </button>
 
@@ -1061,6 +1235,8 @@ Delete
 </div>
 
 </div>
+
+`;
     });
 
     document.getElementById("products").innerHTML = html;
