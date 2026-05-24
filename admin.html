@@ -868,31 +868,43 @@ function loadProducts(){
 
     data.forEach(p => {
       html += `
-       <div class="card"
-onclick="openProduct('${p._id}')"
-style="cursor:pointer;">
-         <div style="display:flex; gap:10px;">
+ <div class="card"
+style="
+padding:15px;
+border-radius:12px;
+background:#fff;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,0.08);
+">
 
+<div style="
+display:flex;
+gap:15px;
+align-items:flex-start;
+flex-wrap:wrap;
+">
+
+<!-- LEFT IMAGE -->
 <div>
 
 <img 
 id="main-${p._id}"
 src="${p.primaryImage || (p.images && p.images[0]) || ''}"
 style="
-width:100px;
-height:120px;
+width:110px;
+height:130px;
 object-fit:cover;
-border-radius:8px;
-border:2px solid #ddd;
+border-radius:10px;
+border:1px solid #ddd;
 "
 >
 
-</div>
-
+<!-- SMALL IMAGES -->
 <div style="
 display:flex;
-flex-direction:column;
 gap:6px;
+margin-top:8px;
+flex-wrap:wrap;
 ">
 
 ${(p.images || []).map(img => `
@@ -914,12 +926,12 @@ primaryImage:'${img}'
 })
 "
 style="
-width:45px;
-height:55px;
+width:40px;
+height:50px;
 object-fit:cover;
 cursor:pointer;
-border:1px solid #ccc;
 border-radius:6px;
+border:1px solid #ccc;
 "
 >
 
@@ -928,40 +940,127 @@ border-radius:6px;
 </div>
 
 </div>
-          <h3>${p.name}</h3>
-          <p>₹${p.price}</p>
-          <div style="
-margin:10px 0;
-font-size:14px;
+
+<!-- RIGHT DETAILS -->
+<div style="flex:1; min-width:200px;">
+
+<h2 style="
+margin:0;
+font-size:22px;
+font-weight:700;
 ">
+${p.name}
+</h2>
+
+<div style="
+margin-top:6px;
+font-size:18px;
+font-weight:600;
+color:#111827;
+">
+₹${p.price}
+</div>
+
+<div style="
+margin-top:8px;
+font-size:15px;
+color:#555;
+">
+Style No : <b>${p.styleNo || "-"}</b>
+</div>
+
+<!-- SIZE + QTY -->
+<div style="
+margin-top:15px;
+">
+
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:15px;
+">
+
+<tr style="
+background:#f3f4f6;
+">
+
+<th style="
+padding:8px;
+text-align:left;
+border-radius:6px 0 0 6px;
+">
+Size
+</th>
+
+<th style="
+padding:8px;
+text-align:right;
+border-radius:0 6px 6px 0;
+">
+Qty
+</th>
+
+</tr>
 
 ${(p.sizeStock || []).map(s => `
 
-<div style="
-display:flex;
-justify-content:space-between;
-margin-bottom:4px;
+<tr>
+
+<td style="
+padding:10px 8px;
+border-bottom:1px solid #eee;
 ">
+${s.size}
+</td>
 
-<span>Size ${s.size}</span>
-
-<b ${
-s.stock <= 2
-? 'style="color:red"'
-: ''
-}>
+<td style="
+padding:10px 8px;
+text-align:right;
+border-bottom:1px solid #eee;
+font-weight:700;
+${s.stock <= 2 ? "color:red;" : "color:#111827;"}
+">
 ${s.stock}
-</b>
+</td>
 
-</div>
+</tr>
 
 `).join("")}
 
+</table>
+
 </div>
-         <button onclick="editProduct('${p._id}')">Edit</button>
-<button onclick="deleteProduct('${p._id}')">Delete</button>
-        </div>
-      `;
+
+<!-- BUTTONS -->
+<div style="
+display:flex;
+gap:10px;
+margin-top:18px;
+">
+
+<button onclick="editProduct('${p._id}')"
+style="
+background:#111827;
+padding:10px 16px;
+">
+Edit
+</button>
+
+<button onclick="deleteProduct('${p._id}')"
+style="
+background:#dc2626;
+padding:10px 16px;
+">
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
     });
 
     document.getElementById("products").innerHTML = html;
