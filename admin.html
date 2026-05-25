@@ -1846,22 +1846,27 @@ margin-top:30px;
     };
 
     // 🔥 UPDATE
-    await fetch(BASE_URL + "/products/" + id,{
-      method:"PUT",
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":
-        "Bearer " + localStorage.getItem("adminToken")
-      },
-      body: JSON.stringify(bodyData)
-    });
+    const updateRes = await fetch(BASE_URL + "/products/" + id,{
+  method:"PUT",
+  headers:{
+    "Content-Type":"application/json",
+    "Authorization":
+    "Bearer " + localStorage.getItem("adminToken")
+  },
+  body: JSON.stringify(bodyData)
+});
 
-    alert("Stock Updated ✅");
+const result = await updateRes.json();
 
-    openProduct(id);
+console.log(result);
 
-    loadProducts();
+alert("Stock Updated ✅");
 
+// 🔥 WAIT LITTLE
+setTimeout(() => {
+  openProduct(id);
+}, 500);
+    
   }catch(err){
 
     console.log(err);
