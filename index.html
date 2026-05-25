@@ -554,14 +554,9 @@ async function loadProducts(){
 // 🔍 OPEN PRODUCT
 // ==============================
 function openProduct(id){
-  const product = productsData.find(p => p._id === id);
 
-  localStorage.setItem(
-    "selectedProduct",
-    JSON.stringify(product)
-  );
+  location.href = "product.html?id=" + id;
 
-  location.href = "product.html";
 }
 function goPage(page){
   window.location.href = page;
