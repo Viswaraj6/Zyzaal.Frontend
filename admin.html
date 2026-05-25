@@ -1547,40 +1547,9 @@ document.getElementById('extraImage-${p._id}').click();
 type="file"
 id="extraImage-${p._id}"
 style="display:none"
-
-onchange="
-const file = this.files[0];
-
-if(!file) return;
-
-const reader = new FileReader();
-
-reader.onload = async function(e){
-
-  const updatedImages = [
-    ...${JSON.stringify(p.images || [])},
-    e.target.result
-  ];
-
-  await fetch(BASE_URL + '/products/${p._id}',{
-    method:'PUT',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer ' + localStorage.getItem('adminToken')
-    },
-    body: JSON.stringify({
-      images: updatedImages,
-      primaryImage: '${p.primaryImage}'
-    })
-  });
-
-  openProduct('${p._id}');
-};
-
-reader.readAsDataURL(file);
-"
-/>
-          </div>
+onchange="addExtraImage(event,'${p._id}')"
+/> 
+</div>
 
         </div>
 
