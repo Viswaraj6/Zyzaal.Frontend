@@ -1750,14 +1750,29 @@ margin-top:30px;
 }
   function enableEditMode(){
 
+  // HIDE TEXT
   document
   .querySelectorAll(".view-mode")
-  .forEach(el => el.style.display = "none");
+  .forEach(el => {
+    el.style.display = "none";
+  });
 
+  // SHOW INPUT
   document
   .querySelectorAll(".edit-mode")
-  .forEach(el => el.style.display = "block");
+  .forEach(el => {
 
+    if(
+      el.tagName === "INPUT" ||
+      el.tagName === "SELECT" ||
+      el.tagName === "TEXTAREA"
+    ){
+      el.style.display = "block";
+    }
+
+  });
+
+  // SAVE BUTTON
   document.getElementById("saveBox")
     .style.display = "block";
 
