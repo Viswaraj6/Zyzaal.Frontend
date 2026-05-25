@@ -1324,6 +1324,44 @@ function updateStatus(id,status){
   })
   .then(()=>loadOrders());
 }
+  function updateSizeStock(id,size,value){
+
+  fetch(BASE_URL + "/products")
+  .then(res => res.json())
+  .then(data => {
+
+    const p = data.find(x => x._id === id);
+
+    const updated =
+    (p.sizeStock || []).map(s => {
+
+      if(s.size === size){
+        return {
+          ...s,
+          stock:Number(value)
+        };
+      }
+
+      return s;
+    });
+
+    fetch(BASE_URL + "/products/" + id,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + localStorage.getItem("adminToken")
+      },
+      body: JSON.stringify({
+        sizeStock: updated
+      })
+    })
+    .then(() => {
+      loadProducts();
+    });
+
+  });
+
+}
 function openProduct(id){
 
   fetch(BASE_URL + "/products")
