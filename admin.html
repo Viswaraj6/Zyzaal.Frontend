@@ -1338,71 +1338,198 @@ function openProduct(id){
     position:fixed;
     top:0;
     right:0;
-    width:500px;
+    width:650px;
     height:100vh;
     background:white;
     z-index:9999;
     overflow:auto;
-    padding:20px;
-    box-shadow:-4px 0 10px rgba(0,0,0,0.2);
+    padding:25px;
+    box-shadow:-4px 0 12px rgba(0,0,0,0.2);
     ">
 
-      <h2>${p.name}</h2>
+      <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      ">
 
-      <img
-      src="${p.primaryImage}"
-      style="
-      width:100%;
-      border-radius:10px;
-      "
-      >
+        <h2>${p.styleNo || ""}</h2>
 
-      <br><br>
+        <button
+        onclick="
+        document.getElementById('productPopup').innerHTML=''
+        "
+        style="
+        background:#ef4444;
+        ">
+        Close
+        </button>
 
-      <b>Price:</b> ₹${p.price}<br><br>
+      </div>
 
-      <b>Fabric:</b> ${p.fabric}<br><br>
+      <div style="
+      display:flex;
+      gap:20px;
+      margin-top:20px;
+      ">
 
-      <b>Color:</b> ${p.color}<br><br>
+        <!-- IMAGE -->
 
-      <b>Pattern:</b> ${p.pattern}<br><br>
+        <div>
 
-      <b>Fit:</b> ${p.fit}<br><br>
+          <img
+          id="popupMainImage"
+          src="${p.primaryImage}"
+          style="
+          width:220px;
+          height:280px;
+          object-fit:cover;
+          border-radius:12px;
+          border:1px solid #ddd;
+          "
+          >
 
-      <h3>Stock</h3>
+          <div style="
+          display:flex;
+          gap:8px;
+          margin-top:10px;
+          flex-wrap:wrap;
+          ">
+
+          ${(p.images || []).map(img => `
+
+            <img
+            src="${img}"
+
+            onclick="
+            document.getElementById('popupMainImage').src='${img}';
+
+            fetch(BASE_URL + '/products/${p._id}',{
+              method:'PUT',
+              headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+              },
+              body: JSON.stringify({
+                primaryImage:'${img}'
+              })
+            })
+            "
+
+            style="
+            width:55px;
+            height:65px;
+            object-fit:cover;
+            border-radius:6px;
+            cursor:pointer;
+            border:2px solid #ddd;
+            "
+            >
+
+          `).join("")}
+
+          </div>
+
+        </div>
+
+        <!-- DETAILS -->
+
+        <div style="flex:1;">
+
+          <h3>${p.name}</h3>
+
+          <div style="
+          display:grid;
+          grid-template-columns:150px 1fr;
+          row-gap:12px;
+          margin-top:20px;
+          ">
+
+            <b>Style No</b>
+            <div>${p.styleNo || "-"}</div>
+
+            <b>Category</b>
+            <div>${p.category || "-"}</div>
+
+            <b>Color</b>
+            <div>${p.color || "-"}</div>
+
+            <b>Fabric</b>
+            <div>${p.fabric || "-"}</div>
+
+            <b>Fit</b>
+            <div>${p.fit || "-"}</div>
+
+            <b>Pattern</b>
+            <div>${p.pattern || "-"}</div>
+
+            <b>Price</b>
+            <div>₹${p.price}</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <hr style="margin:25px 0;">
+
+      <h3>Size Wise Stock</h3>
 
       ${(p.sizeStock || []).map(s => `
-        <div style="
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:8px;
-        ">
-          <span>${s.size}</span>
-          <b>${s.stock}</b>
-        </div>
+
+      <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+      padding:12px;
+      background:#f9fafb;
+      border-radius:10px;
+      ">
+
+        <b>Size ${s.size}</b>
+
+        <input
+        type="number"
+        value="${s.stock}"
+        onchange="updateSizeStock(
+          '${p._id}',
+          '${s.size}',
+          this.value
+        )"
+        style="
+        width:120px;
+        "
+        >
+
+      </div>
+
       `).join("")}
 
-      <br>
-
-      <button onclick="editProduct('${p._id}')">
-        Edit
-      </button>
-
-      <button
-      onclick="deleteProduct('${p._id}')"
-      style="background:red;">
-        Delete
-      </button>
-
-      <button
-      onclick="
-      document.getElementById('productPopup').innerHTML=''
-      "
-      style="
-      background:#666;
+      <div style="
+      margin-top:25px;
+      display:flex;
+      gap:10px;
       ">
-        Close
-      </button>
+
+        <button
+        onclick="editProduct('${p._id}')"
+        style="
+        background:#2563eb;
+        ">
+        Edit Product
+        </button>
+
+        <button
+        onclick="deleteProduct('${p._id}')"
+        style="
+        background:red;
+        ">
+        Delete
+        </button>
+
+      </div>
 
     </div>
     `;
