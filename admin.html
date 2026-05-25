@@ -512,9 +512,15 @@ images,
 
       alert(
         window.editId
-        ? "Product Updated ✅"
-        : "Product Added ✅"
-      );
+        ? "Product Updated ✅" :
+        "Product Added ✅");
+      // SHOW ADD BUTTON AGAIN
+document.querySelector("button[onclick='openAddProduct()']")
+  .style.display = "inline-block";
+
+// SHOW PRODUCTS AGAIN
+document.getElementById("productsSection")
+  .style.display = "block";
 
       window.editId = null;
 
