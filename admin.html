@@ -1637,54 +1637,56 @@ function openProduct(id){
 
           ${(p.sizeStock || []).map(s => `
 
-          <div style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          padding:16px;
-          margin-bottom:14px;
-          background:#f8fafc;
-          border-radius:14px;
-          border:1px solid #e5e7eb;
-          ">
-
-            <div style="
-            font-size:18px;
-            font-weight:600;
-            ">
-            Size ${s.size}
-            </div>
-
-            <div>
-
-              <span
-              class="view-mode"
-              style="
-              font-size:18px;
-              font-weight:bold;
-              ">
-              ${s.stock}
-              </span>
-
-              <input
-class="edit-mode"
-type="number"
-id="stock-${s.size}"
-value="${s.stock}"
-style="
-display:none;
-width:120px;
-padding:10px;
-border:1px solid #ccc;
-border-radius:8px;
-font-size:16px;
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px;
+margin-bottom:14px;
+background:#f8fafc;
+border-radius:14px;
+border:1px solid #e5e7eb;
 ">
-            </div>
 
-          </div>
+  <div style="
+  font-size:18px;
+  font-weight:600;
+  ">
+  Size ${s.size}
+  </div>
 
-          `).join("")}
+  <div>
 
+    <!-- VIEW -->
+    <span
+    class="view-mode"
+    style="
+    font-size:18px;
+    font-weight:bold;
+    ">
+    ${s.stock}
+    </span>
+
+    <!-- EDIT -->
+    <input
+    class="edit-mode"
+    type="number"
+    id="stock-${s.size}"
+    value="${s.stock}"
+    style="
+    display:none;
+    width:120px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    ">
+
+  </div>
+
+</div>
+
+`).join("")}
           <!-- SAVE -->
 
          <div
