@@ -1812,6 +1812,70 @@ margin-top:30px;
   openProduct(productId);
 
 }
+  async function addExtraImage(event, productId){
+
+  const file = event.target.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = async function(e){
+
+    try{
+
+      // GET PRODUCT
+      const res = await fetch(BASE_URL + "/products");
+
+      const data = await res.json();
+
+      const p = data.find(x => x._id === productId);
+
+      // OLD + NEW IMAGE
+      const updatedImages = [
+        ...(p.images || []),
+        e.target.result
+      ];
+
+      // UPDATE
+      await fetch(BASE_URL + "/products/" + productId,{
+
+        method:"PUT",
+
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":
+          "Bearer " + localStorage.getItem("adminToken")
+        },
+
+        body: JSON.stringify({
+
+          images: updatedImages,
+
+          primaryImage:
+          p.primaryImage || updatedImages[0]
+
+        })
+
+      });
+
+      alert("Image Added ✅");
+
+      openProduct(productId);
+
+    }catch(err){
+
+      console.log(err);
+
+      alert("Image Upload Failed ❌");
+
+    }
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
  function openAddProduct(){
 
   // FORM SHOW
