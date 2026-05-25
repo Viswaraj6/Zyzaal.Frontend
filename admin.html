@@ -1929,6 +1929,85 @@ setTimeout(() => {
   }
 
 }
+async function deleteProductImage(id,index){
+
+  const res = await fetch(BASE_URL + "/products");
+  const data = await res.json();
+
+  const p = data.find(x => x._id === id);
+
+  const updatedImages =
+    p.images.filter((_,i) => i !== index);
+
+  await fetch(BASE_URL + "/products/" + id,{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":
+      "Bearer " + localStorage.getItem("adminToken")
+    },
+    body: JSON.stringify({
+      images: updatedImages,
+      primaryImage: updatedImages[0] || ""
+    })
+  });
+
+  openProduct(id);
+}
+  async function addMoreImages(id){
+
+  const files =
+    document.getElementById("newImages").files;
+
+  if(files.length === 0){
+    alert("Select Images");
+    return;
+  }
+
+  const res = await fetch(BASE_URL + "/products");
+  const data = await res.json();
+
+  const p = data.find(x => x._id === id);
+
+  let newImages = [];
+
+  for(let i=0;i<files.length;i++){
+
+    const reader = new FileReader();
+
+    await new Promise(resolve => {
+
+      reader.onload = e => {
+        newImages.push(e.target.result);
+        resolve();
+      };
+
+      reader.readAsDataURL(files[i]);
+
+    });
+
+  }
+
+  const updated =
+    [...(p.images || []), ...newImages];
+
+  await fetch(BASE_URL + "/products/" + id,{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":
+      "Bearer " + localStorage.getItem("adminToken")
+    },
+    body: JSON.stringify({
+      images: updated,
+      primaryImage: updated[0]
+    })
+  });
+
+  alert("Images Added ✅");
+
+  openProduct(id);
+}
   /* INIT */
 loadProducts();
 loadOrders();
