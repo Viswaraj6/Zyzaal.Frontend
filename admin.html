@@ -853,8 +853,21 @@ function showSection(section, btn){
   document.getElementById("bannerSection").style.display = "none";
 
 if(section === "product"){
-  document.getElementById("productWrapper").style.display = "block";
-  document.getElementById("productsSection").style.display = "block";
+
+  document.getElementById("productWrapper")
+    .style.display = "block";
+
+  // FORM HIDE
+  document.getElementById("productSection")
+    .style.display = "none";
+
+  // PRODUCTS SHOW
+  document.getElementById("productsSection")
+    .style.display = "block";
+
+  // +ADD NEW SHOW AGAIN
+  document.querySelector("button[onclick='openAddProduct()']")
+    .style.display = "inline-block";
 }
   if(section === "orders"){
     document.getElementById("ordersSection").style.display = "block";
