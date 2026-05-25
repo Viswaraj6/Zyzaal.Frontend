@@ -1745,6 +1745,77 @@ function openProduct(id){
     .style.display = "block";
 
 }
+  function saveProductChanges(id){
+
+  fetch(BASE_URL + "/products")
+  .then(res => res.json())
+  .then(data => {
+
+    const p = data.find(x => x._id === id);
+
+    const updatedStock =
+    (p.sizeStock || []).map(s => ({
+      size:s.size,
+      stock:Number(
+        document.getElementById(
+          "stock-" + s.size
+        ).value
+      )
+    }));
+
+    fetch(BASE_URL + "/products/" + id,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + localStorage.getItem("adminToken")
+      },
+      body: JSON.stringify({
+
+        name:
+        document.getElementById("edit-name").value,
+
+        styleNo:
+        document.getElementById("edit-styleNo").value,
+
+        category:
+        document.getElementById("edit-category").value,
+
+        color:
+        document.getElementById("edit-color").value,
+
+        fabric:
+        document.getElementById("edit-fabric").value,
+
+        fit:
+        document.getElementById("edit-fit").value,
+
+        pattern:
+        document.getElementById("edit-pattern").value,
+
+        occasion:
+        document.getElementById("edit-occasion").value,
+
+        price:Number(
+          document.getElementById("edit-price").value
+        ),
+
+        sizeStock: updatedStock
+
+      })
+    })
+    .then(() => {
+
+      alert("Updated ✅");
+
+      openProduct(id);
+
+      loadProducts();
+
+    });
+
+  });
+
+}
 /* INIT */
 loadProducts();
 loadOrders();
