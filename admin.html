@@ -1462,7 +1462,7 @@ function openProduct(id){
           margin-top:15px;
           ">
 
-          ${(p.images || []).map(img => `
+      ${(p.images || []).map((img,index) => `
 
 <div style="
 position:relative;
@@ -1485,7 +1485,7 @@ height:85px;
     body: JSON.stringify({
       primaryImage:'${img}'
     })
-  })
+  });
   "
 
   style="
@@ -1498,14 +1498,15 @@ height:85px;
   "
   >
 
-  <!-- DELETE BUTTON -->
+  <!-- DELETE -->
 
   <button
   onclick="
   event.stopPropagation();
 
   const updatedImages =
-    (p.images || []).filter(i => i !== '${img}');
+  ${JSON.stringify(p.images || [])}
+  .filter((_,i)=>i!==${index});
 
   fetch(BASE_URL + '/products/${p._id}',{
     method:'PUT',
@@ -1534,7 +1535,6 @@ height:85px;
   color:white;
   font-size:14px;
   cursor:pointer;
-  padding:0;
   ">
   ✕
   </button>
@@ -1580,7 +1580,7 @@ const reader = new FileReader();
 reader.onload = async function(e){
 
   const updatedImages = [
-    ...(p.images || []),
+    ...${JSON.stringify(p.images || [])},
     e.target.result
   ];
 
@@ -1592,7 +1592,7 @@ reader.onload = async function(e){
     },
     body: JSON.stringify({
       images: updatedImages,
-      primaryImage: p.primaryImage || updatedImages[0]
+      primaryImage: '${p.primaryImage}'
     })
   });
 
