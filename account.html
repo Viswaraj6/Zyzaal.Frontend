@@ -1049,32 +1049,31 @@ function toggleAddressForm(){
   document.getElementById("saveBtn").style.display = "block";
   document.getElementById("editBtn").style.display = "none";
 }
-  function openOrder(id){
+ function openOrder(id){
 
   fetch(API + "/orders")
-    .then(res => res.json())
-    .then(data => {
 
-      let order = data.find(o => o._id === id);
+  .then(res => res.json())
 
-      if(!order) return;
+  .then(data => {
 
-      let html = `
-        <div class="timeline">
+    const order =
+      data.find(o => o._id === id);
 
-          <div class="step done">Order Confirmed</div>
-          <div class="step done">Shipped</div>
-          <div class="step done">Out for Delivery</div>
-          <div class="step done">Delivered</div>
+    if(!order) return;
 
-        </div>
-      `;
+    localStorage.setItem(
+      "selectedOrder",
+      JSON.stringify(order)
+    );
 
-      document.getElementById("orderTimeline").innerHTML = html;
-     document.getElementById("orderPopup").style.display = "flex";
-    });
+    window.location.href =
+      "order-details.html";
+
+  });
+
 }
-
+  
 function closeOrder(){
   document.getElementById("orderPopup").style.display = "none";
 }
