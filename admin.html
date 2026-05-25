@@ -1731,6 +1731,20 @@ function openProduct(id){
   });
 
 }
+  function enableEditMode(){
+
+  document
+  .querySelectorAll(".view-mode")
+  .forEach(el => el.style.display = "none");
+
+  document
+  .querySelectorAll(".edit-mode")
+  .forEach(el => el.style.display = "block");
+
+  document.getElementById("saveBox")
+    .style.display = "block";
+
+}
 /* INIT */
 loadProducts();
 loadOrders();
