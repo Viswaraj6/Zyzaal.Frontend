@@ -610,81 +610,77 @@ function loadOrders(){
 
          const item = order.product || order;
 
-          html += `
+html += `
 
-          <div
-          onclick="openOrder('${order._id}')"
-          style="
-          background:#fff;
-          border:1px solid #ddd;
-          border-radius:10px;
-          padding:15px;
-          margin-bottom:15px;
-          cursor:pointer;
-          display:flex;
-          gap:20px;
-          align-items:center;
-          ">
+<div
+onclick="openOrder('${order._id}')"
+style="
+background:#fff;
+border:1px solid #ddd;
+border-radius:10px;
+padding:15px;
+margin-bottom:15px;
+cursor:pointer;
+display:flex;
+gap:20px;
+align-items:center;
+">
 
-            <!-- IMAGE -->
-            <img
-            src="${item?.image}"
-            style="
-            width:90px;
-            height:110px;
-            object-fit:cover;
-            border-radius:8px;
-            ">
+  <img
+  src="${item.images?.[0] || item.image}"
+  style="
+  width:90px;
+  height:110px;
+  object-fit:cover;
+  border-radius:8px;
+  ">
 
-            <!-- DETAILS -->
-            <div style="flex:1;">
+  <div style="flex:1;">
 
-              <div style="
-              font-size:18px;
-              font-weight:600;
-              margin-bottom:8px;
-              ">
-                ${item?.name}
-              </div>
+    <div style="
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:8px;
+    ">
+      ${item.name || item.productName}
+    </div>
 
-              <div style="
-              font-size:18px;
-              font-weight:bold;
-              margin-bottom:6px;
-              ">
-                ₹${item?.price}
-              </div>
+    <div style="
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:6px;
+    ">
+      ₹${item.price || order.total}
+    </div>
 
-              <div style="
-              color:green;
-              font-weight:600;
-              ">
-                ● ${order.status || "Order Confirmed"}
-              </div>
+    <div style="
+    color:green;
+    font-weight:600;
+    ">
+      ● ${order.status || "Pending"}
+    </div>
 
-              <div style="
-              color:#555;
-              margin-top:6px;
-              ">
-                ${new Date(
-                  order.orderDate || Date.now()
-                ).toLocaleDateString("en-IN")}
-              </div>
+    <div style="
+    color:#555;
+    margin-top:6px;
+    ">
+      ${new Date(
+        order.orderDate || Date.now()
+      ).toLocaleDateString("en-IN")}
+    </div>
 
-            </div>
+  </div>
 
-            <!-- RIGHT -->
-            <div style="
-            font-size:24px;
-            color:#888;
-            ">
-              ›
-            </div>
+  <div style="
+  font-size:24px;
+  color:#888;
+  ">
+    ›
+  </div>
 
-          </div>
+</div>
 
-          `;
-
+`;
         });
 
       }
