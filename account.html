@@ -590,10 +590,6 @@ function loadOrders(){
     .then(res => res.json())
     .then(data => {
 
-      // 🔴 OLD (remove this)
-      // data.forEach(order => { ❌
-
-      // ✅ ADD HERE
       let myOrders = data.filter(o =>
         String(o.phone) === String(user)
       );
@@ -601,24 +597,92 @@ function loadOrders(){
       let html = "";
 
       if(myOrders.length === 0){
-        html = "<p class='empty'>No orders</p>";
-      } else {
 
-        // 🔁 CHANGE THIS ALSO
-        myOrders.forEach(order => {
+        html = `
+          <p class='empty'>
+            No orders found
+          </p>
+        `;
+
+      }else{
+
+        myOrders.reverse().forEach(order => {
+
+          const item = order.items?.[0];
 
           html += `
-            <div class="card">
 
-              <b>Total:</b> ₹${order.total}<br>
-              <b>Status:</b> ${order.status}<br>
-              <b>Date:</b> ${new Date(order.orderDate || Date.now()).toLocaleDateString("en-IN")}
+          <div
+          onclick="openOrder('${order._id}')"
+          style="
+          background:#fff;
+          border:1px solid #ddd;
+          border-radius:10px;
+          padding:15px;
+          margin-bottom:15px;
+          cursor:pointer;
+          display:flex;
+          gap:20px;
+          align-items:center;
+          ">
 
-              <p class="view-order" data-id="${order._id}">
-                See all updates >
-              </p>
+            <!-- IMAGE -->
+            <img
+            src="${item?.image}"
+            style="
+            width:90px;
+            height:110px;
+            object-fit:cover;
+            border-radius:8px;
+            ">
+
+            <!-- DETAILS -->
+            <div style="flex:1;">
+
+              <div style="
+              font-size:18px;
+              font-weight:600;
+              margin-bottom:8px;
+              ">
+                ${item?.name}
+              </div>
+
+              <div style="
+              font-size:18px;
+              font-weight:bold;
+              margin-bottom:6px;
+              ">
+                ₹${item?.price}
+              </div>
+
+              <div style="
+              color:green;
+              font-weight:600;
+              ">
+                ● ${order.status || "Order Confirmed"}
+              </div>
+
+              <div style="
+              color:#555;
+              margin-top:6px;
+              ">
+                ${new Date(
+                  order.orderDate || Date.now()
+                ).toLocaleDateString("en-IN")}
+              </div>
 
             </div>
+
+            <!-- RIGHT -->
+            <div style="
+            font-size:24px;
+            color:#888;
+            ">
+              ›
+            </div>
+
+          </div>
+
           `;
 
         });
@@ -626,21 +690,11 @@ function loadOrders(){
       }
 
       document.getElementById("orders").innerHTML = html;
-      setTimeout(() => {
-        document.querySelectorAll(".view-order").forEach(btn => {
-          btn.onclick = function(){
-            openOrder(this.dataset.id);
-          }
-        });
-      }, 0);
 
     });
 
-} // ✅ CLOSE HERE
-
-
-// ✅ OUTSIDE
-function loadWishlist(){
+}
+  function loadWishlist(){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
   let html = "";
