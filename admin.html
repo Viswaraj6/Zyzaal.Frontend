@@ -1406,13 +1406,28 @@ function openProduct(id){
 
         </div>
 
-        <button
-        onclick="loadProducts()"
-        style="
-        background:#111827;
+        <div style="
+        display:flex;
+        gap:10px;
         ">
-        ← Back
-        </button>
+
+          <button
+          onclick="enableEditMode()"
+          style="
+          background:#2563eb;
+          ">
+          Edit Product
+          </button>
+
+          <button
+          onclick="loadProducts()"
+          style="
+          background:#111827;
+          ">
+          ← Back
+          </button>
+
+        </div>
 
       </div>
 
@@ -1496,36 +1511,116 @@ function openProduct(id){
           ">
 
             <b>Name</b>
-            <div>${p.name || "-"}</div>
+            <div>
+              <span class="view-mode">${p.name || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-name"
+              value="${p.name || ""}"
+              style="display:none;">
+            </div>
 
             <b>Style No</b>
-            <div>${p.styleNo || "-"}</div>
+            <div>
+              <span class="view-mode">${p.styleNo || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-styleNo"
+              value="${p.styleNo || ""}"
+              style="display:none;">
+            </div>
 
             <b>Category</b>
-            <div>${p.category || "-"}</div>
+            <div>
+              <span class="view-mode">${p.category || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-category"
+              value="${p.category || ""}"
+              style="display:none;">
+            </div>
 
             <b>Color</b>
-            <div>${p.color || "-"}</div>
+            <div>
+              <span class="view-mode">${p.color || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-color"
+              value="${p.color || ""}"
+              style="display:none;">
+            </div>
 
             <b>Fabric</b>
-            <div>${p.fabric || "-"}</div>
+            <div>
+              <span class="view-mode">${p.fabric || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-fabric"
+              value="${p.fabric || ""}"
+              style="display:none;">
+            </div>
 
             <b>Fit</b>
-            <div>${p.fit || "-"}</div>
+            <div>
+              <span class="view-mode">${p.fit || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-fit"
+              value="${p.fit || ""}"
+              style="display:none;">
+            </div>
 
             <b>Pattern</b>
-            <div>${p.pattern || "-"}</div>
+            <div>
+              <span class="view-mode">${p.pattern || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-pattern"
+              value="${p.pattern || ""}"
+              style="display:none;">
+            </div>
 
             <b>Occasion</b>
-            <div>${p.occasion || "-"}</div>
+            <div>
+              <span class="view-mode">${p.occasion || "-"}</span>
+
+              <input
+              class="edit-mode"
+              id="edit-occasion"
+              value="${p.occasion || ""}"
+              style="display:none;">
+            </div>
 
             <b>Price</b>
-            <div style="
-            font-size:22px;
-            font-weight:bold;
-            color:#2563eb;
-            ">
-            ₹${p.price}
+            <div>
+
+              <span
+              class="view-mode"
+              style="
+              font-size:22px;
+              font-weight:bold;
+              color:#2563eb;
+              ">
+              ₹${p.price}
+              </span>
+
+              <input
+              class="edit-mode"
+              id="edit-price"
+              type="number"
+              value="${p.price}"
+              style="
+              display:none;
+              width:150px;
+              ">
+
             </div>
 
           </div>
@@ -1560,52 +1655,50 @@ function openProduct(id){
             Size ${s.size}
             </div>
 
-            <input
-            type="number"
-            value="${s.stock}"
+            <div>
 
-            onchange="updateSizeStock(
-              '${p._id}',
-              '${s.size}',
-              this.value
-            )"
+              <span
+              class="view-mode"
+              style="
+              font-size:18px;
+              font-weight:bold;
+              ">
+              ${s.stock}
+              </span>
 
-            style="
-            width:120px;
-            font-size:18px;
-            "
-            >
+              <input
+              class="edit-mode"
+              type="number"
+              id="stock-${s.size}"
+              value="${s.stock}"
+              style="
+              display:none;
+              width:120px;
+              ">
+
+            </div>
 
           </div>
 
           `).join("")}
 
-          <!-- ACTION -->
+          <!-- SAVE -->
 
-          <div style="
-          display:flex;
-          gap:15px;
-          margin-top:35px;
+          <div
+          id="saveBox"
+          style="
+          display:none;
+          margin-top:30px;
           ">
 
             <button
-            onclick="editProduct('${p._id}')"
+            onclick="saveProductChanges('${p._id}')"
             style="
-            background:#2563eb;
-            padding:14px 22px;
+            background:#16a34a;
+            padding:14px 24px;
             font-size:16px;
             ">
-            Edit Product
-            </button>
-
-            <button
-            onclick="deleteProduct('${p._id}')"
-            style="
-            background:#ef4444;
-            padding:14px 22px;
-            font-size:16px;
-            ">
-            Delete
+            Save Changes
             </button>
 
           </div>
@@ -1616,9 +1709,7 @@ function openProduct(id){
 
     </div>
     `;
-
   });
-
 }
  function openAddProduct(){
 
