@@ -1745,7 +1745,7 @@ function openProduct(id){
     .style.display = "block";
 
 }
-  function saveProductChanges(id){
+ function saveProductChanges(id){
 
   fetch(BASE_URL + "/products")
   .then(res => res.json())
@@ -1760,8 +1760,12 @@ function openProduct(id){
         document.getElementById(
           "stock-" + s.size
         ).value
-      )
+      ) || 0
     }));
+
+    // 🔥 TOTAL STOCK
+    const totalStock =
+    updatedStock.reduce((a,b)=>a+b.stock,0);
 
     fetch(BASE_URL + "/products/" + id,{
       method:"PUT",
@@ -1799,6 +1803,8 @@ function openProduct(id){
           document.getElementById("edit-price").value
         ),
 
+        stock: totalStock,
+
         sizeStock: updatedStock
 
       })
@@ -1815,8 +1821,7 @@ function openProduct(id){
 
   });
 
-}
-/* INIT */
+}/* INIT */
 loadProducts();
 loadOrders();
 showSection("product", document.querySelector(".sidebar button"));
