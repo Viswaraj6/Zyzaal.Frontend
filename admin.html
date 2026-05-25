@@ -1464,36 +1464,144 @@ function openProduct(id){
 
           ${(p.images || []).map(img => `
 
-            <img
-            src="${img}"
+<div style="
+position:relative;
+width:70px;
+height:85px;
+">
 
-            onclick="
-            document.getElementById('mainProductImage').src='${img}';
+  <img
+  src="${img}"
 
-            fetch(BASE_URL + '/products/${p._id}',{
-              method:'PUT',
-              headers:{
-                'Content-Type':'application/json',
-                'Authorization':'Bearer ' + localStorage.getItem('adminToken')
-              },
-              body: JSON.stringify({
-                primaryImage:'${img}'
-              })
-            })
-            "
+  onclick="
+  document.getElementById('mainProductImage').src='${img}';
 
-            style="
-            width:70px;
-            height:85px;
-            object-fit:cover;
-            border-radius:10px;
-            border:2px solid #ddd;
-            cursor:pointer;
-            "
-            >
+  fetch(BASE_URL + '/products/${p._id}',{
+    method:'PUT',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+    },
+    body: JSON.stringify({
+      primaryImage:'${img}'
+    })
+  })
+  "
 
-          `).join("")}
+  style="
+  width:70px;
+  height:85px;
+  object-fit:cover;
+  border-radius:10px;
+  border:2px solid #ddd;
+  cursor:pointer;
+  "
+  >
 
+  <!-- DELETE BUTTON -->
+
+  <button
+  onclick="
+  event.stopPropagation();
+
+  const updatedImages =
+    (p.images || []).filter(i => i !== '${img}');
+
+  fetch(BASE_URL + '/products/${p._id}',{
+    method:'PUT',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+    },
+    body: JSON.stringify({
+      images: updatedImages,
+      primaryImage: updatedImages[0] || ''
+    })
+  }).then(()=>{
+    openProduct('${p._id}');
+  });
+  "
+
+  style="
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:none;
+  background:red;
+  color:white;
+  font-size:14px;
+  cursor:pointer;
+  padding:0;
+  ">
+  ✕
+  </button>
+
+</div>
+
+`).join("")}
+
+<!-- ADD IMAGE -->
+
+<div
+style="
+width:70px;
+height:85px;
+border:2px dashed #bbb;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+font-size:30px;
+color:#666;
+"
+onclick="
+document.getElementById('extraImage-${p._id}').click();
+"
+>
++
+</div>
+
+<input
+type="file"
+id="extraImage-${p._id}"
+style="display:none"
+
+onchange="
+const file = this.files[0];
+
+if(!file) return;
+
+const reader = new FileReader();
+
+reader.onload = async function(e){
+
+  const updatedImages = [
+    ...(p.images || []),
+    e.target.result
+  ];
+
+  await fetch(BASE_URL + '/products/${p._id}',{
+    method:'PUT',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+    },
+    body: JSON.stringify({
+      images: updatedImages,
+      primaryImage: p.primaryImage || updatedImages[0]
+    })
+  });
+
+  openProduct('${p._id}');
+};
+
+reader.readAsDataURL(file);
+"
+/>
           </div>
 
         </div>
