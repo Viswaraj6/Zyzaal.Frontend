@@ -1462,42 +1462,98 @@ function openProduct(id){
           margin-top:15px;
           ">
 
-          ${(p.images || []).map(img => `
+          <div style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px;
+">
 
-            <img
-            src="${img}"
+${(p.images || []).map((img,index) => `
 
-            onclick="
-            document.getElementById('mainProductImage').src='${img}';
+<div style="
+position:relative;
+">
 
-            fetch(BASE_URL + '/products/${p._id}',{
-              method:'PUT',
-              headers:{
-                'Content-Type':'application/json',
-                'Authorization':'Bearer ' + localStorage.getItem('adminToken')
-              },
-              body: JSON.stringify({
-                primaryImage:'${img}'
-              })
-            })
-            "
+<img
+src="${img}"
 
-            style="
-            width:70px;
-            height:85px;
-            object-fit:cover;
-            border-radius:10px;
-            border:2px solid #ddd;
-            cursor:pointer;
-            "
-            >
+onclick="
+document.getElementById('mainProductImage').src='${img}';
 
-          `).join("")}
+fetch(BASE_URL + '/products/${p._id}',{
+  method:'PUT',
+  headers:{
+    'Content-Type':'application/json',
+    'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+  },
+  body: JSON.stringify({
+    primaryImage:'${img}'
+  })
+})
+"
 
-          </div>
+style="
+width:70px;
+height:85px;
+object-fit:cover;
+border-radius:10px;
+border:2px solid #ddd;
+cursor:pointer;
+"
+>
 
-        </div>
+<button
+class="edit-mode"
+onclick="deleteProductImage('${p._id}',${index})"
+style="
+display:none;
+position:absolute;
+top:-8px;
+right:-8px;
+background:red;
+color:white;
+border:none;
+width:24px;
+height:24px;
+border-radius:50%;
+cursor:pointer;
+font-size:14px;
+">
+×
+</button>
 
+</div>
+
+`).join("")}
+
+<!-- ADD IMAGE -->
+<div
+class="edit-mode"
+style="
+display:none;
+"
+>
+
+<input
+type="file"
+id="newImages"
+multiple
+style="margin-top:10px;"
+>
+
+<button
+onclick="addMoreImages('${p._id}')"
+style="
+margin-top:10px;
+background:#2563eb;
+">
+Add Images
+</button>
+
+</div>
+
+</div>
         <!-- RIGHT -->
 
         <div>
