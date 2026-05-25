@@ -1370,68 +1370,81 @@ function openProduct(id){
 
     const p = data.find(x => x._id === id);
 
-    document.getElementById("productPopup").innerHTML = `
+    document.getElementById("products").innerHTML = `
 
     <div style="
-    position:fixed;
-    top:0;
-    right:0;
-    width:650px;
-    height:100vh;
     background:white;
-    z-index:9999;
-    overflow:auto;
+    border-radius:18px;
     padding:25px;
-    box-shadow:-4px 0 12px rgba(0,0,0,0.2);
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
     ">
+
+      <!-- TOP -->
 
       <div style="
       display:flex;
       justify-content:space-between;
       align-items:center;
+      margin-bottom:25px;
       ">
 
-        <h2>${p.styleNo || ""}</h2>
+        <div>
+
+          <h1 style="
+          margin:0;
+          font-size:34px;
+          ">
+          ${p.styleNo || "-"}
+          </h1>
+
+          <div style="
+          color:#666;
+          margin-top:6px;
+          ">
+          ${p.name}
+          </div>
+
+        </div>
 
         <button
-        onclick="
-        document.getElementById('productPopup').innerHTML=''
-        "
+        onclick="loadProducts()"
         style="
-        background:#ef4444;
+        background:#111827;
         ">
-        Close
+        ← Back
         </button>
 
       </div>
 
+      <!-- CONTENT -->
+
       <div style="
-      display:flex;
-      gap:20px;
-      margin-top:20px;
+      display:grid;
+      grid-template-columns:350px 1fr;
+      gap:40px;
       ">
 
-        <!-- IMAGE -->
+        <!-- LEFT -->
 
         <div>
 
           <img
-          id="popupMainImage"
+          id="mainProductImage"
           src="${p.primaryImage}"
           style="
-          width:220px;
-          height:280px;
+          width:100%;
+          height:430px;
           object-fit:cover;
-          border-radius:12px;
+          border-radius:18px;
           border:1px solid #ddd;
           "
           >
 
           <div style="
           display:flex;
-          gap:8px;
-          margin-top:10px;
+          gap:10px;
           flex-wrap:wrap;
+          margin-top:15px;
           ">
 
           ${(p.images || []).map(img => `
@@ -1440,7 +1453,7 @@ function openProduct(id){
             src="${img}"
 
             onclick="
-            document.getElementById('popupMainImage').src='${img}';
+            document.getElementById('mainProductImage').src='${img}';
 
             fetch(BASE_URL + '/products/${p._id}',{
               method:'PUT',
@@ -1455,12 +1468,12 @@ function openProduct(id){
             "
 
             style="
-            width:55px;
-            height:65px;
+            width:70px;
+            height:85px;
             object-fit:cover;
-            border-radius:6px;
-            cursor:pointer;
+            border-radius:10px;
             border:2px solid #ddd;
+            cursor:pointer;
             "
             >
 
@@ -1470,18 +1483,20 @@ function openProduct(id){
 
         </div>
 
-        <!-- DETAILS -->
+        <!-- RIGHT -->
 
-        <div style="flex:1;">
-
-          <h3>${p.name}</h3>
+        <div>
 
           <div style="
           display:grid;
-          grid-template-columns:150px 1fr;
-          row-gap:12px;
-          margin-top:20px;
+          grid-template-columns:180px 1fr;
+          row-gap:18px;
+          column-gap:15px;
+          font-size:16px;
           ">
+
+            <b>Name</b>
+            <div>${p.name || "-"}</div>
 
             <b>Style No</b>
             <div>${p.styleNo || "-"}</div>
@@ -1501,8 +1516,97 @@ function openProduct(id){
             <b>Pattern</b>
             <div>${p.pattern || "-"}</div>
 
+            <b>Occasion</b>
+            <div>${p.occasion || "-"}</div>
+
             <b>Price</b>
-            <div>₹${p.price}</div>
+            <div style="
+            font-size:22px;
+            font-weight:bold;
+            color:#2563eb;
+            ">
+            ₹${p.price}
+            </div>
+
+          </div>
+
+          <hr style="margin:30px 0;">
+
+          <!-- STOCK -->
+
+          <h2 style="
+          margin-bottom:20px;
+          ">
+          Size Wise Stock
+          </h2>
+
+          ${(p.sizeStock || []).map(s => `
+
+          <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          padding:16px;
+          margin-bottom:14px;
+          background:#f8fafc;
+          border-radius:14px;
+          border:1px solid #e5e7eb;
+          ">
+
+            <div style="
+            font-size:18px;
+            font-weight:600;
+            ">
+            Size ${s.size}
+            </div>
+
+            <input
+            type="number"
+            value="${s.stock}"
+
+            onchange="updateSizeStock(
+              '${p._id}',
+              '${s.size}',
+              this.value
+            )"
+
+            style="
+            width:120px;
+            font-size:18px;
+            "
+            >
+
+          </div>
+
+          `).join("")}
+
+          <!-- ACTION -->
+
+          <div style="
+          display:flex;
+          gap:15px;
+          margin-top:35px;
+          ">
+
+            <button
+            onclick="editProduct('${p._id}')"
+            style="
+            background:#2563eb;
+            padding:14px 22px;
+            font-size:16px;
+            ">
+            Edit Product
+            </button>
+
+            <button
+            onclick="deleteProduct('${p._id}')"
+            style="
+            background:#ef4444;
+            padding:14px 22px;
+            font-size:16px;
+            ">
+            Delete
+            </button>
 
           </div>
 
@@ -1510,68 +1614,11 @@ function openProduct(id){
 
       </div>
 
-      <hr style="margin:25px 0;">
-
-      <h3>Size Wise Stock</h3>
-
-      ${(p.sizeStock || []).map(s => `
-
-      <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:12px;
-      padding:12px;
-      background:#f9fafb;
-      border-radius:10px;
-      ">
-
-        <b>Size ${s.size}</b>
-
-        <input
-        type="number"
-        value="${s.stock}"
-        onchange="updateSizeStock(
-          '${p._id}',
-          '${s.size}',
-          this.value
-        )"
-        style="
-        width:120px;
-        "
-        >
-
-      </div>
-
-      `).join("")}
-
-      <div style="
-      margin-top:25px;
-      display:flex;
-      gap:10px;
-      ">
-
-        <button
-        onclick="editProduct('${p._id}')"
-        style="
-        background:#2563eb;
-        ">
-        Edit Product
-        </button>
-
-        <button
-        onclick="deleteProduct('${p._id}')"
-        style="
-        background:red;
-        ">
-        Delete
-        </button>
-
-      </div>
-
     </div>
     `;
+
   });
+
 }
  function openAddProduct(){
 
