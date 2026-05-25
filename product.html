@@ -1001,7 +1001,19 @@ function startProduct(){
   initDelivery();
 
 }
+function selectSize(el,size){
 
+  document
+    .querySelectorAll(".size")
+    .forEach(x => x.classList.remove("active"));
+
+  el.classList.add("active");
+
+  selectedSize = size;
+
+  checkCartStatus();
+
+}
 // IMAGE CHANGE
 function changeImage(src){
 
