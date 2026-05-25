@@ -1684,27 +1684,41 @@ function openProduct(id){
 
           <!-- SAVE -->
 
-          <div
-          id="saveBox"
-          style="
-          display:none;
-          margin-top:30px;
-          ">
+         <div
+id="saveBox"
+style="
+display:none;
+margin-top:30px;
+">
 
-            <button
-            onclick="saveProductChanges('${p._id}')"
-            style="
-            background:#16a34a;
-            padding:14px 24px;
-            font-size:16px;
-            ">
-            Save Changes
-            </button>
+  <div style="
+  display:flex;
+  gap:12px;
+  ">
 
-          </div>
+    <button
+    onclick="saveProductChanges('${p._id}')"
+    style="
+    background:#16a34a;
+    padding:14px 24px;
+    font-size:16px;
+    ">
+    Save Changes
+    </button>
 
-        </div>
+    <button
+    onclick="deleteProduct('${p._id}')"
+    style="
+    background:#ef4444;
+    padding:14px 24px;
+    font-size:16px;
+    ">
+    Delete
+    </button>
 
+  </div>
+
+</div>
       </div>
 
     </div>
