@@ -1941,15 +1941,22 @@ margin-top:30px;
     const p = data.find(x => x._id === id);
 
     // 🔥 UPDATED STOCK
-    const updatedStock =
-(p.sizeStock || []).map(s => ({
-  size: s.size,
-  stock: Number(
-    document.getElementById(
-      "stock-" + id + "-" + s.size
-    ).value
-  ) || 0
-}));
+   const updatedStock =
+(p.sizeStock || []).map(s => {
+
+  return {
+
+    size: s.size,
+
+    stock: Number(
+      document.getElementById(
+        "stock-" + id + "-" + s.size
+      ).value
+    ) || 0
+
+  };
+
+});
     // 🔥 TOTAL STOCK
     const totalStock =
     updatedStock.reduce((a,b)=>a+b.stock,0);
