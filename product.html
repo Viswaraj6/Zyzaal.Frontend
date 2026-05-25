@@ -802,7 +802,23 @@ overflow:hidden;
   <span onclick="goToCart()">GO TO CART</span>
 </div>
 <script>
+async function loadProduct(){
 
+  const res = await fetch(API + "/products");
+
+  const data = await res.json();
+
+  product =
+    data.find(p => p._id === productId);
+
+  if(!product){
+    alert("Product not found");
+    return;
+  }
+
+  startProduct();
+
+}
 const API = "https://fark618-backend.onrender.com";
 
 const params = new URLSearchParams(window.location.search);
