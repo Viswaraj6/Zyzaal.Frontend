@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Details</title>
+
+<style>
+
+body{
+  font-family:Segoe UI;
+  margin:0;
+  background:#f1f3f6;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.box{
+  background:#fff;
+  border-radius:10px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.product{
+  display:flex;
+  gap:20px;
+}
+
+.product img{
+  width:140px;
+  height:170px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.green{
+  color:green;
+  font-weight:bold;
+}
+
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.invoice-btn{
+  background:black;
+  color:white;
+}
+
+.download-btn{
+  background:#2874f0;
+  color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="box" id="productBox"></div>
+
+  <div class="box" id="deliveryBox"></div>
+
+  <div class="box" id="priceBox"></div>
+
+  <div class="box">
+
+    <button
+    class="invoice-btn"
+    onclick="viewInvoice()">
+      View Invoice
+    </button>
+
+    <button
+    class="download-btn"
+    onclick="downloadInvoice()">
+      Download Invoice
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+const order =
+  JSON.parse(
+    localStorage.getItem("selectedOrder")
+  );
+
+const item = order.items[0];
+
+document.getElementById("productBox")
+.innerHTML = `
+
+<div class="product">
+
+  <img src="${item.image}">
+
+  <div>
+
+    <h2>${item.name}</h2>
+
+    <div class="green">
+      ${order.status || "Delivered"}
+    </div>
+
+    <p>
+      ₹${item.price}
+    </p>
+
+    <p>
+      Order ID:
+      ${order._id}
+    </p>
+
+  </div>
+
+</div>
+
+`;
+
+document.getElementById("deliveryBox")
+.innerHTML = `
+
+<h2>Delivery Address</h2>
+
+<p>
+${order.address?.name || ""}
+</p>
+
+<p>
+${order.address?.address || ""}
+</p>
+
+<p>
+${order.address?.city || ""}
+</p>
+
+<p>
+${order.address?.state || ""}
+</p>
+
+<p>
+${order.address?.pincode || ""}
+</p>
+
+`;
+
+document.getElementById("priceBox")
+.innerHTML = `
+
+<h2>Price Details</h2>
+
+<p>
+Total Price:
+₹${order.total}
+</p>
+
+<p>
+Payment:
+${order.paymentMethod || "Online"}
+</p>
+
+`;
+
+function viewInvoice(){
+
+  window.open(
+    order.invoice ||
+    "invoice.pdf",
+    "_blank"
+  );
+
+}
+
+function downloadInvoice(){
+
+  const a = document.createElement("a");
+
+  a.href =
+    order.invoice || "invoice.pdf";
+
+  a.download = "invoice.pdf";
+
+  a.click();
+
+}
+
+</script>
+
+</body>
+</html>
