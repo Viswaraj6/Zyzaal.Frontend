@@ -1361,10 +1361,19 @@ function openProduct(id){
     `;
   });
 }
-  function openAddProduct(){
+ function openAddProduct(){
 
+  // FORM SHOW
   document.getElementById("productSection")
     .style.display = "block";
+
+  // +ADD NEW BUTTON HIDE
+  document.querySelector("button[onclick='openAddProduct()']")
+    .style.display = "none";
+
+  // PRODUCTS LIST HIDE
+  document.getElementById("productsSection")
+    .style.display = "none";
 
   window.scrollTo({
     top:0,
