@@ -1462,98 +1462,42 @@ function openProduct(id){
           margin-top:15px;
           ">
 
-          <div style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
-">
+          ${(p.images || []).map(img => `
 
-${(p.images || []).map((img,index) => `
+            <img
+            src="${img}"
 
-<div style="
-position:relative;
-">
+            onclick="
+            document.getElementById('mainProductImage').src='${img}';
 
-<img
-src="${img}"
+            fetch(BASE_URL + '/products/${p._id}',{
+              method:'PUT',
+              headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer ' + localStorage.getItem('adminToken')
+              },
+              body: JSON.stringify({
+                primaryImage:'${img}'
+              })
+            })
+            "
 
-onclick="
-document.getElementById('mainProductImage').src='${img}';
+            style="
+            width:70px;
+            height:85px;
+            object-fit:cover;
+            border-radius:10px;
+            border:2px solid #ddd;
+            cursor:pointer;
+            "
+            >
 
-fetch(BASE_URL + '/products/${p._id}',{
-  method:'PUT',
-  headers:{
-    'Content-Type':'application/json',
-    'Authorization':'Bearer ' + localStorage.getItem('adminToken')
-  },
-  body: JSON.stringify({
-    primaryImage:'${img}'
-  })
-})
-"
+          `).join("")}
 
-style="
-width:70px;
-height:85px;
-object-fit:cover;
-border-radius:10px;
-border:2px solid #ddd;
-cursor:pointer;
-"
->
+          </div>
 
-<button
-class="edit-mode"
-onclick="deleteProductImage('${p._id}',${index})"
-style="
-display:none;
-position:absolute;
-top:-8px;
-right:-8px;
-background:red;
-color:white;
-border:none;
-width:24px;
-height:24px;
-border-radius:50%;
-cursor:pointer;
-font-size:14px;
-">
-×
-</button>
+        </div>
 
-</div>
-
-`).join("")}
-
-<!-- ADD IMAGE -->
-<div
-class="edit-mode"
-style="
-display:none;
-"
->
-
-<input
-type="file"
-id="newImages"
-multiple
-style="margin-top:10px;"
->
-
-<button
-onclick="addMoreImages('${p._id}')"
-style="
-margin-top:10px;
-background:#2563eb;
-">
-Add Images
-</button>
-
-</div>
-
-</div>
         <!-- RIGHT -->
 
         <div>
@@ -1928,85 +1872,6 @@ setTimeout(() => {
 
   }
 
-}
-async function deleteProductImage(id,index){
-
-  const res = await fetch(BASE_URL + "/products");
-  const data = await res.json();
-
-  const p = data.find(x => x._id === id);
-
-  const updatedImages =
-    p.images.filter((_,i) => i !== index);
-
-  await fetch(BASE_URL + "/products/" + id,{
-    method:"PUT",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":
-      "Bearer " + localStorage.getItem("adminToken")
-    },
-    body: JSON.stringify({
-      images: updatedImages,
-      primaryImage: updatedImages[0] || ""
-    })
-  });
-
-  openProduct(id);
-}
-  async function addMoreImages(id){
-
-  const files =
-    document.getElementById("newImages").files;
-
-  if(files.length === 0){
-    alert("Select Images");
-    return;
-  }
-
-  const res = await fetch(BASE_URL + "/products");
-  const data = await res.json();
-
-  const p = data.find(x => x._id === id);
-
-  let newImages = [];
-
-  for(let i=0;i<files.length;i++){
-
-    const reader = new FileReader();
-
-    await new Promise(resolve => {
-
-      reader.onload = e => {
-        newImages.push(e.target.result);
-        resolve();
-      };
-
-      reader.readAsDataURL(files[i]);
-
-    });
-
-  }
-
-  const updated =
-    [...(p.images || []), ...newImages];
-
-  await fetch(BASE_URL + "/products/" + id,{
-    method:"PUT",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":
-      "Bearer " + localStorage.getItem("adminToken")
-    },
-    body: JSON.stringify({
-      images: updated,
-      primaryImage: updated[0]
-    })
-  });
-
-  alert("Images Added ✅");
-
-  openProduct(id);
 }
   /* INIT */
 loadProducts();
