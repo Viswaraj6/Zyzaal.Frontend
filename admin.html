@@ -1815,6 +1815,34 @@ margin-top:30px;
     `;
   });
 }
+  async function deleteImage(productId, index){
+
+  event.stopPropagation();
+
+  const res = await fetch(BASE_URL + "/products");
+  const data = await res.json();
+
+  const p = data.find(x => x._id === productId);
+
+  const updatedImages =
+    (p.images || []).filter((_,i)=>i!==index);
+
+  await fetch(BASE_URL + "/products/" + productId,{
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":
+      "Bearer " + localStorage.getItem("adminToken")
+    },
+    body: JSON.stringify({
+      images: updatedImages,
+      primaryImage: updatedImages[0] || ""
+    })
+  });
+
+  openProduct(productId);
+
+}
  function openAddProduct(){
 
   // FORM SHOW
