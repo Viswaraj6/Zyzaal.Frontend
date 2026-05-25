@@ -1777,6 +1777,11 @@ margin-top:30px;
   document.getElementById("saveBox")
     .style.display = "block";
 
+  // HIDE EDIT BUTTON
+  document.querySelector(
+    "button[onclick='enableEditMode()']"
+  ).style.display = "none";
+
 }
  async function saveProductChanges(id){
 
