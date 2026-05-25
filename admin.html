@@ -1759,18 +1759,21 @@ margin-top:30px;
     .style.display = "block";
 
 }
- function saveProductChanges(id){
+ async function saveProductChanges(id){
 
-  fetch(BASE_URL + "/products")
-  .then(res => res.json())
-  .then(data => {
+  try{
+
+    // 🔥 FIRST GET PRODUCT
+    const res = await fetch(BASE_URL + "/products");
+    const data = await res.json();
 
     const p = data.find(x => x._id === id);
 
+    // 🔥 UPDATED STOCK
     const updatedStock =
     (p.sizeStock || []).map(s => ({
-      size:s.size,
-      stock:Number(
+      size: s.size,
+      stock: Number(
         document.getElementById(
           "stock-" + s.size
         ).value
@@ -1781,61 +1784,73 @@ margin-top:30px;
     const totalStock =
     updatedStock.reduce((a,b)=>a+b.stock,0);
 
-    fetch(BASE_URL + "/products/" + id,{
+    // 🔥 KEEP OLD IMAGES
+    const bodyData = {
+
+      name:
+      document.getElementById("edit-name").value,
+
+      styleNo:
+      document.getElementById("edit-styleNo").value,
+
+      category:
+      document.getElementById("edit-category").value,
+
+      color:
+      document.getElementById("edit-color").value,
+
+      fabric:
+      document.getElementById("edit-fabric").value,
+
+      fit:
+      document.getElementById("edit-fit").value,
+
+      pattern:
+      document.getElementById("edit-pattern").value,
+
+      occasion:
+      document.getElementById("edit-occasion").value,
+
+      price:Number(
+        document.getElementById("edit-price").value
+      ),
+
+      // 🔥 IMPORTANT
+      images: p.images || [],
+      primaryImage: p.primaryImage || "",
+
+      // 🔥 IMPORTANT
+      stock: totalStock,
+      sizeStock: updatedStock
+
+    };
+
+    // 🔥 UPDATE
+    await fetch(BASE_URL + "/products/" + id,{
       method:"PUT",
       headers:{
         "Content-Type":"application/json",
-        "Authorization":"Bearer " + localStorage.getItem("adminToken")
+        "Authorization":
+        "Bearer " + localStorage.getItem("adminToken")
       },
-      body: JSON.stringify({
-
-        name:
-        document.getElementById("edit-name").value,
-
-        styleNo:
-        document.getElementById("edit-styleNo").value,
-
-        category:
-        document.getElementById("edit-category").value,
-
-        color:
-        document.getElementById("edit-color").value,
-
-        fabric:
-        document.getElementById("edit-fabric").value,
-
-        fit:
-        document.getElementById("edit-fit").value,
-
-        pattern:
-        document.getElementById("edit-pattern").value,
-
-        occasion:
-        document.getElementById("edit-occasion").value,
-
-        price:Number(
-          document.getElementById("edit-price").value
-        ),
-
-        stock: totalStock,
-
-        sizeStock: updatedStock
-
-      })
-    })
-    .then(() => {
-
-      alert("Updated ✅");
-
-      openProduct(id);
-
-      loadProducts();
-
+      body: JSON.stringify(bodyData)
     });
 
-  });
+    alert("Stock Updated ✅");
 
-}/* INIT */
+    openProduct(id);
+
+    loadProducts();
+
+  }catch(err){
+
+    console.log(err);
+    alert("Update Failed ❌");
+
+  }
+
+}
+  /* INIT */
 loadProducts();
 loadOrders();
 showSection("product", document.querySelector(".sidebar button"));
