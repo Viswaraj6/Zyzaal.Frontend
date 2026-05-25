@@ -1501,44 +1501,22 @@ height:85px;
   <!-- DELETE -->
 
   <button
-  onclick="
-  event.stopPropagation();
-
-  const updatedImages =
-  ${JSON.stringify(p.images || [])}
-  .filter((_,i)=>i!==${index});
-
-  fetch(BASE_URL + '/products/${p._id}',{
-    method:'PUT',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer ' + localStorage.getItem('adminToken')
-    },
-    body: JSON.stringify({
-      images: updatedImages,
-      primaryImage: updatedImages[0] || ''
-    })
-  }).then(()=>{
-    openProduct('${p._id}');
-  });
-  "
-
-  style="
-  position:absolute;
-  top:-8px;
-  right:-8px;
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  border:none;
-  background:red;
-  color:white;
-  font-size:14px;
-  cursor:pointer;
-  ">
-  ✕
-  </button>
-
+onclick="deleteImage('${p._id}', ${index})"
+style="
+position:absolute;
+top:-8px;
+right:-8px;
+width:24px;
+height:24px;
+border-radius:50%;
+border:none;
+background:red;
+color:white;
+font-size:14px;
+cursor:pointer;
+">
+✕
+</button>
 </div>
 
 `).join("")}
