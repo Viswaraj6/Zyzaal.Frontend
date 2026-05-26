@@ -134,7 +134,7 @@ ${item.primaryImage || item.image || item.images?.[0] || 'https://dummyimage.com
 
     <p>
       Order ID:
-      ${order._id || ""}
+   ${order._id?.slice(-6) || ""}
     </p>
 
   </div>
