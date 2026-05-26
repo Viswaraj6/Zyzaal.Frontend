@@ -631,7 +631,12 @@ align-items:center;
 ">
 
   <img
- src="${item.images?.[0] || item.image || item.primaryImage}"
+src="${
+  item.primaryImage ||
+  item.image ||
+  item.images?.[0] ||
+  'https://dummyimage.com/300x400/e5e5e5/000&text=No+Image'
+}"
   style="
   width:90px;
   height:110px;
