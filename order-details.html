@@ -108,12 +108,9 @@ document.getElementById("productBox")
 
 <div class="product">
 
-  <img src="${
-    item.images?.[0] ||
-    item.image ||
-    item.primaryImage ||
-    'https://via.placeholder.com/150'
-  }">
+<img src="
+${item.primaryImage || item.image || item.images?.[0] || 'https://dummyimage.com/300x400/e5e5e5/000&text=No+Image'}
+">
 
   <div>
 
