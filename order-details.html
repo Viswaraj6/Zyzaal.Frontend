@@ -97,30 +97,46 @@ const order =
     localStorage.getItem("selectedOrder")
   );
 
-const item = order.items[0];
+console.log(order);
+
+const item =
+  order.items?.[0] ||
+  order.product ||
+  order;
 
 document.getElementById("productBox")
 .innerHTML = `
 
 <div class="product">
 
-  <img src="${item.image}">
+  <img src="${
+    item.images?.[0] ||
+    item.image ||
+    item.primaryImage ||
+    'https://via.placeholder.com/150'
+  }">
 
   <div>
 
-    <h2>${item.name}</h2>
+    <h2>
+      ${
+        item.name ||
+        item.productName ||
+        "Product"
+      }
+    </h2>
 
     <div class="green">
-      ${order.status || "Delivered"}
+      ${order.status || "Pending"}
     </div>
 
     <p>
-      ₹${item.price}
+      ₹${item.price || order.total || 0}
     </p>
 
     <p>
       Order ID:
-      ${order._id}
+      ${order._id || ""}
     </p>
 
   </div>
@@ -163,7 +179,7 @@ document.getElementById("priceBox")
 
 <p>
 Total Price:
-₹${order.total}
+₹${order.total || item.price || 0}
 </p>
 
 <p>
@@ -185,18 +201,20 @@ function viewInvoice(){
 
 function downloadInvoice(){
 
-  const a = document.createElement("a");
+  const a =
+    document.createElement("a");
 
   a.href =
-    order.invoice || "invoice.pdf";
+    order.invoice ||
+    "invoice.pdf";
 
-  a.download = "invoice.pdf";
+  a.download =
+    "invoice.pdf";
 
   a.click();
 
 }
 
 </script>
-
 </body>
 </html>
