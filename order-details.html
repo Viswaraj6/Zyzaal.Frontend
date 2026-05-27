@@ -121,12 +121,14 @@ month:"short"
 
 const deliveryDate =
 new Date(
+order.deliveryDate || (
 Date.now() + 4*24*60*60*1000
+)
 ).toLocaleDateString("en-IN",{
 day:"numeric",
 month:"short"
 });
-
+  
 document.getElementById("productBox")
 .innerHTML = `
 
