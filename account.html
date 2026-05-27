@@ -608,12 +608,11 @@ function loadOrders(){
 
         myOrders.reverse().forEach(order => {
 
-      const item =
-  order.products?.[0] ||
-  order.items?.[0] ||
-  order.product ||
-  {};
-
+      const items =
+order.products ||
+order.items ||
+[order.product];
+          
 html += `
 
 <div
