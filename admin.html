@@ -2496,8 +2496,213 @@ win.document.write(invoice);
 
 function downloadAdminInvoice(id){
 
-viewAdminInvoice(id);
+fetch(BASE_URL + "/orders")
+.then(res=>res.json())
+.then(data=>{
 
+const o = data.find(x=>x._id===id);
+
+const item = o.products?.[0] || {};
+
+const invoice = `
+<html>
+
+<head>
+
+<title>Invoice</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:40px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:2px solid #111;
+padding-bottom:20px;
+margin-bottom:30px;
+}
+
+.logo{
+font-size:38px;
+font-weight:bold;
+}
+
+.section{
+margin-top:25px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+table th,
+table td{
+border:1px solid #ddd;
+padding:12px;
+text-align:left;
+}
+
+.total{
+text-align:right;
+font-size:22px;
+font-weight:bold;
+margin-top:25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="logo">
+Zudora
+</div>
+
+<div>
+
+<b>Invoice ID:</b>
+${o._id.slice(-6)}
+
+<br><br>
+
+<b>Order Date:</b>
+${new Date(
+o.orderDate || Date.now()
+).toLocaleDateString("en-IN")}
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Customer Details</h2>
+
+<b>${o.name}</b>
+
+<br><br>
+
+${o.phone}
+
+<br><br>
+
+${o.address}
+
+</div>
+
+<div class="section">
+
+<h2>Product Details</h2>
+
+<table>
+
+<tr>
+
+<th>Image</th>
+<th>Product</th>
+<th>Size</th>
+<th>Qty</th>
+<th>Price</th>
+
+</tr>
+
+<tr>
+
+<td>
+
+<img
+src="${item.image || item.images?.[0]}"
+style="
+width:80px;
+height:100px;
+object-fit:cover;
+border-radius:8px;
+"
+>
+
+</td>
+
+<td>
+${item.name || item.styleNo}
+</td>
+
+<td>
+${item.size || "-"}
+</td>
+
+<td>
+1
+</td>
+
+<td>
+₹${item.price}
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<h2>Payment Details</h2>
+
+<b>Method:</b>
+${o.paymentMethod || "COD"}
+
+<br><br>
+
+<b>Status:</b>
+${o.paymentStatus || "Pending"}
+
+</div>
+
+<div class="total">
+
+Total Amount :
+₹${o.total}
+
+</div>
+
+</body>
+
+</html>
+`;
+
+const blob = new Blob(
+[invoice],
+{ type:"text/html" }
+);
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+"Invoice-" +
+o._id.slice(-6) +
+".html";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+});
 }
   /* INIT */
 loadProducts();
