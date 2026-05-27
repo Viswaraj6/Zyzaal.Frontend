@@ -394,112 +394,83 @@ position:relative;
 position:absolute;
 right:20px;
 top:15px;
-font-size:28px;
+font-size:32px;
 cursor:pointer;
 ">
 ×
 </div>
 
 <div style="
-border-left:3px solid green;
+border-left:3px solid #16a34a;
 padding-left:25px;
 margin-top:20px;
 ">
 
-<div style="
-margin-bottom:35px;
-position:relative;
-">
-
-<div style="
-width:14px;
-height:14px;
-background:green;
-border-radius:50%;
-position:absolute;
-left:-33px;
-top:5px;
-"></div>
-
-<h3 style="margin:0;">
-Order Confirmed
-</h3>
-
-<p style="
-color:#777;
-margin:5px 0;
-">
-27 May 2026
-</p>
-
-<p style="margin-top:10px;">
-Your order has been placed.
-</p>
-
-</div>
+${statusSteps.map((step,index)=>`
 
 <div style="
 margin-bottom:35px;
 position:relative;
+opacity:
+${index <= currentStep ? "1" : "0.45"};
 ">
 
 <div style="
 width:14px;
 height:14px;
-background:green;
+background:
+${index <= currentStep
+? "#16a34a"
+: "#d1d5db"};
 border-radius:50%;
 position:absolute;
 left:-33px;
 top:5px;
 "></div>
 
-<h3 style="margin:0;">
-Shipped
+<h3 style="
+margin:0;
+font-size:18px;
+">
+
+${step === "Pending"
+? "Order Confirmed"
+: step}
+
 </h3>
 
 <p style="
 color:#777;
 margin:5px 0;
-">
-Processing completed
-</p>
-
-<p style="margin-top:10px;">
-Seller has shipped your item.
-</p>
-
-</div>
-
-<div style="
-position:relative;
+font-size:14px;
 ">
 
-<div style="
-width:14px;
-height:14px;
-background:#90EE90;
-border-radius:50%;
-position:absolute;
-left:-33px;
-top:5px;
-"></div>
+${index === 0
+? orderDate
+: index === 3
+? deliveryDate
+: "Processing update"}
 
-<h3 style="margin:0;">
-Expected Delivery
-</h3>
+</p>
 
 <p style="
-color:#777;
-margin:5px 0;
+margin-top:10px;
+font-size:15px;
 ">
-31 May 2026
-</p>
 
-<p style="margin-top:10px;">
-Your item is out for delivery.
+${step === "Pending"
+? "Your order has been placed."
+: step === "Processing"
+? "Seller has processed your order."
+: step === "Shipped"
+? "Your item has been shipped."
+: "Your item has been delivered."}
+
 </p>
 
 </div>
+
+`).join("")}
 
 </div>
 
