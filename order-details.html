@@ -111,6 +111,22 @@ const statusSteps = [
 const currentStep =
 statusSteps.indexOf(order.status);
 
+const orderDate =
+new Date(
+order.orderDate || Date.now()
+).toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short"
+});
+
+const deliveryDate =
+new Date(
+Date.now() + 4*24*60*60*1000
+).toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short"
+});
+
 document.getElementById("productBox")
 .innerHTML = `
 
@@ -145,7 +161,7 @@ padding-top:20px;
 border-top:1px solid #eee;
 ">
 
-${statusSteps.map((step,index)=>`
+<!-- ORDER CONFIRMED -->
 
 <div style="
 display:flex;
@@ -157,8 +173,7 @@ margin-bottom:22px;
 <div style="
 width:18px;
 height:18px;
-background:
-${index <= currentStep ? "green" : "#cbd5e1"};
+background:green;
 border-radius:50%;
 "></div>
 
@@ -167,27 +182,62 @@ border-radius:50%;
 <div style="
 font-weight:600;
 ">
-${step}
+Order Confirmed
 </div>
 
 <div style="
 font-size:14px;
 color:#666;
 ">
-${index <= currentStep
-? "Completed"
-: "Waiting"}
+${orderDate}
 </div>
 
 </div>
 
 </div>
 
-`).join("")}
+<!-- EXPECTED / DELIVERED -->
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<div style="
+width:18px;
+height:18px;
+background:
+${order.status === "Delivered"
+? "green"
+: "#90EE90"};
+border-radius:50%;
+"></div>
+
+<div>
+
+<div style="
+font-weight:600;
+">
+${order.status === "Delivered"
+? "Delivered"
+: "Expected Delivery"}
+</div>
+
+<div style="
+font-size:14px;
+color:#666;
+">
+${deliveryDate}
+</div>
+
+</div>
+
+</div>
 
 <div style="
 margin-top:25px;
-color:#2563eb;
+color:#2874f0;
 font-weight:600;
 cursor:pointer;
 font-size:15px;
