@@ -128,10 +128,13 @@ day:"numeric",
 month:"short"
 });
   
-document.getElementById("productBox")
-.innerHTML = `
+let productHTML = "";
 
-<div class="product">
+items.forEach(item => {
+
+productHTML += `
+
+<div class="product" style="margin-bottom:25px;">
 
 <img src="
 ${item.primaryImage || item.image || item.images?.[0]}
@@ -148,21 +151,34 @@ ${order.status}
 </div>
 
 <p>
-₹${item.price || order.total}
+₹${item.price}
 </p>
 
 <p>
-Order ID:
-${order._id?.slice(-6)}
+Size: ${item.size || "-"}
 </p>
+
+<p>
+Qty: ${item.qty || 1}
+</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("productBox").innerHTML = `
+
+${productHTML}
 
 <div style="
 margin-top:30px;
 padding-top:20px;
 border-top:1px solid #eee;
 ">
-
-<!-- ORDER CONFIRMED -->
 
 <div style="
 display:flex;
@@ -180,9 +196,7 @@ border-radius:50%;
 
 <div>
 
-<div style="
-font-weight:600;
-">
+<div style="font-weight:600;">
 Order Confirmed
 </div>
 
@@ -196,8 +210,6 @@ ${orderDate}
 </div>
 
 </div>
-
-<!-- EXPECTED / DELIVERED -->
 
 <div style="
 display:flex;
@@ -217,9 +229,7 @@ border-radius:50%;
 
 <div>
 
-<div style="
-font-weight:600;
-">
+<div style="font-weight:600;">
 ${order.status === "Delivered"
 ? "Delivered"
 : "Expected Delivery"}
@@ -236,24 +246,7 @@ ${deliveryDate}
 
 </div>
 
-<div style="
-margin-top:25px;
-color:#2874f0;
-font-weight:600;
-cursor:pointer;
-font-size:15px;
-"
-onclick="openUpdates()"
->
-See all updates >
 </div>
-
-</div>
-
-</div>
-
-</div>
-
 `;
   document.getElementById("deliveryBox")
 .innerHTML = `
