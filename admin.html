@@ -2263,6 +2263,30 @@ Download Invoice
 
 });
 }
+  function closeOrderPopup(){
+
+document
+.getElementById("orderPopup")
+.remove();
+
+}
+  function viewAdminInvoice(id){
+
+window.open(
+"order-details.html?id=" + id,
+"_blank"
+);
+
+}
+
+function downloadAdminInvoice(id){
+
+window.open(
+"order-details.html?id=" + id,
+"_blank"
+);
+
+}
   /* INIT */
 loadProducts();
 loadOrders();
