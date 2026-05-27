@@ -398,11 +398,37 @@ cursor:pointer;
 </div>
 
 <div style="
-border-left:3px solid #16a34a;
+position:relative;
 padding-left:25px;
 margin-top:20px;
 ">
 
+<div style="
+position:absolute;
+left:0;
+top:0;
+width:3px;
+height:100%;
+background:#d1d5db;
+"></div>
+
+<div style="
+position:absolute;
+left:0;
+top:0;
+width:3px;
+
+height:
+${currentStep === 0
+? "80px"
+: currentStep === 1
+? "195px"
+: currentStep === 2
+? "315px"
+: "100%"};
+
+background:#16a34a;
+"></div>
 ${statusSteps.map((step,index)=>`
 
 <div style="
