@@ -1322,15 +1322,26 @@ html += `
 }
 /* UPDATE STATUS */
 function updateStatus(id,status){
+
+  const bodyData = {
+    status
+  };
+
+  // 🔥 Delivered na today's date save agum
+  if(status === "Delivered"){
+    bodyData.deliveryDate = new Date();
+  }
+
   fetch(BASE_URL+"/orders/"+id,{
     method:"PUT",
     headers:{
       "Content-Type":"application/json",
       "Authorization":"Bearer "+localStorage.getItem("adminToken")
     },
-    body: JSON.stringify({status})
+    body: JSON.stringify(bodyData)
   })
   .then(()=>loadOrders());
+
 }
   function updateSizeStock(id,size,value){
 
