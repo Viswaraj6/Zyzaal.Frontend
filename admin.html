@@ -1255,6 +1255,10 @@ onchange="updateStatus('${o._id}',this.value)"
 Pending
 </option>
 
+<option ${o.status==="Processing"?"selected":""}>
+Processing
+</option>
+
 <option ${o.status==="Shipped"?"selected":""}>
 Shipped
 </option>
