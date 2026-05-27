@@ -2498,10 +2498,15 @@ win.document.write(invoice);
 function downloadAdminInvoice(id){
 
 fetch(BASE_URL + "/orders")
-.then(res=>res.json())
-.then(data=>{
+.then(res => res.json())
+.then(data => {
 
-const o = data.find(x=>x._id===id);
+const o = data.find(x => x._id === id);
+
+if(!o){
+  alert("Order not found ❌");
+  return;
+}
 
 const item = o.products?.[0] || {};
 
@@ -2510,95 +2515,160 @@ const invoice = document.createElement("div");
 invoice.innerHTML = `
 
 <div style="
-font-family:Arial;
+font-family:Arial,sans-serif;
 padding:40px;
 width:800px;
 background:white;
 color:black;
 ">
 
+<!-- TOP -->
+
 <div style="
 display:flex;
 justify-content:space-between;
+align-items:flex-start;
 border-bottom:2px solid #111;
 padding-bottom:20px;
 margin-bottom:30px;
+gap:30px;
 ">
 
 <div>
 
 <h1 style="
 margin:0;
-font-size:38px;
+font-size:42px;
+font-weight:bold;
 ">
 Zudora
 </h1>
 
-<p>
+<p style="
+margin-top:10px;
+font-size:18px;
+color:#555;
+">
 Fashion Store
 </p>
 
 </div>
 
-<div>
+<div style="
+text-align:right;
+font-size:16px;
+line-height:30px;
+min-width:250px;
+">
 
+<div>
 <b>Invoice ID:</b>
 ${o._id.slice(-6)}
+</div>
 
-<br><br>
-
+<div>
 <b>Order Date:</b>
 ${new Date(
 o.orderDate || Date.now()
 ).toLocaleDateString("en-IN")}
+</div>
 
+<div>
+<b>Expected Delivery:</b>
+${new Date(
+o.deliveryDate || (
+Date.now() + 4*24*60*60*1000
+)
+).toLocaleDateString("en-IN")}
 </div>
 
 </div>
 
-<h2>Customer Details</h2>
+</div>
 
-<p>
-<b>${o.name}</b>
-</p>
+<!-- CUSTOMER -->
 
-<p>
+<h2 style="
+margin-bottom:15px;
+">
+Customer Details
+</h2>
+
+<div style="
+line-height:30px;
+font-size:16px;
+margin-bottom:35px;
+">
+
+<b style="font-size:20px;">
+${o.name}
+</b>
+
+<br>
+
 ${o.phone}
-</p>
 
-<p>
+<br>
+
 ${o.address}
-</p>
 
-<h2 style="margin-top:30px;">
+</div>
+
+<!-- PRODUCT -->
+
+<h2 style="
+margin-bottom:15px;
+">
 Product Details
 </h2>
 
 <table style="
 width:100%;
 border-collapse:collapse;
-margin-top:15px;
+margin-top:10px;
 ">
 
-<tr>
+<tr style="
+background:#f3f4f6;
+">
 
-<th style="border:1px solid #ddd;padding:12px;">
+<th style="
+border:1px solid #ddd;
+padding:14px;
+text-align:left;
+">
 Image
 </th>
 
-<th style="border:1px solid #ddd;padding:12px;">
+<th style="
+border:1px solid #ddd;
+padding:14px;
+text-align:left;
+">
 Product
 </th>
 
-<th style="border:1px solid #ddd;padding:12px;">
+<th style="
+border:1px solid #ddd;
+padding:14px;
+text-align:left;
+">
 Size
 </th>
 
-<th style="border:1px solid #ddd;padding:12px;">
+<th style="
+border:1px solid #ddd;
+padding:14px;
+text-align:left;
+">
 Qty
 </th>
 
-<th style="border:1px solid #ddd;padding:12px;">
+<th style="
+border:1px solid #ddd;
+padding:14px;
+text-align:left;
+">
 Price
 </th>
 
@@ -2606,86 +2676,179 @@ Price
 
 <tr>
 
-<td style="border:1px solid #ddd;padding:12px;">
+<td style="
+border:1px solid #ddd;
+padding:14px;
+">
 
 <img
 src="${item.image || item.images?.[0]}"
 style="
-width:70px;
-height:90px;
+width:80px;
+height:100px;
 object-fit:cover;
+border-radius:8px;
 "
 >
 
 </td>
 
-<td style="border:1px solid #ddd;padding:12px;">
+<td style="
+border:1px solid #ddd;
+padding:14px;
+font-weight:600;
+">
+
 ${item.name || item.styleNo}
+
 </td>
 
-<td style="border:1px solid #ddd;padding:12px;">
+<td style="
+border:1px solid #ddd;
+padding:14px;
+">
+
 ${item.size || "-"}
+
 </td>
 
-<td style="border:1px solid #ddd;padding:12px;">
-1
+<td style="
+border:1px solid #ddd;
+padding:14px;
+">
+
+${item.qty || 1}
+
 </td>
 
-<td style="border:1px solid #ddd;padding:12px;">
+<td style="
+border:1px solid #ddd;
+padding:14px;
+font-weight:bold;
+">
+
 ₹${item.price}
+
 </td>
 
 </tr>
 
 </table>
 
-<h2 style="margin-top:30px;">
+<!-- PAYMENT -->
+
+<h2 style="
+margin-top:35px;
+margin-bottom:15px;
+">
 Payment Details
 </h2>
 
-<p>
+<div style="
+line-height:30px;
+font-size:16px;
+">
+
+<div>
 <b>Method:</b>
 ${o.paymentMethod || "COD"}
-</p>
+</div>
 
-<p>
+<div>
 <b>Status:</b>
 ${o.paymentStatus || "Pending"}
-</p>
+</div>
+
+<div>
+<b>Order Status:</b>
+${o.status}
+</div>
+
+</div>
+
+<!-- TOTAL -->
+
+<div style="
+margin-top:45px;
+text-align:right;
+">
 
 <h1 style="
-text-align:right;
-margin-top:40px;
+margin:0;
+font-size:34px;
 ">
-Total :
-₹${o.total}
+Total : ₹${o.total}
 </h1>
+
+</div>
+
+<!-- FOOTER -->
+
+<div style="
+margin-top:60px;
+border-top:1px solid #ddd;
+padding-top:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+<div style="
+font-size:14px;
+color:#666;
+">
+Thank you for shopping with Zudora ❤️
+</div>
+
+<div style="
+text-align:right;
+">
+
+<div style="
+font-weight:bold;
+font-size:18px;
+">
+Authorized Signature
+</div>
+
+<div style="
+margin-top:25px;
+font-size:14px;
+">
+Zudora
+</div>
+
+</div>
+
+</div>
 
 </div>
 `;
 
 html2pdf()
 .set({
-  margin:0.5,
-  filename:
-    "Invoice-" +
-    o._id.slice(-6) +
-    ".pdf",
 
-  image:{
-    type:"jpeg",
-    quality:1
-  },
+margin:0.5,
 
-  html2canvas:{
-    scale:2
-  },
+filename:
+"Invoice-" +
+o._id.slice(-6) +
+".pdf",
 
-  jsPDF:{
-    unit:"in",
-    format:"a4",
-    orientation:"portrait"
-  }
+image:{
+type:"jpeg",
+quality:1
+},
+
+html2canvas:{
+scale:2
+},
+
+jsPDF:{
+unit:"in",
+format:"a4",
+orientation:"portrait"
+}
 
 })
 .from(invoice)
