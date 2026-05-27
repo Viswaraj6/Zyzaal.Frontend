@@ -148,28 +148,26 @@ document.getElementById("deliveryBox")
 
 <h2>Delivery Address</h2>
 
-<p>
-${order.address?.name || ""}
-</p>
+<div style="
+line-height:28px;
+font-size:16px;
+">
 
-<p>
-${order.address?.address || ""}
-</p>
+<b>
+${order.name || ""}
+</b>
 
-<p>
-${order.address?.city || ""}
-</p>
+<br>
 
-<p>
-${order.address?.state || ""}
-</p>
+📞 ${order.phone || ""}
 
-<p>
-${order.address?.pincode || ""}
-</p>
+<br><br>
+
+${order.address || ""}
+
+</div>
 
 `;
-
 document.getElementById("priceBox")
 .innerHTML = `
 
