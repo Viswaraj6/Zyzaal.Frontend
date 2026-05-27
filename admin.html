@@ -2219,6 +2219,17 @@ ${deliveryDate}
 
 <br>
 
+<b>Delivered On:</b>
+${o.deliveryDate
+? new Date(o.deliveryDate).toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short",
+year:"numeric"
+})
+: "Not Delivered Yet"}
+
+<br>
+
 <b>Payment:</b>
 ${o.paymentMethod || "COD"}
 
