@@ -707,24 +707,6 @@ ${new Date(
 
 </div>
 
-<div style="
-    color:#555;
-    margin-top:6px;
-    ">
-      ${new Date(
-        order.orderDate || Date.now()
-      ).toLocaleDateString("en-IN")}
-      <br>
-Expected Delivery:
-${new Date(
-  order.deliveryDate || (
-    Date.now() + 4*24*60*60*1000
-  )
-).toLocaleDateString("en-IN")}
-    </div>
-
-  </div>
-
   <div style="
   font-size:24px;
   color:#888;
