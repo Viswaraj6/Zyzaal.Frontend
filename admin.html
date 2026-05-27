@@ -2223,14 +2223,15 @@ ${deliveryDate}
 <br>
 
 <b>Delivered On:</b>
-${o.deliveryDate
-? new Date(o.deliveryDate).toLocaleDateString("en-IN",{
-day:"numeric",
-month:"short",
-year:"numeric"
-})
+${o.status === "Delivered"
+? new Date(
+    o.deliveryDate || Date.now()
+  ).toLocaleDateString("en-IN",{
+    day:"numeric",
+    month:"short",
+    year:"numeric"
+  })
 : "Not Delivered Yet"}
-
 <br>
 
 <b>Payment:</b>
