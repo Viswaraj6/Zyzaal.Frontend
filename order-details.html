@@ -436,6 +436,8 @@ ${order.address}
 
 </tr>
 
+${items.map(item => `
+
 <tr>
 
 <td>
@@ -443,19 +445,20 @@ ${item.styleNo || item.name}
 </td>
 
 <td>
-1
+${item.qty || 1}
 </td>
 
 <td>
-₹${item.price || order.total}
+₹${item.price}
 </td>
 
 <td>
-₹${item.price || order.total}
+₹${item.price * (item.qty || 1)}
 </td>
 
 </tr>
 
+`).join("")}
 </table>
 
 <div class="total">
