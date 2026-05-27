@@ -2039,6 +2039,230 @@ setTimeout(() => {
   }
 
 }
+  function openOrderDetails(id){
+
+fetch(BASE_URL + "/orders")
+.then(res=>res.json())
+.then(data=>{
+
+const o = data.find(x=>x._id===id);
+
+if(!o) return;
+
+const item =
+o.products?.[0] || {};
+
+const orderDate =
+new Date(
+o.orderDate || Date.now()
+).toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short",
+year:"numeric"
+});
+
+const deliveryDate =
+new Date(
+o.deliveryDate || (
+Date.now()+4*24*60*60*1000
+)
+).toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short",
+year:"numeric"
+});
+
+document.body.innerHTML += `
+
+<div id="orderPopup" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+background:white;
+width:90%;
+max-width:850px;
+border-radius:18px;
+padding:30px;
+max-height:90vh;
+overflow:auto;
+position:relative;
+">
+
+<div onclick="closeOrderPopup()" style="
+position:absolute;
+right:25px;
+top:15px;
+font-size:35px;
+cursor:pointer;
+">
+×
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:250px 1fr;
+gap:30px;
+">
+
+<!-- LEFT -->
+
+<div>
+
+<img
+src="${item.image || item.images?.[0]}"
+style="
+width:100%;
+border-radius:16px;
+height:320px;
+object-fit:cover;
+"
+>
+
+</div>
+
+<!-- RIGHT -->
+
+<div>
+
+<h1 style="margin-top:0;">
+${item.name || item.styleNo}
+</h1>
+
+<h2 style="
+color:#16a34a;
+margin-top:10px;
+">
+${o.status}
+</h2>
+
+<div style="
+margin-top:20px;
+line-height:35px;
+font-size:16px;
+">
+
+<b>Order ID:</b>
+${o._id.slice(-6)}
+
+<br>
+
+<b>Order Date:</b>
+${orderDate}
+
+<br>
+
+<b>Expected Delivery:</b>
+${deliveryDate}
+
+<br>
+
+<b>Payment:</b>
+${o.paymentMethod || "COD"}
+
+<br>
+
+<b>Payment Status:</b>
+${o.paymentStatus || "Pending"}
+
+<br>
+
+<b>Total:</b>
+₹${o.total}
+
+</div>
+
+<hr style="margin:25px 0;">
+
+<h3>Delivery Address</h3>
+
+<div style="
+background:#f9fafb;
+padding:18px;
+border-radius:12px;
+line-height:30px;
+">
+
+<b>${o.name}</b>
+
+<br>
+
+${o.phone}
+
+<br><br>
+
+${o.address}
+
+</div>
+
+<hr style="margin:25px 0;">
+
+<h3>Invoice Details</h3>
+
+<div style="
+line-height:32px;
+">
+
+<b>Product:</b>
+${item.name || item.styleNo}
+
+<br>
+
+<b>Qty:</b>
+1
+
+<br>
+
+<b>Price:</b>
+₹${item.price}
+
+</div>
+
+<div style="
+margin-top:25px;
+display:flex;
+gap:15px;
+">
+
+<button
+onclick="viewAdminInvoice('${o._id}')"
+style="
+background:#16a34a;
+">
+View Invoice
+</button>
+
+<button
+onclick="downloadAdminInvoice('${o._id}')"
+style="
+background:#2563eb;
+">
+Download Invoice
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+}
   /* INIT */
 loadProducts();
 loadOrders();
