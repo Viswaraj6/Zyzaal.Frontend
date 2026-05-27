@@ -612,7 +612,61 @@ function loadOrders(){
 order.products ||
 order.items ||
 [order.product];
- const item = items[0];         
+ const item = items[0]; 
+ let productsHTML = "";
+
+items.forEach(item => {
+
+productsHTML += `
+
+<div style="
+display:flex;
+gap:12px;
+margin-bottom:12px;
+">
+
+<img
+src="${
+item.primaryImage ||
+item.image ||
+item.images?.[0]
+}"
+style="
+width:70px;
+height:85px;
+object-fit:cover;
+border-radius:8px;
+">
+
+<div>
+
+<div style="
+font-size:18px;
+font-weight:600;
+">
+${item.styleNo || item.name}
+</div>
+
+<div>
+₹${item.price}
+</div>
+
+<div>
+Size: ${item.size || "-"}
+</div>
+
+<div>
+Qty: ${item.qty || 1}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+          
 html += `
 
 <div
