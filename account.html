@@ -683,46 +683,31 @@ gap:20px;
 align-items:center;
 ">
 
-  <img
-src="${
-  item.primaryImage ||
-  item.image ||
-  item.images?.[0] ||
-  'https://dummyimage.com/300x400/e5e5e5/000&text=No+Image'
-}"
-  style="
-  width:90px;
-  height:110px;
-  object-fit:cover;
-  border-radius:8px;
-  ">
+<div style="flex:1;">
 
-  <div style="flex:1;">
+${productsHTML}
 
-    <div style="
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:8px;
-    ">
-    ${item.styleNo || item.name || item.productName || "Product"}
-    </div>
+<div style="
+color:#555;
+margin-top:6px;
+">
+${new Date(
+  order.orderDate || Date.now()
+).toLocaleDateString("en-IN")}
 
-    <div style="
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:6px;
-    ">
-      ₹${item.price || order.total}
-    </div>
+<br>
 
-    <div style="
-    color:green;
-    font-weight:600;
-    ">
-      ● ${order.status || "Pending"}
-    </div>
+Expected Delivery:
+${new Date(
+  order.deliveryDate || (
+    Date.now() + 4*24*60*60*1000
+  )
+).toLocaleDateString("en-IN")}
+</div>
 
-    <div style="
+</div>
+
+<div style="
     color:#555;
     margin-top:6px;
     ">
