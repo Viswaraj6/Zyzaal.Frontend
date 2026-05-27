@@ -101,36 +101,42 @@ const item =
   order.product ||
   {};
 
+const statusSteps = [
+  "Pending",
+  "Processing",
+  "Shipped",
+  "Delivered"
+];
+
+const currentStep =
+statusSteps.indexOf(order.status);
+
 document.getElementById("productBox")
 .innerHTML = `
 
 <div class="product">
 
 <img src="
-${item.primaryImage || item.image || item.images?.[0] || 'https://dummyimage.com/300x400/e5e5e5/000&text=No+Image'}
+${item.primaryImage || item.image || item.images?.[0]}
 ">
 
 <div>
 
 <h2>
-${
-item.name ||
-item.productName ||
-"Product"
-}
+${item.styleNo || item.name}
 </h2>
 
 <div class="green">
-${order.status || "Pending"}
+${order.status}
 </div>
 
 <p>
-₹${item.price || order.total || 0}
+₹${item.price || order.total}
 </p>
 
 <p>
 Order ID:
-${order._id?.slice(-6) || ""}
+${order._id?.slice(-6)}
 </p>
 
 <div style="
@@ -138,6 +144,8 @@ margin-top:30px;
 padding-top:20px;
 border-top:1px solid #eee;
 ">
+
+${statusSteps.map((step,index)=>`
 
 <div style="
 display:flex;
@@ -149,7 +157,8 @@ margin-bottom:22px;
 <div style="
 width:18px;
 height:18px;
-background:green;
+background:
+${index <= currentStep ? "green" : "#cbd5e1"};
 border-radius:50%;
 "></div>
 
@@ -158,73 +167,34 @@ border-radius:50%;
 <div style="
 font-weight:600;
 ">
-Order Confirmed
+${step}
 </div>
 
 <div style="
 font-size:14px;
 color:#666;
 ">
-${new Date(
-order.orderDate || Date.now()
-).toLocaleDateString("en-IN",{
-day:"numeric",
-month:"short"
-})}
+${index <= currentStep
+? "Completed"
+: "Waiting"}
 </div>
 
 </div>
 
 </div>
 
-<div style="
-display:flex;
-align-items:center;
-gap:15px;
-">
-
-<div style="
-width:18px;
-height:18px;
-background:#90EE90;
-border-radius:50%;
-"></div>
-
-<div>
-
-<div style="
-font-weight:600;
-">
-Expected Delivery
-</div>
-
-<div style="
-font-size:14px;
-color:#666;
-">
-${new Date(
-Date.now() + 4*24*60*60*1000
-).toLocaleDateString("en-IN",{
-weekday:"short",
-day:"numeric",
-month:"short"
-})}
-</div>
-
-</div>
-
-</div>
+`).join("")}
 
 <div style="
 margin-top:25px;
-color:#2874f0;
+color:#2563eb;
 font-weight:600;
 cursor:pointer;
 font-size:15px;
-">
-<span onclick="openUpdates()">
+"
+onclick="openUpdates()"
+>
 See all updates >
-</span>
 </div>
 
 </div>
@@ -234,7 +204,7 @@ See all updates >
 </div>
 
 `;
-document.getElementById("deliveryBox")
+  document.getElementById("deliveryBox")
 .innerHTML = `
 
 <h2 style="
