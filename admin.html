@@ -1176,9 +1176,12 @@ if(o.status === "Delivered"){
   statusText = "#16a34a";
 }
      html += `
-<tr style="
+<tr
+onclick="openOrderDetails('${o._id}')"
+style="
 border-bottom:1px solid #eee;
 background:white;
+cursor:pointer;
 ">
 
 <td style="padding:14px;">
