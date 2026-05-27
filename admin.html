@@ -2126,20 +2126,63 @@ gap:30px;
 
 <!-- LEFT -->
 
-<div>
+<div style="
+display:flex;
+flex-direction:column;
+gap:15px;
+">
+
+${items.map(item => `
+
+<div style="
+display:flex;
+gap:15px;
+background:#f9fafb;
+padding:12px;
+border-radius:14px;
+align-items:center;
+">
 
 <img
 src="${item.image || item.images?.[0]}"
 style="
-width:100%;
-border-radius:16px;
-height:320px;
+width:90px;
+height:110px;
 object-fit:cover;
+border-radius:12px;
 "
 >
 
+<div>
+
+<h3 style="
+margin:0 0 10px 0;
+">
+${item.name || item.styleNo}
+</h3>
+
+<div>
+Size: ${item.size || "-"}
 </div>
 
+<div>
+Qty: ${item.qty || 1}
+</div>
+
+<div style="
+font-weight:bold;
+margin-top:6px;
+">
+₹${item.price}
+</div>
+
+</div>
+
+</div>
+
+`).join("")}
+
+</div>
 <!-- RIGHT -->
 
 <div>
