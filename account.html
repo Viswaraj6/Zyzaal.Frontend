@@ -697,7 +697,10 @@ ${new Date(
 
 <br>
 
-Expected Delivery:
+${order.status === "Delivered"
+? "Delivered On:"
+: "Expected Delivery:"}
+
 ${new Date(
   order.deliveryDate || (
     Date.now() + 4*24*60*60*1000
