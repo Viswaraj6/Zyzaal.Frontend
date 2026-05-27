@@ -114,35 +114,128 @@ document.getElementById("productBox")
 ${item.primaryImage || item.image || item.images?.[0] || 'https://dummyimage.com/300x400/e5e5e5/000&text=No+Image'}
 ">
 
-  <div>
+<div>
 
-    <h2>
-      ${
-        item.name ||
-        item.productName ||
-        "Product"
-      }
-    </h2>
+<h2>
+${
+item.name ||
+item.productName ||
+"Product"
+}
+</h2>
 
-    <div class="green">
-      ${order.status || "Pending"}
-    </div>
+<div class="green">
+${order.status || "Pending"}
+</div>
 
-    <p>
-      ₹${item.price || order.total || 0}
-    </p>
+<p>
+₹${item.price || order.total || 0}
+</p>
 
-    <p>
-      Order ID:
-   ${order._id?.slice(-6) || ""}
-    </p>
+<p>
+Order ID:
+${order._id?.slice(-6) || ""}
+</p>
 
-  </div>
+<div style="
+margin-top:30px;
+padding-top:20px;
+border-top:1px solid #eee;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:22px;
+">
+
+<div style="
+width:18px;
+height:18px;
+background:green;
+border-radius:50%;
+"></div>
+
+<div>
+
+<div style="
+font-weight:600;
+">
+Order Confirmed
+</div>
+
+<div style="
+font-size:14px;
+color:#666;
+">
+${new Date(
+order.orderDate || Date.now()
+).toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short"
+})}
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<div style="
+width:18px;
+height:18px;
+background:#90EE90;
+border-radius:50%;
+"></div>
+
+<div>
+
+<div style="
+font-weight:600;
+">
+Expected Delivery
+</div>
+
+<div style="
+font-size:14px;
+color:#666;
+">
+${new Date(
+Date.now() + 4*24*60*60*1000
+).toLocaleDateString("en-IN",{
+weekday:"short",
+day:"numeric",
+month:"short"
+})}
+</div>
+
+</div>
+
+</div>
+
+<div style="
+margin-top:25px;
+color:#2874f0;
+font-weight:600;
+cursor:pointer;
+font-size:15px;
+">
+See all updates >
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 `;
-
 document.getElementById("deliveryBox")
 .innerHTML = `
 
