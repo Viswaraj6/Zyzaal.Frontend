@@ -146,20 +146,46 @@ ${item.primaryImage || item.image || item.images?.[0] || 'https://dummyimage.com
 document.getElementById("deliveryBox")
 .innerHTML = `
 
-<h2>Delivery Address</h2>
+<h2 style="
+margin-bottom:20px;
+">
+Delivery Address
+</h2>
 
 <div style="
-line-height:28px;
+background:#fff;
+border:1px solid #ddd;
+padding:18px;
+border-radius:12px;
+line-height:30px;
 font-size:16px;
+position:relative;
 ">
 
-<b>
+<div style="
+position:absolute;
+top:18px;
+right:18px;
+color:#2874f0;
+font-weight:600;
+font-size:14px;
+cursor:pointer;
+">
+Home
+</div>
+
+<b style="
+font-size:18px;
+">
 ${order.name || ""}
 </b>
 
-<br>
-
-📞 ${order.phone || ""}
+<span style="
+margin-left:10px;
+color:#555;
+">
+${order.phone || ""}
+</span>
 
 <br><br>
 
@@ -168,7 +194,7 @@ ${order.address || ""}
 </div>
 
 `;
-document.getElementById("priceBox")
+  document.getElementById("priceBox")
 .innerHTML = `
 
 <h2>Price Details</h2>
