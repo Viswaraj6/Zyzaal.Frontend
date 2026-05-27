@@ -362,10 +362,7 @@ document.getElementById(
 ).style.display = "none";
 
 }
-  
-</script>
-
-<!-- UPDATE POPUP -->
+  document.body.innerHTML += `
 
 <div id="updatesModal" style="
 position:fixed;
@@ -477,5 +474,9 @@ ${step === "Pending"
 </div>
 
 </div>
+
+`;
+</script>
+
 </body>
 </html>
