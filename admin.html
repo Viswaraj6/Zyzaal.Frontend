@@ -1328,9 +1328,12 @@ function updateStatus(id,status){
   };
 
   // 🔥 Delivered na today's date save agum
-  if(status === "Delivered"){
-    bodyData.deliveryDate = new Date();
-  }
+ if(status === "Delivered"){
+
+  bodyData.deliveryDate =
+  new Date().toISOString();
+
+}
 
   fetch(BASE_URL+"/orders/"+id,{
     method:"PUT",
