@@ -2061,9 +2061,7 @@ const o = data.find(x=>x._id===id);
 
 if(!o) return;
 
-const item =
-o.products?.[0] || {};
-
+const items = o.products || [];
 const orderDate =
 new Date(
 o.orderDate || Date.now()
