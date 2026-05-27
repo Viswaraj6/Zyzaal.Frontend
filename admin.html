@@ -2265,13 +2265,25 @@ ${o.address}
 line-height:32px;
 ">
 
+${items.map(item => `
+
+<div style="
+padding:12px 0;
+border-bottom:1px dashed #ddd;
+">
+
 <b>Product:</b>
 ${item.name || item.styleNo}
 
 <br>
 
+<b>Size:</b>
+${item.size || "-"}
+
+<br>
+
 <b>Qty:</b>
-1
+${item.qty || 1}
 
 <br>
 
@@ -2280,6 +2292,9 @@ ${item.name || item.styleNo}
 
 </div>
 
+`).join("")}
+
+</div>
 <div style="
 margin-top:25px;
 display:flex;
