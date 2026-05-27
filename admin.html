@@ -2290,7 +2290,7 @@ fetch(BASE_URL + "/orders")
 
 const o = data.find(x=>x._id===id);
 
-const item = o.products?.[0] || {};
+const items = o.products || [];
 
 const invoice = `
 <html>
@@ -2519,7 +2519,7 @@ if(!o){
   return;
 }
 
-const item = o.products?.[0] || {};
+const items = o.products || [];
 
 const invoice = document.createElement("div");
 
