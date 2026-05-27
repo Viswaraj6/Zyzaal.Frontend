@@ -1247,6 +1247,7 @@ ${o.status}
 <br><br>
 
 <select
+onclick="event.stopPropagation()"
 style="
 padding:6px 10px;
 border-radius:10px;
@@ -1254,7 +1255,6 @@ border:1px solid #ddd;
 "
 onchange="updateStatus('${o._id}',this.value)"
 >
-
 <option ${o.status==="Pending"?"selected":""}>
 Pending
 </option>
