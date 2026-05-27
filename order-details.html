@@ -326,27 +326,173 @@ ${order.paymentMethod || "Online"}
 
 function viewInvoice(){
 
-  window.open(
-    order.invoice ||
-    "invoice.pdf",
-    "_blank"
-  );
+const invoiceWindow = window.open("", "_blank");
+
+invoiceWindow.document.write(`
+
+<html>
+
+<head>
+
+<title>Invoice</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:40px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+margin-bottom:40px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:30px;
+}
+
+table,th,td{
+border:1px solid #ccc;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+.total{
+text-align:right;
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Tax Invoice</h1>
+
+<div class="top">
+
+<div>
+
+<h3>Sold By</h3>
+
+<p>
+Zudora Fashion
+</p>
+
+<p>
+Tamil Nadu, India
+</p>
+
+</div>
+
+<div>
+
+<p>
+Order ID:
+${order._id?.slice(-6)}
+</p>
+
+<p>
+Order Date:
+${orderDate}
+</p>
+
+<p>
+Delivery Date:
+${deliveryDate}
+</p>
+
+</div>
+
+</div>
+
+<h3>Billing Address</h3>
+
+<p>
+${order.name}
+</p>
+
+<p>
+${order.phone}
+</p>
+
+<p>
+${order.address}
+</p>
+
+<table>
+
+<tr>
+
+<th>Product</th>
+
+<th>Qty</th>
+
+<th>Price</th>
+
+<th>Total</th>
+
+</tr>
+
+<tr>
+
+<td>
+${item.styleNo || item.name}
+</td>
+
+<td>
+1
+</td>
+
+<td>
+₹${item.price || order.total}
+</td>
+
+<td>
+₹${item.price || order.total}
+</td>
+
+</tr>
+
+</table>
+
+<div class="total">
+
+Grand Total:
+₹${item.price || order.total}
+
+</div>
+
+<br><br>
+
+<p>
+Payment Method:
+${order.paymentMethod || "Online"}
+</p>
+
+</body>
+
+</html>
+
+`);
+
+invoiceWindow.document.close();
 
 }
 
 function downloadInvoice(){
 
-  const a =
-    document.createElement("a");
-
-  a.href =
-    order.invoice ||
-    "invoice.pdf";
-
-  a.download =
-    "invoice.pdf";
-
-  a.click();
+window.print();
 
 }
 function openUpdates(){
