@@ -2505,68 +2505,39 @@ const o = data.find(x=>x._id===id);
 
 const item = o.products?.[0] || {};
 
-const invoice = `
-<html>
+const invoice = document.createElement("div");
 
-<head>
+invoice.innerHTML = `
 
-<title>Invoice</title>
-
-<style>
-
-body{
+<div style="
 font-family:Arial;
 padding:40px;
-}
+width:800px;
+background:white;
+color:black;
+">
 
-.top{
+<div style="
 display:flex;
 justify-content:space-between;
-align-items:center;
 border-bottom:2px solid #111;
 padding-bottom:20px;
 margin-bottom:30px;
-}
+">
 
-.logo{
+<div>
+
+<h1 style="
+margin:0;
 font-size:38px;
-font-weight:bold;
-}
-
-.section{
-margin-top:25px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
-
-table th,
-table td{
-border:1px solid #ddd;
-padding:12px;
-text-align:left;
-}
-
-.total{
-text-align:right;
-font-size:22px;
-font-weight:bold;
-margin-top:25px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="top">
-
-<div class="logo">
+">
 Zudora
+</h1>
+
+<p>
+Fashion Store
+</p>
+
 </div>
 
 <div>
@@ -2585,67 +2556,82 @@ o.orderDate || Date.now()
 
 </div>
 
-<div class="section">
-
 <h2>Customer Details</h2>
 
+<p>
 <b>${o.name}</b>
+</p>
 
-<br><br>
-
+<p>
 ${o.phone}
+</p>
 
-<br><br>
-
+<p>
 ${o.address}
+</p>
 
-</div>
+<h2 style="margin-top:30px;">
+Product Details
+</h2>
 
-<div class="section">
-
-<h2>Product Details</h2>
-
-<table>
+<table style="
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+">
 
 <tr>
 
-<th>Image</th>
-<th>Product</th>
-<th>Size</th>
-<th>Qty</th>
-<th>Price</th>
+<th style="border:1px solid #ddd;padding:12px;">
+Image
+</th>
+
+<th style="border:1px solid #ddd;padding:12px;">
+Product
+</th>
+
+<th style="border:1px solid #ddd;padding:12px;">
+Size
+</th>
+
+<th style="border:1px solid #ddd;padding:12px;">
+Qty
+</th>
+
+<th style="border:1px solid #ddd;padding:12px;">
+Price
+</th>
 
 </tr>
 
 <tr>
 
-<td>
+<td style="border:1px solid #ddd;padding:12px;">
 
 <img
 src="${item.image || item.images?.[0]}"
 style="
-width:80px;
-height:100px;
+width:70px;
+height:90px;
 object-fit:cover;
-border-radius:8px;
 "
 >
 
 </td>
 
-<td>
+<td style="border:1px solid #ddd;padding:12px;">
 ${item.name || item.styleNo}
 </td>
 
-<td>
+<td style="border:1px solid #ddd;padding:12px;">
 ${item.size || "-"}
 </td>
 
-<td>
+<td style="border:1px solid #ddd;padding:12px;">
 1
 </td>
 
-<td>
+<td style="border:1px solid #ddd;padding:12px;">
 ₹${item.price}
 </td>
 
@@ -2653,55 +2639,57 @@ ${item.size || "-"}
 
 </table>
 
-</div>
+<h2 style="margin-top:30px;">
+Payment Details
+</h2>
 
-<div class="section">
-
-<h2>Payment Details</h2>
-
+<p>
 <b>Method:</b>
 ${o.paymentMethod || "COD"}
+</p>
 
-<br><br>
-
+<p>
 <b>Status:</b>
 ${o.paymentStatus || "Pending"}
+</p>
 
-</div>
-
-<div class="total">
-
-Total Amount :
+<h1 style="
+text-align:right;
+margin-top:40px;
+">
+Total :
 ₹${o.total}
+</h1>
 
 </div>
-
-</body>
-
-</html>
 `;
 
-const blob = new Blob(
-[invoice],
-{ type:"text/html" }
-);
+html2pdf()
+.set({
+  margin:0.5,
+  filename:
+    "Invoice-" +
+    o._id.slice(-6) +
+    ".pdf",
 
-const url =
-URL.createObjectURL(blob);
+  image:{
+    type:"jpeg",
+    quality:1
+  },
 
-const a =
-document.createElement("a");
+  html2canvas:{
+    scale:2
+  },
 
-a.href = url;
+  jsPDF:{
+    unit:"in",
+    format:"a4",
+    orientation:"portrait"
+  }
 
-a.download =
-"Invoice-" +
-o._id.slice(-6) +
-".html";
-
-a.click();
-
-URL.revokeObjectURL(url);
+})
+.from(invoice)
+.save();
 
 });
 }
