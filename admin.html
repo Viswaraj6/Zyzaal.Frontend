@@ -2074,15 +2074,20 @@ month:"short",
 year:"numeric"
 });
 
-const deliveryDate =
-o.deliveryDate
-? new Date(o.deliveryDate)
-    .toLocaleDateString("en-IN",{
-      day:"numeric",
-      month:"short",
-      year:"numeric"
-    })
-: "Not Delivered Yet";
+const expectedDate = new Date(
+  o.orderDate || o.createdAt
+);
+
+expectedDate.setDate(
+  expectedDate.getDate() + 4
+);
+
+const expectedDelivery =
+expectedDate.toLocaleDateString("en-IN",{
+  day:"numeric",
+  month:"short",
+  year:"numeric"
+});
 
 document.body.innerHTML += `
 
