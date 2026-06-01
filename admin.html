@@ -2224,9 +2224,7 @@ ${deliveryDate}
 
 <b>Delivered On:</b>
 ${o.status === "Delivered"
-? new Date(
-    o.deliveryDate || Date.now()
-  ).toLocaleDateString("en-IN",{
+? new Date(o.deliveryDate).toLocaleDateString("en-IN",{
     day:"numeric",
     month:"short",
     year:"numeric"
