@@ -2075,15 +2075,14 @@ year:"numeric"
 });
 
 const deliveryDate =
-new Date(
-o.deliveryDate || (
-Date.now()+4*24*60*60*1000
-)
-).toLocaleDateString("en-IN",{
-day:"numeric",
-month:"short",
-year:"numeric"
-});
+o.deliveryDate
+? new Date(o.deliveryDate)
+    .toLocaleDateString("en-IN",{
+      day:"numeric",
+      month:"short",
+      year:"numeric"
+    })
+: "Not Delivered Yet";
 
 document.body.innerHTML += `
 
