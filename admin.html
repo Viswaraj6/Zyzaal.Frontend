@@ -2661,14 +2661,6 @@ o.orderDate || o.createdAt
 ).toLocaleDateString("en-IN")}
 </div>
 
-<div>
-<b>Expected Delivery:</b>
-${o.deliveryDate
- ? new Date(o.deliveryDate)
-     .toLocaleDateString("en-IN")
- : "Not Delivered Yet"}
-</div>
-
 </div>
 
 </div>
@@ -2849,12 +2841,6 @@ ${o.paymentMethod || "COD"}
 <b>Status:</b>
 ${o.paymentStatus || "Pending"}
 </div>
-
-<div>
-<b>Order Status:</b>
-${o.status}
-</div>
-
 </div>
 
 <!-- TOTAL -->
