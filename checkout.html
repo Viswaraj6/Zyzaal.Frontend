@@ -659,12 +659,9 @@ paymentId === "COD"
 
 status: "Pending",
 
-orderDate: new Date(),
+orderDate: new Date().toISOString(),
 
-deliveryDate:
-window.selectedDeliveryDate ||
-localStorage.getItem("deliveryDate") ||
-""
+deliveryDate: null
     })
   })
 .then(async(res) => {
