@@ -691,9 +691,7 @@ ${productsHTML}
 color:#555;
 margin-top:6px;
 ">
-${new Date(
-  order.orderDate || Date.now()
-).toLocaleDateString("en-IN")}
+${new Date(order.orderDate).toLocaleDateString("en-IN")}
 
 <br>
 
@@ -703,9 +701,7 @@ ${order.status === "Delivered"
 
 ${order.status === "Delivered"
 ? new Date().toLocaleDateString("en-IN")
-: new Date(
-    order.deliveryDate || (
-      Date.now() + 4*24*60*60*1000
+: new Date(order.deliveryDate) + 4*24*60*60*1000
     )
   ).toLocaleDateString("en-IN")
 }
