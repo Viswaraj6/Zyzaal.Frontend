@@ -2067,7 +2067,7 @@ if(!o) return;
 const items = o.products || [];
 const orderDate =
 new Date(
-o.orderDate || Date.now()
+o.orderDate || o.createdAt
 ).toLocaleDateString("en-IN",{
 day:"numeric",
 month:"short",
