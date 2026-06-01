@@ -118,20 +118,27 @@ day:"numeric",
 month:"short"
 });
 
+const expectedDate = new Date(
+  order.orderDate || order.createdAt
+);
+
+expectedDate.setDate(
+  expectedDate.getDate() + 4
+);
+
 const deliveryDate =
 order.status === "Delivered"
-? new Date().toLocaleDateString("en-IN",{
-    day:"numeric",
-    month:"short"
-  })
-: new Date(
-    order.deliveryDate || (
-      Date.now() + 4*24*60*60*1000
-    )
-  ).toLocaleDateString("en-IN",{
-    day:"numeric",
-    month:"short"
-  });
+? new Date(order.deliveryDate)
+    .toLocaleDateString("en-IN",{
+      day:"numeric",
+      month:"short",
+      year:"numeric"
+    })
+: expectedDate.toLocaleDateString("en-IN",{
+      day:"numeric",
+      month:"short",
+      year:"numeric"
+    });
   
 let productHTML = "";
 
