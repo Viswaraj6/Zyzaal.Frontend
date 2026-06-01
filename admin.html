@@ -2655,7 +2655,7 @@ ${o._id.slice(-6)}
 <div>
 <b>Order Date:</b>
 ${new Date(
-o.orderDate || Date.now()
+o.orderDate || o.createdAt
 ).toLocaleDateString("en-IN")}
 </div>
 
