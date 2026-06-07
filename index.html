@@ -673,14 +673,28 @@ async function loadBanner(){
       </video>`;
     }
 
-    else if(data.type === "slider"){
-   html = `<div class="slider" id="slider">`;
-      data.images.forEach(img=>{
- html += `<img src="${img}" style="width:100%; height:auto;">`;
-      });
-    
-      html += '</div>';
-    }
+  else if(data.type === "slider"){
+
+  html = `
+  <button class="banner-arrow left"
+  onclick="prevSlide()">❮</button>
+
+  <div class="slider" id="slider">
+  `;
+
+  data.images.forEach(img=>{
+    html += `<img src="${img}" style="width:100%;height:auto;">`;
+  });
+
+  html += `
+  </div>
+
+  <button class="banner-arrow right"
+  onclick="nextSlide()">❯</button>
+
+  <div class="banner-dots" id="bannerDots"></div>
+  `;
+}
 
     document.getElementById("banner").innerHTML = html;
 startSlider(data.images.length); 
