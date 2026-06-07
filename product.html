@@ -731,7 +731,10 @@ overflow:hidden;
 
     <div id="thumbs" class="thumbs"></div>
 
-    <div class="main-wrapper">
+   <div class="main-wrapper zoom-container"
+onmousemove="zoomImage(event)"
+onmouseleave="resetZoom()">
+     
       <button class="arrow left" onclick="prevImage()">‹</button>
 
      <img id="mainImage"
