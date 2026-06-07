@@ -1147,6 +1147,40 @@ color:white;
 
 <tbody>
 `;
+    data = data.filter(o => {
+
+const matchSearch =
+
+(o._id || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(o.name || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(o.phone || "")
+.includes(search);
+
+const matchStatus =
+!statusFilter ||
+o.status === statusFilter;
+
+const matchPayment =
+!paymentFilter ||
+o.paymentStatus === paymentFilter;
+
+return (
+matchSearch &&
+matchStatus &&
+matchPayment
+);
+
+});
     (data || []).forEach(o => {
 
       // 🗓️ Order Date & Delivery Date
