@@ -1515,19 +1515,34 @@ function openManageAddress(){
   window.location.href =
     "account.html#addressSection";
 }
-  function openZoom(){
+  function zoomImage(e){
 
-  document.getElementById("zoomImg").src =
-    images[currentIndex];
+  const img =
+    document.getElementById("mainImage");
 
-  document.getElementById("zoomModal").style.display =
-    "flex";
+  const rect =
+    img.getBoundingClientRect();
+
+  const x =
+    ((e.clientX - rect.left) / rect.width) * 100;
+
+  const y =
+    ((e.clientY - rect.top) / rect.height) * 100;
+
+  img.style.transformOrigin =
+    `${x}% ${y}%`;
+
+  img.style.transform =
+    "scale(2)";
 }
 
-function closeZoom(){
+function resetZoom(){
 
-  document.getElementById("zoomModal").style.display =
-    "none";
+  const img =
+    document.getElementById("mainImage");
+
+  img.style.transform =
+    "scale(1)";
 }
 </script>
 <div id="zoomModal" style="
