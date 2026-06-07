@@ -668,15 +668,8 @@ updateCartCount();
 // 🚀 INIT
 // ==============================
 
-Promise.all([
-  loadProducts(),
-  loadBanner()
-]).then(() => {
-
-  document.getElementById("pageLoader")
-  .style.display = "none";
-
-});
+loadBanner();
+loadProducts();
 
 </script>
 
