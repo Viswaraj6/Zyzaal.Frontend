@@ -936,11 +936,15 @@ function showSection(section, btn){
   if(btn) btn.classList.add("active");
 
   // hide all
+  document.getElementById("dashboardSection").style.display="none";
   document.getElementById("productWrapper").style.display = "none";
   document.getElementById("productsSection").style.display = "none";
   document.getElementById("ordersSection").style.display = "none";
   document.getElementById("bannerSection").style.display = "none";
-
+if(section==="dashboard"){
+document.getElementById("dashboardSection").style.display="block";
+}
+  
 if(section === "product"){
 
   document.getElementById("productWrapper")
@@ -3055,10 +3059,39 @@ html2pdf()
 
 });
 }
+  async function loadDashboard(){
+
+const products =
+await fetch(BASE_URL + "/products")
+.then(r=>r.json());
+
+const orders =
+await fetch(BASE_URL + "/orders")
+.then(r=>r.json());
+
+document.getElementById("totalOrders").innerText =
+orders.length;
+
+document.getElementById("pendingOrders").innerText =
+orders.filter(o=>o.status==="Pending").length;
+
+document.getElementById("deliveredOrders").innerText =
+orders.filter(o=>o.status==="Delivered").length;
+
+const revenue =
+orders
+.filter(o=>o.paymentStatus==="Paid")
+.reduce((a,b)=>a+(b.total||0),0);
+
+document.getElementById("totalRevenue").innerText =
+"₹"+revenue;
+
+}
   /* INIT */
 loadProducts();
 loadOrders();
 showSection("product", document.querySelector(".sidebar button"));
+  loadDashboard();
 </script>
 <div id="productPopup"></div>
 </body>
