@@ -3040,7 +3040,7 @@ Zudora
 html2pdf()
 .set({
   margin: 0.3,
-  filename: "Invoice-" + o._id.slice(-6) + ".pdf",
+ filename: "Invoice-" + o.orderNumber + ".pdf"
   image:{ type:"jpeg", quality:1 },
   html2canvas:{
     scale:2,
