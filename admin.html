@@ -1092,6 +1092,16 @@ function editProduct(id){
 /* ORDERS */
 function loadOrders(){
   fetch(BASE_URL + "/orders")
+    const search =
+(document.getElementById("orderSearch")?.value || "")
+.toLowerCase();
+
+const statusFilter =
+document.getElementById("statusFilter")?.value || "";
+
+const paymentFilter =
+document.getElementById("paymentFilter")?.value || "";
+  
   .then(res => res.json())
   .then(data => {
 
