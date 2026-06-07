@@ -1505,6 +1505,34 @@ function openManageAddress(){
     "account.html#addressSection";
 }
 </script>
+<div id="zoomModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.9);
+z-index:99999;
+justify-content:center;
+align-items:center;
+">
 
+<span onclick="closeZoom()" style="
+position:absolute;
+top:20px;
+right:30px;
+font-size:40px;
+color:white;
+cursor:pointer;
+">×</span>
+
+<img id="zoomImg" style="
+max-width:90%;
+max-height:90%;
+object-fit:contain;
+">
+</div>
+  
 </body>
 </html>
