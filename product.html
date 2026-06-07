@@ -727,8 +727,11 @@ overflow:hidden;
     <div class="main-wrapper">
       <button class="arrow left" onclick="prevImage()">‹</button>
 
-      <img id="mainImage" class="main-img">
-
+     <img id="mainImage"
+class="main-img"
+onclick="openZoom()"
+style="cursor:zoom-in;">
+      
       <button class="arrow right" onclick="nextImage()">›</button>
     </div>
 
@@ -1503,6 +1506,20 @@ function openManageAddress(){
 
   window.location.href =
     "account.html#addressSection";
+}
+  function openZoom(){
+
+  document.getElementById("zoomImg").src =
+    images[currentIndex];
+
+  document.getElementById("zoomModal").style.display =
+    "flex";
+}
+
+function closeZoom(){
+
+  document.getElementById("zoomModal").style.display =
+    "none";
 }
 </script>
 <div id="zoomModal" style="
