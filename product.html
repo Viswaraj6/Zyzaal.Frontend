@@ -1348,12 +1348,6 @@ function toggleAcc(el){
   el.parentElement.classList.toggle("active");
 }
 loadProduct();
-  window.addEventListener("load", ()=>{
-
-  document.getElementById("productLoader")
-  .style.display = "none";
-
-});
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
