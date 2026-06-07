@@ -1091,7 +1091,7 @@ function editProduct(id){
 }
 /* ORDERS */
 function loadOrders(){
-  fetch(BASE_URL + "/orders")
+
     const search =
 (document.getElementById("orderSearch")?.value || "")
 .toLowerCase();
@@ -1102,9 +1102,43 @@ document.getElementById("statusFilter")?.value || "";
 const paymentFilter =
 document.getElementById("paymentFilter")?.value || "";
   
+    fetch(BASE_URL + "/orders")
   .then(res => res.json())
   .then(data => {
+ data = data.filter(o => {
 
+const matchSearch =
+
+(o._id || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(o.name || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(o.phone || "")
+.includes(search);
+
+const matchStatus =
+!statusFilter ||
+o.status === statusFilter;
+
+const matchPayment =
+!paymentFilter ||
+o.paymentStatus === paymentFilter;
+
+return (
+matchSearch &&
+matchStatus &&
+matchPayment
+);
+
+});
     let html = "";
 html = `
 <div style="
@@ -1147,40 +1181,7 @@ color:white;
 
 <tbody>
 `;
-    data = data.filter(o => {
-
-const matchSearch =
-
-(o._id || "")
-.toLowerCase()
-.includes(search)
-
-||
-
-(o.name || "")
-.toLowerCase()
-.includes(search)
-
-||
-
-(o.phone || "")
-.includes(search);
-
-const matchStatus =
-!statusFilter ||
-o.status === statusFilter;
-
-const matchPayment =
-!paymentFilter ||
-o.paymentStatus === paymentFilter;
-
-return (
-matchSearch &&
-matchStatus &&
-matchPayment
-);
-
-});
+   
     (data || []).forEach(o => {
 
       // 🗓️ Order Date & Delivery Date
