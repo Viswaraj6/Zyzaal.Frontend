@@ -73,6 +73,48 @@ h1 { text-align: center; }
   padding: 0; 
   position: relative;
 }
+.banner-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:rgba(0,0,0,.5);
+  color:#fff;
+  cursor:pointer;
+  z-index:10;
+}
+
+.banner-arrow.left{
+  left:10px;
+}
+
+.banner-arrow.right{
+  right:10px;
+}
+
+.banner-dots{
+  position:absolute;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:8px;
+}
+
+.banner-dots span{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#ccc;
+  cursor:pointer;
+}
+
+.banner-dots span.active{
+  background:#fff;
+}
   /* slider container */
 .slider {
   display: flex;
