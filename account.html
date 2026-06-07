@@ -590,10 +590,9 @@ function loadOrders(){
     .then(res => res.json())
     .then(data => {
 
-      let myOrders = data.filter(o =>
-        String(o.phone) === String(user)
-      );
-
+    let myOrders = data.filter(o =>
+  String(o.user || o.phone) === String(user)
+);
       let html = "";
 
       if(myOrders.length === 0){
