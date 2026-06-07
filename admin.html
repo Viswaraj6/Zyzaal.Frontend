@@ -263,6 +263,40 @@ padding:10px 18px;
     <!-- ORDERS -->
     <div id="ordersSection" style="display:none;">
       <h2>Orders</h2>
+      <div style="
+display:flex;
+gap:10px;
+margin-bottom:15px;
+flex-wrap:wrap;
+">
+
+<input
+id="orderSearch"
+placeholder="Search Order No / Customer / Phone"
+onkeyup="loadOrders()"
+style="
+width:300px;
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
+">
+
+<select id="statusFilter" onchange="loadOrders()">
+<option value="">All Status</option>
+<option value="Pending">Pending</option>
+<option value="Processing">Processing</option>
+<option value="Shipped">Shipped</option>
+<option value="Delivered">Delivered</option>
+<option value="Cancelled">Cancelled</option>
+</select>
+
+<select id="paymentFilter" onchange="loadOrders()">
+<option value="">All Payment</option>
+<option value="Paid">Paid</option>
+<option value="Pending">Pending</option>
+</select>
+
+</div>
       <div id="orders"></div>
     </div>
 
