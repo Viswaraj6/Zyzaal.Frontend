@@ -697,6 +697,23 @@ async function loadBanner(){
 }
 
     document.getElementById("banner").innerHTML = html;
+ 
+    if(data.type === "slider"){
+
+  let dots = "";
+
+  for(let i=0;i<data.images.length;i++){
+
+    dots += `
+    <span
+    onclick="goSlide(${i})"
+    class="${i===0 ? 'active' : ''}">
+    </span>
+    `;
+  }
+
+  document.getElementById("bannerDots").innerHTML = dots;
+}
 startSlider(data.images.length); 
   }catch(e){
     console.log("Banner error", e);
