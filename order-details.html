@@ -903,6 +903,24 @@ ${step === "Pending"
 </div>
 
 `;
+  function goHome(){
+  location.href = "index.html";
+}
+
+function goPage(page){
+  location.href = page;
+}
+
+function updateCartCount(){
+  const cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+  document.getElementById("cartCount").innerText =
+    cart.length;
+}
+
+updateCartCount();
+  
 </script>
 
 </body>
