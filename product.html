@@ -1529,32 +1529,29 @@ function openManageAddress(){
 }
   function zoomImage(e){
 
-  const img =
-    document.getElementById("mainImage");
+  const img = document.getElementById("mainImage");
+  const result = document.getElementById("zoomResult");
 
-  const rect =
-    img.getBoundingClientRect();
+  const rect = img.getBoundingClientRect();
 
-  const x =
-    ((e.clientX - rect.left) / rect.width) * 100;
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-  const y =
-    ((e.clientY - rect.top) / rect.height) * 100;
+  result.style.display = "block";
 
-  img.style.transformOrigin =
+  result.style.backgroundImage =
+    `url(${img.src})`;
+
+  result.style.backgroundSize = "200%";
+
+  result.style.backgroundPosition =
     `${x}% ${y}%`;
-
-  img.style.transform =
-    "scale(2)";
 }
 
 function resetZoom(){
 
-  const img =
-    document.getElementById("mainImage");
-
-  img.style.transform =
-    "scale(1)";
+  document.getElementById("zoomResult")
+    .style.display = "none";
 }
 </script>
   
