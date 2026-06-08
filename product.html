@@ -1516,8 +1516,9 @@ function openManageAddress(){
   window.location.href =
     "account.html#addressSection";
 }
-  function zoomImage(e){
-
+ function zoomImage(e){
+document.querySelector(".arrow.left").style.display="none";
+document.querySelector(".arrow.right").style.display="none";
   const img =
     document.getElementById("mainImage");
 
@@ -1530,20 +1531,16 @@ function openManageAddress(){
   const y =
     ((e.clientY - rect.top) / rect.height) * 100;
 
-  img.style.transformOrigin =
-    `${x}% ${y}%`;
-
-  img.style.transform =
-    "scale(2)";
+  img.style.transform = "scale(2)";
+  img.style.transformOrigin = `${x}% ${y}%`;
 }
 
 function resetZoom(){
 
-  const img =
-    document.getElementById("mainImage");
-
-  img.style.transform =
-    "scale(1)";
+  document.getElementById("mainImage")
+    .style.transform = "scale(1)";
+  document.querySelector(".arrow.left").style.display="block";
+document.querySelector(".arrow.right").style.display="block";
 }
 </script>
   
