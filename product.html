@@ -47,11 +47,10 @@ body {
 }
   /* MAIN IMAGE */
 .main-img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-  transition:transform .1s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ⭐ full fill like StyleUnion */
+  display: block;
 }
 .thumbs{
   display: flex;
@@ -295,7 +294,7 @@ h2 { margin: 10px 0 5px; }
   max-width: 450px;
   background: #fff;
   border-radius: 12px;
-  overflow: visible;              /* ⭐ important */
+  overflow: hidden;              /* ⭐ important */
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
   justify-content: center;
@@ -539,7 +538,7 @@ h2 { margin: 10px 0 5px; }
     width:100%;
     height:auto;
     max-height:420px;
-    object-fit:contain;
+    object-fit:cover;
   }
 
   .product-details{
@@ -1516,9 +1515,8 @@ function openManageAddress(){
   window.location.href =
     "account.html#addressSection";
 }
- function zoomImage(e){
-document.querySelector(".arrow.left").style.display="none";
-document.querySelector(".arrow.right").style.display="none";
+  function zoomImage(e){
+
   const img =
     document.getElementById("mainImage");
 
@@ -1531,16 +1529,20 @@ document.querySelector(".arrow.right").style.display="none";
   const y =
     ((e.clientY - rect.top) / rect.height) * 100;
 
-  img.style.transform = "scale(2)";
-  img.style.transformOrigin = `${x}% ${y}%`;
+  img.style.transformOrigin =
+    `${x}% ${y}%`;
+
+  img.style.transform =
+    "scale(2)";
 }
 
 function resetZoom(){
 
-  document.getElementById("mainImage")
-    .style.transform = "scale(1)";
-  document.querySelector(".arrow.left").style.display="block";
-document.querySelector(".arrow.right").style.display="block";
+  const img =
+    document.getElementById("mainImage");
+
+  img.style.transform =
+    "scale(1)";
 }
 </script>
   
