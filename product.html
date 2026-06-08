@@ -47,10 +47,11 @@ body {
 }
   /* MAIN IMAGE */
 .main-img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;   /* ⭐ full fill like StyleUnion */
-  display: block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  transition:transform .1s ease;
 }
 .thumbs{
   display: flex;
