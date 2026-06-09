@@ -47,10 +47,11 @@ body {
 }
   /* MAIN IMAGE */
 .main-img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;   /* ⭐ full fill like StyleUnion */
-  display: block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  transition:transform .1s ease;
 }
 .thumbs{
   display: flex;
@@ -294,7 +295,7 @@ h2 { margin: 10px 0 5px; }
   max-width: 450px;
   background: #fff;
   border-radius: 12px;
-  overflow: hidden;              /* ⭐ important */
+  overflow: visible;              /* ⭐ important */
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
   justify-content: center;
@@ -538,7 +539,7 @@ h2 { margin: 10px 0 5px; }
     width:100%;
     height:auto;
     max-height:420px;
-    object-fit:cover;
+    object-fit:contain;
   }
 
   .product-details{
@@ -606,10 +607,26 @@ h2 { margin: 10px 0 5px; }
 .zoom-container img{
   transition:transform .1s ease;
 }
+  .zoom-result{
+  position:absolute;
+  left:520px;
+  top:0;
+  width:500px;
+  height:600px;
+  border:1px solid #ddd;
+  background-repeat:no-repeat;
+  display:none;
+  z-index:999;
+}
   .similar-card{
     min-width:130px;
   }
 
+}
+  @media(max-width:768px){
+  .zoom-result{
+    display:none !important;
+  }
 }
 @keyframes pulse{
 
@@ -742,7 +759,7 @@ class="main-img">
       
       <button class="arrow right" onclick="nextImage()">›</button>
     </div>
-
+<div id="zoomResult" class="zoom-result"></div>
   </div>
 
   <!-- RIGHT -->
@@ -1517,32 +1534,29 @@ function openManageAddress(){
 }
   function zoomImage(e){
 
-  const img =
-    document.getElementById("mainImage");
+  const img = document.getElementById("mainImage");
+  const result = document.getElementById("zoomResult");
 
-  const rect =
-    img.getBoundingClientRect();
+  const rect = img.getBoundingClientRect();
 
-  const x =
-    ((e.clientX - rect.left) / rect.width) * 100;
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-  const y =
-    ((e.clientY - rect.top) / rect.height) * 100;
+  result.style.display = "block";
 
-  img.style.transformOrigin =
+  result.style.backgroundImage =
+    `url(${img.src})`;
+
+  result.style.backgroundSize = "200%";
+
+  result.style.backgroundPosition =
     `${x}% ${y}%`;
-
-  img.style.transform =
-    "scale(2)";
 }
 
 function resetZoom(){
 
-  const img =
-    document.getElementById("mainImage");
-
-  img.style.transform =
-    "scale(1)";
+  document.getElementById("zoomResult")
+    .style.display = "none";
 }
 </script>
   
