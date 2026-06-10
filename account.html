@@ -1210,6 +1210,23 @@ function saveAddress(){
   }
 
   localStorage.setItem(key, JSON.stringify(addresses));
+  const fullAddress =
+`${data.address},
+${data.city},
+${data.state} - ${data.pincode}`;
+
+await fetch(
+API + "/user/" + user,
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+address: fullAddress
+})
+}
+);
 
   clearAddressForm();
   loadAddress();
