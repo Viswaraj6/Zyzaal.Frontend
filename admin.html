@@ -1676,23 +1676,30 @@ ${r.reason}
 
 <br><br>
 
-${r.status === "Approved"
+Status :
 
-? `<button
-style="
-background:green;
-cursor:not-allowed;
-"
-disabled>
-Approved
-</button>`
+<span style="
+color:
+${r.status==="Approved"
+? "green"
+: "orange"};
+font-weight:bold;
+">
 
-: `<button
-onclick="approveRequest('${r._id}')">
+${r.status || "Pending"}
+
+</span>
+
+<br><br>
+
+<button
+onclick="
+approveRequest(
+'${r._id}'
+)">
 Approve
-</button>`
+</button>
 
-}
 </div>
 
 `;
