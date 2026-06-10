@@ -1480,6 +1480,21 @@ html += `
     document.getElementById("orders").innerHTML = html;
   });
 }
+  function getStatusBadge(status){
+
+status = status || "Active";
+
+if(status === "Active"){
+ return '<span style="background:#dcfce7;color:#15803d;padding:6px 12px;border-radius:20px;">Active</span>';
+}
+
+if(status === "Deactivated"){
+ return '<span style="background:#fef3c7;color:#b45309;padding:6px 12px;border-radius:20px;">Deactivated</span>';
+}
+
+return '<span style="background:#fee2e2;color:#dc2626;padding:6px 12px;border-radius:20px;">Deleted</span>';
+}
+  
   function loadCustomers(){
 
 const search =
