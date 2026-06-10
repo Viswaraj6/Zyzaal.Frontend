@@ -949,6 +949,7 @@ function showSection(section, btn){
   document.getElementById("productWrapper").style.display = "none";
   document.getElementById("productsSection").style.display = "none";
   document.getElementById("ordersSection").style.display = "none";
+  document.getElementById("customersSection").style.display = "none";
   document.getElementById("bannerSection").style.display = "none";
 if(section==="dashboard"){
 document.getElementById("dashboardSection").style.display="block";
@@ -974,7 +975,11 @@ if(section === "product"){
   if(section === "orders"){
     document.getElementById("ordersSection").style.display = "block";
   }
+if(section === "customers"){
 
+  document.getElementById("customersSection")
+    .style.display = "block";
+}
   if(section === "banner"){
     document.getElementById("bannerSection").style.display = "block";
   }
@@ -3095,10 +3100,12 @@ document.getElementById("totalRevenue").innerText =
 
 }
   /* INIT */
+loadDashboard();
 loadProducts();
 loadOrders();
+  loadCustomers();
 showSection("product", document.querySelector(".sidebar button"));
-  loadDashboard();
+  
 </script>
 <div id="productPopup"></div>
 </body>
