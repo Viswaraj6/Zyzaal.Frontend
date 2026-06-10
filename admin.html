@@ -1692,13 +1692,15 @@ ${r.status || "Pending"}
 
 <br><br>
 
+${r.status !== "Approved"
+? `
 <button
-onclick="
-approveRequest(
-'${r._id}'
-)">
+onclick="approveRequest('${r._id}')">
 Approve
 </button>
+`
+: ""
+}
 
 </div>
 
