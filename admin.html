@@ -1676,14 +1676,23 @@ ${r.reason}
 
 <br><br>
 
-<button
-onclick="
-approveRequest(
-'${r._id}'
-)">
-Approve
-</button>
+${r.status === "Approved"
 
+? `<button
+style="
+background:green;
+cursor:not-allowed;
+"
+disabled>
+Approved
+</button>`
+
+: `<button
+onclick="approveRequest('${r._id}')">
+Approve
+</button>`
+
+}
 </div>
 
 `;
