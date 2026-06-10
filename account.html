@@ -781,6 +781,40 @@ Request Reactivation
   }
 
 }
+  function submitRequest(){
+
+const phone =
+document.getElementById("phone").value;
+
+const reason =
+document.getElementById("reason").value;
+
+fetch(
+API + "/reactivation-request",
+{
+ method:"POST",
+ headers:{
+  "Content-Type":"application/json"
+ },
+ body:JSON.stringify({
+  phone,
+  reason
+ })
+}
+)
+.then(res=>res.json())
+.then(()=>{
+
+ alert(
+ "Request Submitted"
+ );
+
+ location.reload();
+
+});
+
+}
+  
 function logout(){
   localStorage.removeItem("user");
   location.reload();
