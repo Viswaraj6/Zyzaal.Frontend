@@ -1454,6 +1454,52 @@ html += `
     document.getElementById("orders").innerHTML = html;
   });
 }
+  function loadCustomers(){
+
+fetch(BASE_URL + "/customers")
+.then(res => res.json())
+.then(data => {
+
+let html = `
+<table style="
+width:100%;
+background:white;
+border-collapse:collapse;
+">
+
+<tr>
+<th>S.No</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Email</th>
+</tr>
+`;
+
+data.forEach((u,index)=>{
+
+html += `
+<tr>
+
+<td>${index+1}</td>
+
+<td>${u.name || "-"}</td>
+
+<td>${u.phone || "-"}</td>
+
+<td>${u.email || "-"}</td>
+
+</tr>
+`;
+});
+
+html += "</table>";
+
+document.getElementById("customers")
+.innerHTML = html;
+
+});
+
+}
   function deleteOrder(id){
 
   if(!confirm("Delete this order? ❗")) return;
