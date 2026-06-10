@@ -920,37 +920,68 @@ API + "/reactivation-request",
 }
 )
 .then(res=>res.json())
-.then(()=>{
+.then((data)=>{
 
-document.body.innerHTML = `
+ if(data.alreadyPending){
 
-<div style="
-max-width:500px;
-margin:80px auto;
-background:white;
-padding:30px;
-border-radius:12px;
-text-align:center;
-">
+  document.body.innerHTML = `
 
-<h2 style="color:#2563eb">
-Request Submitted
-</h2>
+  <div style="
+  max-width:500px;
+  margin:80px auto;
+  background:white;
+  padding:30px;
+  border-radius:12px;
+  text-align:center;
+  ">
 
-<p>
-Your reactivation request is being processed.
-</p>
+  <h2 style="color:#f59e0b">
+  Request Already Submitted
+  </h2>
 
-<p>
-Our support team will review and approve your request shortly.
-</p>
+  <p>
+  Your reactivation request is already under review.
+  </p>
 
-</div>
+  <p>
+  Please wait for approval.
+  </p>
 
-`;
+  </div>
+
+  `;
+
+  return;
+ }
+
+ document.body.innerHTML = `
+
+ <div style="
+ max-width:500px;
+ margin:80px auto;
+ background:white;
+ padding:30px;
+ border-radius:12px;
+ text-align:center;
+ ">
+
+ <h2 style="color:#2563eb">
+ Request Submitted
+ </h2>
+
+ <p>
+ Your reactivation request is being processed.
+ </p>
+
+ <p>
+ Our support team will review and approve your request shortly.
+ </p>
+
+ </div>
+
+ `;
 
 });
-
 }
   
 function logout(){
