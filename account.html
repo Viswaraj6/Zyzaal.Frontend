@@ -1275,6 +1275,56 @@ function toggleAddressForm(){
   document.getElementById("saveBtn").style.display = "block";
   document.getElementById("editBtn").style.display = "none";
 }
+  async function deactivateAccount(){
+
+if(!confirm(
+"Deactivate account?"
+)) return;
+
+const phone =
+localStorage.getItem("user");
+
+await fetch(
+API + "/deactivate-user/" + phone,
+{
+method:"PUT"
+});
+
+localStorage.removeItem("user");
+
+alert(
+"Account Deactivated"
+);
+
+location.reload();
+
+}
+  async function deleteAccount(){
+
+if(
+!confirm(
+"Account will be permanently deleted. Continue?"
+)
+) return;
+
+const phone =
+localStorage.getItem("user");
+
+await fetch(
+API + "/delete-user/" + phone,
+{
+method:"DELETE"
+});
+
+localStorage.removeItem("user");
+
+alert(
+"Account Deleted"
+);
+
+location.reload();
+
+}
  function openOrder(id){
 
   fetch(API + "/orders")
