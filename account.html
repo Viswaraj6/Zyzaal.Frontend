@@ -672,6 +672,45 @@ async function checkUser(){
  }
 
 }
+  function showOtpBox(phone){
+
+  alert("OTP : 123456");
+
+  document.getElementById("loginBox").innerHTML = `
+
+    <input
+      id="otp"
+      placeholder="Enter OTP">
+
+    <button
+      onclick="verifyOtp('${phone}')">
+      Verify OTP
+    </button>
+
+  `;
+
+}
+  function verifyOtp(phone){
+
+  const otp =
+  document.getElementById("otp").value;
+
+  if(otp === "123456"){
+
+    localStorage.setItem(
+      "user",
+      phone
+    );
+
+    location.reload();
+
+  }else{
+
+    alert("Invalid OTP");
+
+  }
+
+}
 function logout(){
   localStorage.removeItem("user");
   location.reload();
