@@ -626,7 +626,24 @@ async function checkUser(){
 
  const data =
  await res.json();
+const req = await fetch(
+API +
+"/latest-request/" +
+phone
+);
 
+const reqData =
+await req.json();
+  if(
+reqData &&
+reqData.status === "Approved"
+){
+
+alert(
+"Your account has been reactivated. Please login."
+);
+
+}
 if(data.exists){
 
    if(data.user.status === "Deleted"){
