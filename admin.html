@@ -357,7 +357,33 @@ border-radius:8px;
 <!-- CUSTOMERS -->
 <div id="customersSection" style="display:none;">
 
-  <h2>Customers</h2>
+  <div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  ">
+
+    <h2>Customers</h2>
+
+    <button onclick="exportCustomers()"
+    class="export-btn">
+      Export CSV
+    </button>
+
+  </div>
+
+  <input
+  id="customerSearch"
+  placeholder="Search Name / Mobile / Email"
+  onkeyup="loadCustomers()"
+  style="
+  width:320px;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  margin-bottom:15px;
+  ">
 
   <div id="customers"></div>
 
