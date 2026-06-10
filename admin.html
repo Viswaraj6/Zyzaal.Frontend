@@ -1482,46 +1482,132 @@ html += `
 }
   function loadCustomers(){
 
+const search =
+(document.getElementById("customerSearch")?.value || "")
+.toLowerCase();
+
 fetch(BASE_URL + "/customers")
 .then(res => res.json())
 .then(data => {
 
+data = data.filter(u =>
+
+(u.name || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(u.phone || "")
+.includes(search)
+
+||
+
+(u.email || "")
+.toLowerCase()
+.includes(search)
+
+);
+
 let html = `
+<div style="
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+">
+
 <table style="
 width:100%;
-background:white;
 border-collapse:collapse;
 ">
 
+<thead style="
+background:#111827;
+color:white;
+">
+
 <tr>
-<th>S.No</th>
-<th>Name</th>
-<th>Mobile</th>
-<th>Email</th>
+<th style="padding:14px">S.No</th>
+<th style="padding:14px">Name</th>
+<th style="padding:14px">Mobile</th>
+<th style="padding:14px">Email</th>
 </tr>
+
+</thead>
+
+<tbody>
 `;
 
 data.forEach((u,index)=>{
 
 html += `
-<tr>
+<tr style="border-bottom:1px solid #eee;">
 
-<td>${index+1}</td>
+<td style="padding:14px">
+${index+1}
+</td>
 
-<td>${u.name || "-"}</td>
+<td style="padding:14px">
+${u.name || "-"}
+</td>
 
-<td>${u.phone || "-"}</td>
+<td style="padding:14px">
+${u.phone || "-"}
+</td>
 
-<td>${u.email || "-"}</td>
+<td style="padding:14px">
+${u.email || "-"}
+</td>
 
 </tr>
 `;
 });
 
-html += "</table>";
+html += `
+</tbody>
+</table>
+</div>
+`;
 
-document.getElementById("customers")
-.innerHTML = html;
+document.getElementById("customers").innerHTML = html;
+
+});
+
+}
+  function exportCustomers(){
+
+fetch(BASE_URL + "/customers")
+.then(res => res.json())
+.then(data => {
+
+let csv =
+"S.No,Name,Mobile,Email\n";
+
+data.forEach((u,index)=>{
+
+csv +=
+`${index+1},
+${u.name || ""},
+${u.phone || ""},
+${u.email || ""}\n`;
+
+});
+
+const blob =
+new Blob([csv],{
+type:"text/csv"
+});
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+a.download = "customers.csv";
+a.click();
 
 });
 
