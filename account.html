@@ -1193,19 +1193,33 @@ function toggleAddressForm(){
     menu.style.display = "none";
   }
 }
- function updateUserNameUI(){
+ async function updateUserNameUI(){
 
-  let user = localStorage.getItem("user");
-  const el = document.getElementById("userName");
+ const phone =
+ localStorage.getItem("user");
 
-  if(!user){
-    el.innerText = "Hello, Guest";
-    return;
-  }
+ const el =
+ document.getElementById("userName");
 
-  const profile = JSON.parse(localStorage.getItem("profile_" + user)) || {};
+ if(!phone){
 
-  el.innerText = "Hello, " + (profile.name || user);
+   el.innerText =
+   "Hello, Guest";
+
+   return;
+ }
+
+ const res = await fetch(
+   API + "/user/" + phone
+ );
+
+ const user =
+ await res.json();
+
+ el.innerText =
+ "Hello, " +
+ (user?.name || phone);
+
 }
   function enableEdit(){
 
