@@ -1643,6 +1643,76 @@ document.getElementById("customers").innerHTML = html;
 });
 
 }
+  function loadRequests(){
+
+fetch(
+BASE_URL +
+"/reactivation-requests"
+)
+.then(res=>res.json())
+.then(data=>{
+
+let html = "";
+
+data.forEach(r=>{
+
+html += `
+
+<div class="card">
+
+<b>${r.phone}</b>
+
+<br><br>
+
+${r.reason}
+
+<br><br>
+
+<button
+onclick="
+approveRequest(
+'${r._id}'
+)">
+Approve
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"requests"
+).innerHTML = html;
+
+});
+
+}
+  function approveRequest(id){
+
+fetch(
+BASE_URL +
+"/approve-request/" +
+id,
+{
+ method:"PUT"
+}
+)
+.then(res=>res.json())
+.then(()=>{
+
+ alert(
+ "Customer Activated"
+ );
+
+ loadRequests();
+
+ loadCustomers();
+
+});
+
+}
 function exportCustomers(){
 
 fetch(BASE_URL + "/customers")
