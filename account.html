@@ -646,10 +646,58 @@ alert(
 }
 if(data.exists){
 
-   if(data.user.status === "Deleted"){
-      alert("Account Deleted");
-      return;
-   }
+  if(data.user.status === "Deleted"){
+
+localStorage.setItem(
+"reactivationPhone",
+phone
+);
+
+document.body.innerHTML = `
+
+<div style="
+max-width:500px;
+margin:80px auto;
+background:white;
+padding:30px;
+border-radius:12px;
+text-align:center;
+">
+
+<h2>
+Account Deleted
+</h2>
+
+<p>
+Your account has been deleted.
+</p>
+
+<p>
+You can submit an account recovery request.
+</p>
+
+<textarea
+id="reason"
+placeholder="Reason"
+style="
+width:100%;
+height:120px;
+">
+</textarea>
+
+<br><br>
+
+<button
+onclick="submitRequest()">
+Request Recovery
+</button>
+
+</div>
+
+`;
+
+return;
+}
 
    if(data.user.status === "Deactivated"){
      localStorage.setItem(
