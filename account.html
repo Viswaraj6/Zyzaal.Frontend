@@ -629,11 +629,19 @@ async function checkUser(){
 
 if(data.exists){
 
-   if(data.user.active !== false){
+   if(data.user.status === "Deleted"){
+      alert("Account Deleted");
+      return;
+   }
 
-      showOtpBox(phone);
+   if(data.user.status === "Deactivated"){
+      alert("Account Deactivated");
+      return;
+   }
 
-   }else{
+   showOtpBox(phone);
+
+}else{
 
       alert(
       "Account Deactivated. Contact support."
