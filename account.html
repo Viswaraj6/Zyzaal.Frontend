@@ -635,7 +635,49 @@ if(data.exists){
    }
 
    if(data.user.status === "Deactivated"){
-      alert("Account Deactivated");
+    document.body.innerHTML = `
+
+<div style="
+max-width:500px;
+margin:80px auto;
+background:white;
+padding:30px;
+border-radius:12px;
+text-align:center;
+">
+
+<h2>
+Account Deactivated
+</h2>
+
+<p>
+Your account has been deactivated.
+</p>
+
+<p>
+Please contact customer support
+or submit a reactivation request.
+</p>
+
+<textarea
+id="reason"
+placeholder="Reason"
+style="
+width:100%;
+height:120px;
+">
+</textarea>
+
+<br><br>
+
+<button
+onclick="submitRequest()">
+Request Reactivation
+</button>
+
+</div>
+
+`;
       return;
    }
 
