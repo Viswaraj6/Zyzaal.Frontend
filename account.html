@@ -788,8 +788,9 @@ Request Reactivation
   function submitRequest(){
 
 const phone =
-document.getElementById("phone").value;
-
+localStorage.getItem(
+"reactivationPhone"
+);
 const reason =
 document.getElementById("reason").value;
 
