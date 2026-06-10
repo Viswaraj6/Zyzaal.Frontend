@@ -844,7 +844,11 @@ Request Reactivation
   document.getElementById("otp").value;
 
   if(otp === "123456"){
-
+    
+localStorage.removeItem(
+"approvedShown_" + phone
+);
+    
     localStorage.setItem(
       "user",
       phone
