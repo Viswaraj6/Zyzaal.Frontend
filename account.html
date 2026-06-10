@@ -810,11 +810,32 @@ API + "/reactivation-request",
 .then(res=>res.json())
 .then(()=>{
 
- alert(
- "Request Submitted"
- );
+document.body.innerHTML = `
 
- location.reload();
+<div style="
+max-width:500px;
+margin:80px auto;
+background:white;
+padding:30px;
+border-radius:12px;
+text-align:center;
+">
+
+<h2 style="color:#2563eb">
+Request Submitted
+</h2>
+
+<p>
+Your reactivation request is being processed.
+</p>
+
+<p>
+Our support team will review and approve your request shortly.
+</p>
+
+</div>
+
+`;
 
 });
 
