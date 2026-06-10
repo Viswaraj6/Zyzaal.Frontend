@@ -1749,12 +1749,13 @@ fetch(BASE_URL + "/customers")
 .then(res => res.json())
 .then(data => {
 
-let csv = "S.No,Name,Mobile,Email\n";
+let csv =
+"S.No,Name,Mobile,Email,Address,Status\n";
 
 data.forEach((u,index)=>{
 
 csv +=
-`${index+1},"${u.name||""}","${u.phone||""}","${u.email||""}"\n`;
+`${index+1},"${u.name||""}","${u.phone||""}","${u.email||""}","${u.address||""}","${u.status||"Active"}"\n`;
 
 });
 
