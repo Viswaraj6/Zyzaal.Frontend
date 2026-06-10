@@ -1575,39 +1575,38 @@ document.getElementById("customers").innerHTML = html;
 });
 
 }
-  function exportCustomers(){
+function exportCustomers(){
 
 fetch(BASE_URL + "/customers")
 .then(res => res.json())
 .then(data => {
 
-let csv =
-"S.No,Name,Mobile,Email\n";
+let csv = "S.No,Name,Mobile,Email\n";
 
 data.forEach((u,index)=>{
 
 csv +=
-`${index+1},
-${u.name || ""},
-${u.phone || ""},
-${u.email || ""}\n`;
+`${index+1},"${u.name||""}","${u.phone||""}","${u.email||""}"\n`;
 
 });
 
-const blob =
-new Blob([csv],{
-type:"text/csv"
-});
+const blob = new Blob(
+["\ufeff" + csv],
+{
+type:"application/vnd.ms-excel"
+}
+);
 
-const url =
-URL.createObjectURL(blob);
+const url = URL.createObjectURL(blob);
 
-const a =
-document.createElement("a");
+const a = document.createElement("a");
 
 a.href = url;
-a.download = "customers.csv";
+a.download = "customers.xls";
+
+document.body.appendChild(a);
 a.click();
+document.body.removeChild(a);
 
 });
 
