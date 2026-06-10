@@ -635,6 +635,10 @@ if(data.exists){
    }
 
    if(data.user.status === "Deactivated"){
+     localStorage.setItem(
+"reactivationPhone",
+phone
+);
     document.body.innerHTML = `
 
 <div style="
