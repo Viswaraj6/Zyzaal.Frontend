@@ -634,17 +634,26 @@ phone
 
 const reqData =
 await req.json();
-  if(
+
+if(
 reqData &&
-reqData.status === "Approved"
+reqData.status === "Approved" &&
+!localStorage.getItem(
+"approvedShown_" + phone
+)
 ){
 
 alert(
 "Your account has been reactivated. Please login."
 );
 
+localStorage.setItem(
+"approvedShown_" + phone,
+"yes"
+);
+
 }
-if(data.exists){
+  if(data.exists){
 
   if(data.user.status === "Deleted"){
 
