@@ -1480,21 +1480,59 @@ html += `
     document.getElementById("orders").innerHTML = html;
   });
 }
-  function getStatusBadge(status){
+ function getStatusBadge(status){
 
 status = status || "Active";
 
 if(status === "Active"){
- return '<span style="background:#dcfce7;color:#15803d;padding:6px 12px;border-radius:20px;">Active</span>';
+ return `
+ <span style="
+ background:#dcfce7;
+ color:#15803d;
+ padding:8px 16px;
+ border-radius:20px;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-width:90px;
+ font-weight:600;
+ ">
+ Active
+ </span>`;
 }
 
 if(status === "Deactivated"){
- return '<span style="background:#fef3c7;color:#b45309;padding:6px 12px;border-radius:20px;">Deactivated</span>';
+ return `
+ <span style="
+ background:#fef3c7;
+ color:#b45309;
+ padding:8px 16px;
+ border-radius:20px;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-width:90px;
+ font-weight:600;
+ ">
+ Deactivated
+ </span>`;
 }
 
-return '<span style="background:#fee2e2;color:#dc2626;padding:6px 12px;border-radius:20px;">Deleted</span>';
+return `
+<span style="
+background:#fee2e2;
+color:#dc2626;
+padding:8px 16px;
+border-radius:20px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:90px;
+font-weight:600;
+">
+Deleted
+</span>`;
 }
-  
   function loadCustomers(){
 
 const search =
