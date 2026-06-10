@@ -542,36 +542,148 @@ let user = localStorage.getItem("user");
 // 🔐 LOGIN UI
 function loadLogin(){
 
-  let user = localStorage.getItem("user");
+  let user =
+  localStorage.getItem("user");
 
   if(user){
 
-    let profile = JSON.parse(localStorage.getItem("profile_" + user)) || {};
-
-    document.getElementById("loginBox").innerHTML = `
-      <button onclick="logout()">Logout</button>
+    document.getElementById(
+      "loginBox"
+    ).innerHTML = `
+      <button onclick="logout()">
+        Logout
+      </button>
     `;
 
-  } else {
-
-    document.getElementById("loginBox").innerHTML = `
-      <input id="phone" placeholder="Enter Mobile Number">
-      <button onclick="login()">Login</button>
-    `;
-
-  }
-}
-function login(){
-
-  let phone = document.getElementById("phone").value;
-
-  if(!phone || phone.length < 10){
-    alert("Enter valid mobile number ❗");
     return;
   }
 
-  localStorage.setItem("user", phone);
-  location.reload();
+  document.getElementById(
+    "loginBox"
+  ).innerHTML = `
+
+  <input
+    id="phone"
+    placeholder="Mobile Number">
+
+  <button
+    onclick="checkUser()">
+    Continue
+  </button>
+
+  <div id="extraBox"></div>
+
+  `;
+}
+async function checkUser(){
+
+ const phone =
+ document.getElementById("phone").value;
+
+ if(phone.length !== 10){
+
+   alert("Enter valid mobile");
+
+   return;
+ }
+
+ const res = await fetch(
+   API + "/check-user",
+   {
+     method:"POST",
+     headers:{
+       "Content-Type":"application/json"
+     },
+     body:JSON.stringify({
+       phone
+     })
+   }
+ );
+
+ const data =
+ await res.json();
+
+ if(data.exists){
+
+   localStorage.setItem(
+     "user",
+     phone
+   );
+
+   location.reload();
+
+ }else{
+
+   document.getElementById(
+     "extraBox"
+   ).innerHTML = `
+
+   <input
+     id="regName"
+     placeholder="Name">
+
+   <input
+     id="regEmail"
+     placeholder="Email">
+
+   <input
+     id="regPassword"
+     type="password"
+     placeholder="Password">
+
+   <button
+     onclick="registerUser()">
+     Create Account
+   </button>
+
+   `;
+ }
+
+}
+  async function registerUser(){
+
+ const phone =
+ document.getElementById("phone").value;
+
+ const name =
+ document.getElementById("regName").value;
+
+ const email =
+ document.getElementById("regEmail").value;
+
+ const password =
+ document.getElementById("regPassword").value;
+
+ const res = await fetch(
+   API + "/register",
+   {
+     method:"POST",
+     headers:{
+       "Content-Type":"application/json"
+     },
+     body:JSON.stringify({
+       name,
+       email,
+       phone,
+       password
+     })
+   }
+ );
+
+ const data =
+ await res.json();
+
+ if(data.success){
+
+   localStorage.setItem(
+     "user",
+     phone
+   );
+
+   location.reload();
+
+ }
+
 }
 function logout(){
   localStorage.removeItem("user");
