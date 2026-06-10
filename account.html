@@ -1131,27 +1131,42 @@ function saveProfile(){
 
   updateUserNameUI();
 }
- function loadProfile(){
+async function loadProfile(){
 
-  let user = localStorage.getItem("user");
+ const phone =
+ localStorage.getItem("user");
 
-  const data = JSON.parse(localStorage.getItem("profile_" + user)) || {};
+ if(!phone) return;
 
-  document.getElementById("p_name").value = data.name || "";
-  document.getElementById("p_email").value = data.email || "";
-  document.getElementById("p_mobile").value = user || "";
+ const res = await fetch(
+   API + "/user/" + phone
+ );
 
-  if(data.gender){
-    document.querySelector(`input[value="${data.gender}"]`).checked = true;
-  }
+ const data = await res.json();
 
-  // 🔥 ADD THIS HERE
-  document.getElementById("p_name").disabled = true;
-  document.getElementById("p_email").disabled = true;
-  document.getElementById("p_mobile").disabled = true;
+ document.getElementById("p_name").value =
+ data?.name || "";
 
-  document.querySelectorAll('input[name="gender"]')
-    .forEach(x => x.disabled = true);
+ document.getElementById("p_email").value =
+ data?.email || "";
+
+ document.getElementById("p_mobile").value =
+ data?.phone || "";
+
+ if(data?.gender){
+   document.querySelector(
+     `input[value="${data.gender}"]`
+   ).checked = true;
+ }
+
+ document.getElementById("p_name").disabled = true;
+ document.getElementById("p_email").disabled = true;
+ document.getElementById("p_mobile").disabled = true;
+
+ document.querySelectorAll(
+   'input[name="gender"]'
+ ).forEach(x => x.disabled = true);
+
 }
 // 🔻 NAV
 function goHome(){ location.href = "index.html"; }
