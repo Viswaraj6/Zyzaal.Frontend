@@ -605,13 +605,7 @@ async function checkUser(){
 
  if(data.exists){
 
-   localStorage.setItem(
-     "user",
-     phone
-   );
-
-   location.reload();
-
+  showOtpBox(phone);
  }else{
 
  document.getElementById(
