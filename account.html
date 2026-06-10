@@ -627,11 +627,21 @@ async function checkUser(){
  const data =
  await res.json();
 
- if(data.exists){
+if(data.exists){
 
-  showOtpBox(phone);
- }else{
+   if(data.user.active !== false){
 
+      showOtpBox(phone);
+
+   }else{
+
+      alert(
+      "Account Deactivated. Contact support."
+      );
+
+   }
+
+}else{
  document.getElementById(
  "extraBox"
 ).innerHTML = `
