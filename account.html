@@ -1325,31 +1325,57 @@ function clearAddressForm(){
   document.getElementById("a_state").value = "";
   document.getElementById("a_address").value = "";
 }
-function saveProfile(){
+async function saveProfile(){
 
-  let user = localStorage.getItem("user");
+const phone =
+localStorage.getItem("user");
 
-  const data = {
-    name: document.getElementById("p_name").value,
-    email: document.getElementById("p_email").value,
-    gender: document.querySelector('input[name="gender"]:checked')?.value
-  };
+const data = {
+name:
+document.getElementById("p_name").value,
 
-  localStorage.setItem("profile_" + user, JSON.stringify(data));
+email:
+document.getElementById("p_email").value,
 
-  alert("Saved ✅");
+gender:
+document.querySelector(
+'input[name="gender"]:checked'
+)?.value
+};
 
-  // 🔥 disable again
-  document.getElementById("p_name").disabled = true;
-  document.getElementById("p_email").disabled = true;
-  document.getElementById("p_mobile").disabled = true;
+const res = await fetch(
+API + "/user/" + phone,
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+}
+);
 
-  document.querySelectorAll('input[name="gender"]').forEach(x => x.disabled = true);
+const result =
+await res.json();
 
-  document.getElementById("saveBtn").style.display = "none";
-  document.getElementById("editBtn").style.display = "inline";
+if(result.success){
 
-  updateUserNameUI();
+alert("Profile Updated ✅");
+
+document.getElementById("p_name").disabled = true;
+document.getElementById("p_email").disabled = true;
+document.getElementById("p_mobile").disabled = true;
+
+document
+.querySelectorAll('input[name="gender"]')
+.forEach(x => x.disabled = true);
+
+document.getElementById("saveBtn").style.display = "none";
+document.getElementById("editBtn").style.display = "inline";
+
+updateUserNameUI();
+
+}
+
 }
 async function loadProfile(){
 
