@@ -614,30 +614,30 @@ async function checkUser(){
 
  }else{
 
-   document.getElementById(
-     "extraBox"
-   ).innerHTML = `
+ document.getElementById(
+ "extraBox"
+).innerHTML = `
+<input
+ id="regName"
+ placeholder="Name"
+ autocomplete="off">
 
-   <input
-     id="regName"
-     placeholder="Name">
-     autocomplete="off">
+<input
+ id="regEmail"
+ placeholder="Email"
+ autocomplete="off">
 
-   <input
-     id="regEmail"
-     placeholder="Email">
-    autocomplete="off">
-   <input
-     id="regPassword"
-     type="password"
-     placeholder="Password">
-     autocomplete="new-password">
-   <button
-     onclick="registerUser()">
-     Create Account
-   </button>
+<input
+ id="regPassword"
+ type="password"
+ placeholder="Password"
+ autocomplete="new-password">
 
-   `;
+<button
+ onclick="registerUser()">
+ Create Account
+</button>
+`;
  }
 
 }
