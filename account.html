@@ -662,13 +662,7 @@ async function checkUser(){
 
  if(data.success){
 
-   localStorage.setItem(
-     "user",
-     phone
-   );
-
-   location.reload();
-
+ showOtpBox(phone);
  }
 
 }
