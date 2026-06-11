@@ -146,7 +146,21 @@ font-size:32px;
 📊 Dashboard
 </button>
    <button onclick="showSection('product', this)">📦 Products</button>
-<button onclick="showSection('orders', this)">🧾 Orders</button>
+<button onclick="showSection('orders', this)">
+🧾 Orders
+<span id="orderBadge"
+style="
+background:red;
+color:white;
+border-radius:50%;
+padding:2px 8px;
+font-size:12px;
+margin-left:5px;
+display:none;
+">
+0
+</span>
+</button>
 <button onclick="showSection('customers', this)">👥 Customers</button>
 <button onclick="showSection('requests',this)">📩 Requests</button>
 <button onclick="showSection('banner', this)">🎬 Banner</button>
