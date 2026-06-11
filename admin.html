@@ -3454,6 +3454,30 @@ document.getElementById("totalRevenue").innerText =
 "₹"+revenue;
 
 }
+  const socket =
+io("https://fark618-backend.onrender.com");
+
+socket.on("newOrder",(data)=>{
+
+  const badge =
+  document.getElementById("orderBadge");
+
+  let count =
+  Number(badge.innerText || 0);
+
+  badge.innerText = count + 1;
+
+  badge.style.display =
+  "inline-block";
+
+  alert(
+    "🔔 New Order #" +
+    data.orderNumber
+  );
+
+  loadOrders();
+
+});
   /* INIT */
 loadDashboard();
 loadProducts();
