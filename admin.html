@@ -162,7 +162,21 @@ display:none;
 </span>
 </button>
 <button onclick="showSection('customers', this)">👥 Customers</button>
-<button onclick="showSection('requests',this)">📩 Requests</button>
+<button onclick="showSection('requests',this)">
+📩 Requests
+<span id="requestBadge"
+style="
+background:red;
+color:white;
+border-radius:50%;
+padding:2px 8px;
+font-size:12px;
+margin-left:5px;
+display:none;
+">
+0
+</span>
+</button>
 <button onclick="showSection('banner', this)">🎬 Banner</button>
     <button class="logout" onclick="logout()">Logout</button>
   </div>
