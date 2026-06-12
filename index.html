@@ -48,11 +48,43 @@ h1 { text-align: center; }
   color: #111;
 }
 /* 📱 mobile */
-@media (max-width:600px){
-  .logo-text{
-    font-size:28px;
-    letter-spacing:1px;
-  }
+@media(max-width:768px){
+
+.logo-text{
+ font-size:28px;
+ letter-spacing:1px;
+}
+
+.products{
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+ padding:10px;
+}
+
+.card,
+.product-skeleton{
+ width:100%;
+ min-height:auto;
+}
+
+.card img{
+ height:220px;
+}
+
+.slider img{
+ height:180px;
+ object-fit:cover;
+}
+
+.nav-icons{
+ gap:10px;
+ min-width:auto;
+}
+
+.search-bar{
+ margin-right:0;
+}
+
 }
 /* 🔥 BANNER */
 #banner {
