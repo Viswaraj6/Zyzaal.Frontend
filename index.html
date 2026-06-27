@@ -657,7 +657,16 @@ margin:6px 6px 0;
 
 .top-nav{
     justify-content:center;
+    transition:all .3s ease;
+}
 
+/* 👇 இதை இங்க add பண்ணுங்க */
+.top-header.hide-search .top-nav{
+    transform:translateY(-100%);
+    opacity:0;
+    height:0;
+    padding:0;
+    overflow:hidden;
 }
 
 .search-bar{
