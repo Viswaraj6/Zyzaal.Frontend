@@ -1155,6 +1155,10 @@ updateCartCount();
   if (window.innerWidth <= 768) {
     document.querySelector(".nav-icons").style.display = "none";
 }
+  window.addEventListener("load", () => {
+    const header = document.querySelector(".top-header");
+    document.body.style.paddingTop = header.offsetHeight + "px";
+});
 // ==============================
 // 🚀 INIT
 // ==============================
