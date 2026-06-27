@@ -800,6 +800,31 @@ async function loadProducts(){
     console.log("Product error", e);
   }
 }
+  function showSkeleton(){
+
+    let html="";
+
+    for(let i=0;i<20;i++){
+
+        html+=`
+
+        <div class="product-skeleton">
+
+            <div class="img"></div>
+
+            <div class="title"></div>
+
+            <div class="price"></div>
+
+        </div>
+
+        `;
+
+    }
+
+    document.getElementById("products").innerHTML=html;
+
+}
 // ==============================
 // 🔍 OPEN PRODUCT
 // ==============================
