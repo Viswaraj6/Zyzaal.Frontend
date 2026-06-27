@@ -96,16 +96,52 @@ h1 { text-align: center; }
  object-fit:cover;
 }
 
-.nav-icons{
- gap:10px;
- min-width:auto;
+.top-nav .icon{
+ display:none;
+}
+  .top-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo-wrap{
+    padding:12px 0;
+}
+
+.logo-text{
+    font-size:34px;
+    font-weight:700;
+}
+
+.top-nav{
+    padding:10px 12px;
 }
 
 .search-bar{
- margin-right:0;
+    width:100%;
+    margin:0;
+   margin-right:0;
 }
-.top-nav .icon{
- display:none;
+
+.search-bar input{
+    height:46px;
+    font-size:15px;
+    padding:0 14px;
+}
+
+.nav-icons{
+    display:flex !important;
+  min-width:auto;
+    gap:12px;
+}
+
+.icon{
+    font-size:20px;
+}
+
+.icon i{
+    font-size:20px;
 }
 }
 /* 🔥 BANNER */
