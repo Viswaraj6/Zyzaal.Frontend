@@ -838,6 +838,7 @@ function filterCategory(type, el){
     const filtered = productsData.filter(p =>
   p.category && p.category.toLowerCase().includes(type)
 );
+    currentPage=1;
     renderProducts(filtered);
   }
 }
