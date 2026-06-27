@@ -105,10 +105,14 @@ h1 { text-align: center; }
 .top-nav .icon{
  display:none;
 }
-  .top-header{
-    position:sticky;
+ .top-header{
+    position:fixed;
     top:0;
-    z-index:1000;
+    left:0;
+    width:100%;
+    background:#fff;
+    z-index:9999;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
 .logo-wrap{
@@ -333,10 +337,13 @@ height: 320px;
   z-index: 1000;
 }
 .top-header{
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #fff;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#fff;
+    z-index:9999;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
 /* optional shadow when scroll */
