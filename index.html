@@ -51,78 +51,41 @@ h1 { text-align: center; }
 @media(max-width:768px){
 
 .products{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:8px;
-
-padding:8px;
-
-background:#d8f3f0;
-
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  padding:0;
+  background:#fff;
 }
 
- .card{
-
-width:100%;
-
-padding:6px;
-
-min-height:auto;
-
+.card{
+  width:100%;
+  min-height:auto;
+  padding:0;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
 }
 
-.image-wrap{
-
-height:220px;
-
-}
-
-
-.image-loader{
-    position:absolute;
-    inset:0;
-    background:#eee;
-    border-radius:8px;
-    animation:pulse 1.2s infinite;
-    z-index:2;
-}
-
-.image-wrap img{
-
-height:100%;
-
-}
-.image-wrap img.loaded{
-    opacity:1;
-}
 .card img{
   width:100%;
- height:170px;
+  height:260px;
   object-fit:cover;
   border-radius:0;
 }
 
 .card h4{
-
-font-size:13px;
-
-margin:4px;
-
+  font-size:13px;
+  margin:4px 6px;
+  font-weight:500;
 }
-.brand{
 
-font-size:12px;
-
-}
 .price{
-
-font-size:15px;
-
-margin:4px;
+  margin:0 6px 10px;
+  font-size:15px;
+  font-weight:700;
 }
+
 .fav{
   top:6px;
   right:6px;
@@ -232,12 +195,9 @@ height: 320px;
 /* 🔥 GRID */
 .products {
   display: grid;
- grid-template-columns:repeat(5,1fr);
-  align-items:start;
- gap:15px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 40px;
   padding: 15px;
-  width:100%;
-box-sizing:border-box;
   background: #d8f3f0; /* 🔥 light blue */
    border-radius: 12px;
 }
@@ -257,15 +217,15 @@ box-sizing:border-box;
   display: flex;
   flex-direction: column;
 
-  width:100%;
-  min-width:0;
+  width: 240px;
 
- min-height:unset;   /* 🔥 change */
+  min-height: 420px;   /* 🔥 change */
   overflow: hidden;    /* 🔥 add */
 }
 /* 🔥 IMAGE BIGGER */
 .card img {
   width: 100%;
+  height: 320px;        /* 🔥 reduce */
   object-fit: cover;
   border-radius: 8px;
   background: #f5f5f5;
@@ -283,17 +243,6 @@ box-sizing:border-box;
   font-size: 16px;
   font-weight: bold;
   color: #212121;
-}
-  .image-wrap{
-    position:relative;
-    width:100%;
-    height:320px;
-}
-
-.image-wrap img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
 }
 /* 🔥 FAVORITE ICON */
 .fav {
@@ -620,56 +569,6 @@ margin:6px 6px 0;
     opacity:1;
   }
 
-}.pagination{
-
-display:flex;
-
-justify-content:center;
-
-gap:8px;
-
-margin:30px 0;
-
-flex-wrap:wrap;
-
-grid-column:1/-1;
-
-}
-
-.pagination button{
-
-width:40px;
-
-height:40px;
-
-border:1px solid #ddd;
-
-background:#fff;
-
-cursor:pointer;
-
-border-radius:6px;
-
-font-size:15px;
-
-}
-
-.pagination button:hover{
-
-background:#2874f0;
-
-color:#fff;
-
-}
-
-.pagination button.active{
-
-background:#2874f0;
-
-color:#fff;
-
-border-color:#2874f0;
-
 }
 </style>
 </head>
@@ -749,23 +648,40 @@ onclick="openMenu()">
 <button onclick="filterCategory('shirt', this)">Shirts</button>
 <button onclick="filterCategory('pant', this)">Pants</button>
 </div>
-<div id="products" class="products"></div>
+<div id="products" class="products">
+
+  <div class="product-skeleton">
+    <div class="img"></div>
+    <div class="title"></div>
+    <div class="price"></div>
+  </div>
+
+  <div class="product-skeleton">
+    <div class="img"></div>
+    <div class="title"></div>
+    <div class="price"></div>
+  </div>
+
+  <div class="product-skeleton">
+    <div class="img"></div>
+    <div class="title"></div>
+    <div class="price"></div>
+  </div>
+
+  <div class="product-skeleton">
+    <div class="img"></div>
+    <div class="title"></div>
+    <div class="price"></div>
+  </div>
+
+</div>
 <div id="footer"></div>
 <script>
 
 const API = "https://fark618-backend.onrender.com";
 
 let productsData = [];
-let currentPage = 1;
 
-function getProductsPerPage(){
-
-    if(window.innerWidth <= 768){
-        return 20;     // Mobile (2 columns × 10 rows)
-    }
-
-    return 50;         // Desktop (5 columns × 10 rows)
-}
 // 👤 Welcome
 document.getElementById("welcome").innerText =
   localStorage.getItem("user") || "Guest";
@@ -812,7 +728,6 @@ const exist = fav.find(item => item._id === id);
 // 📦 LOAD PRODUCTS
 // ==============================
 async function loadProducts(){
-   showSkeleton();
   try {
     const res = await fetch(API + "/products");
     const data = await res.json();
@@ -825,31 +740,6 @@ async function loadProducts(){
     console.log("Product error", e);
   }
 }
-  function showSkeleton(){
-
-    let html="";
-
-    for(let i=0;i<20;i++){
-
-        html+=`
-
-        <div class="product-skeleton">
-
-            <div class="img"></div>
-
-            <div class="title"></div>
-
-            <div class="price"></div>
-
-        </div>
-
-        `;
-
-    }
-
-    document.getElementById("products").innerHTML=html;
-
-}
 // ==============================
 // 🔍 OPEN PRODUCT
 // ==============================
@@ -861,20 +751,14 @@ function openProduct(id){
 function goPage(page){
   window.location.href = page;
 }
-document.getElementById("searchInput").addEventListener("input",function(e){
+document.getElementById("searchInput").addEventListener("input", function(e){
+  const value = e.target.value.toLowerCase();
 
-currentPage=1;
+  const filtered = productsData.filter(p =>
+    p.name.toLowerCase().includes(value)
+  );
 
-const value=e.target.value.toLowerCase();
-
-const filtered=productsData.filter(p=>
-
-p.name.toLowerCase().includes(value)
-
-);
-
-renderProducts(filtered);
-
+  renderProducts(filtered);
 });
 function filterCategory(type, el){
 
@@ -889,131 +773,36 @@ function filterCategory(type, el){
     const filtered = productsData.filter(p =>
   p.category && p.category.toLowerCase().includes(type)
 );
-    currentPage=1;
     renderProducts(filtered);
   }
 }
   function renderProducts(data){
 
-    const productsPerPage = getProductsPerPage();
+  let html = "";
 
-    const totalPages = Math.ceil(data.length / productsPerPage);
+  data.forEach((p,i)=>{
+    html += `
+    <div class="card" onclick="openProduct('${p._id}')">
+      <div class="fav" onclick="event.stopPropagation(); toggleFav(${i})">
+        <span class="heart">${isFav(p._id) ? '♥' : '♡'}</span>
+      </div>
 
-    if(currentPage > totalPages){
-        currentPage = 1;
-    }
+     <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
 
-    const start = (currentPage-1) * productsPerPage;
-
-    const end = start + productsPerPage;
-
-    const pageProducts = data.slice(start,end);
-
-    let html = "";
-
-    pageProducts.forEach((p)=>{
-
-        const realIndex = productsData.findIndex(x=>x._id===p._id);
-
-        html += `
-        <div class="card"
-        onclick="openProduct('${p._id}')">
-
-        <div class="fav"
-        onclick="event.stopPropagation();toggleFav(${realIndex})">
-
-        <span class="heart">
-        ${isFav(p._id) ? "♥" : "♡"}
-        </span>
-
-        </div>
-
-       <div class="image-wrap">
-
-<div class="image-loader"></div>
-
-<img
-src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}"
-
-onload="
-this.classList.add('loaded');
-this.previousElementSibling.style.display='none';
-"
-
-onerror="
-this.classList.add('loaded');
-this.previousElementSibling.style.display='none';
-">
-
+      <div class="brand">
+${p.brand || "Zudora"}
 </div>
 
-        <div class="brand">
-        ${p.brand || "Zudora"}
-        </div>
+<h4>${p.name}</h4>
 
-        <h4>${p.name}</h4>
-
-        <div class="price">
-        ₹${p.price}
-        </div>
-
-        </div>
-        `;
-    });
-
-    html += `
-    <div class="pagination">
+<div class="price">
+₹${p.price}
+</div>
+    </div>
     `;
+  });
 
-    if(currentPage>1){
-
-        html+=`
-        <button onclick="changePage(${currentPage-1})">
-        Prev
-        </button>
-        `;
-
-    }
-
-    for(let i=1;i<=totalPages;i++){
-
-        html+=`
-        <button
-        class="${i===currentPage?'active':''}"
-        onclick="changePage(${i})">
-
-        ${i}
-
-        </button>
-        `;
-
-    }
-
-    if(currentPage<totalPages){
-
-        html+=`
-        <button onclick="changePage(${currentPage+1})">
-        Next
-        </button>
-        `;
-
-    }
-
-    html+=`</div>`;
-
-    document.getElementById("products").innerHTML=html;
-}
-  function changePage(page){
-
-    currentPage = page;
-
-    renderProducts(productsData);
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
+  document.getElementById("products").innerHTML = html;
 }
   fetch("footer.html")
   .then(res => res.text())
