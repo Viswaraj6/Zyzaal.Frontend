@@ -8,6 +8,7 @@
   html,
 body{
     width:100%;
+    overflow-x:hidden;
 }
 body {
   font-family: 'Segoe UI';
@@ -468,6 +469,12 @@ height: 320px;
   animation:pulse 1.2s infinite;
 }
   @media (max-width: 768px){
+  #banner{
+    height: 180px;
+    position:relative;
+    overflow:hidden;
+  }
+}
   .footer {
   background: #111;
   color: #fff;
@@ -540,6 +547,7 @@ z-index:10001;
 transition:.3s;
 box-shadow:2px 0 15px rgba(0,0,0,.2);
 }
+
 #sideMenu a{
 display:block;
 padding:16px;
@@ -599,6 +607,11 @@ display:flex;
   font-size:13px;
   font-weight:600;
 }
+body{
+padding-bottom:65px;
+}
+
+}
   #footer {
   margin-top: auto;
 }
@@ -633,6 +646,10 @@ margin:6px 6px 0;
   }
 
 }
+@media screen and (max-width:768px){
+   body{
+        padding-top:95px;
+    }
 .nav-icons{
     display:none !important;
 }
@@ -651,7 +668,7 @@ margin:6px 6px 0;
   /* Page */
 body{
       overflow-x:hidden;
-        padding-top:110px;
+        padding-top:155px;
         padding-bottom:65px;
 }
 
@@ -1143,6 +1160,10 @@ updateCartCount();
   if (window.innerWidth <= 768) {
     document.querySelector(".nav-icons").style.display = "none";
 }
+  window.addEventListener("load", () => {
+    const header = document.querySelector(".top-header");
+    document.body.style.paddingTop = header.offsetHeight + "px";
+});
   let lastScroll = 0;
 
 window.addEventListener("scroll", () => {
