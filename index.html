@@ -903,7 +903,24 @@ function filterCategory(type, el){
 
         </div>
 
-        <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
+       <div class="image-wrap">
+
+<div class="image-loader"></div>
+
+<img
+src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}"
+
+onload="
+this.classList.add('loaded');
+this.previousElementSibling.style.display='none';
+"
+
+onerror="
+this.classList.add('loaded');
+this.previousElementSibling.style.display='none';
+">
+
+</div>
 
         <div class="brand">
         ${p.brand || "Zudora"}
