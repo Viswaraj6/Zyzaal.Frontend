@@ -878,6 +878,18 @@ function filterCategory(type, el){
 
     document.getElementById("products").innerHTML=html;
 }
+  function changePage(page){
+
+    currentPage = page;
+
+    renderProducts(productsData);
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
   fetch("footer.html")
   .then(res => res.text())
   .then(data => {
