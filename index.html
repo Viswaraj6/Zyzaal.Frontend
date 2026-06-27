@@ -810,14 +810,20 @@ function openProduct(id){
 function goPage(page){
   window.location.href = page;
 }
-document.getElementById("searchInput").addEventListener("input", function(e){
-  const value = e.target.value.toLowerCase();
+document.getElementById("searchInput").addEventListener("input",function(e){
 
-  const filtered = productsData.filter(p =>
-    p.name.toLowerCase().includes(value)
-  );
+currentPage=1;
 
-  renderProducts(filtered);
+const value=e.target.value.toLowerCase();
+
+const filtered=productsData.filter(p=>
+
+p.name.toLowerCase().includes(value)
+
+);
+
+renderProducts(filtered);
+
 });
 function filterCategory(type, el){
 
