@@ -681,7 +681,16 @@ onclick="openMenu()">
 const API = "https://fark618-backend.onrender.com";
 
 let productsData = [];
+let currentPage = 1;
 
+function getProductsPerPage(){
+
+    if(window.innerWidth <= 768){
+        return 20;     // Mobile (2 columns × 10 rows)
+    }
+
+    return 50;         // Desktop (5 columns × 10 rows)
+}
 // 👤 Welcome
 document.getElementById("welcome").innerText =
   localStorage.getItem("user") || "Guest";
