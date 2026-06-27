@@ -787,31 +787,96 @@ function filterCategory(type, el){
 }
   function renderProducts(data){
 
-  let html = "";
+    const productsPerPage = getProductsPerPage();
 
-  data.forEach((p,i)=>{
+    const totalPages = Math.ceil(data.length / productsPerPage);
+
+    if(currentPage > totalPages){
+        currentPage = 1;
+    }
+
+    const start = (currentPage-1) * productsPerPage;
+
+    const end = start + productsPerPage;
+
+    const pageProducts = data.slice(start,end);
+
+    let html = "";
+
+    pageProducts.forEach((p)=>{
+
+        const realIndex = productsData.findIndex(x=>x._id===p._id);
+
+        html += `
+        <div class="card"
+        onclick="openProduct('${p._id}')">
+
+        <div class="fav"
+        onclick="event.stopPropagation();toggleFav(${realIndex})">
+
+        <span class="heart">
+        ${isFav(p._id) ? "♥" : "♡"}
+        </span>
+
+        </div>
+
+        <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
+
+        <div class="brand">
+        ${p.brand || "Zudora"}
+        </div>
+
+        <h4>${p.name}</h4>
+
+        <div class="price">
+        ₹${p.price}
+        </div>
+
+        </div>
+        `;
+    });
+
     html += `
-    <div class="card" onclick="openProduct('${p._id}')">
-      <div class="fav" onclick="event.stopPropagation(); toggleFav(${i})">
-        <span class="heart">${isFav(p._id) ? '♥' : '♡'}</span>
-      </div>
-
-     <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
-
-      <div class="brand">
-${p.brand || "Zudora"}
-</div>
-
-<h4>${p.name}</h4>
-
-<div class="price">
-₹${p.price}
-</div>
-    </div>
+    <div class="pagination">
     `;
-  });
 
-  document.getElementById("products").innerHTML = html;
+    if(currentPage>1){
+
+        html+=`
+        <button onclick="changePage(${currentPage-1})">
+        Prev
+        </button>
+        `;
+
+    }
+
+    for(let i=1;i<=totalPages;i++){
+
+        html+=`
+        <button
+        class="${i===currentPage?'active':''}"
+        onclick="changePage(${i})">
+
+        ${i}
+
+        </button>
+        `;
+
+    }
+
+    if(currentPage<totalPages){
+
+        html+=`
+        <button onclick="changePage(${currentPage+1})">
+        Next
+        </button>
+        `;
+
+    }
+
+    html+=`</div>`;
+
+    document.getElementById("products").innerHTML=html;
 }
   fetch("footer.html")
   .then(res => res.text())
