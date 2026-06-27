@@ -1161,6 +1161,35 @@ updateCartCount();
     const header = document.querySelector(".top-header");
     document.body.style.paddingTop = header.offsetHeight + "px";
 });
+  let lastScroll = 0;
+
+window.addEventListener("scroll", () => {
+
+    const searchBar = document.querySelector(".top-nav");
+    const bottomNav = document.getElementById("bottomNav");
+
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll <= 10) {
+        searchBar.style.transform = "translateY(0)";
+        bottomNav.style.transform = "translateY(0)";
+        lastScroll = currentScroll;
+        return;
+    }
+
+    if (currentScroll > lastScroll) {
+        // Scroll Down
+        searchBar.style.transform = "translateY(-120%)";
+        bottomNav.style.transform = "translateY(120%)";
+    } else {
+        // Scroll Up
+        searchBar.style.transform = "translateY(0)";
+        bottomNav.style.transform = "translateY(0)";
+    }
+
+    lastScroll = currentScroll;
+
+});
 // ==============================
 // 🚀 INIT
 // ==============================
