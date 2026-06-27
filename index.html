@@ -1166,24 +1166,18 @@ window.addEventListener("scroll", () => {
 
     const searchBar = document.querySelector(".top-nav");
     const bottomNav = document.getElementById("bottomNav");
-  
+
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > lastScroll && currentScroll > 80) {
 
-        // Scroll Down
         searchBar.style.transform = "translateY(-100%)";
         bottomNav.style.transform = "translateY(100%)";
 
-      
-
     } else {
 
-        // Scroll Up
         searchBar.style.transform = "translateY(0)";
         bottomNav.style.transform = "translateY(0)";
-
-
     }
 
     lastScroll = currentScroll;
