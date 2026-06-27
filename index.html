@@ -1174,30 +1174,26 @@ updateCartCount();
     const header = document.querySelector(".top-header");
     document.body.style.paddingTop = header.offsetHeight + "px";
 });
-  let lastScroll = 0;
+ let lastScroll = 0;
 
 window.addEventListener("scroll", () => {
 
-    const searchBar = document.querySelector(".top-nav");
+    const header = document.querySelector(".top-header");
     const bottomNav = document.getElementById("bottomNav");
-    const body = document.body;
 
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > lastScroll && currentScroll > 80) {
 
         // Scroll Down
-        searchBar.style.transform = "translateY(-100%)";
+        header.classList.add("hide-search");
         bottomNav.style.transform = "translateY(100%)";
 
-      
     } else {
 
         // Scroll Up
-        searchBar.style.transform = "translateY(0)";
+        header.classList.remove("hide-search");
         bottomNav.style.transform = "translateY(0)";
-
-      
 
     }
 
