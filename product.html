@@ -702,6 +702,67 @@ h2 { margin: 10px 0 5px; }
     padding:2px 5px;
     border-radius:50%;
 }
+  @media screen and (max-width:768px){
+
+.top-header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:9999;
+}
+
+.logo-wrap{
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:0;
+}
+
+.logo-text{
+    font-size:34px !important;
+    font-weight:700;
+}
+
+.top-nav{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+}
+
+.search-bar{
+    flex:1;
+    margin:0;
+    max-width:100%;
+}
+
+.search-bar input{
+    height:38px;
+    font-size:14px;
+    border-radius:8px;
+}
+
+.nav-icons{
+    display:flex !important;
+    gap:12px;
+    min-width:auto;
+}
+
+.icon{
+    font-size:18px;
+}
+
+.container{
+    padding-top:10px;
+}
+
+body{
+    padding-top:112px;
+}
+}
 </style>
 
 </head>
