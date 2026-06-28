@@ -1354,12 +1354,22 @@ fetch("footer.html")
   .then(data => {
     document.getElementById("footer").innerHTML = data;
   });
-  fetch("header.html")
-  .then(res => res.text())
-  .then(data => {
+ fetch("header.html")
+.then(res => res.text())
+.then(data => {
+
     document.getElementById("header").innerHTML = data;
+
     updateCartCount();
-  });
+
+    const header = document.querySelector(".top-header");
+
+    if(header){
+        document.body.style.paddingTop =
+            header.offsetHeight + "px";
+    }
+
+});
   function initDelivery(){
 
   const user = localStorage.getItem("user");
