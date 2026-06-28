@@ -1324,7 +1324,7 @@ function openProduct(id){
 function toggleAcc(el){
   el.parentElement.classList.toggle("active");
 }
-loadProduct();
+
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
@@ -1337,6 +1337,7 @@ fetch("header.html")
     document.getElementById("header").innerHTML = data;
 
     updateCartCount();
+  loadProduct();
 
 });
   function initDelivery(){
