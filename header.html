@@ -1,33 +1,36 @@
-<div class="header">
+<div class="top-header">
 
-  <div class="menu-left"></div>
+    <div class="logo-wrap">
 
-  <!-- 🔥 ADD CLICK HERE -->
-  <div class="logo-center" onclick="goPage('index.html')" style="cursor:pointer;">
-    <div class="logo-text">
-     Feest
-    </div>
-  </div>
+        <div class="logo-text" onclick="goPage('index.html')" style="cursor:pointer;">
+            FEEST
+        </div>
 
-  <div class="menu-right">
-
-    <div class="icon">
-      <i class="fa-solid fa-magnifying-glass"></i>
     </div>
 
-    <div class="icon" onclick="goPage('wishlist.html')">
-      <i class="fa-regular fa-heart"></i>
-    </div>
+    <div class="top-nav">
 
-    <div class="icon" onclick="goPage('account.html')">
-      <i class="fa-regular fa-user"></i>
-    </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for products..." readonly onclick="goPage('index.html')">
+        </div>
 
-    <div class="icon cart" onclick="goPage('cart.html')">
-      <i class="fa-solid fa-bag-shopping"></i>
-      <span id="cartCount">0</span>
-    </div>
+        <div class="nav-icons">
 
-  </div>
+            <div class="icon" onclick="goPage('wishlist.html')">
+                <i class="fa-regular fa-heart"></i>
+            </div>
+
+            <div class="icon" onclick="goPage('account.html')">
+                <i class="fa-regular fa-user"></i>
+            </div>
+
+            <div class="icon cart" onclick="goPage('cart.html')">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span id="cartCount">0</span>
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
