@@ -1,34 +1,39 @@
 <div class="top-header">
 
-    <div class="logo-wrap">
-
-        <div class="logo-text" onclick="goPage('index.html')" style="cursor:pointer;">
-            FEEST
-        </div>
-
+    <!-- Menu -->
+    <div class="mobile-menu-btn" onclick="openMenu()">
+        ☰
     </div>
 
-    <div class="top-nav">
+    <!-- Search -->
+    <div class="search-bar">
+        <input type="text"
+               placeholder="Search..."
+               readonly
+               onclick="goPage('index.html')">
+    </div>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Search for products..." readonly onclick="goPage('index.html')">
+    <!-- Logo -->
+    <div class="logo-text"
+         onclick="goPage('index.html')"
+         style="cursor:pointer;">
+        FEEST
+    </div>
+
+    <!-- Icons -->
+    <div class="nav-icons">
+
+        <div class="icon" onclick="goPage('wishlist.html')">
+            <i class="fa-regular fa-heart"></i>
         </div>
 
-        <div class="nav-icons">
+        <div class="icon" onclick="goPage('account.html')">
+            <i class="fa-regular fa-user"></i>
+        </div>
 
-            <div class="icon" onclick="goPage('wishlist.html')">
-                <i class="fa-regular fa-heart"></i>
-            </div>
-
-            <div class="icon" onclick="goPage('account.html')">
-                <i class="fa-regular fa-user"></i>
-            </div>
-
-            <div class="icon cart" onclick="goPage('cart.html')">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <span id="cartCount">0</span>
-            </div>
-
+        <div class="icon cart" onclick="goPage('cart.html')">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span id="cartCount">0</span>
         </div>
 
     </div>
