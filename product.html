@@ -1175,28 +1175,43 @@ function prevImage(){
   // UPDATE
 function updateImage(){
 
-  document.getElementById("mainImage").src =
-    images[currentIndex];
+    const prev =
+        currentIndex === 0
+        ? images.length - 1
+        : currentIndex - 1;
 
-  document.querySelectorAll(".thumbs img")
-    .forEach(x => x.classList.remove("active"));
+    const next =
+        currentIndex === images.length - 1
+        ? 0
+        : currentIndex + 1;
 
-  const active =
-    document.querySelectorAll(".thumbs img")[currentIndex];
+    // 3 images update
+    document.getElementById("prevImage").src = images[prev];
+    document.getElementById("mainImage").src = images[currentIndex];
+    document.getElementById("nextImage").src = images[next];
 
-  if(active){
-    active.classList.add("active");
-  }
-document
-.querySelectorAll("#imageDots span")
-.forEach(dot=>dot.classList.remove("active"));
+    // Thumbnail active
+    document.querySelectorAll(".thumbs img")
+        .forEach(x => x.classList.remove("active"));
 
-const activeDot =
-document.querySelectorAll("#imageDots span")[currentIndex];
+    const active =
+        document.querySelectorAll(".thumbs img")[currentIndex];
 
-if(activeDot){
-    activeDot.classList.add("active");
-}
+    if(active){
+        active.classList.add("active");
+    }
+
+    // Dots active
+    document.querySelectorAll("#imageDots span")
+        .forEach(dot => dot.classList.remove("active"));
+
+    const activeDot =
+        document.querySelectorAll("#imageDots span")[currentIndex];
+
+    if(activeDot){
+        activeDot.classList.add("active");
+    }
+
 }
   function goImage(index){
 
