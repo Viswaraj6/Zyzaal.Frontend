@@ -1328,7 +1328,7 @@ window.addEventListener("scroll", function(){
 });
   // CART
 function addToCart(){
- alert("Add start");
+
   if(!selectedSize){
     alert("Select size ❗");
     return;
@@ -1381,7 +1381,7 @@ function addToCart(){
     "cart",
     JSON.stringify(cart)
   );
-alert("Saved");
+
   // ✅ update UI
   checkCartStatus();
   updateCartCount();
