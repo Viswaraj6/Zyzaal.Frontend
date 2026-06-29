@@ -1460,6 +1460,8 @@ function stickyBuyNow(){
   
 // BUY
 function buyNow(){
+     alert("buyNow start");
+
   if(!selectedSize){
     alert("Select size ❗");
     return;
@@ -1473,6 +1475,7 @@ localStorage.setItem("checkout", JSON.stringify({
   deliveryDate:
     window.selectedDeliveryDate || ""
 }));
+   alert("Saved");
   location.href = "checkout.html";
 }
 // ❤️ WISHLIST FUNCTIONS
