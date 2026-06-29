@@ -1191,6 +1191,43 @@ if(activeDot){
     updateImage();
 
 }
+  function enableSwipe(){
+
+    const image =
+    document.querySelector(".main-wrapper");
+
+    image.addEventListener("touchstart", function(e){
+
+        touchStartX =
+        e.changedTouches[0].screenX;
+
+    });
+
+    image.addEventListener("touchend", function(e){
+
+        touchEndX =
+        e.changedTouches[0].screenX;
+
+        handleSwipe();
+
+    });
+
+}
+  function handleSwipe(){
+
+    if(touchStartX - touchEndX > 50){
+
+        nextImage();
+
+    }
+
+    if(touchEndX - touchStartX > 50){
+
+        prevImage();
+
+    }
+
+}
   function selectSize(el,size){
 
   document
