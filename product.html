@@ -1469,7 +1469,21 @@ function buyNow(){
     }
 
     alert("2");
+try{
 
+    localStorage.setItem(
+        "checkout",
+        JSON.stringify(product)
+    );
+
+    alert("3");
+
+}
+catch(err){
+
+    alert(err.message);
+
+}
     console.log(product);
 
     localStorage.setItem(
