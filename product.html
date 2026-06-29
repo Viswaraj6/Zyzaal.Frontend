@@ -1138,22 +1138,27 @@ window.addEventListener("scroll", function(){
     }
 
     // ✅ Mobile only
-    else{
+else{
 
-        const action = document.querySelector(".action-buttons");
+    const action = document.querySelector(".action-buttons");
 
-        if(!action) return;
+    if(!action) return;
 
-        const rect = action.getBoundingClientRect();
+    // Button screen-ல தெரியுதா?
+    const rect = action.getBoundingClientRect();
 
-        if(rect.bottom < window.innerHeight){
-            action.classList.remove("sticky");
-        }else{
-            action.classList.add("sticky");
-        }
+    const isVisible =
+        rect.top >= 0 &&
+        rect.bottom <= window.innerHeight;
 
+    if(isVisible){
+        action.classList.remove("sticky");
+    }else{
+        action.classList.add("sticky");
     }
 
+}
+  
 });
   // CART
 function addToCart(){
