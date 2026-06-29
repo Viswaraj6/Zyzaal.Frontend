@@ -828,13 +828,20 @@ overflow:hidden;
 
     <div id="thumbs" class="thumbs"></div>
 
-    <div class="main-wrapper">
-      <button class="arrow left" onclick="prevImage()">‹</button>
+   <div class="main-wrapper">
 
-      <img id="mainImage" class="main-img">
+    <div id="slider" class="slider">
 
-      <button class="arrow right" onclick="nextImage()">›</button>
+        <img id="prevImage" class="main-img">
+        <img id="mainImage" class="main-img active">
+        <img id="nextImage" class="main-img">
+
     </div>
+
+    <button class="arrow left" onclick="prevImage()">‹</button>
+    <button class="arrow right" onclick="nextImage()">›</button>
+
+</div>
     <div id="imageDots" class="image-dots"></div>
   </div>
 
