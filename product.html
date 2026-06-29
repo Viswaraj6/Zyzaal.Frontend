@@ -658,6 +658,16 @@ h2 { margin: 10px 0 5px; }
     height:auto;
     max-height:70vh;
     object-fit:contain;
+   transition: transform .25s ease, opacity .25s ease;
+}
+    .main-img.slide-left{
+    transform: translateX(-25px);
+    opacity:0;
+}
+
+.main-img.slide-right{
+    transform: translateX(25px);
+    opacity:0;
 }
 .product-layout{
     display:block;
