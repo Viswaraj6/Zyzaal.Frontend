@@ -1145,29 +1145,47 @@ function changeImage(src){
 // NEXT
 function nextImage(){
 
-  currentIndex++;
+    const img = document.getElementById("mainImage");
 
-  if(currentIndex >= images.length){
-    currentIndex = 0;
-  }
+    img.classList.add("slide-left");
 
-  updateImage();
+    setTimeout(()=>{
+
+        currentIndex++;
+
+        if(currentIndex >= images.length){
+            currentIndex = 0;
+        }
+
+        updateImage();
+
+        img.classList.remove("slide-left");
+
+    },200);
 
 }
-
 // PREV
 function prevImage(){
 
-  currentIndex--;
+    const img = document.getElementById("mainImage");
 
-  if(currentIndex < 0){
-    currentIndex = images.length - 1;
-  }
+    img.classList.add("slide-right");
 
-  updateImage();
+    setTimeout(()=>{
+
+        currentIndex--;
+
+        if(currentIndex < 0){
+            currentIndex = images.length - 1;
+        }
+
+        updateImage();
+
+        img.classList.remove("slide-right");
+
+    },200);
 
 }
-
 // UPDATE
 function updateImage(){
 
