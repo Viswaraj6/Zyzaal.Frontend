@@ -1228,19 +1228,55 @@ if(activeDot){
     const image =
     document.querySelector(".main-wrapper");
 
-    image.addEventListener("touchstart", function(e){
+    image.addEventListener("touchstart",function(e){
 
-        touchStartX =
-        e.changedTouches[0].screenX;
+        touchStartX = e.touches[0].clientX;
+
+        isDragging = true;
+
+        document.getElementById("mainImage").style.transition="none";
 
     });
 
-    image.addEventListener("touchend", function(e){
+    image.addEventListener("touchmove",function(e){
 
-        touchEndX =
-        e.changedTouches[0].screenX;
+        if(!isDragging) return;
 
-        handleSwipe();
+        let currentX = e.touches[0].clientX;
+
+        currentTranslate = currentX - touchStartX;
+
+        document.getElementById("mainImage").style.transform =
+        `translateX(${currentTranslate}px)`;
+
+    });
+
+    image.addEventListener("touchend",function(){
+
+        isDragging = false;
+
+        const img =
+        document.getElementById("mainImage");
+
+        img.style.transition =
+        "transform .25s ease";
+
+        if(currentTranslate < -80){
+
+            nextImage();
+
+        }
+
+        else if(currentTranslate > 80){
+
+            prevImage();
+
+        }
+
+        img.style.transform =
+        "translateX(0)";
+
+        currentTranslate = 0;
 
     });
 
