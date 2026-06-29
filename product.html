@@ -1624,9 +1624,7 @@ function openProduct(id){
       JSON.stringify(p)
     );
 
-    window.scrollTo(0,0);
-
-    location.reload();
+  window.location.href = "product.html?id=" + id;
 
   });
 
