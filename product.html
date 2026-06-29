@@ -1141,7 +1141,16 @@ function updateImage(){
   if(active){
     active.classList.add("active");
   }
+document
+.querySelectorAll("#imageDots span")
+.forEach(dot=>dot.classList.remove("active"));
 
+const activeDot =
+document.querySelectorAll("#imageDots span")[currentIndex];
+
+if(activeDot){
+    activeDot.classList.add("active");
+}
 }
   function selectSize(el,size){
 
