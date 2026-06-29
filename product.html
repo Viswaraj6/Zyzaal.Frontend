@@ -1200,10 +1200,24 @@ function updateImage(){
         : currentIndex + 1;
 
     // 3 images update
+   if(window.innerWidth > 768){
+
+    document.getElementById("mainImage").src =
+        images[currentIndex];
+
+    document.getElementById("prevImage").style.display="none";
+    document.getElementById("nextImage").style.display="none";
+}
+else{
+
+    document.getElementById("prevImage").style.display="block";
+    document.getElementById("nextImage").style.display="block";
+
     document.getElementById("prevImage").src = images[prev];
     document.getElementById("mainImage").src = images[currentIndex];
     document.getElementById("nextImage").src = images[next];
 
+}
     // Thumbnail active
     document.querySelectorAll(".thumbs img")
         .forEach(x => x.classList.remove("active"));
