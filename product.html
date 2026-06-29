@@ -1251,11 +1251,12 @@ function updateImage(){
 
         isDragging = false;
 
-        const img =
-        document.getElementById("mainImage");
+       const slider =
+document.getElementById("slider");
 
-        img.style.transition =
-        "transform .25s ease";
+       slider.style.transition =
+"transform .30s ease";
+
 
         if(currentTranslate < -80){
 
@@ -1269,8 +1270,8 @@ function updateImage(){
 
         }
 
-        img.style.transform =
-        "translateX(0)";
+       slider.style.transform =
+"translateX(-100%)";
 
         currentTranslate = 0;
 
