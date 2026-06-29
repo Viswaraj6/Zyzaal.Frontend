@@ -954,6 +954,20 @@ function startProduct(){
   }
 
   updateImage();
+  let dots = "";
+
+images.forEach((img,index)=>{
+
+    dots += `
+        <span
+            class="${index===currentIndex ? 'active':''}"
+            onclick="goImage(${index})">
+        </span>
+    `;
+
+});
+
+document.getElementById("imageDots").innerHTML = dots;
 
   // THUMBS
   let thumbsHTML = "";
