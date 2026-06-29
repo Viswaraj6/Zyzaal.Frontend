@@ -1502,6 +1502,8 @@ function toggleFav(id, el){
 }
 // SIMILAR PRODUCTS
 async function loadSimilar(){
+  document.getElementById("similarLoader").style.display="flex";
+document.getElementById("similar").style.display="none";
   try{
     const res = await fetch(API + "/products");
     const data = await res.json();
@@ -1531,6 +1533,9 @@ async function loadSimilar(){
       });
 
     document.getElementById("similar").innerHTML = html;
+    document.getElementById("similarLoader").style.display="none";
+
+document.getElementById("similar").style.display="flex";
   } 
   catch(err){
     console.log(err);
