@@ -1124,16 +1124,38 @@ function updateImage(){
 // scroll show/hide
 window.addEventListener("scroll", function(){
 
-const trigger = 300;
+    // ✅ Desktop only
+    if(window.innerWidth > 768){
 
-  if(window.scrollY > trigger){
-    document.getElementById("stickyBar").classList.remove("hidden");
-  } else {
-    document.getElementById("stickyBar").classList.add("hidden");
-  }
+        const trigger = 300;
+
+        if(window.scrollY > trigger){
+            document.getElementById("stickyBar").classList.remove("hidden");
+        }else{
+            document.getElementById("stickyBar").classList.add("hidden");
+        }
+
+    }
+
+    // ✅ Mobile only
+    else{
+
+        const action = document.querySelector(".action-buttons");
+
+        if(!action) return;
+
+        const rect = action.getBoundingClientRect();
+
+        if(rect.bottom < window.innerHeight){
+            action.classList.remove("sticky");
+        }else{
+            action.classList.add("sticky");
+        }
+
+    }
 
 });
-// CART
+  // CART
 function addToCart(){
 
   if(!selectedSize){
