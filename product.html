@@ -647,7 +647,6 @@ h2 { margin: 10px 0 5px; }
     display:flex;
     gap:10px;
     margin-top:20px;
-   transition:transform .25s ease;
 }
 
 .action-buttons.sticky{
@@ -658,7 +657,7 @@ h2 { margin: 10px 0 5px; }
     background:#fff;
     padding:12px;
     border-top:1px solid #ddd;
-    box-shadow:0 -2px 12px rgba(0,0,0,.15);
+    box-shadow:0 -2px 10px rgba(0,0,0,.15);
     z-index:9999;
 }
  .sticky-bar{
@@ -1139,27 +1138,22 @@ window.addEventListener("scroll", function(){
     }
 
     // ✅ Mobile only
-else{
+    else{
 
-    const action = document.querySelector(".action-buttons");
+        const action = document.querySelector(".action-buttons");
 
-    if(!action) return;
+        if(!action) return;
 
-    // Button screen-ல தெரியுதா?
-    const rect = action.getBoundingClientRect();
+        const rect = action.getBoundingClientRect();
 
-    const isVisible =
-        rect.top >= 0 &&
-        rect.bottom <= window.innerHeight;
+        if(rect.bottom < window.innerHeight){
+            action.classList.remove("sticky");
+        }else{
+            action.classList.add("sticky");
+        }
 
-    if(isVisible){
-        action.classList.remove("sticky");
-    }else{
-        action.classList.add("sticky");
     }
 
-}
-  
 });
   // CART
 function addToCart(){
