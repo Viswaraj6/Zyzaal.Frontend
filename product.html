@@ -1461,37 +1461,27 @@ function stickyBuyNow(){
 // BUY
 function buyNow(){
 
-    alert("1");
-
     if(!selectedSize){
-        alert("No Size");
+        alert("Select Size");
         return;
     }
 
-    alert("2");
-try{
+    const checkoutProduct = {
+
+        _id: product._id,
+        name: product.name,
+        price: product.price,
+        size: selectedSize,
+        image: product.primaryImage || product.images?.[0] || product.image,
+        qty: 1,
+        deliveryDate: window.selectedDeliveryDate || ""
+
+    };
 
     localStorage.setItem(
         "checkout",
-        JSON.stringify(product)
+        JSON.stringify([checkoutProduct])
     );
-
-    alert("3");
-
-}
-catch(err){
-
-    alert(err.message);
-
-}
-    console.log(product);
-
-    localStorage.setItem(
-        "checkout",
-        JSON.stringify(product)
-    );
-
-    alert("3");
 
     location.href="checkout.html";
 
