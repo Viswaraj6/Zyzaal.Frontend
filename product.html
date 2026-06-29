@@ -1243,9 +1243,8 @@ function updateImage(){
 
         currentTranslate = currentX - touchStartX;
 
-        document.getElementById("mainImage").style.transform =
-        `translateX(${currentTranslate}px)`;
-
+      document.getElementById("slider").style.transform =
+`translateX(calc(-100% + ${currentTranslate}px))`;
     });
 
     image.addEventListener("touchend",function(){
