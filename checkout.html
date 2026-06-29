@@ -256,11 +256,25 @@ if(cart.length > 0){
 }
 
 // ✅ BUY NOW PRODUCT
+// BUY NOW PRODUCT
 else if(checkoutItem){
 
-  products = [checkoutItem];
+  if(Array.isArray(checkoutItem)){
 
-  total = checkoutItem.price;
+      products = checkoutItem;
+
+      total = checkoutItem.reduce(
+          (sum,p)=>sum + (p.price * (p.qty || 1)),
+          0
+      );
+
+  }else{
+
+      products = [checkoutItem];
+
+      total = checkoutItem.price;
+
+  }
 
 }
   document.getElementById("totalAmount").innerText = total;
