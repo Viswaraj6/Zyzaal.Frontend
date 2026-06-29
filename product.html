@@ -1460,25 +1460,29 @@ function stickyBuyNow(){
   
 // BUY
 function buyNow(){
-     alert("buyNow start");
 
-  if(!selectedSize){
-    alert("Select size ❗");
-    return;
-  }
-localStorage.setItem("checkout", JSON.stringify({
-  ...product,
-  size: selectedSize,
+    alert("1");
 
-  qty: 1,
+    if(!selectedSize){
+        alert("No Size");
+        return;
+    }
 
-  deliveryDate:
-    window.selectedDeliveryDate || ""
-}));
-   alert("Saved");
-  location.href = "checkout.html";
+    alert("2");
+
+    console.log(product);
+
+    localStorage.setItem(
+        "checkout",
+        JSON.stringify(product)
+    );
+
+    alert("3");
+
+    location.href="checkout.html";
+
 }
-// ❤️ WISHLIST FUNCTIONS
+  // ❤️ WISHLIST FUNCTIONS
 function getFav(){
   return JSON.parse(localStorage.getItem("fav")) || [];
 }
