@@ -1593,10 +1593,7 @@ function openProduct(id){
     );
 
     // selected product
-    localStorage.setItem(
-      "selectedProduct",
-      JSON.stringify(p)
-    );
+  localStorage.setItem("selectedProductId", p._id);
 
   window.location.href = "product.html?id=" + id;
 
