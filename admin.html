@@ -1292,10 +1292,11 @@ function deleteProduct(id){
 }
   function toggleAllProducts(cb){
 
-    document.querySelectorAll(".productCheck")
-    .forEach(item=>{
+    document.querySelectorAll(".productCheck").forEach(item=>{
         item.checked = cb.checked;
     });
+
+    updateSelectionUI();
 
 }
 function editProduct(id){
