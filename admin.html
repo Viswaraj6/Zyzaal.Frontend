@@ -1275,6 +1275,7 @@ function deleteProduct(id){
   .then(res => res.json())
   .then(() => loadProducts());
 }
+  
   async function deleteSelectedProducts(){
 
     // Selected checkbox IDs
@@ -1348,6 +1349,19 @@ function deleteProduct(id){
     });
 
     updateSelectionUI();
+
+}
+  function backToProducts(){
+
+    loadProducts();
+
+    // Show top buttons again
+    document.getElementById("addBtn").style.display = "inline-block";
+    document.getElementById("exportBtn").style.display = "inline-block";
+
+    // Hide selection UI
+    document.getElementById("selectionBar").style.display = "none";
+    document.getElementById("deleteBtn").style.display = "none";
 
 }
 function editProduct(id){
