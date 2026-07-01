@@ -1324,18 +1324,18 @@ function deleteProduct(id){
 
     if(checked>0){
 
+        document.getElementById("selectionBar").style.display="inline-flex";
         document.getElementById("deleteBtn").style.display="inline-block";
 
         document.getElementById("exportBtn").style.display="none";
-
         document.getElementById("addBtn").style.display="none";
 
     }else{
 
+        document.getElementById("selectionBar").style.display="none";
         document.getElementById("deleteBtn").style.display="none";
 
         document.getElementById("exportBtn").style.display="inline-block";
-
         document.getElementById("addBtn").style.display="inline-block";
 
     }
