@@ -336,34 +336,57 @@ padding:10px 18px;
     <!-- PRODUCTS -->
    <div id="productsSection">
 
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <h2>Products</h2>
-
-    <!-- 🔥 INGA paste pannum -->
-   <button
-id="exportBtn"
-class="export-btn"
-onclick="exportExcel()">
-Export Excel
-</button>
-    
-<button
-id="deleteBtn"
-onclick="deleteSelectedProducts()"
-style="
-display:none;
-background:#dc2626;
-padding:10px 18px;
-border:none;
-border-radius:6px;
-color:white;
-cursor:pointer;
+ <div style="
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:20px;
 ">
-🗑 Delete Selected (<span id="selectedCount">0</span>)
-</button>
-    
-  </div>
 
+    <h2 style="margin:0;">Products</h2>
+
+    <div style="
+    display:flex;
+    align-items:center;
+    gap:12px;
+    ">
+
+        <button
+        id="selectionBar"
+        style="
+        display:none;
+        background:#f3f4f6;
+        color:#111827;
+        border:1px solid #d1d5db;
+        padding:10px 16px;
+        border-radius:10px;
+        font-weight:600;
+        ">
+            ☑ <span id="selectedCount">0</span> Selected
+        </button>
+
+        <button
+        id="deleteBtn"
+        onclick="deleteSelectedProducts()"
+        style="
+        display:none;
+        background:#ef4444;
+        padding:10px 18px;
+        border-radius:10px;
+        ">
+            🗑 Delete
+        </button>
+
+        <button
+        id="exportBtn"
+        class="export-btn"
+        onclick="exportExcel()">
+            Export Excel
+        </button>
+
+    </div>
+
+</div>
   <div id="products"></div>
 
 </div>
