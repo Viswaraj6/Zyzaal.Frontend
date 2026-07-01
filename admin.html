@@ -348,19 +348,20 @@ Export Excel
 </button>
     
 <button
+id="deleteBtn"
 onclick="deleteSelectedProducts()"
 style="
+display:none;
 background:#dc2626;
-margin-left:10px;
 padding:10px 18px;
 border:none;
 border-radius:6px;
 color:white;
 cursor:pointer;
 ">
-🗑 Delete Selected
+🗑 Delete Selected (<span id="selectedCount">0</span>)
 </button>
-
+    
   </div>
 
   <div id="products"></div>
