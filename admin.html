@@ -1171,8 +1171,10 @@ Name
 type="checkbox"
 class="productCheck"
 value="${p._id}"
-onclick="event.stopPropagation()">
-
+onclick="
+event.stopPropagation();
+updateSelectionUI();
+">
 </td>
 
         <td style="padding:12px;">
