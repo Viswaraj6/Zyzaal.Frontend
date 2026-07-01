@@ -1244,6 +1244,14 @@ function deleteProduct(id){
   .then(res => res.json())
   .then(() => loadProducts());
 }
+  function toggleAllProducts(cb){
+
+    document.querySelectorAll(".productCheck")
+    .forEach(item=>{
+        item.checked = cb.checked;
+    });
+
+}
 function editProduct(id){
 
   fetch(BASE_URL + "/products")
