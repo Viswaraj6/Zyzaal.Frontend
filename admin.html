@@ -1290,6 +1290,32 @@ function deleteProduct(id){
     }
 
 }
+  function updateSelectionUI(){
+
+    const checked =
+    document.querySelectorAll(".productCheck:checked").length;
+
+    document.getElementById("selectedCount").innerText = checked;
+
+    if(checked>0){
+
+        document.getElementById("deleteBtn").style.display="inline-block";
+
+        document.getElementById("exportBtn").style.display="none";
+
+        document.getElementById("addBtn").style.display="none";
+
+    }else{
+
+        document.getElementById("deleteBtn").style.display="none";
+
+        document.getElementById("exportBtn").style.display="inline-block";
+
+        document.getElementById("addBtn").style.display="inline-block";
+
+    }
+
+}
   function toggleAllProducts(cb){
 
     document.querySelectorAll(".productCheck").forEach(item=>{
