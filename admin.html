@@ -1086,13 +1086,20 @@ function loadProducts(){
     color:white;
     ">
 
-    <tr>
+   <tr>
 
-      <th style="padding:14px;">Image</th>
+<th style="padding:14px;width:50px;">
+<input
+type="checkbox"
+id="selectAll"
+onchange="toggleAllProducts(this)">
+</th>
 
-      <th style="padding:14px;text-align:left;">
-      Name
-      </th>
+<th style="padding:14px;">Image</th>
+
+<th style="padding:14px;text-align:left;">
+Name
+</th>
 
       <th style="padding:14px;text-align:left;">
       Style No
