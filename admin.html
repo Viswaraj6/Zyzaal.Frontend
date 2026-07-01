@@ -1244,6 +1244,46 @@ function deleteProduct(id){
   .then(res => res.json())
   .then(() => loadProducts());
 }
+  async function deleteSelectedProducts(){
+
+    // Selected checkbox IDs
+    const ids = [...document.querySelectorAll(".productCheck:checked")]
+        .map(item => item.value);
+
+    if(ids.length === 0){
+        alert("Please select at least one product.");
+        return;
+    }
+
+    if(!confirm(`Are you sure you want to delete ${ids.length} product(s)?`)){
+        return;
+    }
+
+    try{
+
+        for(const id of ids){
+
+            await fetch(BASE_URL + "/products/" + id,{
+                method:"DELETE",
+                headers:{
+                    "Authorization":"Bearer " + localStorage.getItem("adminToken")
+                }
+            });
+
+        }
+
+        alert(ids.length + " Product(s) Deleted Successfully ✅");
+
+        loadProducts();
+
+    }catch(err){
+
+        console.log(err);
+        alert("Delete Failed ❌");
+
+    }
+
+}
   function toggleAllProducts(cb){
 
     document.querySelectorAll(".productCheck")
