@@ -2030,7 +2030,12 @@ function updateStatus(id,status){
 
 }
 function openProduct(id){
-
+// Hide top buttons
+document.getElementById("addBtn").style.display = "none";
+document.getElementById("exportBtn").style.display = "none";
+document.getElementById("selectionBar").style.display = "none";
+document.getElementById("deleteBtn").style.display = "none";
+  
   fetch(BASE_URL + "/products")
   .then(res => res.json())
   .then(data => {
