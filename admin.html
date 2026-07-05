@@ -1131,7 +1131,25 @@ fetch(BASE_URL + "/products")
   
   .then(res => res.json())
   .then(data => {
+data = data.filter(p =>
 
+(p.name || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(p.styleNo || "")
+.toLowerCase()
+.includes(search)
+
+||
+
+(p.category || "")
+.toLowerCase()
+.includes(search)
+
+);
     let html = `
 
     <div style="
