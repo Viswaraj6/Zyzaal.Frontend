@@ -1123,7 +1123,12 @@ if(section === "customers"){
 /* LOAD PRODUCTS */
 function loadProducts(){
 
-  fetch(BASE_URL + "/products")
+const search =
+(document.getElementById("productSearch")?.value || "")
+.toLowerCase();
+
+fetch(BASE_URL + "/products")
+  
   .then(res => res.json())
   .then(data => {
 
