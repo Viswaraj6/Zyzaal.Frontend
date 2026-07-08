@@ -3768,6 +3768,18 @@ await loadSyncStatus();
         data.full?.lastSyncTime
         ? new Date(data.full.lastSyncTime).toLocaleString("en-IN")
         : "Never";
+    
+    startCountdown(
+    data.sales?.lastSyncTime,
+    "salesCountdown",
+    0.5      // 30 minutes
+);
+
+startCountdown(
+    data.full?.lastSyncTime,
+    "fullCountdown",
+    24       // 24 hours
+);
 
 }
   function startCountdown(lastSync, elementId, intervalHours){
