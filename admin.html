@@ -3739,6 +3739,23 @@ document.getElementById("syncStatus").innerHTML =
 data.message;
 
 }
+  async function loadSyncStatus(){
+
+    const res = await fetch(BASE_URL + "/sync-status");
+
+    const data = await res.json();
+
+    document.getElementById("salesLastSync").innerHTML =
+        data.sales?.lastSyncTime
+        ? new Date(data.sales.lastSyncTime).toLocaleString("en-IN")
+        : "Never";
+
+    document.getElementById("fullLastSync").innerHTML =
+        data.full?.lastSyncTime
+        ? new Date(data.full.lastSyncTime).toLocaleString("en-IN")
+        : "Never";
+
+}
   /******** SOCKET TEMP DISABLED ********
   const socket =
 io("https://fark618-backend.onrender.com");
