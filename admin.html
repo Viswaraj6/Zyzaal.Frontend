@@ -3737,7 +3737,7 @@ const data = await res.json();
 
 document.getElementById("syncStatus").innerHTML =
 data.message;
-
+await loadSyncStatus();
 }
   async function loadSyncStatus(){
 
