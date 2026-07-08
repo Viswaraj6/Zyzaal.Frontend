@@ -3687,6 +3687,43 @@ document.getElementById("totalRevenue").innerText =
 "₹"+revenue;
 
 }
+  async function salesSync(){
+
+document.getElementById("syncStatus").innerHTML =
+"Sales Sync Running...";
+
+const res = await fetch(BASE_URL + "/sync-sales",{
+method:"POST",
+headers:{
+"Authorization":"Bearer "+localStorage.getItem("adminToken")
+}
+});
+
+const data = await res.json();
+
+document.getElementById("syncStatus").innerHTML =
+data.message;
+
+}
+
+async function fullSync(){
+
+document.getElementById("syncStatus").innerHTML =
+"Full Sync Running...";
+
+const res = await fetch(BASE_URL + "/sync-items",{
+method:"POST",
+headers:{
+"Authorization":"Bearer "+localStorage.getItem("adminToken")
+}
+});
+
+const data = await res.json();
+
+document.getElementById("syncStatus").innerHTML =
+data.message;
+
+}
   /******** SOCKET TEMP DISABLED ********
   const socket =
 io("https://fark618-backend.onrender.com");
