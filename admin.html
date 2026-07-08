@@ -3770,6 +3770,40 @@ await loadSyncStatus();
         : "Never";
 
 }
+  function startCountdown(lastSync, elementId, intervalHours){
+
+    if(!lastSync){
+        document.getElementById(elementId).innerHTML = "Waiting...";
+        return;
+    }
+
+    function update(){
+
+        const next =
+            new Date(lastSync).getTime() +
+            intervalHours * 60 * 60 * 1000;
+
+        const diff = next - Date.now();
+
+        if(diff <= 0){
+            document.getElementById(elementId).innerHTML =
+                "Ready to Sync";
+            return;
+        }
+
+        const hrs = Math.floor(diff / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+
+        document.getElementById(elementId).innerHTML =
+            `${hrs}h ${mins}m ${secs}s`;
+
+    }
+
+    update();
+    setInterval(update,1000);
+
+}
   /******** SOCKET TEMP DISABLED ********
   const socket =
 io("https://fark618-backend.onrender.com");
