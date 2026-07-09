@@ -3755,6 +3755,19 @@ document.getElementById("syncStatus").innerHTML =
 data.message;
 await loadSyncStatus();
 }
+
+  async function imageSync() {
+
+    const res = await fetch("/admin/image-sync", {
+        method: "POST"
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+}
+  
   async function loadSyncStatus(){
 
     const res = await fetch(BASE_URL + "/sync-status");
