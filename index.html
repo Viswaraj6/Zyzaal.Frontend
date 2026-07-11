@@ -921,13 +921,13 @@ const exist = fav.find(item => item._id === id);
 // ==============================
 async function loadProducts(){
   try {
-    const res = await fetch(API + "/products");
-    const data = await res.json();
+   const res = await fetch(API + "/products");
 
-    productsData = data;
+const data = await res.json();
 
-    renderProducts(data);
+productsData = data.products;
 
+renderProducts(data.products);
   } catch(e){
     console.log("Product error", e);
   }
