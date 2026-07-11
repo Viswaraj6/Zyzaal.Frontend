@@ -3819,7 +3819,25 @@ startCountdown(
         document.getElementById(elementId).innerHTML = "Waiting...";
         return;
     }
+function moveSyncLogs(isRunning){
 
+    const logs = document.getElementById("syncLogs").parentElement;
+
+    const status = logs.previousElementSibling;
+
+    if(isRunning){
+
+        status.after(logs);
+
+    }else{
+
+        document.getElementById("syncStatus")
+            .parentElement
+            .appendChild(logs);
+
+    }
+
+}
     function update(){
 
         const next =
