@@ -591,26 +591,27 @@ socket.on("sync-log", function(msg){
 
 });
 
-   function moveSyncLogs(show){
+ function moveSyncLogs(show){
 
-    const logs =
-    document.getElementById("syncLogs").parentElement;
+    const syncCard = document.querySelector("#syncSection .card");
 
-    const status =
-    document.getElementById("salesLastSync")
-    .parentElement
-    .parentElement;
+    const logTitle = document.querySelector("#syncLogs").previousElementSibling;
+
+    const logs = document.getElementById("syncLogs");
+
+    const statusBlock =
+        document.getElementById("salesLastSync")
+        .parentElement.parentElement;
 
     if(show){
 
-        logs.parentNode.insertBefore(logs,status);
+        syncCard.insertBefore(logTitle, statusBlock);
+        syncCard.insertBefore(logs, statusBlock);
 
     }else{
 
-        document
-        .getElementById("fullCountdown")
-        .parentElement
-        .appendChild(logs);
+        syncCard.appendChild(logTitle);
+        syncCard.appendChild(logs);
 
     }
 
