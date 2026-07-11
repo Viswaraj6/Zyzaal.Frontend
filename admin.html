@@ -133,7 +133,6 @@ color:#666;
 margin-top:10px;
 font-size:32px;
 }
-
 </style>
 </head>
 
@@ -375,8 +374,6 @@ Last Sync :
 
 <b>Next Full Sync</b><br>
 <span id="fullCountdown">--:--:--</span>
-<div id="logContainer">
-
 <hr>
 
 <h3>Live Sync Logs</h3>
@@ -391,9 +388,8 @@ padding:10px;
 font-family:monospace;
 border-radius:8px;">
 </div>
-  
 </div>
-</div>  
+  
 </div>
 
 </div>
@@ -575,35 +571,8 @@ Reactivation Requests
   </div>
 
 </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
  <script> 
    const BASE_URL = "https://fark618-backend.onrender.com";
-   
-const socket = io("https://fark618-backend.onrender.com");
-
-socket.on("sync-log", function(msg){
-
-    const logs = document.getElementById("syncLogs");
-
-    logs.innerHTML += msg + "<br>";
-
-    logs.scrollTop = logs.scrollHeight;
-
-    if(msg.includes("Completed")){
-        moveSyncLogs(false);
-    }
-
-});
-
-function moveSyncLogs(show){
-
-    const logContainer = document.getElementById("logContainer");
-
-    if(logContainer){
-        logContainer.style.order = show ? -1 : 99;
-    }
-
-}   
 /* LOGIN CHECK */
 if(!localStorage.getItem("adminToken")){
   alert("Login first ❌");
@@ -3761,7 +3730,7 @@ document.getElementById("totalRevenue").innerText =
 
 }
   async function salesSync(){
- moveSyncLogs(true);
+
 document.getElementById("syncStatus").innerHTML =
 "Sales Sync Running...";
 
@@ -3777,11 +3746,10 @@ const data = await res.json();
 document.getElementById("syncStatus").innerHTML =
 data.message;
 await loadSyncStatus();
-      moveSyncLogs(false);
 }
 
 async function fullSync(){
- moveSyncLogs(true);
+
 document.getElementById("syncStatus").innerHTML =
 "Full Sync Running...";
 
@@ -3797,7 +3765,6 @@ const data = await res.json();
 document.getElementById("syncStatus").innerHTML =
 data.message;
 await loadSyncStatus();
-  moveSyncLogs(false);
 }
 
  async function imageSync() {
@@ -3852,25 +3819,7 @@ startCountdown(
         document.getElementById(elementId).innerHTML = "Waiting...";
         return;
     }
-function moveSyncLogs(isRunning){
 
-    const logs = document.getElementById("syncLogs").parentElement;
-
-    const status = logs.previousElementSibling;
-
-    if(isRunning){
-
-        status.after(logs);
-
-    }else{
-
-        document.getElementById("syncStatus")
-            .parentElement
-            .appendChild(logs);
-
-    }
-
-}
     function update(){
 
         const next =
@@ -3935,7 +3884,18 @@ showSection("product", document.querySelector(".sidebar button"));
   
 </script>
 <div id="productPopup"></div>
-   
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<script>
+const socket = io("https://fark618-backend.onrender.com");
+
+socket.on("sync-log", (msg) => {
+    const box = document.getElementById("syncLogs");
+    if (!box) return;
+
+    box.innerHTML += msg + "<br>";
+    box.scrollTop = box.scrollHeight;
+});
 </script>      
 </body>
 </html>
