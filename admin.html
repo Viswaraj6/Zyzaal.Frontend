@@ -1595,7 +1595,7 @@ function editProduct(id){
     .then(res => res.json())
     .then(data => {
 
-      const p = data.find(x => x._id === id);
+     const p = data.products.find(x => x._id === id);
 
       document.getElementById("name").value = p.name;
       document.getElementById("price").value = p.price;
@@ -2236,8 +2236,7 @@ function updateStatus(id,status){
   .then(res => res.json())
   .then(data => {
 
-    const p = data.find(x => x._id === id);
-
+    const p = data.products.find(x => x._id === id);
     const updated =
     (p.sizeStock || []).map(s => {
 
@@ -2279,7 +2278,7 @@ document.getElementById("deleteBtn").style.display = "none";
   .then(res => res.json())
   .then(data => {
 
-    const p = data.find(x => x._id === id);
+  const p = data.products.find(x => x._id === id);
 
     document.getElementById("products").innerHTML = `
 
@@ -2849,7 +2848,7 @@ margin-top:30px;
     const res = await fetch(BASE_URL + "/products");
     const data = await res.json();
 
-    const p = data.find(x => x._id === id);
+   const p = data.products.find(x => x._id === id);
 
     // 🔥 UPDATED STOCK
    const updatedStock =
