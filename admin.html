@@ -1395,7 +1395,13 @@ updateSelectionUI();
     `;
 
     document.getElementById("products").innerHTML = html;
-
+document.getElementById("summary").innerHTML = `
+<b>Total Products :</b> ${data.totalProducts}
+&nbsp;&nbsp; | &nbsp;&nbsp;
+<b>This Page Stock :</b> ${data.pageStock}
+&nbsp;&nbsp; | &nbsp;&nbsp;
+<b>Overall Stock :</b> ${data.overallStock}
+`;
   });
 
 }
