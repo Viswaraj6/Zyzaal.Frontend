@@ -891,7 +891,7 @@ document.getElementById("productSection")
 
       let csv = "Name,Price,Stock,Category,Type,Color\n";
 
-      data.forEach(p => {
+     data.products.forEach(p => {
         csv += `${p.name},${p.price},${p.stock},${p.category},${p.type},${p.color}\n`;
       });
 
