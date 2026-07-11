@@ -574,6 +574,23 @@ Reactivation Requests
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
  <script> 
    const BASE_URL = "https://fark618-backend.onrender.com";
+   
+const socket = io("https://fark618-backend.onrender.com");
+
+socket.on("sync-log", function(msg){
+
+    const logs = document.getElementById("syncLogs");
+
+    logs.innerHTML += msg + "<br>";
+
+    logs.scrollTop = logs.scrollHeight;
+
+    if(msg.includes("Completed")){
+        moveSyncLogs(false);
+    }
+
+});
+   
 /* LOGIN CHECK */
 if(!localStorage.getItem("adminToken")){
   alert("Login first ❌");
