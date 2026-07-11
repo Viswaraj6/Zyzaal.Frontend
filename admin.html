@@ -1230,8 +1230,9 @@ fetch(
   
   .then(res => res.json())
   .then(data => {
-    const products = data.products;
-data = products.filter(p =>
+   const allProducts = data.products;
+
+const products = allProducts.filter(p =>
 
 (p.name || "")
 .toLowerCase()
