@@ -1409,6 +1409,33 @@ updateSelectionUI();
     `;
 
     document.getElementById("products").innerHTML = html;
+const totalPages = Math.ceil(data.totalProducts / limit);
+
+let pageHtml = "";
+
+if (currentPage > 1) {
+  pageHtml += `<button onclick="changePage(${currentPage - 1})">◀ Prev</button>`;
+}
+
+for (let i = 1; i <= totalPages; i++) {
+  pageHtml += `
+    <button
+      onclick="changePage(${i})"
+      style="
+        margin:0 3px;
+        ${i === currentPage ? "background:#2563eb;color:white;" : ""}
+      ">
+      ${i}
+    </button>
+  `;
+}
+
+if (currentPage < totalPages) {
+  pageHtml += `<button onclick="changePage(${currentPage + 1})">Next ▶</button>`;
+}
+
+document.getElementById("pagination").innerHTML = pageHtml;
+    
 document.getElementById("summary").innerHTML = `
 <div style="
 padding:15px 25px;
