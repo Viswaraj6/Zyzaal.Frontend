@@ -590,6 +590,31 @@ socket.on("sync-log", function(msg){
     }
 
 });
+
+   function moveSyncLogs(show){
+
+    const logs =
+    document.getElementById("syncLogs").parentElement;
+
+    const status =
+    document.getElementById("salesLastSync")
+    .parentElement
+    .parentElement;
+
+    if(show){
+
+        logs.parentNode.insertBefore(logs,status);
+
+    }else{
+
+        document
+        .getElementById("fullCountdown")
+        .parentElement
+        .appendChild(logs);
+
+    }
+
+}
    
 /* LOGIN CHECK */
 if(!localStorage.getItem("adminToken")){
