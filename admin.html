@@ -1593,8 +1593,6 @@ function editProduct(id){
 
  fetch(BASE_URL + "/products/" + id)
     .then(res => res.json())
-    .then(data => {
-
     .then(p=>{
 
       document.getElementById("name").value = p.name;
@@ -2234,9 +2232,7 @@ function updateStatus(id,status){
 
 fetch(BASE_URL + "/products/" + id)
   .then(res => res.json())
-  .then(data => {
-
-    .then(p=>{
+  .then(p=>{
     const updated =
     (p.sizeStock || []).map(s => {
 
@@ -2276,9 +2272,7 @@ document.getElementById("deleteBtn").style.display = "none";
   
  fetch(BASE_URL + "/products/" + id)
   .then(res => res.json())
-  .then(data => {
-
-.then(p=>{
+  .then(p=>{
     document.getElementById("products").innerHTML = `
 
     <div style="
@@ -2698,9 +2692,7 @@ margin-top:30px;
   event.stopPropagation();
 
   const res = await fetch(BASE_URL + "/products/" + id);
-  const data = await res.json();
-
- .then(p=>{
+  const p = await res.json();
 
   const updatedImages =
     (p.images || []).filter((_,i)=>i!==index);
@@ -2736,9 +2728,7 @@ margin-top:30px;
       // GET PRODUCT
       const res = await fetch(BASE_URL + "/products/" + id);
 
-      const data = await res.json();
-
-    .then(p=>{
+      const p = await res.json();
 
       // OLD + NEW IMAGE
       const updatedImages = [
@@ -2845,9 +2835,7 @@ margin-top:30px;
 
     // 🔥 FIRST GET PRODUCT
     const res = await fetch(BASE_URL + "/products/" + id);
-    const data = await res.json();
-
-  .then(p=>{
+    const p = await res.json();
     // 🔥 UPDATED STOCK
    const updatedStock =
 (p.sizeStock || []).map(s => {
