@@ -481,18 +481,32 @@ border-radius:8px;
 </div>
   <div id="products"></div>
 <div id="paginationBox" style="
-margin-top:20px;
-padding:15px;
+margin-top:0;
 background:white;
-border-radius:10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
+border-radius:0 0 14px 14px;
+overflow:hidden;
 ">
 
 <div id="summary"></div>
 
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 20px;
+border-top:1px solid #eee;
+">
+
+<div>
+<b>Total Products :</b>
+<span id="totalProductsCount"></span>
+</div>
+
+<div id="pagination"></div>
+
+</div>
+
+</div>
 <div id="pagination"></div>
 
 </div>
