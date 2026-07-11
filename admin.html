@@ -885,7 +885,7 @@ document.getElementById("productSection")
 
 }
   function exportExcel(){
-  fetch(BASE_URL + "/products")
+ fetch(BASE_URL + "/products/" + id)
     .then(res => res.json())
     .then(data => {
 
@@ -1591,11 +1591,11 @@ function deleteProduct(id){
 }
 function editProduct(id){
 
-  fetch(BASE_URL + "/products")
+ fetch(BASE_URL + "/products/" + id)
     .then(res => res.json())
     .then(data => {
 
-     const p = data.products.find(x => x._id === id);
+    .then(p=>{
 
       document.getElementById("name").value = p.name;
       document.getElementById("price").value = p.price;
@@ -2232,11 +2232,11 @@ function updateStatus(id,status){
 }
   function updateSizeStock(id,size,value){
 
-  fetch(BASE_URL + "/products")
+fetch(BASE_URL + "/products/" + id)
   .then(res => res.json())
   .then(data => {
 
-    const p = data.products.find(x => x._id === id);
+    .then(p=>{
     const updated =
     (p.sizeStock || []).map(s => {
 
@@ -2274,12 +2274,11 @@ document.getElementById("exportBtn").style.display = "none";
 document.getElementById("selectionBar").style.display = "none";
 document.getElementById("deleteBtn").style.display = "none";
   
-  fetch(BASE_URL + "/products")
+ fetch(BASE_URL + "/products/" + id)
   .then(res => res.json())
   .then(data => {
 
-  const p = data.products.find(x => x._id === id);
-
+.then(p=>{
     document.getElementById("products").innerHTML = `
 
     <div style="
@@ -2698,10 +2697,10 @@ margin-top:30px;
 
   event.stopPropagation();
 
-  const res = await fetch(BASE_URL + "/products");
+  const res = await fetch(BASE_URL + "/products/" + id);
   const data = await res.json();
 
-  const p = data.find(x => x._id === productId);
+ .then(p=>{
 
   const updatedImages =
     (p.images || []).filter((_,i)=>i!==index);
@@ -2735,11 +2734,11 @@ margin-top:30px;
     try{
 
       // GET PRODUCT
-      const res = await fetch(BASE_URL + "/products");
+      const res = await fetch(BASE_URL + "/products/" + id);
 
       const data = await res.json();
 
-      const p = data.find(x => x._id === productId);
+    .then(p=>{
 
       // OLD + NEW IMAGE
       const updatedImages = [
@@ -2845,11 +2844,10 @@ margin-top:30px;
   try{
 
     // 🔥 FIRST GET PRODUCT
-    const res = await fetch(BASE_URL + "/products");
+    const res = await fetch(BASE_URL + "/products/" + id);
     const data = await res.json();
 
-   const p = data.products.find(x => x._id === id);
-
+  .then(p=>{
     // 🔥 UPDATED STOCK
    const updatedStock =
 (p.sizeStock || []).map(s => {
@@ -3811,7 +3809,7 @@ html2pdf()
   async function loadDashboard(){
 
 const products =
-await fetch(BASE_URL + "/products")
+await fetch(BASE_URL + "/products/" + id)
 .then(r=>r.json());
 
 const orders =
