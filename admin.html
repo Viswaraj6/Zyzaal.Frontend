@@ -1412,32 +1412,31 @@ updateSelectionUI();
     document.getElementById("products").innerHTML = html;
 document.getElementById("summary").innerHTML = `
 <div style="
-width:100%;
+padding:15px 25px;
+border-top:1px solid #e5e7eb;
 display:flex;
 justify-content:flex-end;
-padding:15px 20px;
-border-top:1px solid #e5e7eb;
 ">
 
 <div style="
 text-align:right;
-line-height:30px;
-font-size:16px;
-font-weight:600;
 ">
 
-<div>
+<div style="
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+">
 This Page Stock :
-<span style="font-size:20px;font-weight:bold;">
 ${data.pageStock}
-</span>
 </div>
 
-<div>
+<div style="
+font-size:18px;
+font-weight:bold;
+">
 Overall Stock :
-<span style="font-size:20px;font-weight:bold;">
 ${data.overallStock}
-</span>
 </div>
 
 </div>
