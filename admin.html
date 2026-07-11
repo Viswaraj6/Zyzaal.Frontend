@@ -1397,11 +1397,26 @@ updateSelectionUI();
 
     document.getElementById("products").innerHTML = html;
 document.getElementById("summary").innerHTML = `
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+width:100%;
+">
+
+<div>
 <b>Total Products :</b> ${data.totalProducts}
-&nbsp;&nbsp; | &nbsp;&nbsp;
-<b>This Page Stock :</b> ${data.pageStock}
-&nbsp;&nbsp; | &nbsp;&nbsp;
+</div>
+
+<div style="
+text-align:right;
+min-width:220px;
+">
+<b>This Page Stock :</b> ${data.pageStock}<br>
 <b>Overall Stock :</b> ${data.overallStock}
+</div>
+
+</div>
 `;
   });
 
