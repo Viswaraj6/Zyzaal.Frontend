@@ -3749,7 +3749,7 @@ await loadSyncStatus();
 }
 
 async function fullSync(){
-
+ moveSyncLogs(true);
 document.getElementById("syncStatus").innerHTML =
 "Full Sync Running...";
 
