@@ -588,6 +588,8 @@ Reactivation Requests
 </div>
  <script> 
    const BASE_URL = "https://fark618-backend.onrender.com";
+   let currentPage = 1;
+const limit = 200;
 /* LOGIN CHECK */
 if(!localStorage.getItem("adminToken")){
   alert("Login first ❌");
