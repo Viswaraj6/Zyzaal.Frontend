@@ -1474,6 +1474,18 @@ data.totalProducts;
   });
 
 }
+   function changePage(page) {
+
+  currentPage = page;
+
+  loadProducts();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
 /* DELETE */
 function deleteProduct(id){
 
