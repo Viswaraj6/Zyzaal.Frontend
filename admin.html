@@ -591,32 +591,15 @@ socket.on("sync-log", function(msg){
 
 });
 
- function moveSyncLogs(show){
+function moveSyncLogs(show){
 
-    const syncCard = document.querySelector("#syncSection .card");
+    const logContainer = document.getElementById("logContainer");
 
-    const logTitle = document.querySelector("#syncLogs").previousElementSibling;
-
-    const logs = document.getElementById("syncLogs");
-
-    const statusBlock =
-        document.getElementById("salesLastSync")
-        .parentElement.parentElement;
-
-    if(show){
-
-        syncCard.insertBefore(logTitle, statusBlock);
-        syncCard.insertBefore(logs, statusBlock);
-
-    }else{
-
-        syncCard.appendChild(logTitle);
-        syncCard.appendChild(logs);
-
+    if(logContainer){
+        logContainer.style.order = show ? -1 : 99;
     }
 
-}
-   
+}   
 /* LOGIN CHECK */
 if(!localStorage.getItem("adminToken")){
   alert("Login first ❌");
