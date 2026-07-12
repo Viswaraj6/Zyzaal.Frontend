@@ -933,6 +933,50 @@ document.getElementById("productSection")
 
   reader.readAsText(file);
 }
+async function updateExistingProducts(){
+
+    const file =
+        document.getElementById("updateExcelFile").files[0];
+
+    if(!file){
+        alert("Select Excel File");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try{
+
+        const res = await fetch(
+            BASE_URL + "/excel-update",
+            {
+                method: "POST",
+                headers:{
+                    "Authorization":
+                    "Bearer " + localStorage.getItem("adminToken")
+                },
+                body: formData
+            }
+        );
+
+        const data = await res.json();
+
+        alert(
+            `Updated : ${data.updated}\nNot Found : ${data.notFound}`
+        );
+
+        loadProducts();
+
+    }catch(err){
+
+        console.log(err);
+        alert("Excel Update Failed ❌");
+
+    }
+
+}
+   
   async function importZip(){
 
   const file = document.getElementById("zipFile").files[0];
