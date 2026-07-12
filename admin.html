@@ -980,6 +980,18 @@ async function updateExistingProducts(){
     const formData = new FormData();
     formData.append("file", file);
 
+  // Selected fields
+const selectedFields = [...document.querySelectorAll(
+    "#fieldSelection input[type='checkbox']:checked"
+)].map(cb => cb.value);
+
+if(selectedFields.length === 0){
+    alert("Please select at least one field.");
+    return;
+}
+
+formData.append("fields", JSON.stringify(selectedFields));
+
     try{
 
         const res = await fetch(
