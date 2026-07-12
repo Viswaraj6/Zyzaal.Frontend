@@ -1039,6 +1039,25 @@ formData.append("fields", JSON.stringify(selectedFields));
     }
 
 }
+   function selectAllFields(){
+
+    document
+    .querySelectorAll(
+        "#fieldSelection input[type='checkbox']"
+    )
+    .forEach(cb => cb.checked = true);
+
+}
+
+function clearAllFields(){
+
+    document
+    .querySelectorAll(
+        "#fieldSelection input[type='checkbox']"
+    )
+    .forEach(cb => cb.checked = false);
+
+}
 
    function downloadSampleExcel(){
 
