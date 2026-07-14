@@ -1608,15 +1608,18 @@ fetch("footer.html")
   .then(data => {
     document.getElementById("footer").innerHTML = data;
   });
+  
 fetch("header.html")
 .then(res => res.text())
 .then(data => {
 
     document.getElementById("header").innerHTML = data;
 
-    updateCartCount();
-  loadProduct();
+    const h = document.getElementById("header").offsetHeight;
+    document.body.style.paddingTop = h + "px";
 
+    updateCartCount();
+    loadProduct();
 });
   function initDelivery(){
 
