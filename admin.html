@@ -1520,11 +1520,43 @@ updateSelectionUI();
       `;
     });
 
-    html += `
-    </tbody>
-    </table>
-    </div>
-    `;
+  html += `
+</tbody>
+</table>
+
+<div style="
+display:flex;
+justify-content:flex-end;
+gap:15px;
+padding:15px;
+border-top:1px solid #ddd;
+background:#f9fafb;
+">
+
+<div style="
+background:#111827;
+color:white;
+padding:12px 20px;
+border-radius:8px;
+font-weight:bold;
+">
+📦 Total Products : ${totalProducts}
+</div>
+
+<div style="
+background:#2563eb;
+color:white;
+padding:12px 20px;
+border-radius:8px;
+font-weight:bold;
+">
+🛒 Total Qty : ${totalQty}
+</div>
+
+</div>
+
+</div>
+`;
 
     document.getElementById("products").innerHTML = html;
 
