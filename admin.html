@@ -1444,6 +1444,7 @@ Name
       const totalStock =
       (p.sizeStock || [])
       .reduce((a,b)=>a + b.stock,0);
+      totalQty += totalStock;
 
       html += `
 
