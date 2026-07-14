@@ -1357,6 +1357,8 @@ fetch(BASE_URL + "/products")
   
   .then(res => res.json())
   .then(data => {
+    let totalProducts = data.length;
+let totalQty = 0;
 data = data.filter(p =>
 
 (p.name || "")
