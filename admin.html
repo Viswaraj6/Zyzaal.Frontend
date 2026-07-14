@@ -1360,7 +1360,7 @@ fetch(BASE_URL + "/products")
    
 let totalQty = 0;
 data = data.filter(p =>
- let totalProducts = data.length;
+
 (p.name || "")
 .toLowerCase()
 .includes(search)
@@ -1378,6 +1378,9 @@ data = data.filter(p =>
 .includes(search)
 
 );
+
+let totalProducts = data.length;
+let totalQty = 0;
     let html = `
 
     <div style="
