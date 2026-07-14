@@ -1943,6 +1943,27 @@ Delete
     });
 html += `
 </tbody>
+<tfoot>
+<tr style="
+background:#111827;
+color:white;
+font-weight:bold;
+position:sticky;
+bottom:0;
+">
+    <td colspan="7"
+        style="padding:16px;text-align:right;">
+        Total Products :
+        <span style="color:#22c55e;">
+            ${totalProducts}
+        </span>
+    </td>
+
+    <td style="padding:16px;">
+        ${totalQty}
+    </td>
+</tr>
+</tfoot>
 </table>
 </div>
 `;
