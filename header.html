@@ -120,47 +120,46 @@
 
 <div class="top-header">
 
-    <!-- Menu -->
-    <div class="mobile-menu-btn" onclick="openMenu()">
-        ☰
-    </div>
+    <!-- Logo -->
+    <div class="logo-wrap">
 
-    <!-- Search -->
-    <div class="search-bar">
-        <input type="text"
-               placeholder="Search..."
-               readonly
-               onclick="goPage('index.html')">
-    </div>
-
-   <div class="logo-wrap">
-
-    <div class="mobile-menu-btn" onclick="openMenu()">
-        ☰
-    </div>
-
-    <img src="images/zyzaal_logo_transparent.png"
-         class="site-logo"
-         onclick="goPage('index.html')"
-         style="cursor:pointer;"
-         alt="Zyzaal Logo">
-
-</div>
-
-    <!-- Icons -->
-    <div class="nav-icons">
-
-        <div class="icon" onclick="goPage('wishlist.html')">
-            <i class="fa-regular fa-heart"></i>
+        <div class="mobile-menu-btn" onclick="openMenu()">
+            ☰
         </div>
 
-        <div class="icon" onclick="goPage('account.html')">
-            <i class="fa-regular fa-user"></i>
+        <img src="images/zyzaal_logo_transparent.png"
+             class="site-logo"
+             onclick="goPage('index.html')"
+             style="cursor:pointer;"
+             alt="Zyzaal Logo">
+
+    </div>
+
+    <!-- Search + Icons -->
+    <div class="top-nav">
+
+        <div class="search-bar">
+            <input type="text"
+                   placeholder="Search for products..."
+                   readonly
+                   onclick="goPage('index.html')">
         </div>
 
-        <div class="icon cart" onclick="goPage('cart.html')">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span id="cartCount">0</span>
+        <div class="nav-icons">
+
+            <div class="icon" onclick="goPage('account.html')">
+                <i class="fa-regular fa-user"></i>
+            </div>
+
+            <div class="icon" onclick="goPage('wishlist.html')">
+                <i class="fa-regular fa-heart"></i>
+            </div>
+
+            <div class="icon cart" onclick="goPage('cart.html')">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span id="cartCount">0</span>
+            </div>
+
         </div>
 
     </div>
