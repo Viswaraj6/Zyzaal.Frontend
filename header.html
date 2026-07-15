@@ -16,9 +16,20 @@ body{
     margin-top:0;
 }
 
+/* Logo Background */
+
+.logo-wrap{
+    background:#A8DDD0;
+    height:95px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
 .site-logo{
-    height:56px;
-    margin:auto;
+    height:72px;
+    width:auto;
 }
 
 /* Search + Icons */
@@ -36,7 +47,7 @@ body{
 }
 
 .search-bar{
-   width:300px;
+    width:280px;
     flex:none;
     margin:0;
 }
@@ -97,8 +108,7 @@ body{
 }
 
 .top-nav{
-     height:64px;
-   padding:0 15px;
+    padding:10px;
 }
 
 .mobile-menu-btn{
@@ -118,7 +128,7 @@ body{
     top:50%;
     transform:translateY(-50%);
     display:flex;
-    gap:16px;
+    gap:18px;
 }
 
 .icon{
@@ -130,20 +140,24 @@ body{
 
 <div class="top-header">
 
-   
+    <!-- Logo -->
+    <div class="logo-wrap">
+
+        <div class="mobile-menu-btn" onclick="openMenu()">
+            ☰
+        </div>
+
+        <img src="images/zyzaal_logo_transparent.png"
+             class="site-logo"
+             onclick="goPage('index.html')"
+             style="cursor:pointer;"
+             alt="Zyzaal Logo">
+
+    </div>
+
     <!-- Search + Icons -->
     <div class="top-nav">
-        
-<div class="mobile-menu-btn" onclick="openMenu()">
-    ☰
-</div>
 
-<img
-    src="images/zyzaal_logo_transparent.png"
-    class="site-logo"
-    onclick="goPage('index.html')"
-    style="cursor:pointer;"
-    alt="Zyzaal Logo">
         <div class="search-bar">
             <input type="text"
                    placeholder="Search for products..."
