@@ -627,6 +627,21 @@ function loadCart() {
 </div>
 `;
 } else {
+   const products = window.allProducts || [];
+
+cart = cart.map(item => {
+
+    const p = products.find(x => x._id === item._id);
+
+    if(p){
+        item.category = p.category;
+    }
+
+    return item;
+});
+
+localStorage.setItem("cart", JSON.stringify(cart));
+   
     cart.forEach((item, index) => {
 
       let qty = item.qty || 1;
