@@ -1686,6 +1686,21 @@ fetch("header.html")
 .then(data => {
 
     document.getElementById("header").innerHTML = data;
+  const backBtn = document.getElementById("backBtn");
+
+if(backBtn){
+
+    backBtn.addEventListener("click", function(){
+
+        if(history.length > 1){
+            history.back();
+        }else{
+            location.href = "index.html";
+        }
+
+    });
+
+}
 
     const h = document.getElementById("header").offsetHeight;
     document.body.style.paddingTop = h + "px";
