@@ -927,22 +927,32 @@ body{
 <script>
 async function loadProduct(){
 
-  const res = await fetch(API + "/products");
+    try{
 
-  const data = await res.json();
+        const res = await fetch(API + "/products/" + productId);
 
-  product =
-    data.find(p => p._id === productId);
+        if(!res.ok){
 
-  if(!product){
-    alert("Product not found");
-    return;
-  }
+            alert("Product not found");
 
-  startProduct();
- 
+            return;
+
+        }
+
+        product = await res.json();
+
+        startProduct();
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+    }
+
 }
-const API = "https://fark618-backend.onrender.com";
+  const API = "https://fark618-backend.onrender.com";
 
 const params = new URLSearchParams(window.location.search);
 
