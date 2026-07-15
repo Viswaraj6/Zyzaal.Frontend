@@ -1416,25 +1416,20 @@ window.addEventListener("scroll", () => {
         return;
     }
 
-    // Mobile → Top Sticky
-    const action = document.querySelector(".action-buttons");
+   // Mobile → Top Sticky
 
-    if(!action) return;
+if(window.scrollY > 350){
 
-    const rect = action.getBoundingClientRect();
+    stickyBar.classList.remove("hidden");
+    stickyBar.classList.add("show");
 
-    if(rect.bottom < 0){
+}else{
 
-        stickyBar.classList.remove("hidden");
-        stickyBar.classList.add("show");
+    stickyBar.classList.add("hidden");
+    stickyBar.classList.remove("show");
 
-    }else{
-
-        stickyBar.classList.add("hidden");
-        stickyBar.classList.remove("show");
-
-    }
-
+}
+  
 });
   // CART
 function addToCart(){
