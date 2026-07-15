@@ -874,14 +874,7 @@ function checkout() {
 
     if(backBtn){
 
-        backBtn.onclick = function(){
-
-            if(history.length > 1){
-                history.back();
-            }else{
-                location.href = "index.html";
-            }
-
+        backBtn.onclick = () => history.back();
         };
 
     }
