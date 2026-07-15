@@ -84,14 +84,18 @@ body{
     font-size:10px;
 }
 
-/* Menu */
-
-.mobile-menu-btn{
+.back-btn{
     display:none;
     position:absolute;
     left:15px;
-    font-size:28px;
+    top:50%;
+    transform:translateY(-50%);
     cursor:pointer;
+    color:#111;
+}
+
+.back-btn i{
+    font-size:26px;
 }
 
 /* Mobile */
@@ -110,8 +114,7 @@ body{
 .top-nav{
     padding:10px;
 }
-
-.mobile-menu-btn{
+.back-btn{
     display:block;
     position:absolute;
     left:15px;
@@ -185,3 +188,14 @@ body{
     </div>
 
 </div>
+<script>
+function goBack() {
+
+    if (window.history.length > 1) {
+        history.back();
+    } else {
+        window.location.href = "index.html";
+    }
+
+}
+</script>
