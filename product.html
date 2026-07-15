@@ -1392,46 +1392,33 @@ document.getElementById("slider");
 
 }
 // scroll show/hide
-let mobileSticky = false;
-
 window.addEventListener("scroll", () => {
 
     if(window.innerWidth > 768){
 
-        const stickyBar = document.getElementById("stickyBar");
-
-        if(window.scrollY > 300){
-            stickyBar.classList.remove("hidden");
-        }else{
-            stickyBar.classList.add("hidden");
-        }
-
         return;
+
     }
 
-    const action = document.querySelector(".action-buttons");
+    const action =
+    document.querySelector(".action-buttons");
 
-    if(!action) return;
+    const sticky =
+    document.getElementById("stickyBar");
 
-    const trigger = 700;   // adjust
+    if(!action || !sticky) return;
 
-    if(window.scrollY > trigger){
+    const rect =
+    action.getBoundingClientRect();
 
-        if(!mobileSticky){
+    if(rect.bottom < 0){
 
-            action.classList.add("sticky");
-            mobileSticky = true;
+        sticky.classList.add("show");
 
-        }
+    }
+    else{
 
-    }else{
-
-        if(mobileSticky){
-
-            action.classList.remove("sticky");
-            mobileSticky = false;
-
-        }
+        sticky.classList.remove("show");
 
     }
 
