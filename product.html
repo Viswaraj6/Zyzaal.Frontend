@@ -1340,6 +1340,33 @@ document.getElementById("slider");
     checkCartStatus();
 
 }
+  function updateStockInfo(size){
+
+    const item = (product.sizeStock || []).find(s => s.size === size);
+
+    const stockEl = document.getElementById("stockInfo");
+
+    if(!item){
+        stockEl.innerHTML = "";
+        return;
+    }
+
+    if(item.stock <= 0){
+
+        stockEl.innerHTML =
+        "<span style='color:#d32f2f'>Out of Stock</span>";
+
+    }
+    else{
+
+        stockEl.innerHTML =
+        "<span style='color:#2e7d32'>Only " +
+        item.stock +
+        " left in stock</span>";
+
+    }
+
+}
 // scroll show/hide
 window.addEventListener("scroll", function(){
 
