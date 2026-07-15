@@ -89,6 +89,13 @@
       cursor: pointer;
        background:#90EE90;
     }
+    @media(max-width:768px){
+
+body{
+    padding-top:64px;
+}
+
+}
   </style>
 </head>
 
@@ -773,6 +780,34 @@ Delivery by ${delivery}
   document.getElementById("productBox").innerHTML = html;
 }
   loadSelectedAddress();
+  fetch("header.html")
+.then(res => res.text())
+.then(data => {
+
+    document.getElementById("header").innerHTML = data;
+
+    const backBtn = document.getElementById("backBtn");
+
+    if(backBtn){
+        backBtn.onclick = () => history.back();
+    }
+
+    updateCartCount();
+
+});
+  function updateCartCount(){
+
+    const cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+    const el =
+        document.getElementById("cartCount");
+
+    if(el){
+        el.innerText = cart.length;
+    }
+
+}
 </script>
 <div id="paymentLoader"
 style="
