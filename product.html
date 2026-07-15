@@ -330,11 +330,16 @@ text-decoration:underline;
     z-index:999;
     gap:10px;
 }
-
-.hidden{
-  display:none;
+  .hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
 }
 
+.sticky-bar{
+    opacity:1;
+    visibility:visible;
+}
 .sticky-left{
     display:flex;
     align-items:center;
