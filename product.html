@@ -1083,18 +1083,22 @@ document.getElementById("imageDots").innerHTML = dots;
   document.getElementById("sizes").innerHTML =
     sizeHTML;
 
-  const first =
-    document.querySelector(".size");
+  // Auto select first available stock size
+const firstAvailable = (product.sizeStock || []).find(s => s.stock > 0);
 
-  if(first){
+if(firstAvailable){
 
-    first.classList.add("active");
+    selectedSize = firstAvailable.size;
 
-    selectedSize =
-      first.innerText.trim();
+    document.querySelectorAll(".size").forEach(el => {
 
-  }
+        if(el.innerText.trim() === firstAvailable.size){
+            el.classList.add("active");
+        }
 
+    });
+
+}
   // STICKY
   document.getElementById("stickyImg").src =
     product.primaryImage ||
@@ -1124,6 +1128,9 @@ document.getElementById("imageDots").innerHTML = dots;
 
   document.getElementById("stickySize").innerHTML =
     sizeDrop;
+  if(firstAvailable){
+    document.getElementById("stickySize").value = firstAvailable.size;
+}
 
   document.getElementById("stickySize")
   .addEventListener("change", function(){
