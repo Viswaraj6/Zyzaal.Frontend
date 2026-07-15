@@ -764,8 +764,9 @@ products
         object-fit:contain;
       ">
 
-    <p>${p.category || p.typeDetail || "Product"}</p>
-
+  <p>${(p.category || p.typeDetail || "Product")
+      .toLowerCase()
+      .replace(/\b\w/g, c => c.toUpperCase())}</p>
       <b>₹${p.price}</b>
 
       <button
