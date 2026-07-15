@@ -367,9 +367,18 @@ text-decoration:underline;
 .sticky-right select{
     width:65px;
     height:36px;
+    text-align:center;
+    text-align-last:center;
+    padding:0 22px 0 8px;
     font-size:13px;
-}
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
 
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")
+      no-repeat right 8px center;
+}
 .sticky-right .cart-btn,
 .sticky-right .buy-btn{
     flex:none;
