@@ -1047,18 +1047,23 @@ let a = addresses[selectedIndex];
 // INIT
 loadSuggestedProducts();
 loadDefaultAddress(); 
-  function openProduct(id){
+ function openProduct(id){
 
- const products = window.allProducts || [];
+    const products = window.allProducts || [];
 
-  const p = products.find(x => x._id === id);
+    const product = products.find(p => p._id == id);
 
-  localStorage.setItem(
-    "selectedProduct",
-    JSON.stringify(p)
-  );
+    if(!product){
+        alert("Product not found");
+        return;
+    }
 
-  window.location.href = "product.html";
+    localStorage.setItem(
+        "selectedProduct",
+        JSON.stringify(product)
+    );
+
+    window.location.href = "product.html";
 }
   function addSuggestedToCart(id){
 
