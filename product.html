@@ -921,9 +921,9 @@ let isDragging = false;
 
 function startProduct(){
 
-  // NAME
-  document.getElementById("name").innerText =
-    product.name;
+  // Category
+ document.getElementById("name").innerText =
+    (product.category || "").toUpperCase();
 
   // PRICE
   document.getElementById("price").innerText =
