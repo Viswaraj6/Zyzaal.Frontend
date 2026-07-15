@@ -689,6 +689,7 @@ async function loadSuggestedProducts(){
 
   const products = await res.json();
 window.allProducts = products;
+  loadCart();
   let recent =
     JSON.parse(localStorage.getItem("recentViewed")) || [];
 recent = recent.map(p => ({
