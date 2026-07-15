@@ -1642,30 +1642,14 @@ function updateCartCount(){
 }
 function openProduct(id){
 
-  fetch(API + "/products")
-
-  .then(r => r.json())
-
-  .then(data => {
-
-    const p = data.find(x => x._id === id);
-
-    // ✅ recent viewed
+    // Recent viewed
     let recent =
       JSON.parse(localStorage.getItem("recentViewed")) || [];
 
-    // duplicate remove
-    recent = recent.filter(x => x._id !== p._id);
+    recent = recent.filter(x => x._id !== id);
 
-    // ⭐ SMALL DATA ONLY SAVE
-    recent.unshift({
-      _id: p._id,
-      name: p.name,
-      price: p.price,
-      image: p.images?.[0] || p.image
-    });
+    recent.unshift({_id:id});
 
-    // only 6 items
     recent = recent.slice(0,6);
 
     localStorage.setItem(
@@ -1673,15 +1657,11 @@ function openProduct(id){
       JSON.stringify(recent)
     );
 
-    // selected product
-  localStorage.setItem("selectedProductId", p._id);
-
-  window.location.href = "product.html?id=" + id;
-
-  });
+    // Direct open
+    location.href = "product.html?id=" + id;
 
 }
-function toggleAcc(el){
+  function toggleAcc(el){
   el.parentElement.classList.toggle("active");
 }
 
