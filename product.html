@@ -327,19 +327,14 @@ text-decoration:underline;
     align-items:center;
     padding:10px 12px;
     box-shadow:0 -2px 10px rgba(0,0,0,.1);
-    z-index:999999;
+    z-index:999;
     gap:10px;
 }
-  .hidden{
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
+
+.hidden{
+  display:none;
 }
 
-.sticky-bar{
-    opacity:1;
-    visibility:visible;
-}
 .sticky-left{
     display:flex;
     align-items:center;
@@ -1421,20 +1416,25 @@ window.addEventListener("scroll", () => {
         return;
     }
 
-   // Mobile → Top Sticky
+    // Mobile → Top Sticky
+    const action = document.querySelector(".action-buttons");
 
-if(window.scrollY > 350){
+    if(!action) return;
 
-    stickyBar.classList.remove("hidden");
-    stickyBar.classList.add("show");
+    const rect = action.getBoundingClientRect();
 
-}else{
+    if(rect.bottom < 0){
 
-    stickyBar.classList.add("hidden");
-    stickyBar.classList.remove("show");
+        stickyBar.classList.remove("hidden");
+        stickyBar.classList.add("show");
 
-}
-  
+    }else{
+
+        stickyBar.classList.add("hidden");
+        stickyBar.classList.remove("show");
+
+    }
+
 });
   // CART
 function addToCart(){
