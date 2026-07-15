@@ -700,6 +700,36 @@ function checkout() {
 
   window.location.href = "checkout.html";
 }
+  fetch("header.html")
+.then(res => res.text())
+.then(data => {
+
+    document.getElementById("header").innerHTML = data;
+
+    const backBtn = document.getElementById("backBtn");
+
+    if(backBtn){
+
+        backBtn.onclick = function(){
+
+            if(history.length > 1){
+                history.back();
+            }else{
+                location.href = "index.html";
+            }
+
+        };
+
+    }
+
+    const h =
+    document.getElementById("header").offsetHeight;
+
+    document.body.style.paddingTop = h + "px";
+
+    updateCartCount();
+
+});
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
