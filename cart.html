@@ -667,11 +667,43 @@ localStorage.setItem("cart", JSON.stringify(cart));
     Estimated Delivery:
 ${item.deliveryDate || "2-5 Days"}
     </p>
-    <div class="qty-box">
-      Qty:
-      <input type="number" min="1" value="${qty}" 
-        onchange="updateQty(${index}, this.value)">
-    </div>
+   <div class="qty-box">
+  Qty:
+  <select onchange="updateQty(${index}, this.value)">
+    ${
+      (() => {
+
+        const product =
+          (window.allProducts || []).find(
+            p => p._id === item._id
+          );
+
+        const stock =
+          product?.sizeStock?.find(
+            s => s.size === item.size
+          )?.stock || 1;
+
+        let options = "";
+
+        for(let i = 1; i <= stock; i++){
+
+          options += `
+            <option
+              value="${i}"
+              ${qty == i ? "selected" : ""}
+            >
+              ${i}
+            </option>
+          `;
+
+        }
+
+        return options;
+
+      })()
+    }
+  </select>
+</div>
 
     <div class="actions">
       <button onclick="removeItem(${index})">Remove</button>
