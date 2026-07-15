@@ -751,7 +751,26 @@ products
   });
 
   // 🔥 Recent
-  recent.forEach(p => {
+ recent
+.filter(p => {
+
+    const hasImage =
+        p.primaryImage ||
+        (p.images && p.images.length > 0);
+
+    const product =
+        products.find(x => x._id === p._id);
+
+    if(!product) return false;
+
+    const totalStock =
+        (product.sizeStock || [])
+        .reduce((sum, s) => sum + (s.stock || 0), 0);
+
+    return hasImage && totalStock > 0;
+
+})
+.forEach(p => {
 
     recentHTML += `
     <div onclick="openProduct('${p._id}')"
