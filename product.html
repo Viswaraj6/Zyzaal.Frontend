@@ -1524,7 +1524,13 @@ document.getElementById("similar").style.display="none";
     let html = "";
 
     data
-      .filter(p => p.category === product.category && p._id !== product._id)
+    .filter(p =>
+    p.category === product.category &&
+    p._id !== product._id &&
+    (p.images?.length > 0 || p.image) &&
+    p.sizeStock?.some(s => s.stock > 0)
+)
+      
       .slice(0,5)
       .forEach(p=>{
         html += `
