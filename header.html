@@ -157,8 +157,8 @@ body{
     <!-- Logo -->
     <div class="logo-wrap">
 
-       <div class="back-btn" onclick="goBack()">
-   <i class="fa-solid fa-arrow-turn-up" style="transform:rotate(-90deg);"></i>
+      <div class="back-btn" id="backBtn">
+    <i class="fa-solid fa-arrow-left"></i>
 </div>
         
         <img src="images/zyzaal_logo_transparent.png"
@@ -199,19 +199,3 @@ body{
     </div>
 
 </div>
-<script>
-function goBack() {
- alert("Back Clicked");
-    if (document.referrer &&
-        document.referrer.includes(location.hostname)) {
-
-        window.history.back();
-
-    } else {
-
-        window.location.href = "index.html";
-
-    }
-
-}
-</script>
