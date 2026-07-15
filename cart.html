@@ -545,21 +545,27 @@ try{
     JSON.parse(localStorage.getItem("cart")) || [];
 
   const cleaned = oldCart.map(item => ({
+
     _id: item._id,
+
     name: item.name,
+    category: item.category || "",
+    typeDetail: item.typeDetail || "",
+
     price: item.price,
 
     image:
-      item.image ||
-      item.primaryImage ||
-      item.images?.[0],
+        item.image ||
+        item.primaryImage ||
+        item.images?.[0],
 
     qty: item.qty || 1,
     size: item.size || "M",
 
     deliveryDate:
-      item.deliveryDate || ""
-  }));
+        item.deliveryDate || ""
+
+}));
 
   localStorage.setItem(
     "cart",
