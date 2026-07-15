@@ -1080,9 +1080,9 @@ document.getElementById("imageDots").innerHTML = dots;
     product.images?.[0] ||
     product.image;
 
-  document.getElementById("stickyName").innerText =
-    product.name;
-
+ document.getElementById("stickyName").innerText =
+    product.category || product.name;
+  
   document.getElementById("stickyPrice").innerText =
     "₹" + product.price;
 
