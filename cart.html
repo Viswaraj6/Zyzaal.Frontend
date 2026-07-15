@@ -692,23 +692,34 @@ window.allProducts = products;
   loadCart();
   let recent =
     JSON.parse(localStorage.getItem("recentViewed")) || [];
-recent = recent.map(p => ({
-  _id: p._id,
-  name: p.name,
-  price: p.price,
+recent = recent.map(p => {
 
-  image:
-    p.image ||
-    p.primaryImage ||
-    p.images?.[0] ||
-    "",
+  const product = products.find(x => x._id === p._id);
 
-  primaryImage:
-    p.primaryImage ||
-    p.image ||
-    p.images?.[0] ||
-    ""
-}));
+  return {
+
+    _id: p._id,
+    name: p.name,
+    price: p.price,
+
+    category: product?.category || p.category || "",
+    typeDetail: product?.typeDetail || p.typeDetail || "",
+
+    image:
+      p.image ||
+      p.primaryImage ||
+      p.images?.[0] ||
+      "",
+
+    primaryImage:
+      p.primaryImage ||
+      p.image ||
+      p.images?.[0] ||
+      ""
+
+  };
+
+});
   let suggestedHTML = "";
   let recentHTML = "";
 
