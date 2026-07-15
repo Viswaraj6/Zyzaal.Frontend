@@ -315,40 +315,26 @@ text-decoration:underline;
   cursor:pointer;
 }
  .sticky-bar{
-
     position:fixed;
-
-    top:85px;
-
+    bottom:0;
     left:0;
-
     right:0;
-
+    width:100%;
+    box-sizing:border-box;   /* முக்கியம் */
     background:#fff;
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     padding:10px 12px;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.15);
-
-    z-index:9999;
-
-    transform:translateY(-120%);
-
-    transition:.3s;
-
+    box-shadow:0 -2px 10px rgba(0,0,0,.1);
+    z-index:999;
+    gap:10px;
 }
 
-.sticky-bar.show{
-
-    transform:translateY(0);
-
+.hidden{
+  display:none;
 }
+
 .sticky-left{
     display:flex;
     align-items:center;
@@ -843,7 +829,7 @@ body{
     <div id="similar" class="similar-grid" style="display:none;"></div>
 
 </div>
-<div id="stickyBar" class="sticky-bar">
+<div id="stickyBar" class="sticky-bar hidden">
 
   <div class="sticky-left">
     <img id="stickyImg">
@@ -1392,33 +1378,46 @@ document.getElementById("slider");
 
 }
 // scroll show/hide
+let mobileSticky = false;
+
 window.addEventListener("scroll", () => {
 
     if(window.innerWidth > 768){
 
+        const stickyBar = document.getElementById("stickyBar");
+
+        if(window.scrollY > 300){
+            stickyBar.classList.remove("hidden");
+        }else{
+            stickyBar.classList.add("hidden");
+        }
+
         return;
-
     }
 
-    const action =
-    document.querySelector(".action-buttons");
+    const action = document.querySelector(".action-buttons");
 
-    const sticky =
-    document.getElementById("stickyBar");
+    if(!action) return;
 
-    if(!action || !sticky) return;
+    const trigger = 700;   // adjust
 
-    const rect =
-    action.getBoundingClientRect();
+    if(window.scrollY > trigger){
 
-    if(rect.bottom < 0){
+        if(!mobileSticky){
 
-        sticky.classList.add("show");
+            action.classList.add("sticky");
+            mobileSticky = true;
 
-    }
-    else{
+        }
 
-        sticky.classList.remove("show");
+    }else{
+
+        if(mobileSticky){
+
+            action.classList.remove("sticky");
+            mobileSticky = false;
+
+        }
 
     }
 
