@@ -1133,21 +1133,23 @@ if(already){
    else {
 
     // ✅ different size / new product
- cart.push({
-  _id: product._id,
-  name: product.name,
-  price: product.price,
+cart.push({
+    _id: product._id,
+    name: product.name,
+    category: product.category,
+    typeDetail: product.typeDetail,
+    price: product.price,
 
-  image:
-    product.primaryImage ||
-    product.images?.[0] ||
-    product.image,
+    image:
+        product.primaryImage ||
+        product.images?.[0] ||
+        product.image,
 
-  qty: 1,
-  size: size,
+    qty: 1,
+    size: size,
 
-  deliveryDate:
-    localStorage.getItem("deliveryDate") || ""
+    deliveryDate:
+        localStorage.getItem("deliveryDate") || ""
 });
   }
 
