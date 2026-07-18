@@ -1549,8 +1549,27 @@ min-width:110px;
 z-index:1000;
 overflow:hidden;
 ">
-              <div onclick="event.stopPropagation(); editAddress(${i})">Edit</div>
-              <div onclick="event.stopPropagation(); deleteAddress(${i})"style="color:red;">Delete</div>
+            <div
+onclick="event.stopPropagation(); editAddress(${i})"
+style="
+padding:10px 15px;
+cursor:pointer;
+white-space:nowrap;
+">
+✏️ Edit
+</div>
+
+<div
+onclick="event.stopPropagation(); deleteAddress(${i})"
+style="
+padding:10px 15px;
+cursor:pointer;
+color:#dc2626;
+white-space:nowrap;
+border-top:1px solid #eee;
+">
+🗑 Delete
+</div>
             </div>
           </div>
 
