@@ -1155,8 +1155,11 @@ let a = addresses[selectedIndex];
     "account.html#addressSection";
 }
 // INIT
+// INIT
+loadCart();
+loadDefaultAddress();
 loadSuggestedProducts();
-loadDefaultAddress(); 
+  
 function openProduct(id){
 
     window.location.href = "product.html?id=" + encodeURIComponent(id);
