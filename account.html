@@ -1193,7 +1193,9 @@ border-radius:8px;
 font-size:18px;
 font-weight:600;
 ">
-${item.category || "Product"}
+${(item.category || "Product")
+    .toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase())}
 </div>
 
 <div>
