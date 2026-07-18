@@ -1536,7 +1536,19 @@ ${localStorage.getItem('selectedAddressIndex') == i
 onclick="event.stopPropagation(); toggleMenu(${i})"
 style="cursor:pointer;"></i>
 
-            <div id="menu${i}" style="display:none; background:#fff; border:1px solid #ddd; padding:5px; position:absolute; right:0;">
+          <div id="menu${i}" style="
+display:none;
+position:absolute;
+top:24px;
+right:0;
+background:#fff;
+border:1px solid #ddd;
+border-radius:8px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+min-width:110px;
+z-index:1000;
+overflow:hidden;
+">
               <div onclick="event.stopPropagation(); editAddress(${i})">Edit</div>
               <div onclick="event.stopPropagation(); deleteAddress(${i})"style="color:red;">Delete</div>
             </div>
