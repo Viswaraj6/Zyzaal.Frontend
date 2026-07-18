@@ -956,14 +956,18 @@ const products = window.allProducts || [];
   loadCart();
 }
 // REMOVE ITEM
-function removeItem(index) {
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-   updateCartCount();
-  loadCart();
-  window.location.reload();
-}
+function removeItem(index){
 
+    cart.splice(index,1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    updateCartCount();
+
+    loadCart();
+
+    loadSuggestedProducts();   // optional
+}
 
 // CHECKOUT
 function checkout() {
