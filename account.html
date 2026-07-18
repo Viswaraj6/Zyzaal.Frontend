@@ -937,19 +937,35 @@ Request Reactivation
 
   alert("OTP : 123456");
 
-  document.getElementById("loginBox").innerHTML = `
+ document.getElementById("loginModalContent").innerHTML = `
 
-    <input
-      id="otp"
-      placeholder="Enter OTP">
+<input
+id="phone"
+value="${phone}"
+readonly
+style="width:100%;box-sizing:border-box;">
 
-    <button
-      onclick="verifyOtp('${phone}')">
-      Verify OTP
-    </button>
+<br>
 
-  `;
+<input
+id="regName"
+placeholder="Name"
+style="width:100%;box-sizing:border-box;">
 
+<br>
+
+<input
+id="regEmail"
+placeholder="Email"
+style="width:100%;box-sizing:border-box;">
+
+<br>
+
+<button onclick="registerUser()">
+Create Account
+</button>
+
+`;
 }
   function verifyOtp(phone){
 
