@@ -745,11 +745,12 @@ src="${p.primaryImage || p.images?.[0] || p.image}"
 style="
 width:80px;
 height:100px;
-object-fit:cover;
+object-fit:contain;
+background:#fff;
+padding:4px;
 border-radius:8px;
-"
->
-
+border:1px solid #eee;
+">
 <div style="flex:1;">
 
 <p style="
