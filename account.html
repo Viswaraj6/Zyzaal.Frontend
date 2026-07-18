@@ -641,40 +641,43 @@ let user = localStorage.getItem("user");
 // 🔐 LOGIN UI
 function loadLogin(){
 
-  let user =
-  localStorage.getItem("user");
+    let user = localStorage.getItem("user");
 
-  if(user){
+    if(user){
 
-    document.getElementById(
-      "loginBox"
-    ).innerHTML = `
-      <button onclick="logout()">
-        Logout
-      </button>
+        document.getElementById("loginBox").innerHTML = `
+            <button onclick="logout()">
+                Logout
+            </button>
+        `;
+
+        document.getElementById("loginModal").style.display = "none";
+
+        return;
+    }
+
+    document.getElementById("loginBox").innerHTML = "";
+
+    document.getElementById("loginModal").style.display = "flex";
+
+    document.getElementById("loginModalContent").innerHTML = `
+
+        <input
+        id="phone"
+        placeholder="Mobile Number"
+        style="width:100%;box-sizing:border-box;">
+
+        <br>
+
+        <button onclick="checkUser()">
+            Continue
+        </button>
+
+        <div id="extraBox"></div>
+
     `;
-
-    return;
-  }
-
-  document.getElementById(
-    "loginBox"
-  ).innerHTML = `
-
-  <input
-    id="phone"
-    placeholder="Mobile Number">
-
-  <button
-    onclick="checkUser()">
-    Continue
-  </button>
-
-  <div id="extraBox"></div>
-
-  `;
 }
-async function checkUser(){
+  async function checkUser(){
 
  const phone =
  document.getElementById("phone").value;
