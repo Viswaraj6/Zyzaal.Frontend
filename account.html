@@ -1415,16 +1415,16 @@ async function saveAddress(){
     address: document.getElementById("a_address").value
   };
 
-  let addresses = JSON.parse(localStorage.getItem(key)) || [];
-
-  if(editIndex >= 0){
-    addresses[editIndex] = data;
-    editIndex = -1;
-  } else {
-    addresses.push(data);
-  }
-
-  localStorage.setItem(key, JSON.stringify(addresses));
+ await fetch(
+    API + "/user/" + user + "/address",
+    {
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+    }
+);
   const fullAddress =
 `${data.address},
 ${data.city},
