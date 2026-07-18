@@ -1305,8 +1305,7 @@ function selectSize(size){
     return;
   }
 
-  let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   // ✅ SAME PRODUCT + SAME SIZE CHECK
   const already =
