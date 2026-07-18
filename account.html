@@ -1186,7 +1186,13 @@ fetch("header.html")
         document.getElementById("header").offsetHeight + "px";
 
     updateCartCount();
+const backBtn = document.getElementById("backBtn");
 
+if(backBtn){
+    backBtn.onclick = () => {
+        history.back();
+    };
+}
 });
   
 fetch("footer.html")
