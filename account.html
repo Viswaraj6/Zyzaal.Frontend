@@ -1170,6 +1170,19 @@ function openProduct(id){
     });
 
 }
+fetch("header.html")
+.then(res => res.text())
+.then(data => {
+
+    document.getElementById("header").innerHTML = data;
+
+    document.body.style.paddingTop =
+        document.getElementById("header").offsetHeight + "px";
+
+    updateCartCount();
+
+});
+  
 fetch("footer.html")
   .then(res => res.text())
   .then(data => {
