@@ -956,6 +956,35 @@ ${suggestedHTML}
     let recent =
         JSON.parse(localStorage.getItem("recentViewed")) || [];
 
+    recent = recent.map(p => {
+
+    const product = products.find(x => x._id === p._id);
+
+    return {
+
+        _id: p._id,
+        name: p.name,
+        price: p.price,
+
+        category: product?.category || p.category || "",
+        typeDetail: product?.typeDetail || p.typeDetail || "",
+
+        image:
+            p.image ||
+            p.primaryImage ||
+            p.images?.[0] ||
+            "",
+
+        primaryImage:
+            p.primaryImage ||
+            p.image ||
+            p.images?.[0] ||
+            ""
+
+    };
+
+});
+
     let recentHTML = "";
 
     recent
