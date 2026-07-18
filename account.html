@@ -1537,26 +1537,29 @@ let addresses = await res.json();
   editIndex = i;
 }
 
-function deleteAddress(i){
+async function deleteAddress(i){
 
-  let user = localStorage.getItem("user");
+  const user = localStorage.getItem("user");
 
-  if(!user){
-    alert("Login first ❗");
-    return;
-  }
+  if(!confirm("Delete this address?")) return;
 
-  let key = "addresses_" + user;
+  const res = await fetch(
+    API + "/user/" + user + "/address"
+  );
 
-  let addresses = JSON.parse(localStorage.getItem(key)) || [];
+  const addresses = await res.json();
 
-  if(confirm("Delete this address?")){
-    addresses.splice(i,1);
-    localStorage.setItem(key, JSON.stringify(addresses));
-    loadAddress();
-  }
+  await fetch(
+    API + "/user/" + user + "/address/" + addresses[i]._id,
+    {
+      method:"DELETE"
+    }
+  );
+
+  loadAddress();
 }
-function clearAddressForm(){
+  
+  function clearAddressForm(){
   document.getElementById("a_name").value = "";
   document.getElementById("a_phone").value = "";
   document.getElementById("a_pincode").value = "";
