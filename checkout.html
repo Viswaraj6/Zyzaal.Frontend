@@ -888,51 +888,6 @@ Delivery by ${delivery}
     }
 
     updateCartCount();
-  // Logo Click
-const logo = document.getElementById("logo");
-
-if(logo){
-    logo.onclick = () => {
-        window.location.href = "index.html";
-    };
-}
-
-// Home
-const homeBtn = document.getElementById("homeBtn");
-
-if(homeBtn){
-    homeBtn.onclick = () => {
-        window.location.href = "index.html";
-    };
-}
-
-// Account
-const accountBtn = document.getElementById("accountBtn");
-
-if(accountBtn){
-    accountBtn.onclick = () => {
-        window.location.href = "account.html";
-    };
-}
-
-// Wishlist
-const wishlistBtn = document.getElementById("wishlistBtn");
-
-if(wishlistBtn){
-    wishlistBtn.onclick = () => {
-        window.location.href = "wishlist.html";
-    };
-}
-
-// Cart
-const cartBtn = document.getElementById("cartBtn");
-
-if(cartBtn){
-    cartBtn.onclick = () => {
-        window.location.href = "cart.html";
-    };
-}
-
 });
   fetch("footer.html")
 .then(res => res.text())
