@@ -1524,7 +1524,7 @@ async function editAddress(i){
 let addresses = await res.json();
   
   let a = addresses[i];
-
+  editId = a._id;
   document.getElementById("a_name").value = a.name;
   document.getElementById("a_phone").value = a.phone;
   document.getElementById("a_pincode").value = a.pincode;
