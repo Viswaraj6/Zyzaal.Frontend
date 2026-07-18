@@ -851,9 +851,11 @@ border:1px solid #eee;
 margin:0 0 6px;
 font-weight:600;
 font-size:16px;
-text-transform:uppercase;
+
 ">
-${p.category || "PRODUCT"}
+${(p.category || "Product")
+    .toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase())}
 </p>
 
 <b style="
