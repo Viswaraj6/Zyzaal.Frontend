@@ -587,6 +587,7 @@ function goStep3(){
 
   steps[1].classList.remove("active");
   steps[2].classList.add("active");
+  document.querySelectorAll(".step-icon")[1].innerHTML = "✓";
 }
 function selectPayment(type){
 selectedPayment = type;
