@@ -513,7 +513,7 @@ function goStep2(){
 
   steps[0].classList.remove("active");
   steps[1].classList.add("active");
-document.querySelector(".step-icon").innerHTML = "✓";
+document.querySelectorAll(".step-icon")[0].innerHTML = "✓";
   // 🔥 ADDRESS SUMMARY
   const name =
     document.getElementById("name").value;
