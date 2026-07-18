@@ -1458,9 +1458,13 @@ function loadAddress(){
     return;
   }
 
-  let key = "addresses_" + user;
 
-  let addresses = JSON.parse(localStorage.getItem(key)) || [];
+
+ const res = await fetch(
+    API + "/user/" + user + "/address"
+);
+
+let addresses = await res.json();
 
   let html = "";
 
