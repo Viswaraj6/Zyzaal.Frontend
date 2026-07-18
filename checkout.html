@@ -795,7 +795,10 @@ Delivery by ${delivery}
 .then(data => {
 
     document.getElementById("header").innerHTML = data;
-
+   
+  document.body.style.paddingTop =
+  document.getElementById("header").offsetHeight + "px";
+  
     const backBtn = document.getElementById("backBtn");
 
     if(backBtn){
