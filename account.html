@@ -1508,7 +1508,7 @@ style="cursor:pointer;"></i>
 
   document.getElementById("addressList").innerHTML = html;
 }
-function editAddress(i){
+async function editAddress(i){
 
   let user = localStorage.getItem("user");
 
@@ -1517,9 +1517,12 @@ function editAddress(i){
     return;
   }
 
-  let key = "addresses_" + user;
+ const res = await fetch(
+    API + "/user/" + user + "/address"
+);
 
-  let addresses = JSON.parse(localStorage.getItem(key)) || [];
+let addresses = await res.json();
+  
   let a = addresses[i];
 
   document.getElementById("a_name").value = a.name;
