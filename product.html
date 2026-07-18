@@ -1012,8 +1012,9 @@ function startProduct(){
 
   // Category
  document.getElementById("name").innerText =
-    (product.category || "").toUpperCase();
-
+   (product.category || "Product")
+        .toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase());
   // PRICE
   document.getElementById("price").innerText =
     "₹" + product.price;
