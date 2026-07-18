@@ -822,10 +822,17 @@ ${item.deliveryDate || "2-5 Days"}
   }
 
   document.getElementById("cartList").innerHTML = html;
-  document.querySelector(".price-box").style.display = "block";
-  document.getElementById("total").innerText = total;
-   document.getElementById("totalFinal").innerText = total;
 
+const priceBox = document.querySelector(".price-box");
+
+if(cart.length === 0){
+    priceBox.style.display = "none";
+}else{
+    priceBox.style.display = "block";
+    document.getElementById("total").innerText = total;
+    document.getElementById("totalFinal").innerText = total;
+}
+  
 }
 async function loadSuggestedProducts(){
 
