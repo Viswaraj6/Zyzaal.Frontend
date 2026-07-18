@@ -1415,16 +1415,36 @@ async function saveAddress(){
     address: document.getElementById("a_address").value
   };
 
- await fetch(
-    API + "/user/" + user + "/address",
-    {
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(data)
-    }
-);
+ if(editId){
+
+    await fetch(
+        API + "/user/" + user + "/address/" + editId,
+        {
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        }
+    );
+
+    editId = null;
+    editIndex = -1;
+
+}else{
+
+    await fetch(
+        API + "/user/" + user + "/address",
+        {
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        }
+    );
+
+}
   const fullAddress =
 `${data.address},
 ${data.city},
