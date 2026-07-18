@@ -935,6 +935,18 @@ products
     </div>
     `;
   });
+
+  document.getElementById("suggestedProducts").innerHTML =
+`
+<div style="
+display:flex;
+gap:15px;
+overflow:auto;
+">
+${suggestedHTML}
+</div>
+`;
+  
 }
 
   async function loadRecentProducts(){
