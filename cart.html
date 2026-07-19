@@ -1177,7 +1177,14 @@ async function loadDefaultAddress(){
   console.log("selectedAddressIndex =", localStorage.getItem("selectedAddressIndex"));
 console.log("addresses =", addresses);
 
-  const a = addresses[selectedIndex];
+const a = addresses[selectedIndex] || addresses[0];
+
+if (!a) {
+  document.getElementById("delName").innerText = "No address";
+  document.getElementById("delPin").innerText = "";
+  document.getElementById("delAddress").innerText = "Add address";
+  return;
+}
 
   console.log("Selected Address =", a);
 
