@@ -1887,10 +1887,16 @@ const address = addresses[selectedIndex];
 
 function goAddAddress(){
 
+  // தற்போதைய product URL-ஐ save பண்ணு
+  localStorage.setItem(
+    "addressReturnPage",
+    window.location.href
+  );
+
   window.location.href =
     "account.html#addressSection";
 }
-function openManageAddress(){
+  function openManageAddress(){
 
   localStorage.setItem(
     "addressReturnPage",
