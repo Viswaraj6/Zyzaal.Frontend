@@ -1756,96 +1756,56 @@ if(backBtn){
     updateCartCount();
     loadProduct();
 });
-  function initDelivery(){
+  async function initDelivery(){
 
   const user = localStorage.getItem("user");
 
   const content = document.getElementById("deliveryContent");
   const heading = document.getElementById("deliveryHeading");
-  const text = document.getElementById("deliveryText");
 
-  // ❌ NOT LOGGED IN
   if(!user){
-
     content.innerHTML = `
-      <button onclick="goLogin()"
-      style="
-      padding:12px 20px;
-      background:black;
-      color:white;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-      ">
+      <button onclick="goLogin()">
         Login to check delivery
       </button>
     `;
-
     return;
   }
 
-  // ✅ ADDRESS CHECK
-  const addresses =
-    JSON.parse(localStorage.getItem("addresses_" + user)) || [];
+  // 🔥 Backend-ல இருந்து address load
+  const res = await fetch(API + "/user/" + user + "/address");
+  const addresses = await res.json();
 
-  // ❌ NO ADDRESS
   if(addresses.length === 0){
 
     content.innerHTML = `
-      <button onclick="goAddAddress()"
-      style="
-      padding:12px 20px;
-      background:black;
-      color:white;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-      ">
+      <button onclick="goAddAddress()">
         Add Address
       </button>
     `;
-
     return;
   }
 
-  // ✅ ADDRESS EXISTS
- const selectedIndex =
-  localStorage.getItem("selectedAddressIndex") || 0;
+  const selectedIndex = Number(
+    localStorage.getItem("selectedAddressIndex") || 0
+  );
 
-const address = addresses[selectedIndex];
+  const address = addresses[selectedIndex];
+
   heading.innerText = "Delivery To";
 
- content.innerHTML = `
-  <div onclick="openManageAddress()"
-  style="
-    background:#fff;
-    padding:12px;
-    border-radius:8px;
-    border:1px solid #ddd;
-    margin-bottom:10px;
-    cursor:pointer;
-    position:relative;
-  ">
+  content.innerHTML = `
+    <div onclick="openManageAddress()"
+      style="background:#fff;padding:12px;border:1px solid #ddd;border-radius:8px;cursor:pointer;">
+      <div style="float:right;color:#2874f0;">Change</div>
 
-    <div style="
-      position:absolute;
-      top:12px;
-      right:12px;
-      color:#2874f0;
-      font-size:13px;
-      font-weight:600;
-    ">
-      Change
+      <b>${address.name}</b><br>
+      ${address.address},
+      ${address.city},
+      ${address.state} - ${address.pincode}
     </div>
+  `;
 
-    <b>${address.name}</b><br>
-
-    ${address.address},
-    ${address.city},
-    ${address.state} - ${address.pincode}
-
-  </div>
-`;
   calculateDelivery(address.pincode);
 }
   function calculateDelivery(pin){
