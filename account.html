@@ -1871,25 +1871,29 @@ location.reload();
 function closeOrder(){
   document.getElementById("orderPopup").style.display = "none";
 }
- function selectAddress(i){
+function selectAddress(i){
 
-  localStorage.setItem("selectedAddressIndex", i);
+  localStorage.setItem(
+    "selectedAddressIndex",
+    String(i)
+  );
 
-  const fromPage = localStorage.getItem("addressReturnPage");
+  alert(localStorage.getItem("selectedAddressIndex"));
+
+  alert("Delivery address selected ✅");
+
+  loadAddress();
+
+  const fromPage =
+    localStorage.getItem("addressReturnPage");
 
   if(fromPage){
-
-    localStorage.removeItem("addressReturnPage");
-
     window.location.href = fromPage;
-
-  }else{
-
+  } else {
     window.location.href = "product.html";
-
   }
 }
-// 🚀 INIT
+  // 🚀 INIT
 loadLogin();
 loadOrders();
 loadWishlist(); // 👈 add this
