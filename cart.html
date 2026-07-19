@@ -1180,10 +1180,9 @@ let a = addresses[selectedIndex];
  function changeAddress(){
 
   localStorage.setItem(
-    "addressReturnPage",
-    "cart.html"
-  );
-
+  "addressReturnPage",
+  window.location.href
+);
   window.location.href =
     "account.html#addressSection";
 }
