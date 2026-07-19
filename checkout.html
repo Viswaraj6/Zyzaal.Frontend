@@ -390,16 +390,23 @@ function loadSelectedAddress(){
 
   if(!user) return;
 
-  const addresses =
-    JSON.parse(localStorage.getItem("addresses_" + user)) || [];
+const res = await fetch(
+  API + "/user/" + user + "/address"
+);
 
-  if(addresses.length === 0) return;
+const addresses = await res.json();
 
-  const selectedIndex =
-    localStorage.getItem("selectedAddressIndex") || 0;
+if(addresses.length === 0) return;
 
-  const a = addresses[selectedIndex];
+const selectedIndex = Number(
+  localStorage.getItem("selectedAddressIndex") || 0
+);
 
+const a = addresses[selectedIndex] || addresses[0];
+
+if(!a){
+  return;
+}
   // 🔥 AUTO FILL
   document.getElementById("name").value =
     a.name || "";
