@@ -1873,23 +1873,20 @@ function closeOrder(){
 }
  function selectAddress(i){
 
-  localStorage.setItem(
-    "selectedAddressIndex",
-    i
-  );
+  localStorage.setItem("selectedAddressIndex", i);
 
-  alert("Delivery address selected ✅");
-
-  loadAddress();
-
-  // 🔥 where user came from
-  const fromPage =
-    localStorage.getItem("addressReturnPage");
+  const fromPage = localStorage.getItem("addressReturnPage");
 
   if(fromPage){
+
+    localStorage.removeItem("addressReturnPage");
+
     window.location.href = fromPage;
-  } else {
+
+  }else{
+
     window.location.href = "product.html";
+
   }
 }
 // 🚀 INIT
