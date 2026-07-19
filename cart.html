@@ -1170,11 +1170,16 @@ async function loadDefaultAddress(){
     return;
   }
 
+  
   const selectedIndex = Number(
     localStorage.getItem("selectedAddressIndex") || 0
   );
+  console.log("selectedAddressIndex =", localStorage.getItem("selectedAddressIndex"));
+console.log("addresses =", addresses);
 
   const a = addresses[selectedIndex];
+
+  console.log("Selected Address =", a);
 
   document.getElementById("delName").innerText = a.name;
   document.getElementById("delPin").innerText = a.pincode;
