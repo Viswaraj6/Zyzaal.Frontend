@@ -4,15 +4,14 @@
 <title>Wishlist</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-body {
-  font-family: 'Segoe UI';
-  margin: 0;
-  padding: 0px;
-  background: #d8f3f0;
-
-   display: flex;            /* 🔥 add */
-  flex-direction: column;   /* 🔥 add */
-  min-height: 200vh;  
+body{
+    font-family:'Comfortaa',sans-serif;
+    margin:0;
+    background:#d8f3f0;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    padding-top:95px;
 }
 .header{
   display: flex;
@@ -220,41 +219,25 @@ button{
 </head>
 
 <body>
- <div id="header" class="header">
-  <div class="menu-left"></div>
-
-  <!-- LOGO CENTER -->
-  <div class="logo-center" onclick="goHome()" style="cursor:pointer;">
-    <div class="logo-text">
-     Zudora
-    </div>
-  </div>
-
-  <!-- RIGHT ICONS -->
-  <div class="menu-right">
-
-    <div class="icon" onclick="goPage('wishlist.html')">
-      <i class="fa-regular fa-heart"></i>
-    </div>
-
-    <div class="icon" onclick="goPage('account.html')">
-      <i class="fa-regular fa-user"></i>
-    </div>
-
-    <div class="icon cart" onclick="goPage('cart.html')">
-      <i class="fa-solid fa-bag-shopping"></i>
-      <span id="cartCount">0</span>
-    </div>
-
-  </div>
-    </div>
-
+<div id="header"></div>
 <h2> My Wishlist (<span id="count">0</span>)</h2>
 
 <div id="wishlist"></div>
 <div id="footer"></div>
   
 <script>
+  function updateCartCount(){
+
+    const cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+    const el = document.getElementById("cartCount");
+
+    if(el){
+        el.innerText = cart.length;
+    }
+
+}
 function goPage(page){
   window.location.href = page;
 }
@@ -299,6 +282,23 @@ function loadWishlist(){
 
   document.getElementById("wishlist").innerHTML = html;
 }
+  fetch("header.html")
+.then(res => res.text())
+.then(data => {
+
+    document.getElementById("header").innerHTML = data;
+
+    document.body.style.paddingTop =
+        document.getElementById("header").offsetHeight + "px";
+
+    const backBtn = document.getElementById("backBtn");
+
+    if(backBtn){
+        backBtn.onclick = () => history.back();
+    }
+
+    updateCartCount();
+});
 function removeItem(id){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
