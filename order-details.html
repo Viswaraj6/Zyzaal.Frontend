@@ -266,80 +266,60 @@ See all updates >
 </div>
 
 <div style="
-margin-top:30px;
+margin-top:25px;
 padding-top:20px;
 border-top:1px solid #eee;
 ">
 
 <div style="
-display:flex;
-align-items:center;
-gap:15px;
-margin-bottom:22px;
+font-size:16px;
+font-weight:600;
+color:#222;
 ">
-
-<div style="
-width:18px;
-height:18px;
-background:green;
-border-radius:50%;
-"></div>
-
-<div>
-
-<div style="font-weight:600;">
 Order Confirmed
 </div>
 
 <div style="
 font-size:14px;
 color:#666;
+margin-top:5px;
+margin-bottom:18px;
 ">
-${orderDate}
-</div>
-
-</div>
-
+${new Date(order.orderDate || order.createdAt).toLocaleDateString("en-GB",{
+day:"2-digit",
+month:"short",
+year:"numeric"
+})}
+&nbsp;•&nbsp;
+${new Date(order.orderDate || order.createdAt).toLocaleTimeString("en-IN",{
+hour:"2-digit",
+minute:"2-digit",
+hour12:true
+})}
 </div>
 
 <div style="
-display:flex;
-align-items:center;
-gap:15px;
+font-size:16px;
+font-weight:600;
+color:#222;
 ">
-
-<div style="
-width:18px;
-height:18px;
-background:
-${order.status === "Delivered"
-? "green"
-: "#90EE90"};
-border-radius:50%;
-"></div>
-
-<div>
-
-<div style="font-weight:600;">
-${order.status === "Delivered"
-? "Delivered"
-: "Expected Delivery"}
+${order.status==="Delivered"
+?"Delivered On"
+:"Expected Delivery"}
 </div>
 
 <div style="
 font-size:14px;
-color:#666;
+color:#2e7d32;
+margin-top:5px;
+font-weight:600;
 ">
 ${deliveryDate}
 </div>
 
 </div>
 
-</div>
-
-</div>
-`;
-  document.getElementById("deliveryBox")
+document.getElementById("deliveryBox")
 .innerHTML = `
 
 <h2 style="
