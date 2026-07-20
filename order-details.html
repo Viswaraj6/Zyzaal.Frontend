@@ -872,11 +872,16 @@ font-size:14px;
 ">
 
 ${index === 0
-? orderDate
-: index === 3
-? deliveryDate
-: "Processing update"}
+? formatStatusDate(order.statusHistory?.confirmed)
 
+: index === 1
+? formatStatusDate(order.statusHistory?.processing)
+
+: index === 2
+? formatStatusDate(order.statusHistory?.shipped)
+
+: formatStatusDate(order.statusHistory?.delivered || order.deliveryDate)
+}
 </p>
 
 <p style="
