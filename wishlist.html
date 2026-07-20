@@ -408,7 +408,8 @@ function openProduct(id){
       const product = data.find(p => p._id == id);
 
       localStorage.setItem("selectedProduct", JSON.stringify(product));
-
+console.log(product);
+console.log(id);
       window.location.href = "product.html";
     });
 
