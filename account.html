@@ -1239,32 +1239,77 @@ align-items:center;
 ${productsHTML}
 
 <div style="
-color:#555;
-margin-top:6px;
+margin-top:12px;
+line-height:1.6;
 ">
-Order Confirmed:
-${new Date(
-  order.orderDate || order.createdAt
-).toLocaleDateString("en-IN")}
 
-<br>
+<div style="
+font-size:13px;
+font-weight:700;
+color:#2874f0;
+margin-bottom:10px;
+">
+Order #${order.orderNumber || ("FARK" + order._id.slice(-6).toUpperCase())}
+</div>
 
+<div style="
+font-size:14px;
+font-weight:600;
+color:#222;
+">
+Order Confirmed
+</div>
+
+<div style="
+font-size:13px;
+color:#666;
+margin-bottom:10px;
+">
+${new Date(order.orderDate || order.createdAt).toLocaleDateString("en-GB",{
+day:"2-digit",
+month:"short",
+year:"numeric"
+})}
+•
+${new Date(order.orderDate || order.createdAt).toLocaleTimeString("en-IN",{
+hour:"2-digit",
+minute:"2-digit",
+hour12:true
+})}
+</div>
+
+<div style="
+font-size:14px;
+font-weight:600;
+color:#222;
+">
 ${order.status === "Delivered"
-? "Delivered On:"
-: "Expected Delivery:"}
+? "Delivered On"
+: "Expected Delivery"}
+</div>
 
+<div style="
+font-size:13px;
+font-weight:600;
+color:#2e7d32;
+">
 ${order.status === "Delivered"
-? new Date(
-    order.deliveryDate
-  ).toLocaleDateString("en-IN")
+? new Date(order.deliveryDate).toLocaleDateString("en-GB",{
+day:"2-digit",
+month:"short",
+year:"numeric"
+})
 :(() => {
-  const d = new Date(
-    order.orderDate || order.createdAt
-  );
-  d.setDate(d.getDate() + 4);
-  return d.toLocaleDateString("en-IN");
-})()
-}
+const d = new Date(order.orderDate || order.createdAt);
+d.setDate(d.getDate()+4);
+return d.toLocaleDateString("en-GB",{
+day:"2-digit",
+month:"short",
+year:"numeric"
+});
+})()}
+</div>
+
 </div>
 
 </div>
