@@ -134,12 +134,34 @@
     margin-top:110px;
 }
 
+.address-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.address-header div{
+    flex:1;
+    min-width:0;
+}
+
 .change-btn{
-  float: right;
-  background:#90EE90;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+    background:#90EE90;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+
+#delAddress{
+    margin-top:8px;
+    line-height:1.5;
+    word-break:break-word;
+    overflow-wrap:anywhere;
 }
     .card {
       background: white;
