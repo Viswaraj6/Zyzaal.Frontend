@@ -838,7 +838,24 @@ function updateCartCount(){
   document.getElementById("cartCount").innerText =
     cart.length;
 }
+fetch("header.html")
+.then(res => res.text())
+.then(data => {
 
+    document.getElementById("header").innerHTML = data;
+
+    document.body.style.paddingTop =
+        document.getElementById("header").offsetHeight + "px";
+
+    updateCartCount();
+
+    const backBtn = document.getElementById("backBtn");
+
+    if(backBtn){
+        backBtn.onclick = () => history.back();
+    }
+
+});
 updateCartCount();
   
 </script>
