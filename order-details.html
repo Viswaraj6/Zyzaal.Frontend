@@ -248,7 +248,9 @@ ${item.primaryImage || item.image || item.images?.[0]}
 <div>
 
 <h2>
-${item.styleNo || item.name}
+${(item.category || item.name || item.styleNo)
+    .toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase())}
 </h2>
 
 <div class="green">
