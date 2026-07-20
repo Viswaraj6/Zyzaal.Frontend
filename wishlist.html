@@ -408,7 +408,7 @@ function openProduct(id){
       const product = data.find(p => p._id == id);
 console.log(product);
 console.log(id);
-         return; 
+        
       localStorage.setItem("selectedProduct", JSON.stringify(product));
 
       window.location.href = "product.html";
