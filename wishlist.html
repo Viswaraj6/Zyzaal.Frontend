@@ -401,21 +401,22 @@ function removeItem(id){
      
 function openProduct(id){
 
-  fetch(API + "/products")
-    .then(res => res.json())
-    .then(data => {
+    // Recent Viewed save
+    let recent = JSON.parse(localStorage.getItem("recentViewed")) || [];
 
-      const product = data.find(p => p._id == id);
-console.log(product);
-console.log(id);
-        
-      localStorage.setItem("selectedProduct", JSON.stringify(product));
+    recent = recent.filter(x => x._id !== id);
 
-      window.location.href = "product.html";
-    });
+    recent.unshift({_id:id});
+
+    recent = recent.slice(0,6);
+
+    localStorage.setItem("recentViewed", JSON.stringify(recent));
+
+    // Product page open
+    window.location.href = "product.html?id=" + id;
 
 }
-// ✅ INIT
+     // ✅ INIT
 loadWishlist();
 
 // ✅ footer load
