@@ -513,15 +513,16 @@ document.getElementById("summaryAddressBox").innerHTML = `
     </p>
 
     <p style="
-      margin:0;
-      line-height:1.5;
-      white-space:pre-line;
-    ">
-      ${a.address},
-      ${a.city},
-      ${a.state} - ${a.pincode}
-    </p>
-
+    margin:0;
+    line-height:1.6;
+    white-space:normal;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+">
+    ${a.address},
+    ${a.city},
+    ${a.state} - ${a.pincode}
+</p>
   </div>
 `;
 }
