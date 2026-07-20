@@ -403,7 +403,27 @@ function removeItem(id){
   loadWishlist();
 }
   const API = "https://fark618-backend.onrender.com";
+     
+function addWishlistToCart(id){
 
+    let fav = JSON.parse(localStorage.getItem("fav")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const item = fav.find(p => (p._id || p.id) == id);
+
+    if(!item) return;
+
+    const exist = cart.find(p => (p._id || p.id) == id);
+
+    if(!exist){
+        cart.push(item);
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    updateCartCount();
+
+    alert("Added to Cart");
+}
 function openProduct(id){
 
   fetch(API + "/products")
