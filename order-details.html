@@ -165,14 +165,22 @@ const statusSteps = [
 const currentStep =
 statusSteps.indexOf(order.status);
 
+const orderDateTime =
+new Date(order.orderDate || order.createdAt || Date.now());
+
 const orderDate =
-new Date(
-order.orderDate || Date.now()
-).toLocaleDateString("en-IN",{
-day:"numeric",
-month:"short"
+orderDateTime.toLocaleDateString("en-GB",{
+day:"2-digit",
+month:"short",
+year:"numeric"
 });
 
+const orderTime =
+orderDateTime.toLocaleTimeString("en-IN",{
+hour:"2-digit",
+minute:"2-digit",
+hour12:true
+});
 const expectedDate = new Date(
   order.orderDate || order.createdAt
 );
