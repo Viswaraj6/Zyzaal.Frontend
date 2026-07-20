@@ -1794,18 +1794,22 @@ if(backBtn){
 
   heading.innerText = "Delivery To";
 
-  content.innerHTML = `
-    <div onclick="openManageAddress()"
-      style="background:#fff;padding:12px;border:1px solid #ddd;border-radius:8px;cursor:pointer;">
-      <div style="float:right;color:#2874f0;">Change</div>
+ content.innerHTML = `
+<div onclick="openManageAddress()" class="delivery-card">
 
-      <b>${address.name}</b><br>
-      ${address.address},
-      ${address.city},
-      ${address.state} - ${address.pincode}
+    <div class="delivery-header">
+        <b>${address.name}</b>
+        <span class="change-btn">Change</span>
     </div>
-  `;
 
+    <div class="delivery-address">
+        ${address.address},
+        ${address.city},
+        ${address.state} - ${address.pincode}
+    </div>
+
+</div>
+`;
   calculateDelivery(address.pincode);
 }
   function calculateDelivery(pin){
