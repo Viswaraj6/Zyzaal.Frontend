@@ -406,10 +406,10 @@ function openProduct(id){
     .then(data => {
 
       const product = data.find(p => p._id == id);
-
-      localStorage.setItem("selectedProduct", JSON.stringify(product));
 console.log(product);
 console.log(id);
+      localStorage.setItem("selectedProduct", JSON.stringify(product));
+
       window.location.href = "product.html";
     });
 
