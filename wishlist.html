@@ -269,7 +269,13 @@ function loadWishlist(){
           <div class="left">
             <img src="${p.images?.[0] || p.image}">
             <div class="details">
-              <h3>${p.name}</h3>
+              <h3>
+${(p.category || p.name || p.styleNo)
+    .toLowerCase()
+    .replace(/\b\w/g,c=>c.toUpperCase())}
+</h3>
+
+<p>₹${p.price}</p>
               <p>₹${p.price}</p>
             </div>
           </div>
