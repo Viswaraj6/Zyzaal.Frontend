@@ -298,24 +298,30 @@ function loadWishlist(){
 
   document.getElementById("wishlist").innerHTML = html;
 }
-  fetch("header.html")
+ fetch("header.html")
 .then(res => res.text())
 .then(data => {
 
     document.getElementById("header").innerHTML = data;
 
-    document.body.style.paddingTop =
-        document.getElementById("header").offsetHeight + "px";
+    requestAnimationFrame(() => {
 
-    const backBtn = document.getElementById("backBtn");
+        document.body.style.paddingTop =
+            document.getElementById("header").offsetHeight + "px";
 
-    if(backBtn){
-        backBtn.onclick = () => history.back();
-    }
+        const backBtn = document.getElementById("backBtn");
 
-    updateCartCount();
+        if(backBtn){
+            backBtn.style.display = "flex";   // 🔥 mobile-ல force display
+            backBtn.onclick = () => history.back();
+        }
+
+        updateCartCount();
+
+    });
+
 });
-function removeItem(id){
+    function removeItem(id){
 
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
 
