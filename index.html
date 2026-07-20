@@ -919,23 +919,23 @@ function toggleFav(i){
   const p = productsData[i];
   const id = p._id;
 
-const exist = fav.find(item => item._id === id);
+  const exist = fav.find(item => item._id === id);
+
   if(exist){
-   fav = fav.filter(item => item._id !== id);
+    fav = fav.filter(item => item._id !== id);
   } else {
-   fav.push({
-  _id: id,
-  name: p.name,
-  price: p.price,
-  image: p.images?.[0] || p.image
-});
+    fav.push({
+      _id:id,
+      name:p.name,
+      price:p.price,
+      image:p.images?.[0] || p.image
+    });
   }
 
   localStorage.setItem("fav", JSON.stringify(fav));
 
-  loadProducts(); // refresh UI
+  renderProducts(productsData);
 }
-
 // ==============================
 // 📦 LOAD PRODUCTS
 // ==============================
