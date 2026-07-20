@@ -86,13 +86,21 @@ button{
 }
 
 .product{
-    display:block;
+    display:flex;
+    align-items:flex-start;
+    gap:15px;
 }
 
 .product img{
-    width:90px;
-    height:110px;
-    margin-bottom:10px;
+    width:95px;
+    height:120px;
+    object-fit:cover;
+    flex-shrink:0;
+}
+
+.product > div{
+    flex:1;
+    min-width:0;
 }
 
 button{
