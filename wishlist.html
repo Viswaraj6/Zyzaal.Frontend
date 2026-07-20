@@ -335,14 +335,35 @@ function loadWishlist(){
        <div class="card" onclick="openProduct('${p._id || p.id}')">
           <div class="left">
             <img src="${p.images?.[0] || p.image}">
+            
             <div class="details">
-              <h3>
-${(p.category || p.name || p.styleNo)
-    .toLowerCase()
-    .replace(/\b\w/g,c=>c.toUpperCase())}
-</h3>
-              <p>₹${p.price}</p>
-            </div>
+
+    <h3 class="product-name">
+        ${(p.category || p.name || "Product")
+            .toLowerCase()
+            .replace(/\b\w/g,c=>c.toUpperCase())}
+    </h3>
+
+    <div class="price">
+        ₹${p.price}
+    </div>
+
+    <div class="wishlist-actions">
+
+        <button class="cart-btn"
+        onclick="event.stopPropagation();addWishlistToCart('${p._id || p.id}')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Add to Cart
+        </button>
+
+        <button class="delete-btn"
+        onclick="event.stopPropagation();removeItem('${p._id || p.id}')">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+
+    </div>
+
+</div>
           </div>
 
           <div class="remove" onclick="event.stopPropagation(); removeItem('${p._id || p.id}')">
