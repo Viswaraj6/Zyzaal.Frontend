@@ -565,11 +565,26 @@ body{
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <div class="address-box">
-  <b>Deliver to:</b> <span id="delName"></span>, <span id="delPin"></span>
-  <button class="change-btn" onclick="changeAddress()">Change</button>
-  <p id="delAddress"></p>
+
+    <div class="address-header">
+
+        <div>
+            <b>Deliver to:</b>
+            <span id="delName"></span>,
+            <span id="delPin"></span>
+        </div>
+
+        <button class="change-btn"
+                onclick="changeAddress()">
+            Change
+        </button>
+
+    </div>
+
+    <p id="delAddress"></p>
+
 </div>
-<div id="cartList">
+  <div id="cartList">
 
 <div class="cart-skeleton">
     <div class="sk-img"></div>
