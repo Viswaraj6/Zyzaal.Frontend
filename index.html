@@ -933,7 +933,8 @@ const exist = fav.find(item => item._id === id);
 
   localStorage.setItem("fav", JSON.stringify(fav));
 
- renderProducts(productsData);
+  loadProducts(); // refresh UI
+}
 
 // ==============================
 // 📦 LOAD PRODUCTS
