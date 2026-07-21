@@ -1721,8 +1721,23 @@ async function toggleFav(id, el){
 
     await getFav();
 
-    el.innerText = isFav(id) ? "♥" : "♡";
+const icon = el.querySelector("i");
 
+if(isFav(id)){
+
+    el.classList.add("active");
+
+    icon.classList.remove("fa-regular");
+    icon.classList.add("fa-solid");
+
+}else{
+
+    el.classList.remove("active");
+
+    icon.classList.remove("fa-solid");
+    icon.classList.add("fa-regular");
+
+}
 }
 // SIMILAR PRODUCTS
 async function loadSimilar(){
