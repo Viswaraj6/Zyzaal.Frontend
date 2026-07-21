@@ -335,10 +335,19 @@ function goPage(page){
 function goHome(){
   window.location.href = "index.html"; // 🔥 add this
 }
-function getFav(){
-  return JSON.parse(localStorage.getItem("fav")) || [];
-}
+async function getWishlist(){
 
+    const phone = localStorage.getItem("user");
+
+    if(!phone){
+        return [];
+    }
+
+    const res = await fetch(API + "/wishlist/" + phone);
+
+    return await res.json();
+
+}
 function loadWishlist(){
 
   let fav = getFav();
