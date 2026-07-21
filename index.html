@@ -932,7 +932,9 @@ async function getFav(){
 
 // Check if product is in wishlist
 function isFav(id){
-  return getFav().some(p => p._id === id);
+
+    return fav.some(p => p._id === id);
+
 }
 // Toggle wishlist
 function toggleFav(i){
