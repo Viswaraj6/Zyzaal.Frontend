@@ -1659,10 +1659,22 @@ function buyNow(){
 
 }
   // ❤️ WISHLIST FUNCTIONS
-function getFav(){
-  return JSON.parse(localStorage.getItem("fav")) || [];
-}
+let fav = [];
 
+async function getFav(){
+
+    const phone = localStorage.getItem("user");
+
+    if(!phone){
+        fav = [];
+        return;
+    }
+
+    const res = await fetch(API + "/wishlist/" + phone);
+
+    fav = await res.json();
+
+}
 function isFav(id){
   return getFav().some(p => p._id === id);   // ✅ FIXED
 }
