@@ -1333,32 +1333,57 @@ year:"numeric"
     });
 
 }
-  function loadWishlist(){
+  async function loadWishlist(){
 
-  let fav = JSON.parse(localStorage.getItem("fav")) || [];
-  let html = "";
+    const phone = localStorage.getItem("user");
 
-  if(fav.length === 0){
-    html = "<p>No items in wishlist</p>";
-  } else {
+    if(!phone){
+        document.getElementById("wishlistItems").innerHTML =
+        "<p>Please login</p>";
+        return;
+    }
 
-    fav.forEach(p => {
-      html += `
-        <div class="card" onclick="openProduct('${p._id || p.id}')">
-          <img src="${p.images?.[0] || p.image}" width="80">
-          <h3>${p.name}</h3>
-          <p>₹${p.price}</p>
+    const res = await fetch(API + "/wishlist/" + phone);
 
-          <button onclick="event.stopPropagation(); removeItem('${p._id || p.id}')">
-            Remove
-          </button>
-        </div>
-      `;
-    });
+    const fav = await res.json();
 
-  }
+    let html = "";
 
-  document.getElementById("wishlistItems").innerHTML = html;
+    if(fav.length === 0){
+
+        html = "<p>No items in wishlist</p>";
+
+    }else{
+
+        fav.forEach(p=>{
+
+            html += `
+            <div class="card" onclick="openProduct('${p._id}')">
+
+                <img
+                    src="${p.primaryImage || p.images?.[0] || p.image}"
+                    width="80">
+
+                <h3>${p.category || p.name}</h3>
+
+                <p>₹${p.price}</p>
+
+                <button
+                    onclick="event.stopPropagation();removeItem('${p._id}')">
+
+                    Remove
+
+                </button>
+
+            </div>
+            `;
+
+        });
+
+    }
+
+    document.getElementById("wishlistItems").innerHTML = html;
+
 }
 function removeItem(id){
 
