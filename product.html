@@ -1676,7 +1676,9 @@ async function getFav(){
 
 }
 function isFav(id){
-  return getFav().some(p => p._id === id);   // ✅ FIXED
+
+    return fav.some(p => p._id === id);
+
 }
 
 function toggleFav(id, el){
