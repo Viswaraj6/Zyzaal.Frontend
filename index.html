@@ -937,13 +937,13 @@ function isFav(id){
 
 }
 // Toggle wishlist
-async function toggleFav(i){
+async function toggleFav(i, el){
 
     const phone = localStorage.getItem("user");
 
     if(!phone){
         alert("Please login first");
-        location.href = "account.html";
+        location.href="account.html";
         return;
     }
 
@@ -951,7 +951,7 @@ async function toggleFav(i){
 
     if(isFav(p._id)){
 
-        await fetch(API + "/wishlist",{
+        await fetch(API+"/wishlist",{
             method:"DELETE",
             headers:{
                 "Content-Type":"application/json"
@@ -962,9 +962,13 @@ async function toggleFav(i){
             })
         });
 
+        fav = fav.filter(x=>x._id!==p._id);
+
+        el.classList.remove("active");
+
     }else{
 
-        await fetch(API + "/wishlist",{
+        await fetch(API+"/wishlist",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -975,13 +979,11 @@ async function toggleFav(i){
             })
         });
 
+        fav.push({_id:p._id});
+
+        el.classList.add("active");
+
     }
-
-    // Reload wishlist
-    await getFav();
-
-    // Refresh hearts
-    renderProducts(productsData);
 
 }
   // ==============================
