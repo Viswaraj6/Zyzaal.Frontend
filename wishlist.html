@@ -430,17 +430,31 @@ async function loadWishlist(){
 
     updateCartCount();
 });
-function removeItem(id){
+async function removeItem(productId){
 
-  let fav = JSON.parse(localStorage.getItem("fav")) || [];
+    const phone = localStorage.getItem("user");
 
-  fav = fav.filter(p => (p._id || p.id) != id);
+    await fetch(API + "/wishlist",{
 
-  localStorage.setItem("fav", JSON.stringify(fav));
+        method:"DELETE",
 
-  loadWishlist();
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            phone,
+            productId
+
+        })
+
+    });
+
+    loadWishlist();
+
 }
-  const API = "https://fark618-backend.onrender.com";
+     const API = "https://fark618-backend.onrender.com";
      
 function openProduct(id){
 
