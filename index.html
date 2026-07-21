@@ -334,16 +334,20 @@ height: 320px;
 }
 
 /* ❤️ active (wishlist) */
-.fav {
-  color: #888;   /* grey */
+.fav{
+    color:#cfcfcf;              /* inactive heart */
+    background:#fff;
+    transition:all .25s ease;
 }
 
-.fav.active {
-  color: red;
+.fav.active{
+    color:#A8DDD0;              /* brand mint */
+    background:#EAF9F5;         /* light mint circle */
+    box-shadow:0 4px 12px rgba(168,221,208,.45);
 }
-/* hover effect */
+
 .fav:hover{
-    transform:scale(1.12);
+    transform:scale(1.1);
 }
   .fav .heart{
     line-height:1;
