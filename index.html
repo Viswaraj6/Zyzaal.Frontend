@@ -340,27 +340,53 @@ height: 320px;
     right:12px;
 
     font-size:26px;
-    color:#d0d0d0;          /* inactive */
 
-    cursor:pointer;
+    color:#ffffff;                 /* White heart */
+
+    -webkit-text-stroke:1.6px #111; /* Black outline */
+    text-stroke:1.6px #111;
 
     background:none;
     width:auto;
     height:auto;
-    border:none;
+
     box-shadow:none;
+
+    cursor:pointer;
 
     transition:all .25s ease;
 }
 
 .fav.active{
-    color:#A8DDD0;          /* Brand Mint */
+
+    color:#A8DDD0;                 /* Brand Mint */
+
+    -webkit-text-stroke:0;
+    text-stroke:0;
+
+    animation:heartPop .25s ease;
+
 }
 
 .fav:hover{
-    transform:scale(1.15);
+    transform:scale(1.12);
 }
-  .fav .heart{
+
+@keyframes heartPop{
+
+    0%{
+        transform:scale(.8);
+    }
+
+    60%{
+        transform:scale(1.25);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}  .fav .heart{
     line-height:1;
 }
 /* 🔥 BOTTOM NAV */
