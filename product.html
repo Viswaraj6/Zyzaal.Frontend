@@ -276,17 +276,39 @@ text-decoration:underline;
   border-radius: 6px;
 }
   .similar-card .fav{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:#fff;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    position:absolute;
+    top:10px;
+    right:10px;
+
+    background:none;
+    box-shadow:none;
+
+    width:auto;
+    height:auto;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    -webkit-text-stroke:1.5px #111;
+
+    transition:.25s;
+}
+
+.similar-card .fav.active{
+
+    color:#A8DDD0;
+
+    -webkit-text-stroke:0;
+
+}
+
+.similar-card .fav:hover{
+
+    transform:scale(1.15);
+
 }
   .similar-skeleton{
 
