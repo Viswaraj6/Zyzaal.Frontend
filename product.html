@@ -1681,21 +1681,48 @@ function isFav(id){
 
 }
 
-function toggleFav(id, el){
-  let fav = getFav();
+async function toggleFav(id, el){
 
-  const exist = fav.find(item => item._id === id);
+    const phone = localStorage.getItem("user");
 
-  if(exist){
-    fav = fav.filter(item => item._id !== id);
-  } else {
-    const product = window.allProducts.find(p => p._id === id);
-    fav.push(product);
-  }
+    if(!phone){
+        alert("Please login first");
+        location.href = "account.html";
+        return;
+    }
 
-  localStorage.setItem("fav", JSON.stringify(fav));
+    if(isFav(id)){
 
-  el.innerText = isFav(id) ? "♥" : "♡";
+        await fetch(API + "/wishlist",{
+            method:"DELETE",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                phone,
+                productId:id
+            })
+        });
+
+    }else{
+
+        await fetch(API + "/wishlist",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                phone,
+                productId:id
+            })
+        });
+
+    }
+
+    await getFav();
+
+    el.innerText = isFav(id) ? "♥" : "♡";
+
 }
 // SIMILAR PRODUCTS
 async function loadSimilar(){
