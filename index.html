@@ -1060,7 +1060,7 @@ function filterCategory(type, el){
     <div class="card" onclick="openProduct('${p._id}')">
     <div class="fav ${isFav(p._id) ? 'active' : ''}"
      onclick="event.stopPropagation(); toggleFav(${i}, this)">
-        <span class="heart">${isFav(p._id) ? '♥' : '♡'}</span>
+       <i class="fa-solid fa-heart"></i>
       </div>
 
      <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
