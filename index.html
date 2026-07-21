@@ -335,19 +335,30 @@ height: 320px;
 
 /* ❤️ active (wishlist) */
 .fav{
-    color:#cfcfcf;              /* inactive heart */
-    background:#fff;
+    position:absolute;
+    top:12px;
+    right:12px;
+
+    font-size:26px;
+    color:#d0d0d0;          /* inactive */
+
+    cursor:pointer;
+
+    background:none;
+    width:auto;
+    height:auto;
+    border:none;
+    box-shadow:none;
+
     transition:all .25s ease;
 }
 
 .fav.active{
-    color:#A8DDD0;              /* brand mint */
-    background:#EAF9F5;         /* light mint circle */
-    box-shadow:0 4px 12px rgba(168,221,208,.45);
+    color:#A8DDD0;          /* Brand Mint */
 }
 
 .fav:hover{
-    transform:scale(1.1);
+    transform:scale(1.15);
 }
   .fav .heart{
     line-height:1;
