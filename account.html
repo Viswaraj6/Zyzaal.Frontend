@@ -1407,18 +1407,9 @@ async function removeItem(productId){
     loadWishlist();
 
 }
-  function openProduct(id){
+function openProduct(id){
 
-  fetch(API + "/products")
-    .then(res => res.json())
-    .then(data => {
-
-      const product = data.find(p => p._id == id);
-
-      localStorage.setItem("selectedProduct", JSON.stringify(product));
-
-      window.location.href = "product.html";
-    });
+    location.href = "product.html?id=" + id;
 
 }
 fetch("header.html")
