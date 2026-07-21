@@ -984,6 +984,9 @@ async function loadProducts(){
 
 });
 
+// 🔥 Backend wishlist load
+await getFav();
+
 renderProducts(productsData);
     
   } catch(e){
