@@ -913,8 +913,21 @@ document.getElementById("welcome").innerText =
 // ==============================
 
 // Get wishlist
-function getFav(){
-  return JSON.parse(localStorage.getItem("fav")) || [];
+let fav = [];
+
+async function getFav(){
+
+    const phone = localStorage.getItem("user");
+
+    if(!phone){
+        fav = [];
+        return;
+    }
+
+    const res = await fetch(API + "/wishlist/" + phone);
+
+    fav = await res.json();
+
 }
 
 // Check if product is in wishlist
