@@ -348,55 +348,72 @@ async function getWishlist(){
     return await res.json();
 
 }
-function loadWishlist(){
+async function loadWishlist(){
 
-  let fav = getFav();
-  let html = "";
+    const fav = await getWishlist();
 
-  document.getElementById("count").innerText = fav.length;
+    let html = "";
 
-  if(fav.length === 0){
-    html = "<p>No items in wishlist</p>";
-  } else {
+    document.getElementById("count").innerText = fav.length;
 
-    fav.forEach(p => {
-      html += `
-       <div class="card" onclick="openProduct('${p._id || p.id}')">
-          <div class="left">
-            <img src="${p.images?.[0] || p.image}">
-            
-            <div class="details">
+    if(fav.length === 0){
 
-    <h3 class="product-name">
-        ${(p.category || p.name || "Product")
-            .toLowerCase()
-            .replace(/\b\w/g,c=>c.toUpperCase())}
-    </h3>
+        html = `
+            <div style="text-align:center;padding:40px;">
+                <h3>Your wishlist is empty</h3>
+            </div>
+        `;
 
-    <div class="price">
-        ₹${p.price}
-    </div>
+    }else{
 
-    <div class="wishlist-actions">
-    <button class="delete-btn"
-        onclick="event.stopPropagation();removeItem('${p._id || p.id}')">
-        <i class="fa-solid fa-trash"></i>
-    </button>
-</div>
+        fav.forEach(p=>{
 
-</div>
-          </div>
+            html += `
+            <div class="card" onclick="openProduct('${p._id}')">
 
-        
-        </div>
-      `;
-    });
+                <div class="left">
 
-  }
+                    <img src="${p.primaryImage || p.images?.[0] || p.image}">
 
-  document.getElementById("wishlist").innerHTML = html;
+                    <div class="details">
+
+                        <h3 class="product-name">
+                            ${(p.category || p.name || "Product")
+                            .toLowerCase()
+                            .replace(/\b\w/g,c=>c.toUpperCase())}
+                        </h3>
+
+                        <div class="price">
+                            ₹${p.price}
+                        </div>
+
+                        <div class="wishlist-actions">
+
+                            <button
+                                class="delete-btn"
+                                onclick="event.stopPropagation();removeItem('${p._id}')">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            `;
+
+        });
+
+    }
+
+    document.getElementById("wishlist").innerHTML = html;
+
 }
-  fetch("header.html")
+     fetch("header.html")
 .then(res => res.text())
 .then(data => {
 
