@@ -1731,7 +1731,7 @@ document.getElementById("similar").style.display="none";
   try{
     const res = await fetch(API + "/products");
     const data = await res.json();
-
+await getFav();
     window.allProducts = data;
 
     let html = "";
