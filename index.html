@@ -1185,9 +1185,14 @@ async function loadProducts(){
 await getFav();
 const latestProducts = getLatestProducts(productsData);
 
+// New Arrivals-ல் இல்லாத products மட்டும்
+const otherProducts = productsData.filter(product =>
+    !latestProducts.some(newProduct => newProduct._id === product._id)
+);
+
 renderNewProducts(latestProducts);
 
-renderProducts(productsData);
+renderProducts(otherProducts);
     
   } catch(e){
     console.log("Product error", e);
