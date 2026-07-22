@@ -906,10 +906,35 @@ onclick="openMenu()">
 
 </div>
    <div class="categories">
- <button onclick="filterCategory('all', this)">All</button>
-<button onclick="filterCategory('shirt', this)">Shirts</button>
-<button onclick="filterCategory('pant', this)">Pants</button>
+  <button onclick="filterCategory('all', this)">All</button>
+  <button onclick="filterCategory('shirt', this)">Shirts</button>
+  <button onclick="filterCategory('pant', this)">Pants</button>
 </div>
+
+<!-- NEW ARRIVALS -->
+<section id="newArrivalSection">
+
+    <div class="section-head">
+
+        <div>
+            <h2>✨ New Arrivals</h2>
+            <p>Fresh Styles Just Landed</p>
+        </div>
+
+        <button onclick="viewAllNew()">
+            View All →
+        </button>
+
+    </div>
+
+    <div id="newProducts" class="products"></div>
+
+</section>
+
+<h2 class="allProductsTitle">
+    All Products
+</h2>
+
 <div id="products" class="products">
 
   <div class="product-skeleton">
