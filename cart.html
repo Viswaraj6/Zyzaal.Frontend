@@ -17,16 +17,8 @@
   flex-direction: column;   /* 🔥 add */
   min-height: 100vh;  
 }
-    .empty-cart-img{
-
+    .bag-img{
     width:170px;
-
-    margin-bottom:15px;
-
-    animation:cartFloat 3s ease-in-out infinite;
-
-    filter:drop-shadow(0 12px 18px rgba(0,0,0,.18));
-
 }
     .empty-cart-box{
 
@@ -809,12 +801,11 @@ function loadCart() {
  html = `
 <div class="empty-cart-box">
 
-    <span class="spark spark1">✨</span>
-
-    <span class="spark spark2">✨</span>
-
+   
     <img
-        class="empty-cart-img"
+    <img src="images/shirt.png" class="shirt-drop">
+    <img src="images/pant.png" class="pant-drop">
+        <img class="bag-img">
         src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
     >
 
