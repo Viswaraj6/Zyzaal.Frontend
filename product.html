@@ -1746,15 +1746,15 @@ if(isFav(id)){
 
     el.classList.add("active");
 
-    icon.classList.remove("fa-regular");
-    icon.classList.add("fa-solid");
+  if(isFav(id)){
+
+    el.classList.add("active");
 
 }else{
 
     el.classList.remove("active");
 
-    icon.classList.remove("fa-solid");
-    icon.classList.add("fa-regular");
+}
 
 }
 }
