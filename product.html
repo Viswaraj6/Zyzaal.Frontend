@@ -1785,7 +1785,7 @@ await getFav();
 
             <div class="fav ${isFav(p._id) ? 'active' : ''}"
      onclick="event.stopPropagation(); toggleFav('${p._id}', this)">
-    <i class="fa-heart ${isFav(p._id) ? 'fa-solid' : 'fa-regular'}"></i>
+    <i class="fa-solid fa-heart"></i>
 </div>
 
             <img src="${p.images?.[0] || p.image}">
