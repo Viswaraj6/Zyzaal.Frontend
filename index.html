@@ -1237,20 +1237,19 @@ function filterCategory(type, el){
   
 function getLatestProducts(data){
 
-    if(data.length === 0) return [];
+    const validProducts = data.filter(
+        p => p.createdAt
+    );
 
-    // Latest upload date
-    const latestDate = [...data].sort(
+    if(validProducts.length === 0){
+        return [];
+    }
+
+    validProducts.sort(
         (a,b)=>new Date(b.createdAt)-new Date(a.createdAt)
-    )[0].createdAt;
+    );
 
-    // Same date products
-    return data.filter(product=>{
-
-        return new Date(product.createdAt).toDateString() ===
-               new Date(latestDate).toDateString();
-
-    });
+    return validProducts.slice(0,20);
 
 }
   function renderNewProducts(data){
