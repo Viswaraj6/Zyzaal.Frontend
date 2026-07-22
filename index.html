@@ -1175,6 +1175,45 @@ function filterCategory(type, el){
     renderProducts(filtered);
   }
 }
+
+  function renderNewProducts(data){
+
+  let html = "";
+
+  data.forEach((p,i)=>{
+
+    html += `
+    <div class="card" onclick="openProduct('${p._id}')">
+
+      <div class="fav ${isFav(p._id)?'active':''}"
+      onclick="event.stopPropagation();toggleFav(${i},this)">
+        <i class="fa-solid fa-heart"></i>
+      </div>
+
+      <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
+
+      <div class="brand">
+        ${p.brand || "FARK 618"}
+      </div>
+
+      <h4>
+        ${(p.category || "Shirt")
+        .toLowerCase()
+        .replace(/\b\w/g,c=>c.toUpperCase())}
+      </h4>
+
+      <div class="price">
+        ₹${p.price}
+      </div>
+
+    </div>
+    `;
+
+  });
+
+  document.getElementById("newProducts").innerHTML = html;
+
+}
   function renderProducts(data){
 
   let html = "";
