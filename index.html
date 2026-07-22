@@ -1177,7 +1177,25 @@ function filterCategory(type, el){
     renderProducts(filtered);
   }
 }
+  
+function getLatestProducts(data){
 
+    if(data.length === 0) return [];
+
+    // Latest upload date
+    const latestDate = [...data].sort(
+        (a,b)=>new Date(b.createdAt)-new Date(a.createdAt)
+    )[0].createdAt;
+
+    // Same date products
+    return data.filter(product=>{
+
+        return new Date(product.createdAt).toDateString() ===
+               new Date(latestDate).toDateString();
+
+    });
+
+}
   function renderNewProducts(data){
 
   let html = "";
