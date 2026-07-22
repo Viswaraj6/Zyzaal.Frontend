@@ -1132,7 +1132,9 @@ async function loadProducts(){
 
 // 🔥 Backend wishlist load
 await getFav();
+const latestProducts = productsData.slice(0,4);
 
+renderNewProducts(latestProducts);
 renderProducts(productsData);
     
   } catch(e){
