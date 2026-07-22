@@ -17,20 +17,18 @@
   flex-direction: column;   /* 🔥 add */
   min-height: 100vh;  
 }
-  .bag-img{
+ .bag-img{
+    position:absolute;
+    bottom:0;
+    left:50%;
 
-    width:115px;
+    width:120px;
 
-    display:block;
-
-    margin:35px auto 0;
-
-    position:relative;
+    transform:translateX(-50%);
 
     z-index:5;
 
     animation:bagBounce 3.5s infinite;
-
 }
 
 .shirt-drop{
