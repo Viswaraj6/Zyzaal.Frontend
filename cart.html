@@ -749,43 +749,27 @@ function loadCart() {
   document.querySelector(".price-box").style.display = "none";
 
  html = `
-<div style="
-  background:#fff;
-  padding:40px 20px;
-  text-align:center;
-  border-radius:12px;
-">
+<div class="empty-cart-box">
 
-<img
-    src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
-    class="empty-cart-img"
->
+    <span class="spark spark1">✨</span>
 
- <h2>Your bag is waiting 🛍️</h2>
+    <span class="spark spark2">✨</span>
 
-<p style="
-color:#666;
-margin-top:8px;
-line-height:1.6;
-">
-Looks like you haven't added
-anything yet.
-</p>
+    <img
+        class="empty-cart-img"
+        src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
+    >
 
-  <button 
-    onclick="goHome()"
-    style="
-     background:#90EE90;
-     color:#000;
-      padding:12px 30px;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-      margin-top:10px;
-    "
-  >
-  Continue Shopping
-  </button>
+    <h2>Your Bag is Waiting 🛍️</h2>
+
+    <p>
+        Looks like you haven't added
+        anything yet.
+    </p>
+
+    <button onclick="goHome()">
+        Continue Shopping
+    </button>
 
 </div>
 `;
