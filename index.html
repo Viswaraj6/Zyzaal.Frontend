@@ -1138,6 +1138,31 @@ async function toggleFav(i, el){
 // 📦 LOAD PRODUCTS
 // ==============================
 async function loadProducts(){
+  document.getElementById("newProducts").innerHTML = `
+<div class="product-skeleton">
+<div class="img"></div>
+<div class="title"></div>
+<div class="price"></div>
+</div>
+
+<div class="product-skeleton">
+<div class="img"></div>
+<div class="title"></div>
+<div class="price"></div>
+</div>
+
+<div class="product-skeleton">
+<div class="img"></div>
+<div class="title"></div>
+<div class="price"></div>
+</div>
+
+<div class="product-skeleton">
+<div class="img"></div>
+<div class="title"></div>
+<div class="price"></div>
+</div>
+`;
   try {
     const res = await fetch(API + "/products");
     const data = await res.json();
