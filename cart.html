@@ -17,33 +17,47 @@
   flex-direction: column;   /* 🔥 add */
   min-height: 100vh;  
 }
-   .bag-img{
-    width:110px;
+  .bag-img{
+
+    width:115px;
+
     display:block;
-    margin:0 auto;
+
+    margin:35px auto 0;
+
+    position:relative;
+
+    z-index:5;
+
+    animation:bagBounce 3.5s infinite;
+
 }
 
 .shirt-drop{
     position:absolute;
-    width:42px;
+    width:44px;
 
     left:50%;
-    margin-left:-55px;
+    margin-left:-65px;
 
-    top:-60px;
+    top:-80px;
 
-    animation:shirtDrop 3s infinite ease-in-out;
+    z-index:2;
+
+    animation:shirtDrop 3.5s infinite ease-in-out;
 }
 .pant-drop{
     position:absolute;
     width:42px;
 
     left:50%;
-    margin-left:20px;
+    margin-left:22px;
 
-    top:-80px;
+    top:-100px;
 
-    animation:pantDrop 3s infinite ease-in-out;
+    z-index:2;
+
+    animation:pantDrop 3.5s infinite ease-in-out;
 }
     .empty-cart-box{
     position:relative;
