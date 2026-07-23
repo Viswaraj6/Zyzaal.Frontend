@@ -212,11 +212,17 @@ overflow-x:hidden;
 }
 .cart-summary{
 
+    position:sticky;
+
+    bottom:0;
+
+    background:#fff;
+
     border-top:1px solid #ddd;
 
     padding:15px;
 
-    background:#fff;
+    z-index:5;
 
 }
 
