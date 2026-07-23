@@ -1,27 +1,20 @@
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#eef8f6;
+background:#eef8f6;
 }
 
 .header{
-
-    height:70px;
-
-    background:white;
-
-    border-bottom:1px solid #ddd;
-
+height:72px;
+background:#fff;
+border-bottom:1px solid #ddd;
 }
 
-main{
-
-    padding:20px;
-
+.container{
+padding:20px;
 }
