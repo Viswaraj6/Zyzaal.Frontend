@@ -7,6 +7,8 @@ let allProducts = [];
 
 let cart = [];
 let html5QrCode = null;
+let scanLock = false;
+
 window.onload = () => {
 
     loadProducts();
