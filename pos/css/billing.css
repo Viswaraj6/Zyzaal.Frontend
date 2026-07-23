@@ -414,18 +414,25 @@ border-bottom:1px solid #ddd;
     display:block;
 }
 .product-info{
-    padding:12px;
+    padding:8px;
     text-align:center;
 }
 
 .product-info h3{
-    font-size:16px;
-    margin-bottom:6px;
+    font-size:18px;
+    margin:4px 0;
+}
+
+.product-info small{
+    display:block;
+    color:#777;
+    font-size:12px;
+    margin-bottom:4px;
 }
 
 .product-info p{
-    margin:3px 0;
-    font-size:14px;
+    margin:2px 0;
+    font-size:13px;
 }
 
 .product-price{
