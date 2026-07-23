@@ -160,6 +160,29 @@ border-bottom:1px solid #ddd;
     border:1px solid #ddd;
 
 }
+.cart-header{
+
+    display:grid;
+
+    grid-template-columns:50px 2fr 70px 70px 100px 120px;
+
+    align-items:center;
+
+    background:#f8f8f8;
+
+    padding:15px;
+
+    font-weight:bold;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+.cart-body{
+
+    min-height:520px;
+
+}
 .cart-item{
 
     display:grid;
