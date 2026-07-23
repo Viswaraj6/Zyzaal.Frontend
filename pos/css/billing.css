@@ -949,28 +949,20 @@ overflow-x:hidden;
 /* ---------- Sidebar ---------- */
 
 .sidebar{
-
     position:fixed;
-
-    left:0;
-
     top:0;
-
-    bottom:0;
-
+    left:-260px;      /* Hidden by default */
     width:260px;
-
+    height:100%;
     background:#0f8a72;
-
     color:#fff;
-
     display:flex;
-
     flex-direction:column;
-
-    z-index:2000;
- transition: width .3s;
-    overflow:hidden;
+    transition:left .3s ease;
+    z-index:3000;
+}
+.sidebar.open{
+    left:0;
 }
 .sidebar.collapsed{
     width:70px;
