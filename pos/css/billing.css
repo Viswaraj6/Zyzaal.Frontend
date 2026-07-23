@@ -982,6 +982,14 @@ overflow-x:hidden;
 .sidebar.collapsed .store-box{
     display:none;
 }
+.sidebar.collapsed .menu-item{
+    justify-content:center;
+    padding:14px 0;
+}
+
+.sidebar.collapsed .sidebar-top{
+    justify-content:center;
+}
 .sidebar-top{
 
     padding:25px;
