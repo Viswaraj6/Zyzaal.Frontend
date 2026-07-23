@@ -423,8 +423,21 @@ border-bottom:1px solid #ddd;
 
 }
 .product-info{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
     padding:8px;
+
     text-align:center;
+
 }
 
 .product-info h3{
