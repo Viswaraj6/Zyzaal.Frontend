@@ -819,3 +819,67 @@ overflow-x:hidden;
     width:100%;
 
 }
+/* ================= MOBILE ================= */
+
+@media (max-width:768px){
+
+    .container{
+        padding:140px 10px 10px;
+    }
+
+    .top-bar{
+        flex-direction:column;
+        gap:10px;
+        padding:10px;
+    }
+
+    .customer-btn{
+        width:100%;
+    }
+
+    .billing-layout{
+
+        display:flex;
+        flex-direction:column;
+
+    }
+
+    .left-panel{
+
+        height:auto;
+
+    }
+
+    .right-panel{
+
+        position:static;
+
+        height:auto;
+
+        margin-top:15px;
+
+    }
+
+    .cart-header,
+    .cart-item{
+
+        grid-template-columns:
+        40px
+        1fr
+        60px
+        70px
+        80px
+        90px
+        40px;
+
+        font-size:12px;
+
+    }
+
+    .camera-box{
+
+        width:95%;
+
+    }
+
+}
