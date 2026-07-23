@@ -121,26 +121,75 @@ function barcodeScan(e){
 }
 function addToCart(product,size){
 
-    console.log({
+    const existing = cart.find(item =>
 
-        product:product.name,
+        item.barcode === size.sku
 
-        size:size.size,
+    );
 
-        barcode:size.sku,
+    if(existing){
 
-        price:product.price
+        existing.qty++;
 
-    });
+    }else{
+
+        cart.push({
+
+            product: product.name,
+
+            category: product.category,
+
+            barcode: size.sku,
+
+            size: size.size,
+
+            price: product.price,
+
+            qty:1
+
+        });
+
+    }
+
+    console.log(cart);
+
+    renderCart();
 
 }
-function addToCart(product,size){
+function renderCart(){
 
-    console.log({
-        product:product.name,
-        size:size.size,
-        barcode:size.sku,
-        price:product.price
+    const cartBody = document.querySelector(".cart-body");
+
+    cartBody.innerHTML = "";
+
+    cart.forEach((item,index)=>{
+
+        cartBody.innerHTML += `
+
+        <div class="cart-item">
+
+            <div>${index+1}</div>
+
+            <div>
+
+                <strong>${item.product}</strong><br>
+
+                <small>${item.barcode}</small>
+
+            </div>
+
+            <div>${item.size}</div>
+
+            <div>${item.qty}</div>
+
+            <div>₹${item.price}</div>
+
+            <div>₹${item.qty * item.price}</div>
+
+        </div>
+
+        `;
+
     });
 
 }
