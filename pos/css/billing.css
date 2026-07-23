@@ -117,9 +117,9 @@ border-bottom:1px solid #ddd;
 .billing-layout{
     display:grid;
 
-   grid-template-columns:420px 1fr 320px;
+    grid-template-columns:420px minmax(0,1fr) 300px;
 
-    gap:20px;
+    gap:15px;
 
     margin-top:20px;
 
