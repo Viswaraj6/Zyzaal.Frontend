@@ -969,7 +969,8 @@ overflow-x:hidden;
     flex-direction:column;
 
     z-index:2000;
-
+ transition: width .3s;
+    overflow:hidden;
 }
 
 .sidebar-top{
