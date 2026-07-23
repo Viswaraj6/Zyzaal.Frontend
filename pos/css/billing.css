@@ -18,3 +18,63 @@ border-bottom:1px solid #ddd;
 .container{
 padding:20px;
 }
+.header{
+    height:72px;
+    background:#ffffff;
+    border-bottom:1px solid #e5e5e5;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 25px;
+}
+
+.left,
+.center,
+.right{
+    display:flex;
+    align-items:center;
+}
+
+.left{
+    gap:18px;
+}
+
+.center{
+    font-size:18px;
+    font-weight:600;
+    color:#14866d;
+}
+
+.right{
+    gap:18px;
+}
+
+.logo{
+    font-size:34px;
+    font-weight:700;
+    color:#14866d;
+}
+
+.pos{
+    font-size:30px;
+    color:#444;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#14866d;
+
+    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+}
