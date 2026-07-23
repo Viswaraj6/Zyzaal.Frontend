@@ -479,3 +479,26 @@ function showScanToast(text){
     },1500);
 
 }
+function toggleSidebar(){
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const main =
+        document.querySelector(".main-content");
+
+    if(sidebar.style.width==="70px"){
+
+        sidebar.style.width="260px";
+
+        main.style.marginLeft="260px";
+
+    }else{
+
+        sidebar.style.width="70px";
+
+        main.style.marginLeft="70px";
+
+    }
+
+}
