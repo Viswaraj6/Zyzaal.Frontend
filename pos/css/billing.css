@@ -113,17 +113,16 @@ padding:20px;
     cursor:pointer;
 }
 .billing-layout{
-
     display:grid;
 
-    grid-template-columns:42% 33% 25%;
+    grid-template-columns:2fr 1.6fr 1.2fr;
 
     gap:20px;
 
     margin-top:20px;
 
+    width:100%;
 }
-
 .left-panel{
 
     background:#fff;
