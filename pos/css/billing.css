@@ -277,12 +277,13 @@ border-bottom:1px solid #ddd;
 
 .product-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    padding:10px;
-     flex:1;
+    grid-template-columns:repeat(2, minmax(180px,1fr));
+    gap:12px;
+    padding:12px;
+
     overflow-y:auto;
-    max-height:620px;
+
+    align-content:start;
 }
 .product-card{
     background:#fff;
