@@ -1,4 +1,7 @@
 const BASE_URL = "https://fark618-backend.onrender.com";
+const PRODUCTS_PER_PAGE = 12;
+
+let currentPage = 1;
 
 let allProducts = [];
 
