@@ -9,9 +9,12 @@ window.onload = () => {
 async function loadProducts() {
     try {
         const res = await fetch(BASE_URL + "/products");
-        allProducts = await res.json();
+       allProducts = await res.json();
 
-        renderProducts(allProducts);
+console.log(allProducts);
+console.log(allProducts[0]);
+
+renderProducts(allProducts);
 
     } catch (err) {
         console.error(err);
