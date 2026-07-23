@@ -375,3 +375,62 @@ function removeItem(index){
     renderCart();
 
 }
+function openCamera(){
+
+    document
+    .getElementById("cameraPopup")
+    .classList.remove("hidden");
+
+    html5QrCode = new Html5Qrcode("reader");
+
+    html5QrCode.start(
+
+        { facingMode:"environment" },
+
+        {
+
+            fps:10,
+
+            qrbox:250
+
+        },
+
+        onScanSuccess
+
+    );
+
+}
+
+function onScanSuccess(decodedText){
+
+    document.getElementById("barcodeInput").value = decodedText;
+
+    barcodeScan({
+
+        key:"Enter",
+
+        target:{
+
+            value:decodedText
+
+        }
+
+    });
+
+}
+
+function closeCamera(){
+
+    if(html5QrCode){
+
+        html5QrCode.stop().then(()=>{
+
+            document
+            .getElementById("cameraPopup")
+            .classList.add("hidden");
+
+        });
+
+    }
+
+}
