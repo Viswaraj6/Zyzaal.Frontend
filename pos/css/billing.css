@@ -822,7 +822,18 @@ overflow-x:hidden;
 /* ================= MOBILE ================= */
 
 @media (max-width:768px){
+    
+.mobile-payment-btn{
 
+    display:block;
+
+}
+
+.right-panel{
+
+    display:none;
+
+}
     .container{
         padding:140px 10px 10px;
     }
