@@ -102,7 +102,39 @@ overflow-x:hidden;
     z-index:999;
 }
 .search-box{
+
+    position:relative;
+
     flex:1;
+
+}
+
+.camera-btn{
+
+    position:absolute;
+
+    right:10px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    background:#16a085;
+
+    color:#fff;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:18px;
+
 }
 
 .search-box input{
