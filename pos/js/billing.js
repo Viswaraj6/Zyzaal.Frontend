@@ -117,7 +117,7 @@ function barcodeScan(e){
     console.log(size);
 
     addToCart(product,size);
-
+    closeSearch();
     e.target.value="";
 
 }
