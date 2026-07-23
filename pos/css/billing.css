@@ -523,3 +523,6 @@ overflow-x:hidden;
     background:#16a085;
     color:#fff;
 }
+.hidden{
+    display:none !important;
+}
