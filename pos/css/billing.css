@@ -156,15 +156,13 @@ overflow-x:hidden;
     flex-direction:column;
 }
 .right-panel{
-
     background:#fff;
-
     min-height:650px;
-
     border-radius:12px;
-
     border:1px solid #ddd;
-
+    position:sticky;
+    top:110px;
+    height:calc(100vh - 130px);
 }
 .cart-header{
 
