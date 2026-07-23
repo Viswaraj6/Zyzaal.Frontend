@@ -39,7 +39,7 @@ function renderProducts(products) {
         grid.innerHTML += `
         <div class="product-card" onclick="openProduct('${product._id}')">
 
-            <img src="${product.primaryImage}" class="product-img">
+          <img src="${product.primaryImage}" class="product-img" alt="${product.name}">
 
             <h3>${product.name}</h3>
 
