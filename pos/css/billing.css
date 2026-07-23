@@ -142,14 +142,17 @@ overflow-x:hidden;
 
     background:#fff;
 
-    min-height:650px;
+    height:650px;
 
     border-radius:12px;
 
     border:1px solid #ddd;
 
-}
+    display:flex;
 
+    flex-direction:column;
+
+}
 .center-panel{
     background:#fff;
     border-radius:12px;
