@@ -189,10 +189,22 @@ border-bottom:1px solid #ddd;
 
     grid-template-columns:50px 2fr 70px 70px 100px 120px;
 
+    align-items:center;
+
     padding:15px;
 
     border-bottom:1px solid #eee;
 
-    align-items:center;
+}
+
+.cart-item strong{
+
+    font-size:15px;
+
+}
+
+.cart-item small{
+
+    color:#777;
 
 }
