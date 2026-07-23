@@ -441,8 +441,11 @@ border-bottom:1px solid #ddd;
 }
 
 .product-info h3{
+
     font-size:18px;
-    margin:4px 0;
+
+    margin:2px 0;
+
 }
 
 .product-info small{
@@ -453,14 +456,25 @@ border-bottom:1px solid #ddd;
 }
 
 .product-info p{
+
     margin:2px 0;
-    font-size:13px;
+
+    color:#16a085;
+
+    font-size:14px;
+
 }
 
 .product-price{
+
+    margin-top:5px;
+
     font-size:18px;
+
     font-weight:bold;
+
     color:#16a085;
+
 }
 .pagination{
     display:flex;
