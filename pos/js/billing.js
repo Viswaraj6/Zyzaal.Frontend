@@ -13,7 +13,7 @@ window.onload = () => {
     document
         .getElementById("barcodeInput")
         .addEventListener("keydown", barcodeScan);
-
+        .addEventListener("input",searchProducts);
 };
 async function loadProducts() {
     try {
@@ -232,5 +232,29 @@ function closeSearch(){
     document
     .getElementById("searchPopup")
     .classList.add("hidden");
+
+}
+function searchProducts(e){
+
+    const value =
+    e.target.value.trim().toLowerCase();
+
+    if(value===""){
+
+        closeSearch();
+
+        return;
+
+    }
+
+    const result = allProducts.filter(p=>
+
+        p.styleNo.toLowerCase().includes(value) ||
+
+        p.category.toLowerCase().includes(value)
+
+    );
+
+    openSearch(result);
 
 }
