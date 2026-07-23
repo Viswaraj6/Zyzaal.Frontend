@@ -189,7 +189,15 @@ function renderCart(){
 
     cartBody.innerHTML = "";
 
+    let grandTotal = 0;
+    let totalQty = 0;
+
     cart.forEach((item,index)=>{
+
+        const amount = item.qty * item.price;
+
+        grandTotal += amount;
+        totalQty += item.qty;
 
         cartBody.innerHTML += `
 
@@ -201,23 +209,38 @@ function renderCart(){
 
                 <strong>${item.product}</strong><br>
 
-                <small>${item.barcode}</small>
+                <small>${item.size}</small>
 
             </div>
 
-            <div>${item.size}</div>
+            <div>
 
-            <div>${item.qty}</div>
+                <button onclick="changeQty(${index},-1)">−</button>
+
+                <span style="margin:0 8px;">${item.qty}</span>
+
+                <button onclick="changeQty(${index},1)">+</button>
+
+            </div>
 
             <div>₹${item.price}</div>
 
-            <div>₹${item.qty * item.price}</div>
+            <div>₹${amount}</div>
+
+            <div>
+
+                <button onclick="removeItem(${index})">🗑️</button>
+
+            </div>
 
         </div>
 
         `;
 
     });
+
+    document.getElementById("totalQty").innerText = totalQty;
+    document.getElementById("grandTotal").innerText = grandTotal;
 
 }
 function openSearch(list){
