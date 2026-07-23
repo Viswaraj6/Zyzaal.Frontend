@@ -29,28 +29,27 @@ function renderProducts(products) {
 
     products.forEach(product => {
 
-        const totalStock =
-            (product.stock?.S || 0) +
-            (product.stock?.M || 0) +
-            (product.stock?.L || 0) +
-            (product.stock?.XL || 0) +
-            (product.stock?.XXL || 0);
+       const totalStock = product.stock || 0;
 
         grid.innerHTML += `
-        <div class="product-card" onclick="openProduct('${product._id}')">
+<div class="product-card" onclick="openProduct('${product._id}')">
 
-          <img src="${product.primaryImage}" class="product-img" alt="${product.name}">
+    <img src="${product.primaryImage}" class="product-img">
 
-            <h3>${product.name}</h3>
+    <div class="product-info">
 
-            <p>${product.category}</p>
+        <h3>${product.name}</h3>
 
-            <p>Stock : ${totalStock}</p>
+        <small>${product.category}</small>
 
-            <h4>₹${product.price}</h4>
+        <p>Stock : ${totalStock}</p>
 
-        </div>
-        `;
+        <div class="product-price">₹${product.price}</div>
+
+    </div>
+
+</div>
+`;
     });
 
 }
