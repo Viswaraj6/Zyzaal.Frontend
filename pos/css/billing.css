@@ -293,12 +293,12 @@ border-bottom:1px solid #ddd;
 .product-card{
     background:#fff;
     border:1px solid #ddd;
-    border-radius:12px;
+    border-radius:10px;
     overflow:hidden;
     cursor:pointer;
     transition:.2s;
+    padding:8px;
 }
-
 .product-card:hover{
 
     transform:translateY(-3px);
