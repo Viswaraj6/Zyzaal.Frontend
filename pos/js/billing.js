@@ -81,3 +81,27 @@ function openProduct(id){
     console.log(sizeText);
 
 }
+function renderPagination(){
+
+    const pageDiv = document.getElementById("pagination");
+
+    pageDiv.innerHTML="";
+
+    const totalPages =
+        Math.ceil(allProducts.length / PRODUCTS_PER_PAGE);
+
+    for(let i=1;i<=totalPages;i++){
+
+        pageDiv.innerHTML += `
+        <button
+        class="${i===currentPage?'active':''}"
+        onclick="changePage(${i})">
+
+        ${i}
+
+        </button>
+        `;
+
+    }
+
+}
