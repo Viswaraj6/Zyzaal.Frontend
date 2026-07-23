@@ -76,16 +76,41 @@ function openProduct(id){
 
     const product = allProducts.find(p => p._id === id);
 
-    let sizeText = "";
+    document.getElementById("sizeTitle").innerHTML =
+        product.styleNo + " - " + product.name;
 
-    product.sizeStock.forEach(size => {
+    const box = document.getElementById("sizeList");
 
-        sizeText +=
-        `${size.size}  |  Stock : ${size.stock}  |  Barcode : ${size.sku}\n`;
+    box.innerHTML = "";
+
+    product.sizeStock.forEach(size=>{
+
+        box.innerHTML += `
+
+        <div class="size-item"
+             onclick="selectSize('${product._id}','${size.sku}')">
+
+            <div>
+
+                <strong>${size.size}</strong>
+
+            </div>
+
+            <div>
+
+                Stock : ${size.stock}
+
+            </div>
+
+        </div>
+
+        `;
 
     });
 
-  alert(sizeText);
+    document
+        .getElementById("sizePopup")
+        .classList.remove("hidden");
 
 }
 function barcodeScan(e){
