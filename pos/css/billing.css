@@ -280,6 +280,9 @@ border-bottom:1px solid #ddd;
     grid-template-columns:repeat(2,1fr);
     gap:10px;
     padding:10px;
+     flex:1;
+    overflow-y:auto;
+    max-height:620px;
 }
 .product-card{
     background:#fff;
