@@ -452,3 +452,20 @@ function closeCamera(){
     }
 
 }
+function showScanToast(text){
+
+    const toast = document.getElementById("scanToast");
+
+    toast.innerHTML = "✅ " + text;
+
+    toast.classList.remove("hidden");
+
+    document.getElementById("beepSound").play();
+
+    setTimeout(()=>{
+
+        toast.classList.add("hidden");
+
+    },1500);
+
+}
