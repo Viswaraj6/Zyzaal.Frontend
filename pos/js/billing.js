@@ -424,21 +424,27 @@ function openCamera(){
 }
 function onScanSuccess(decodedText, decodedResult){
 
-    console.log(decodedResult);
+    if(scanLock) return;
+
+    scanLock = true;
 
     document.getElementById("barcodeInput").value = decodedText;
 
     barcodeScan({
 
-        key: "Enter",
+        key:"Enter",
 
-        target: {
-
-            value: decodedText
-
+        target:{
+            value:decodedText
         }
 
     });
+
+    setTimeout(()=>{
+
+        scanLock = false;
+
+    },1500);
 
 }
 function closeCamera(){
