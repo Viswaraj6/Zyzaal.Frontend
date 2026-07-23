@@ -85,7 +85,7 @@ function openProduct(id){
 
     });
 
-    console.log(sizeText);
+  alert(sizeText);
 
 }
 function barcodeScan(e){
