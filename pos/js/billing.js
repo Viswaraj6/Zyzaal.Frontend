@@ -17,8 +17,7 @@ async function loadProducts() {
 console.log(allProducts);
 console.log(allProducts[0]);
 
-renderProducts();
-renderPagination();
+
 
     } catch (err) {
         console.error(err);
