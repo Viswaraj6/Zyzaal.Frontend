@@ -105,3 +105,12 @@ function renderPagination(){
     }
 
 }
+function changePage(page){
+
+    currentPage = page;
+
+    renderProducts();
+
+    renderPagination();
+
+}
