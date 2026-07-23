@@ -1085,3 +1085,14 @@ overflow-x:hidden;
     margin-left:0;
 
 }
+.sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.35);
+    display:none;
+    z-index:2500;
+}
+
+.sidebar-overlay.show{
+    display:block;
+}
