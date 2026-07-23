@@ -10,10 +10,12 @@ window.onload = () => {
 
     loadProducts();
 
-    document
-        .getElementById("barcodeInput")
-        .addEventListener("keydown", barcodeScan);
-        .addEventListener("input",searchProducts);
+    const barcodeInput = document.getElementById("barcodeInput");
+
+    barcodeInput.addEventListener("keydown", barcodeScan);
+
+    barcodeInput.addEventListener("input", searchProducts);
+
 };
 async function loadProducts() {
     try {
