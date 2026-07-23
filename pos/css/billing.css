@@ -919,3 +919,30 @@ overflow-x:hidden;
     cursor:pointer;
 
 }
+.scan-toast{
+
+    position:fixed;
+
+    bottom:25px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:#16a085;
+
+    color:#fff;
+
+    padding:14px 22px;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    z-index:30000;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
