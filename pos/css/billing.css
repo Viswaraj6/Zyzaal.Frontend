@@ -17,7 +17,8 @@ border-bottom:1px solid #ddd;
 }
 
 .container{
-padding:20px;
+    padding:20px;
+    max-width:100%;
 }
 .header{
     height:72px;
