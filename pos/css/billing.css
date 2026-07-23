@@ -217,8 +217,13 @@ overflow-x:hidden;
 
 }
 .cart-summary{
+
     border-top:1px solid #ddd;
+
     padding:15px;
+
+    background:#fff;
+
 }
 
 .summary-top{
