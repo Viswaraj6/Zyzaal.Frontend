@@ -972,7 +972,9 @@ overflow-x:hidden;
  transition: width .3s;
     overflow:hidden;
 }
-
+.sidebar.collapsed{
+    width:70px;
+}
 .sidebar-top{
 
     padding:25px;
