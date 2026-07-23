@@ -10,28 +10,31 @@ background:#eef8f6;
 overflow-x:hidden;
 }
 
-.header{
-height:72px;
-background:#fff;
-border-bottom:1px solid #ddd;
-}
-
 .container{
     padding:20px;
     max-width:100%;
 }
 .header{
+    position:fixed;
+
+    top:0;
+    left:0;
+    right:0;
+
     height:72px;
-    background:#ffffff;
-    border-bottom:1px solid #e5e5e5;
+
+    background:#fff;
+
+    border-bottom:1px solid #ddd;
 
     display:flex;
     justify-content:space-between;
     align-items:center;
 
     padding:0 25px;
-}
 
+    z-index:1000;
+}
 .left,
 .center,
 .right{
