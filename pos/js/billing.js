@@ -241,7 +241,7 @@ function renderCart(){
 
     document.getElementById("totalQty").innerText = totalQty;
     document.getElementById("grandTotal").innerText = grandTotal;
-
+    document.getElementById("paymentGrandTotal").innerText = grandTotal;
 }
 function openSearch(list){
 
