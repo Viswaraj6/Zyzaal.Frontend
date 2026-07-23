@@ -139,13 +139,21 @@ overflow-x:hidden;
     width:100%;
 }
 .left-panel{
+
     background:#fff;
+
     height:calc(100vh - 130px);
+
     border-radius:12px;
+
     border:1px solid #ddd;
 
     display:flex;
+
     flex-direction:column;
+
+    overflow:hidden;
+
 }
 .center-panel{
     background:#fff;
