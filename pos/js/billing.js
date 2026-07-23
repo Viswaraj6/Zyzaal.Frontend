@@ -1,22 +1,21 @@
 const BASE_URL = "https://fark618-backend.onrender.com";
 
+let allProducts = [];
+
 window.onload = () => {
     loadProducts();
 };
 
 async function loadProducts() {
-
     try {
-
         const res = await fetch(BASE_URL + "/products");
-        const products = await res.json();
+        allProducts = await res.json();
 
-        renderProducts(products);
+        renderProducts(allProducts);
 
     } catch (err) {
-        console.error("Error loading products:", err);
+        console.error(err);
     }
-
 }
 
 function renderProducts(products) {
@@ -27,27 +26,36 @@ function renderProducts(products) {
 
     products.forEach(product => {
 
+        const totalStock =
+            (product.stock?.S || 0) +
+            (product.stock?.M || 0) +
+            (product.stock?.L || 0) +
+            (product.stock?.XL || 0) +
+            (product.stock?.XXL || 0);
+
         grid.innerHTML += `
-            <div class="product-card" onclick="addToCart('${product._id}')">
+        <div class="product-card" onclick="openProduct('${product._id}')">
 
-                <img src="${product.primaryImage}"
-                     style="width:100%;height:170px;object-fit:cover;border-radius:10px;">
+            <img src="${product.primaryImage}" class="product-img">
 
-                <h4>${product.name}</h4>
+            <h3>${product.name}</h3>
 
-                <small>${product.styleNo || ""}</small>
+            <p>${product.category}</p>
 
-                <p>₹${product.price}</p>
+            <p>Stock : ${totalStock}</p>
 
-            </div>
+            <h4>₹${product.price}</h4>
+
+        </div>
         `;
-
     });
 
 }
 
-function addToCart(id){
+function openProduct(id){
 
-    alert("Product ID : " + id);
+    const product = allProducts.find(p => p._id === id);
+
+    console.log(product);
 
 }
