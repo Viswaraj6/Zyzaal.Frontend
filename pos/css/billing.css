@@ -7,6 +7,7 @@ font-family:Arial,sans-serif;
 
 body{
 background:#eef8f6;
+overflow-x:hidden;
 }
 
 .header{
