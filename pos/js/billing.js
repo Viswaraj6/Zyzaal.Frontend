@@ -11,11 +11,15 @@ window.onload = () => {
 
     loadProducts();
 
-    const barcodeInput = document.getElementById("barcodeInput");
+    const barcodeInput =
+        document.getElementById("barcodeInput");
 
     barcodeInput.addEventListener("keydown", barcodeScan);
-
     barcodeInput.addEventListener("input", searchProducts);
+
+    document
+        .getElementById("cameraBtn")
+        .addEventListener("click", openCamera);
 
 };
 async function loadProducts() {
