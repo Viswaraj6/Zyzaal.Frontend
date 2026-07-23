@@ -201,42 +201,38 @@ function renderCart(){
 
         cartBody.innerHTML += `
 
-        <div class="cart-item">
+<div class="cart-item">
 
-            <div>${index+1}</div>
+    <div>${index+1}</div>
 
-            <div>
+    <div>
+        <strong>${item.product}</strong><br>
+        <small>${item.barcode}</small>
+    </div>
 
-                <strong>${item.product}</strong><br>
+    <div>
+        ${item.size}
+    </div>
 
-                <small>${item.size}</small>
+    <div>
+        <button onclick="changeQty(${index},-1)">−</button>
 
-            </div>
+        <span style="margin:0 8px;">${item.qty}</span>
 
-            <div>
+        <button onclick="changeQty(${index},1)">+</button>
+    </div>
 
-                <button onclick="changeQty(${index},-1)">−</button>
+    <div>₹${item.price}</div>
 
-                <span style="margin:0 8px;">${item.qty}</span>
+    <div>₹${amount}</div>
 
-                <button onclick="changeQty(${index},1)">+</button>
+    <div>
+        <button onclick="removeItem(${index})">🗑️</button>
+    </div>
 
-            </div>
+</div>
 
-            <div>₹${item.price}</div>
-
-            <div>₹${amount}</div>
-
-            <div>
-
-                <button onclick="removeItem(${index})">🗑️</button>
-
-            </div>
-
-        </div>
-
-        `;
-
+`;
     });
 
     document.getElementById("totalQty").innerText = totalQty;
