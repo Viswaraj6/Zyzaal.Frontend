@@ -25,39 +25,46 @@ renderPagination();
     }
 }
 
-function renderProducts(products) {
+function renderProducts(){
 
     const grid = document.getElementById("productGrid");
 
     grid.innerHTML = "";
 
-    products.forEach(product => {
+    const start = (currentPage - 1) * PRODUCTS_PER_PAGE;
 
-       const totalStock = product.stock || 0;
+    const end = start + PRODUCTS_PER_PAGE;
+
+    const products = allProducts.slice(start,end);
+
+    products.forEach(product=>{
 
         grid.innerHTML += `
-<div class="product-card" onclick="openProduct('${product._id}')">
+        <div class="product-card"
+             onclick="openProduct('${product._id}')">
 
-    <img src="${product.primaryImage}" class="product-img">
+            <img src="${product.primaryImage}" class="product-img">
 
-    <div class="product-info">
+            <div class="product-info">
 
-        <h3>${product.name}</h3>
+                <h3>${product.name}</h3>
 
-        <small>${product.category}</small>
+                <small>${product.category}</small>
 
-        <p>Stock : ${totalStock}</p>
+                <p>Stock : ${product.stock}</p>
 
-        <div class="product-price">₹${product.price}</div>
+                <div class="product-price">
+                    ₹${product.price}
+                </div>
 
-    </div>
+            </div>
 
-</div>
-`;
+        </div>
+        `;
+
     });
 
 }
-
 function openProduct(id){
 
     const product = allProducts.find(p => p._id === id);
