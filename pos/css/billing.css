@@ -287,21 +287,25 @@ border-bottom:1px solid #ddd;
     overflow-y:auto;
 }
 .product-card{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:10px;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    align-items:center;
+
+    width:100%;
 
     overflow:hidden;
 
-    cursor:pointer;
+    background:#fff;
 
-    transition:.2s;
+    border:1px solid #ddd;
 
-    height:240px;
+    border-radius:10px;
 
-    display:flex;
-
-    flex-direction:column;
+    padding:8px;
 }
 .product-card:hover{
 
