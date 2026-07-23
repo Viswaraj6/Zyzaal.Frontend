@@ -481,25 +481,8 @@ function showScanToast(text){
 }
 function toggleSidebar(){
 
-    const sidebar = document.getElementById("sidebar");
-    const main = document.querySelector(".main-content");
-    const header = document.querySelector(".header");
-    const topBar = document.querySelector(".top-bar");
-
-    sidebar.classList.toggle("collapsed");
-
-    if(sidebar.classList.contains("collapsed")){
-
-        main.style.marginLeft = "70px";
-        header.style.left = "70px";
-        topBar.style.left = "70px";
-
-    }else{
-
-        main.style.marginLeft = "260px";
-        header.style.left = "260px";
-        topBar.style.left = "260px";
-
-    }
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
 
 }
