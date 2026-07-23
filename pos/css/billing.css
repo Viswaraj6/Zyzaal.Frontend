@@ -289,10 +289,18 @@ border-bottom:1px solid #ddd;
     background:#fff;
     border:1px solid #ddd;
     border-radius:10px;
+
     overflow:hidden;
+
     cursor:pointer;
+
     transition:.2s;
-    padding:8px;
+
+    height:240px;
+
+    display:flex;
+
+    flex-direction:column;
 }
 .product-card:hover{
 
