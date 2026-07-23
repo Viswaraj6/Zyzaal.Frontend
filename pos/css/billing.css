@@ -782,3 +782,40 @@ overflow-x:hidden;
     background:#eef8f6;
 
 }
+.camera-popup{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:20000;
+
+}
+
+.camera-box{
+
+    width:500px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    padding:15px;
+
+}
+
+#reader{
+
+    width:100%;
+
+}
