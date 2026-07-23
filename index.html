@@ -56,22 +56,7 @@ h1 { text-align: center; }
 }
   /* 📱 mobile */
 @media(max-width:768px){
-#newArrivalSection{
-    padding:15px 10px;
-}
 
-.section-head h2{
-    font-size:20px;
-}
-
-.section-head p{
-    font-size:12px;
-}
-
-.allProductsTitle{
-    margin:15px 10px;
-    font-size:20px;
-}
 .products{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -270,47 +255,6 @@ height: 320px;
   font-size:16px;
   border-radius:10px;
   border: 1px solid #ccc;
-}
-  /* ==========================
-   NEW ARRIVALS
-========================== */
-
-#newArrivalSection{
-    background:#fff;
-    padding:20px 15px;
-    margin:15px 0;
-}
-
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    margin-bottom:15px;
-}
-
-.section-head h2{
-    margin:0;
-    font-size:24px;
-}
-
-.section-head p{
-    margin:4px 0 0;
-    color:#777;
-    font-size:14px;
-}
-
-.section-head button{
-    border:none;
-    background:none;
-    color:#009688;
-    font-weight:600;
-    cursor:pointer;
-    font-size:14px;
-}
-
-.allProductsTitle{
-    margin:20px 15px 10px;
-    font-size:24px;
 }
 /* 🔥 GRID */
 .products {
@@ -962,61 +906,10 @@ onclick="openMenu()">
 
 </div>
    <div class="categories">
-  <button onclick="filterCategory('all', this)">All</button>
-  <button onclick="filterCategory('shirt', this)">Shirts</button>
-  <button onclick="filterCategory('pant', this)">Pants</button>
+ <button onclick="filterCategory('all', this)">All</button>
+<button onclick="filterCategory('shirt', this)">Shirts</button>
+<button onclick="filterCategory('pant', this)">Pants</button>
 </div>
-
-<!-- NEW ARRIVALS -->
-<section id="newArrivalSection">
-
-    <div class="section-head">
-
-        <div>
-            <h2>✨ New Arrivals</h2>
-            <p>Fresh Styles Just Landed</p>
-        </div>
-
-        <button onclick="viewAllNew()">
-            View All →
-        </button>
-
-    </div>
-
-   <div id="newProducts" class="products">
-
-  <div class="product-skeleton">
-    <div class="img"></div>
-    <div class="title"></div>
-    <div class="price"></div>
-  </div>
-
-  <div class="product-skeleton">
-    <div class="img"></div>
-    <div class="title"></div>
-    <div class="price"></div>
-  </div>
-
-  <div class="product-skeleton">
-    <div class="img"></div>
-    <div class="title"></div>
-    <div class="price"></div>
-  </div>
-
-  <div class="product-skeleton">
-    <div class="img"></div>
-    <div class="title"></div>
-    <div class="price"></div>
-  </div>
-
-</div>
-
-</section>
-
-<h2 class="allProductsTitle">
-    All Products
-</h2>
-
 <div id="products" class="products">
 
   <div class="product-skeleton">
@@ -1138,31 +1031,6 @@ async function toggleFav(i, el){
 // 📦 LOAD PRODUCTS
 // ==============================
 async function loadProducts(){
-  document.getElementById("newProducts").innerHTML = `
-<div class="product-skeleton">
-<div class="img"></div>
-<div class="title"></div>
-<div class="price"></div>
-</div>
-
-<div class="product-skeleton">
-<div class="img"></div>
-<div class="title"></div>
-<div class="price"></div>
-</div>
-
-<div class="product-skeleton">
-<div class="img"></div>
-<div class="title"></div>
-<div class="price"></div>
-</div>
-
-<div class="product-skeleton">
-<div class="img"></div>
-<div class="title"></div>
-<div class="price"></div>
-</div>
-`;
   try {
     const res = await fetch(API + "/products");
     const data = await res.json();
@@ -1183,16 +1051,8 @@ async function loadProducts(){
 
 // 🔥 Backend wishlist load
 await getFav();
-const latestProducts = getLatestProducts(productsData);
 
-// New Arrivals-ல் இல்லாத products மட்டும்
-const otherProducts = productsData.filter(product =>
-    !latestProducts.some(newProduct => newProduct._id === product._id)
-);
-
-renderNewProducts(latestProducts);
-
-renderProducts(otherProducts);
+renderProducts(productsData);
     
   } catch(e){
     console.log("Product error", e);
@@ -1233,62 +1093,6 @@ function filterCategory(type, el){
 );
     renderProducts(filtered);
   }
-}
-  
-function getLatestProducts(data){
-
-    const validProducts = data.filter(
-        p => p.createdAt
-    );
-
-    if(validProducts.length === 0){
-        return [];
-    }
-
-    validProducts.sort(
-        (a,b)=>new Date(b.createdAt)-new Date(a.createdAt)
-    );
-
-    return validProducts.slice(0,20);
-
-}
-  function renderNewProducts(data){
-
-  let html = "";
-
-  data.forEach((p,i)=>{
-
-    html += `
-    <div class="card" onclick="openProduct('${p._id}')">
-
-      <div class="fav ${isFav(p._id)?'active':''}"
-      onclick="event.stopPropagation();toggleFav(${i},this)">
-        <i class="fa-solid fa-heart"></i>
-      </div>
-
-      <img src="${p.primaryImage || p.images?.[0] || p.image || 'https://via.placeholder.com/300'}">
-
-      <div class="brand">
-        ${p.brand || "FARK 618"}
-      </div>
-
-      <h4>
-        ${(p.category || "Shirt")
-        .toLowerCase()
-        .replace(/\b\w/g,c=>c.toUpperCase())}
-      </h4>
-
-      <div class="price">
-        ₹${p.price}
-      </div>
-
-    </div>
-    `;
-
-  });
-
-  document.getElementById("newProducts").innerHTML = html;
-
 }
   function renderProducts(data){
 
