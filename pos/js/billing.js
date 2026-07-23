@@ -85,36 +85,51 @@ function openProduct(id){
     console.log(sizeText);
 
 }
-function renderPagination(){
+function barcodeScan(e){
 
-    const pageDiv = document.getElementById("pagination");
+    if(e.key !== "Enter") return;
 
-    pageDiv.innerHTML="";
+    const barcode = e.target.value.trim();
 
-    const totalPages =
-        Math.ceil(allProducts.length / PRODUCTS_PER_PAGE);
+    if(barcode==="") return;
 
-    for(let i=1;i<=totalPages;i++){
+    const product = allProducts.find(p =>
 
-        pageDiv.innerHTML += `
-        <button
-        class="${i===currentPage?'active':''}"
-        onclick="changePage(${i})">
+        p.sizeStock.some(s => s.sku === barcode)
 
-        ${i}
+    );
 
-        </button>
-        `;
+    if(!product){
+
+        e.target.value="";
+
+        return;
 
     }
 
+    const size = product.sizeStock.find(s => s.sku===barcode);
+
+    console.log(product);
+
+    console.log(size);
+
+    addToCart(product,size);
+
+    e.target.value="";
+
 }
-function changePage(page){
+function addToCart(product,size){
 
-    currentPage = page;
+    console.log({
 
-    renderProducts();
+        product:product.name,
 
-    renderPagination();
+        size:size.size,
+
+        barcode:size.sku,
+
+        price:product.price
+
+    });
 
 }
