@@ -6,9 +6,14 @@ let currentPage = 1;
 let allProducts = [];
 
 window.onload = () => {
-    loadProducts();
-};
 
+    loadProducts();
+
+    document
+        .getElementById("barcodeInput")
+        .addEventListener("keydown", barcodeScan);
+
+};
 async function loadProducts() {
     try {
         const res = await fetch(BASE_URL + "/products");
