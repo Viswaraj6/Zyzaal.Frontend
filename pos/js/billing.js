@@ -133,3 +133,13 @@ function addToCart(product,size){
     });
 
 }
+function addToCart(product,size){
+
+    console.log({
+        product:product.name,
+        size:size.size,
+        barcode:size.sku,
+        price:product.price
+    });
+
+}
