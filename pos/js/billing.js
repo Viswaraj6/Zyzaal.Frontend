@@ -59,6 +59,15 @@ function openProduct(id){
 
     const product = allProducts.find(p => p._id === id);
 
-    console.log(product);
+    let sizeText = "";
+
+    product.sizeStock.forEach(size => {
+
+        sizeText +=
+        `${size.size}  |  Stock : ${size.stock}  |  Barcode : ${size.sku}\n`;
+
+    });
+
+    console.log(sizeText);
 
 }
