@@ -653,3 +653,60 @@ overflow-x:hidden;
     display:none !important;
 
 }
+.size-popup{
+
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.35);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:10000;
+
+}
+
+.size-box{
+
+    width:450px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+}
+
+.size-list{
+
+    padding:20px;
+
+}
+
+.size-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    margin-bottom:10px;
+
+    cursor:pointer;
+
+}
+
+.size-item:hover{
+
+    background:#eef8f6;
+
+}
