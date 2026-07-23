@@ -414,24 +414,25 @@ function openCamera(){
     }
 
 );
-function onScanSuccess(decodedText){
+function onScanSuccess(decodedText, decodedResult){
+
+    console.log(decodedResult);
 
     document.getElementById("barcodeInput").value = decodedText;
 
     barcodeScan({
 
-        key:"Enter",
+        key: "Enter",
 
-        target:{
+        target: {
 
-            value:decodedText
+            value: decodedText
 
         }
 
     });
 
 }
-
 function closeCamera(){
 
     if(html5QrCode){
