@@ -291,21 +291,12 @@ border-bottom:1px solid #ddd;
 
 }
 .product-card{
-
     background:#fff;
-
     border:1px solid #ddd;
-
     border-radius:12px;
-
-    padding:15px;
-
-    text-align:center;
-
+    overflow:hidden;
     cursor:pointer;
-
     transition:.2s;
-
 }
 
 .product-card:hover{
