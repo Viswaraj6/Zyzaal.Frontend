@@ -351,3 +351,24 @@ function selectSize(productId,barcode){
         .value="";
 
 }
+function changeQty(index,value){
+
+    cart[index].qty += value;
+
+    if(cart[index].qty <= 0){
+
+        cart.splice(index,1);
+
+    }
+
+    renderCart();
+
+}
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    renderCart();
+
+}
