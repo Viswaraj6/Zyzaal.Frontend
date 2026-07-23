@@ -828,7 +828,21 @@ overflow-x:hidden;
     display:block;
 
 }
+.cart-body{
 
+    min-height:250px;
+
+    max-height:350px;
+
+    overflow-y:auto;
+
+}
+
+.cart-summary{
+
+    position:static;
+
+}
 .right-panel{
 
     display:none;
