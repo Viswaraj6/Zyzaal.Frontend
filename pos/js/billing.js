@@ -5,6 +5,7 @@ let currentPage = 1;
 
 let allProducts = [];
 
+let cart = [];
 window.onload = () => {
 
     loadProducts();
