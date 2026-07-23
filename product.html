@@ -289,16 +289,16 @@ text-decoration:underline;
     font-size:22px;
     cursor:pointer;
 
-    color:#fff;                          /* White heart */
-    -webkit-text-stroke:1.5px #8CCFC1;   /* Soft Mint Outline */
-
+   color:#fff;
+    -webkit-text-stroke:1.4px #8CCFC1;
     transition:.25s;
 }
 
 .similar-card .fav.active{
 
-    color:#A8DDD0;                       /* Brand Mint */
+     color:#A8DDD0;
     -webkit-text-stroke:0;
+
 
 }
 
@@ -1746,15 +1746,15 @@ if(isFav(id)){
 
     el.classList.add("active");
 
-    icon.classList.remove("fa-regular");
-    icon.classList.add("fa-solid");
+  if(isFav(id)){
+
+    el.classList.add("active");
 
 }else{
 
     el.classList.remove("active");
 
-    icon.classList.remove("fa-solid");
-    icon.classList.add("fa-regular");
+}
 
 }
 }
@@ -1785,7 +1785,7 @@ await getFav();
 
             <div class="fav ${isFav(p._id) ? 'active' : ''}"
      onclick="event.stopPropagation(); toggleFav('${p._id}', this)">
-    <i class="fa-heart ${isFav(p._id) ? 'fa-solid' : 'fa-regular'}"></i>
+    <i class="fa-solid fa-heart"></i>
 </div>
 
             <img src="${p.images?.[0] || p.image}">
