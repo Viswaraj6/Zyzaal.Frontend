@@ -975,6 +975,13 @@ overflow-x:hidden;
 .sidebar.collapsed{
     width:70px;
 }
+.sidebar.collapsed .sidebar-top h2,
+.sidebar.collapsed .sidebar-top small,
+.sidebar.collapsed .menu-item span,
+.sidebar.collapsed .menu-item small,
+.sidebar.collapsed .store-box{
+    display:none;
+}
 .sidebar-top{
 
     padding:25px;
