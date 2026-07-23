@@ -17,132 +17,6 @@
   flex-direction: column;   /* 🔥 add */
   min-height: 100vh;  
 }
-.bag-img{
-    position:absolute;
-    bottom:0;
-    left:80%;
-    left:calc(50% - 40px);
-
-    width:220px;
-
-    transform:translateX(-50%);
-
-    z-index:5;
-
-    animation:bagBounce 3.5s infinite;
-}
-    .shirt-drop{
-    position:absolute;
-
-    width:78px;
-
-    left:50%;
-
-    top:80px;
-
-    margin-left:-90px;
-
-    z-index:3;
-
-    animation:shirtDrop 3.5s infinite;
-}
-    .pant-drop{
-    position:absolute;
-
-    width:72px;
-
-    left:50%;
-
-    top:80px;
-
-    margin-left:25px;
-
-    z-index:3;
-
-    animation:pantDrop 3.5s infinite;
-}
-   .empty-cart-box{
-    text-align:center;
-    padding:40px 20px;
-}
-    .bag-wrapper{
-    width:300px;
-    height:300px;
-    margin:0 auto;
-    position:relative;
-}
-  @keyframes shirtDrop{
-
-0%{
-    transform:translate(-70px,-90px) rotate(-35deg);
-    opacity:0;
-}
-
-25%{
-    opacity:1;
-}
-
-60%{
-    transform:translate(-10px,10px) rotate(-5deg);
-    opacity:1;
-}
-
-75%{
-    transform:translate(0,35px) scale(.2);
-    opacity:0;
-}
-
-100%{
-    transform:translate(-70px,-90px) rotate(-35deg);
-    opacity:0;
-}
-}
-    
-@keyframes pantDrop{
-
-0%{
-    transform:translate(70px,-90px) rotate(35deg);
-    opacity:0;
-}
-
-35%{
-    opacity:1;
-}
-
-65%{
-    transform:translate(10px,10px) rotate(5deg);
-    opacity:1;
-}
-
-80%{
-    transform:translate(0,35px) scale(.2);
-    opacity:0;
-}
-
-100%{
-    transform:translate(70px,-90px) rotate(35deg);
-    opacity:0;
-}
-}
-    
-@keyframes bagBounce{
-
-0%,45%,100%{
-    transform:translateX(-50%) translateY(0);
-}
-
-62%{
-    transform:translateX(-50%) translateY(8px) scale(1.04);
-}
-
-72%{
-    transform:translateX(-50%) translateY(-3px);
-}
-
-80%{
-    transform:translateX(-50%) translateY(0);
-}
-}
     .product-skeleton-wrap{
     display:flex;
     gap:15px;
@@ -864,27 +738,38 @@ function loadCart() {
   document.querySelector(".price-box").style.display = "none";
 
  html = `
-<div class="empty-cart-box">
+<div style="
+  background:#fff;
+  padding:40px 20px;
+  text-align:center;
+  border-radius:12px;
+">
 
-    <div class="bag-wrapper">
+  <img 
+    src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+    width="140"
+    style="
+      margin-bottom:10px;
+      animation: cartFloat 2s infinite ease-in-out;
+    "
+  >
 
-        <img src="images/bag-open.png" class="bag-img">
+  <h2>Your cart is empty!</h2>
 
-        <img src="images/shirt.png" class="shirt-drop">
-
-        <img src="images/pant.png" class="pant-drop">
-
-    </div>
-
-    <h2>Your Bag is Waiting 🛍️</h2>
-
-    <p>
-        Looks like you haven't added anything yet.
-    </p>
-
-    <button onclick="goHome()">
-        Continue Shopping
-    </button>
+  <button 
+    onclick="goHome()"
+    style="
+      background:#2874f0;
+      color:#fff;
+      padding:12px 30px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      margin-top:10px;
+    "
+  >
+    Shop now
+  </button>
 
 </div>
 `;
