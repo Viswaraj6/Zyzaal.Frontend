@@ -301,3 +301,30 @@ function searchProducts(e){
     openSearch(result);
 
 }
+function closeSize(){
+
+    document
+        .getElementById("sizePopup")
+        .classList.add("hidden");
+
+}
+
+function selectSize(productId,barcode){
+
+    const product =
+        allProducts.find(p=>p._id===productId);
+
+    const size =
+        product.sizeStock.find(s=>s.sku===barcode);
+
+    addToCart(product,size);
+
+    closeSize();
+
+    closeSearch();
+
+    document
+        .getElementById("barcodeInput")
+        .value="";
+
+}
