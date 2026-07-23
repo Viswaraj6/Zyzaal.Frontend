@@ -238,24 +238,40 @@ function closeSearch(){
 }
 function searchProducts(e){
 
-    const value =
-    e.target.value.trim().toLowerCase();
+    const value = e.target.value.trim().toLowerCase();
 
-    if(value===""){
+    // Empty என்றால் popup close
+    if(value === ""){
 
         closeSearch();
-
         return;
 
     }
 
-    const result = allProducts.filter(p=>
+    // 3 characters க்கு குறைவாக இருந்தால் popup வேண்டாம்
+    if(value.length < 3){
 
-        p.styleNo.toLowerCase().includes(value) ||
+        closeSearch();
+        return;
 
-        p.category.toLowerCase().includes(value)
+    }
+
+    const result = allProducts.filter(product =>
+
+        product.styleNo.toLowerCase().includes(value) ||
+
+        product.category.toLowerCase().includes(value) ||
+
+        product.name.toLowerCase().includes(value)
 
     );
+
+    if(result.length === 0){
+
+        closeSearch();
+        return;
+
+    }
 
     openSearch(result);
 
