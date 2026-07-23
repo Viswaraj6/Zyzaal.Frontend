@@ -185,8 +185,10 @@ function addToCart(product,size){
 
     console.log(cart);
 
-    renderCart();
+   
+renderCart();
 
+showScanToast(product.name + " (" + size.size + ") Added");
 }
 function renderCart(){
 
