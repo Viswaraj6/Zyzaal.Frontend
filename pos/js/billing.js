@@ -193,3 +193,44 @@ function renderCart(){
     });
 
 }
+function openSearch(list){
+
+    document
+    .getElementById("searchPopup")
+    .classList.remove("hidden");
+
+    const box =
+    document.getElementById("popupResults");
+
+    box.innerHTML="";
+
+    list.forEach(product=>{
+
+        box.innerHTML += `
+
+        <div class="popup-card"
+             onclick="openProduct('${product._id}')">
+
+            <img src="${product.primaryImage}">
+
+            <h4>${product.styleNo}</h4>
+
+            <small>${product.category}</small>
+
+            <p>₹${product.price}</p>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+function closeSearch(){
+
+    document
+    .getElementById("searchPopup")
+    .classList.add("hidden");
+
+}
