@@ -6,6 +6,7 @@ let currentPage = 1;
 let allProducts = [];
 
 let cart = [];
+let html5QrCode = null;
 window.onload = () => {
 
     loadProducts();
