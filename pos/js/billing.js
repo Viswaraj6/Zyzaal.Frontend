@@ -1,2 +1,1 @@
-
-console.log("ZYZAAL POS Started");
+console.log("ZYZAAL POS");
