@@ -379,28 +379,63 @@ function removeItem(index){
     renderCart();
 
 }
-function openCamera() {
+function openCamera(){
 
     const popup = document.getElementById("cameraPopup");
     popup.classList.remove("hidden");
 
-    if (html5QrCode) {
-        html5QrCode.stop().catch(() => {});
+    if(html5QrCode){
+        html5QrCode.stop().catch(()=>{});
     }
 
     html5QrCode = new Html5Qrcode("reader");
 
-    html5QrCode.start(
-        { facingMode: "environment" },
-        {
-            fps: 10,
-            qrbox: 250
-        },
-        onScanSuccess,
-        () => {}
-    ).catch(err => {
+    Html5Qrcode.getCameras()
+
+    .then(cameras=>{
+
+        if(cameras.length===0){
+
+            alert("Camera Not Found");
+
+            return;
+
+        }
+
+        let cameraId = cameras[0].id;
+
+        // Mobile → Back Camera
+        if(cameras.length>1){
+            cameraId = cameras[cameras.length-1].id;
+        }
+
+        return html5QrCode.start(
+
+            cameraId,
+
+            {
+                fps:10,
+
+                qrbox:{
+                    width:250,
+                    height:150
+                }
+            },
+
+            onScanSuccess,
+
+            ()=>{}
+
+        );
+
+    })
+
+    .catch(err=>{
+
         console.error(err);
+
         alert(err);
+
     });
 
 }
