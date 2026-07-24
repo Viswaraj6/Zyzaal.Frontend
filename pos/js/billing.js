@@ -380,7 +380,7 @@ function removeItem(index){
 
 }
 function openCamera(){
-
+console.log("Camera Button Clicked");
     document
         .getElementById("cameraPopup")
         .classList.remove("hidden");
