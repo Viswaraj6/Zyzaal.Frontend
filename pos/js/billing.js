@@ -477,17 +477,23 @@ function onScanSuccess(decodedText, decodedResult){
 }
 function closeCamera(){
 
-    if(html5QrCode){
+    if(!html5QrCode) return;
 
-        html5QrCode.stop().then(()=>{
+    html5QrCode.stop()
 
-            document
+    .then(()=>{
+
+        html5QrCode.clear();
+
+        html5QrCode = null;
+
+        document
             .getElementById("cameraPopup")
             .classList.add("hidden");
 
-        });
+    })
 
-    }
+    .catch(console.error);
 
 }
 function showScanToast(text){
