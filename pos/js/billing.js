@@ -391,9 +391,9 @@ console.log("Camera Button Clicked");
 
     html5QrCode = new Html5Qrcode("reader");
 
-    html5QrCode.start(
+  html5QrCode.start(
 
-        { facingMode: { exact: "environment" } },
+    { facingMode: "environment" },
 
         {
             fps:10,
