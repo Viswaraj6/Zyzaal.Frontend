@@ -845,9 +845,27 @@ overflow-x:hidden;
 
 #reader{
 
-    flex:1;
+    width:100% !important;
 
-    width:100%;
+    height:calc(100vh - 60px) !important;
+
+    overflow:hidden;
+
+}
+
+#reader video{
+
+    width:100% !important;
+
+    height:100% !important;
+
+    object-fit:cover !important;
+
+}
+
+#reader canvas{
+
+    display:none !important;
 
 }
 /* ================= MOBILE ================= */
