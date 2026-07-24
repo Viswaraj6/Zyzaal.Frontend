@@ -320,11 +320,13 @@
 
     <div class="camera-box">
 
-        <div class="popup-header">
+        <div class="camera-header">
+
+            <button onclick="closeCamera()">✕</button>
 
             <h3>Scan Barcode</h3>
 
-            <button onclick="closeCamera()">✕</button>
+            <button id="flashBtn">🔦</button>
 
         </div>
 
@@ -333,7 +335,7 @@
     </div>
 
 </div>
-   <div id="scanToast" class="scan-toast hidden">
+    <div id="scanToast" class="scan-toast hidden">
     ✅ Product Added
 </div>
     
