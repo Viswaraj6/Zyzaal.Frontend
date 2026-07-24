@@ -381,7 +381,8 @@ function removeItem(index){
 }
 function openCamera(){
 
-    document.getElementById("cameraPopup").classList.remove("hidden");
+    const popup = document.getElementById("cameraPopup");
+    popup.classList.remove("hidden");
 
     if(html5QrCode){
         html5QrCode.stop().catch(()=>{});
@@ -389,62 +390,35 @@ function openCamera(){
 
     html5QrCode = new Html5Qrcode("reader");
 
-    html5QrCode.start(
+    setTimeout(()=>{
 
-        { facingMode: "environment" },
+        html5QrCode.start(
 
-        {
-            fps:10,
-            qrbox:250
-        },
+            {
+                facingMode:"environment"
+            },
 
-        onScanSuccess,
+            {
+                fps:10,
 
-        ()=>{}
-
-    ).catch(error=>{
-
-        console.error(error);
-
-        // fallback
-        Html5Qrcode.getCameras()
-
-        .then(cameras=>{
-
-            if(cameras.length===0){
-
-                alert("No Camera Found");
-
-                return;
-
-            }
-
-            return html5QrCode.start(
-
-                cameras[0].id,
-
-                {
-                    fps:10,
-                    qrbox:250
+                qrbox:{
+                    width:250,
+                    height:150
                 },
 
-                onScanSuccess,
+                aspectRatio:1.777,
 
-                ()=>{}
+                disableFlip:true
 
-            );
+            },
 
-        })
+            onScanSuccess,
 
-        .catch(err=>{
+            ()=>{}
 
-            console.error(err);
+        ).catch(console.error);
 
-            alert(err);
-
-        });
-
-    });
+    },500);
 
 }
 function onScanSuccess(decodedText, decodedResult){
