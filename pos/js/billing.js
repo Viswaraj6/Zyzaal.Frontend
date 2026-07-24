@@ -380,10 +380,8 @@ function removeItem(index){
 
 }
 function openCamera(){
-console.log("Camera Button Clicked");
-    document
-        .getElementById("cameraPopup")
-        .classList.remove("hidden");
+
+    document.getElementById("cameraPopup").classList.remove("hidden");
 
     if(html5QrCode){
         html5QrCode.stop().catch(()=>{});
@@ -391,30 +389,63 @@ console.log("Camera Button Clicked");
 
     html5QrCode = new Html5Qrcode("reader");
 
-  html5QrCode.start(
+    html5QrCode.start(
 
-    { facingMode: "environment" },
+        { facingMode: "environment" },
 
         {
             fps:10,
-
-            qrbox:{
-                width:280,
-                height:180
-            }
+            qrbox:250
         },
 
         onScanSuccess,
 
         ()=>{}
 
-    ).catch(err=>{
+    ).catch(error=>{
 
-    console.error(err);
+        console.error(error);
 
-    alert(err);
+        // fallback
+        Html5Qrcode.getCameras()
 
-});
+        .then(cameras=>{
+
+            if(cameras.length===0){
+
+                alert("No Camera Found");
+
+                return;
+
+            }
+
+            return html5QrCode.start(
+
+                cameras[0].id,
+
+                {
+                    fps:10,
+                    qrbox:250
+                },
+
+                onScanSuccess,
+
+                ()=>{}
+
+            );
+
+        })
+
+        .catch(err=>{
+
+            console.error(err);
+
+            alert(err);
+
+        });
+
+    });
+
 }
 function onScanSuccess(decodedText, decodedResult){
 
