@@ -386,66 +386,33 @@ function openCamera(){
         .classList.remove("hidden");
 
     if(html5QrCode){
-
         html5QrCode.stop().catch(()=>{});
-
     }
 
     html5QrCode = new Html5Qrcode("reader");
 
-    Html5Qrcode.getCameras()
+    html5QrCode.start(
 
-    .then(cameras=>{
+        { facingMode: { exact: "environment" } },
 
-        if(cameras.length===0){
+        {
+            fps:10,
 
-            alert("Camera Not Found");
+            qrbox:{
+                width:280,
+                height:180
+            }
+        },
 
-            return;
+        onScanSuccess,
 
-        }
+        ()=>{}
 
-        const cameraId = cameras[cameras.length-1].id;
+    ).catch(err=>{
 
-        html5QrCode.start(
+        console.log(err);
 
-            cameraId,
-
-            {
-
-                fps:15,
-
-                qrbox:function(w,h){
-
-                    const size = Math.min(w,h)*0.8;
-
-                    return{
-
-                        width:size,
-
-                        height:size*0.5
-
-                    };
-
-                },
-
-                aspectRatio:1.777
-
-            },
-
-            onScanSuccess,
-
-            ()=>{}
-
-        );
-
-    })
-
-    .catch(err=>{
-
-        console.error(err);
-
-        alert("Camera Permission Denied");
+        alert("Camera Open Failed");
 
     });
 
