@@ -410,12 +410,11 @@ console.log("Camera Button Clicked");
 
     ).catch(err=>{
 
-        console.log(err);
+    console.error(err);
 
-        alert("Camera Open Failed");
+    alert(err);
 
-    });
-
+});
 }
 function onScanSuccess(decodedText, decodedResult){
 
