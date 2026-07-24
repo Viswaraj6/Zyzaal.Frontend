@@ -381,44 +381,15 @@ function removeItem(index){
 }
 function openCamera(){
 
+    console.log("STEP 1");
+
     const popup = document.getElementById("cameraPopup");
+
+    console.log("STEP 2", popup);
+
     popup.classList.remove("hidden");
 
-    if(html5QrCode){
-        html5QrCode.stop().catch(()=>{});
-    }
-
-    html5QrCode = new Html5Qrcode("reader");
-
-    setTimeout(()=>{
-
-        html5QrCode.start(
-
-            {
-                facingMode:"environment"
-            },
-
-            {
-                fps:10,
-
-                qrbox:{
-                    width:250,
-                    height:150
-                },
-
-                aspectRatio:1.777,
-
-                disableFlip:true
-
-            },
-
-            onScanSuccess,
-
-            ()=>{}
-
-        ).catch(console.error);
-
-    },500);
+    console.log("STEP 3");
 
 }
 function onScanSuccess(decodedText, decodedResult){
