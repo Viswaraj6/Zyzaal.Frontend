@@ -950,12 +950,13 @@ overflow-x:hidden;
 
     }
 
-    .camera-box{
+  .camera-box{
 
-        width:95%;
+    width:100vw;
 
-    }
+    height:100vh;
 
+}
 }
 .mobile-payment-btn{
 
