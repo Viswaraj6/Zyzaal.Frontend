@@ -385,41 +385,69 @@ function openCamera(){
         .getElementById("cameraPopup")
         .classList.remove("hidden");
 
+    if(html5QrCode){
+
+        html5QrCode.stop().catch(()=>{});
+
+    }
+
     html5QrCode = new Html5Qrcode("reader");
 
-    html5QrCode.start(
+    Html5Qrcode.getCameras()
 
-        { facingMode: "environment" },
+    .then(cameras=>{
 
-        {
-            fps: 10,
+        if(cameras.length===0){
 
-            qrbox: {
-                width:250,
-                height:250
-            },
+            alert("Camera Not Found");
 
-            formatsToSupport:[
-                Html5QrcodeSupportedFormats.QR_CODE,
-                Html5QrcodeSupportedFormats.CODE_128,
-                Html5QrcodeSupportedFormats.CODE_39,
-                Html5QrcodeSupportedFormats.EAN_13,
-                Html5QrcodeSupportedFormats.EAN_8,
-                Html5QrcodeSupportedFormats.UPC_A,
-                Html5QrcodeSupportedFormats.UPC_E
-            ]
-
-        },
-
-        onScanSuccess,
-
-        (errorMessage)=>{
-
-            // Ignore
+            return;
 
         }
 
-    );
+        const cameraId = cameras[cameras.length-1].id;
+
+        html5QrCode.start(
+
+            cameraId,
+
+            {
+
+                fps:15,
+
+                qrbox:function(w,h){
+
+                    const size = Math.min(w,h)*0.8;
+
+                    return{
+
+                        width:size,
+
+                        height:size*0.5
+
+                    };
+
+                },
+
+                aspectRatio:1.777
+
+            },
+
+            onScanSuccess,
+
+            ()=>{}
+
+        );
+
+    })
+
+    .catch(err=>{
+
+        console.error(err);
+
+        alert("Camera Permission Denied");
+
+    });
 
 }
 function onScanSuccess(decodedText, decodedResult){
