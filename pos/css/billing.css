@@ -1209,7 +1209,53 @@ background:#0f6d59;
     display:none !important;
 
 }
+@media (min-width:801px){
 
+    .payment-screen{
+
+        position: fixed;
+        inset: 0;
+
+        background: rgba(0,0,0,.45);
+
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        z-index: 10000;
+
+    }
+
+    .payment-body{
+
+        width: 450px;
+        max-width: 95%;
+
+        background: #fff;
+
+        border-radius: 12px;
+
+        padding: 20px;
+
+    }
+
+    .payment-top{
+
+        width: 450px;
+        max-width: 95%;
+
+        background: #fff;
+
+        padding: 15px 20px;
+
+        border-radius: 12px 12px 0 0;
+
+        border-bottom: 1px solid #eee;
+
+    }
+
+}
 /* ===== Desktop Cash Payment Modal ===== */
 
 @media (min-width:801px){
