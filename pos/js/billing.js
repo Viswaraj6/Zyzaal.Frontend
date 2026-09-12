@@ -1627,9 +1627,18 @@ updateGoCartBar();
 
 // Screen
 document.getElementById("cashScreen").style.display = "none";
-document.getElementById("paymentPanel").style.display = "block";
-document.getElementById("cartPanel").style.display = "flex";
 
+if(window.innerWidth <= 800){
+
+    document.getElementById("paymentPanel").style.display = "none";
+    document.getElementById("cartPanel").style.display = "flex";
+
+}else{
+
+    document.getElementById("paymentPanel").style.display = "block";
+    document.getElementById("cartPanel").style.display = "flex";
+
+}
 // Header
 document.querySelector(".header").style.display = "flex";
 
