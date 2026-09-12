@@ -139,8 +139,7 @@ function selectCustomer(id){
         JSON.stringify(customer)
     );
 
-    window.location.href = "billing.html";
-
+   history.back();
 }
 async function saveCustomer(){
 
