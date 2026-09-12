@@ -1623,7 +1623,7 @@ updateGoCartBar();
 
 // Screen
 document.getElementById("cashScreen").style.display = "none";
-document.getElementById("paymentPanel").style.display = "none";
+document.getElementById("paymentPanel").style.display = "block";
 document.getElementById("cartPanel").style.display = "flex";
 
 // Header
