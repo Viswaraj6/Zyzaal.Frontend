@@ -46,6 +46,10 @@ window.onload = async() => {
     loadSelectedCustomer();
     renderCart();
 };
+window.addEventListener("pageshow", () => {
+    loadSelectedCustomer();
+    renderCart();
+});
 async function loadProducts() {
     try {
         const res = await fetch(BASE_URL + "/products");
