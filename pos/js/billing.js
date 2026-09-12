@@ -1515,11 +1515,12 @@ creditBtn.innerHTML = credit
     `;
 const saveBtn = document.getElementById("savePrintBtn");
 
-if (remainingAmount > 0) {
-    saveBtn.style.display = "none";
-} else {
-    saveBtn.style.display = "block";
-}
+if (saveBtn) {
+    if (remainingAmount > 0) {
+        saveBtn.style.display = "none";
+    } else {
+        saveBtn.style.display = "block";
+    }
 }
 function editCashPayment(){
 
