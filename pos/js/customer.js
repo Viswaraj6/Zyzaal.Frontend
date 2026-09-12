@@ -220,6 +220,6 @@ function goBack(){
 
     localStorage.removeItem("editCustomer");
 
-    window.location.href = "billing.html";
+   history.back();
 
 }
