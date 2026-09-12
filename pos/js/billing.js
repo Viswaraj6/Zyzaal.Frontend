@@ -1522,6 +1522,7 @@ if (saveBtn) {
         saveBtn.style.display = "block";
     }
 }
+   }
 function editCashPayment(){
 
     document.getElementById("paymentPanel").style.display = "none";
