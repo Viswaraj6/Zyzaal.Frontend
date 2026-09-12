@@ -903,9 +903,9 @@ function selectCustomer(customer){
 function openCheckout(){
 
     // Desktop
-    if(window.innerWidth > 800){
-        return;
-    }
+    //  if(window.innerWidth > 800){
+        //  return;
+    //  }
      document.querySelector(".header").style.display = "none";
     document.getElementById("cartPanel").style.display = "none";
 
