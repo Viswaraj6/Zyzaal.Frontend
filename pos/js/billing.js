@@ -1508,12 +1508,20 @@ creditBtn.innerHTML = credit
 
     }
 
+   if(remainingAmount > 0){
+
     document.getElementById("remainingLabel").innerHTML = `
         <div class="remaining-box">
             <span>Remaining</span>
             <strong>₹${remainingAmount}</strong>
         </div>
     `;
+
+}else{
+
+    document.getElementById("remainingLabel").innerHTML = "";
+
+}
 const saveBtn = document.getElementById("savePrintBtn");
 
 if (saveBtn) {
