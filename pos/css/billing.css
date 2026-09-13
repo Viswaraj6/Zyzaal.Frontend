@@ -2608,4 +2608,52 @@ display:none !important;
     .cart-footer > div:has(#footerAmount){
         display:none !important;
     }
+  .cart-footer{
+        display:grid !important;
+        grid-template-columns:1fr 1fr auto 40px;
+        align-items:center;
+        gap:8px;
+        padding:12px 10px;
+        position:sticky;
+        bottom:0;
+    }
+
+    /* Remove empty grid spaces */
+    .cart-footer > div:empty{
+        display:none !important;
+    }
+
+    /* Items */
+    .cart-footer > div:has(#footerItems){
+        text-align:center;
+    }
+
+    /* Qty */
+    .cart-footer > div:has(#footerQty){
+        text-align:center;
+    }
+
+    /* Hide Amount on mobile */
+    .cart-footer > div:has(#footerAmount){
+        display:none !important;
+    }
+
+    /* Clear All */
+    .clear-all-btn{
+        position:static !important;
+        width:auto;
+        height:38px;
+        padding:0 12px;
+        white-space:nowrap;
+    }
+
+    /* Arrow */
+    .cart-footer .footer-arrow{
+        position:static !important;
+        transform:none !important;
+        text-align:center;
+        font-size:24px;
+        width:40px;
+    }
+
 }
