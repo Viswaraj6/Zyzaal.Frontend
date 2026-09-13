@@ -1927,13 +1927,11 @@ transform:translate(-50%,0);
     color:#fff;
 }
 .menu{
-
     flex:1;
-
     padding:15px;
-
+    overflow-y:auto;
+    min-height:0;
 }
-
 .menu-item{
 
     display:flex;
