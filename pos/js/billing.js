@@ -496,7 +496,7 @@ function selectSize(productId,barcode){
     console.log("SIZE STOCK:", product.sizeStock);
 
     const size =
-        product.sizeStock.find(s=>s.sku===barcode);
+    product.sizeStock.find(s=>s.size===barcode);
 
     console.log("SELECTED SIZE:", size);
 
