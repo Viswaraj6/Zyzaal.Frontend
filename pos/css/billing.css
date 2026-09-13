@@ -2607,6 +2607,7 @@ display:none !important;
    /* Hide Amount from mobile footer */
     .cart-footer > div:has(#footerAmount){
         display:none !important;
+      transform: translateX(-35px);
     }
   .cart-footer{
         display:grid !important;
