@@ -210,9 +210,8 @@ function barcodeScan(e){
 function addToCart(product,size){
 
     const existing = cart.find(item =>
-
-        item.barcode === size.sku
-
+        item.productId === product._id &&
+        item.size === size.size
     );
 
     if(existing){
@@ -223,31 +222,32 @@ function addToCart(product,size){
 
         cart.push({
 
+            productId: product._id,
             product: product.name,
-
             category: product.category,
-
-            barcode: size.sku,
-
+            barcode: size.sku || "",
             size: size.size,
-
             price: product.price,
-
-            qty:1
+            qty: 1
 
         });
 
     }
 
     console.log(cart);
-console.log(product);
-console.log(size);
-localStorage.setItem("cart", JSON.stringify(cart));
-renderCart();
+    console.log(product);
+    console.log(size);
 
-showScanToast(product,size);
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
-updateGoCartBar();
+    renderCart();
+
+    showScanToast(product,size);
+
+    updateGoCartBar();
 }
 function renderCart(){
 
