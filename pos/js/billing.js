@@ -1777,7 +1777,9 @@ function applyDiscount(){
     discountAmount = Math.min(amount, subTotal);
 
     document.getElementById("discountDisplay").innerText =
-        "₹" + discountAmount.toFixed(2);
+    discountAmount > 0
+        ? "- ₹" + discountAmount.toFixed(2)
+        : "₹0";
 document.getElementById("discountAdd").innerText =
     discountAmount > 0 ? "Edit" : "+ Add";
     closeDiscount();
