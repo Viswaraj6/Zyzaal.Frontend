@@ -1564,8 +1564,7 @@ async function saveBill() {
     };
 
     try {
-        console.log("BILL ITEMS 👉", bill.items);
-       console.log("PRODUCT FIELD 👉", bill.items[0].product);
+        
         const res = await fetch(BASE_URL + "/pos/save-bill", {
 
             method: "POST",
