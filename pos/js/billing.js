@@ -370,7 +370,7 @@ const grandTotal = Math.max(
 );
 document.getElementById("footerAmount").innerText = grandTotal;
 
-document.getElementById("subTotal").innerText = grandTotal;
+document.getElementById("subTotal").innerText = subTotalAmount;
 
 document.getElementById("grandTotal").innerText = grandTotal;
 
