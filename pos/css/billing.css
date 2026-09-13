@@ -545,21 +545,22 @@ height:100%;
     right:15px;
     bottom:8px;
 
-    height:36px;
-    padding:0 14px;
+    height:38px;
+    padding:0 18px;
 
-    border:1px solid #ccc;
-    border-radius:6px;
+    border:2px solid #ef5350;
+    border-radius:8px;
 
     background:#fff;
-    color:#333;
+    color:#ef5350;
 
-    font-size:13px;
+    font-size:15px;
+    font-weight:600;
     cursor:pointer;
 }
-
 .clear-all-btn:hover{
-    background:#f5f5f5;
+    background:#fff;
+    color:#e53935;
 }
 .footer-arrow{
 
