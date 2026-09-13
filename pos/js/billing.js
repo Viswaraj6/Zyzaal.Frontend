@@ -491,8 +491,29 @@ function selectSize(productId,barcode){
     const product =
         allProducts.find(p=>p._id===productId);
 
+    console.log("PRODUCT:", product);
+    console.log("BARCODE:", barcode);
+    console.log("SIZE STOCK:", product.sizeStock);
+
     const size =
         product.sizeStock.find(s=>s.sku===barcode);
+
+    console.log("SELECTED SIZE:", size);
+
+    if(!size){
+        alert("Size SKU Not Found");
+        return;
+    }
+
+    addToCart(product,size);
+
+    closeSize();
+    closeSearch();
+
+    document
+        .getElementById("barcodeInput")
+        .value="";
+}
 
     addToCart(product,size);
 
