@@ -2585,3 +2585,24 @@ display:none !important;
     cursor:pointer;
 }
 
+@media (max-width:800px){
+
+    .cart-footer{
+        position:sticky;
+    }
+
+    .clear-all-btn{
+        right:60px;
+        bottom:8px;
+    }
+
+    .cart-footer .footer-arrow{
+        position:absolute;
+        right:12px;
+        top:50%;
+        transform:translateY(-50%);
+        font-size:22px;
+        z-index:5;
+    }
+
+}
