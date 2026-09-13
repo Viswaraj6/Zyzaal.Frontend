@@ -2885,3 +2885,10 @@ display:none !important;
         grid-template-columns:1fr 1fr;
     }
 }
+#discountAdd{
+    color:#16a085;
+    font-size:14px;
+    font-weight:600;
+    margin-right:12px;
+    cursor:pointer;
+}
