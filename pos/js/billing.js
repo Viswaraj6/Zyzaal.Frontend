@@ -1770,7 +1770,8 @@ function applyDiscount(){
 
     document.getElementById("discountDisplay").innerText =
         "₹" + discountAmount.toFixed(2);
-document.getElementById("discountAdd").innerText = "Edit";
+document.getElementById("discountAdd").innerText =
+    discountAmount > 0 ? "Edit" : "+ Add";
     closeDiscount();
 
     renderCart();
