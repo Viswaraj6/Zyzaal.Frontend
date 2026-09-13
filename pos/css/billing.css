@@ -570,7 +570,14 @@ height:100%;
     font-size:18px;
 
 }
-
+@media (min-width:801px){
+    .cart-footer .footer-arrow{
+        position:absolute;
+        right:125px;
+        top:50%;
+        transform:translateY(-50%);
+    }
+}
 .footer-summary{
 
     position:absolute;
