@@ -227,8 +227,9 @@ function addToCart(product,size){
     category: product.category,
     barcode: size.sku,
     size: size.size,
-    price: product.price,
-    qty:1
+   price: product.price,
+hsnCode: product.hsnCode,
+qty: 1
 });
 
     }
