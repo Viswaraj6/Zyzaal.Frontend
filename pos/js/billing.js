@@ -372,6 +372,9 @@ const netTotal = Math.max(
 const grandTotal = Math.round(netTotal);
 
 const roundOff = grandTotal - netTotal;
+ 
+   document.getElementById("roundOff").innerText =
+    (roundOff >= 0 ? "+" : "") + roundOff.toFixed(2);
    
 document.getElementById("footerAmount").innerText = grandTotal;
 
