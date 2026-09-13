@@ -1702,8 +1702,15 @@ function openDiscount(){
     document.getElementById("discountModal")
         .classList.remove("hidden");
 
-    document.getElementById("discountPercent").value = "";
-    document.getElementById("discountAmount").value = "";
+  document.getElementById("discountPercent").value =
+    discountAmount > 0 && subTotal > 0
+        ? ((discountAmount / subTotal) * 100).toFixed(2)
+        : "";
+
+document.getElementById("discountAmount").value =
+    discountAmount > 0
+        ? discountAmount.toFixed(2)
+        : "";
 }
 
 function closeDiscount(){
