@@ -1763,7 +1763,7 @@ function applyDiscount(){
 
     document.getElementById("discountDisplay").innerText =
         "₹" + discountAmount.toFixed(2);
-
+document.getElementById("discountAdd").innerText = "Edit";
     closeDiscount();
 
     renderCart();
