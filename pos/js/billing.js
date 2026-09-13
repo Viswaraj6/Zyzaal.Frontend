@@ -1564,7 +1564,7 @@ async function saveBill() {
     };
 
     try {
-
+        console.log("BILL ITEMS 👉", bill.items);
         const res = await fetch(BASE_URL + "/pos/save-bill", {
 
             method: "POST",
