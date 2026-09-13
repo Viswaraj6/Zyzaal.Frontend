@@ -364,7 +364,10 @@ if (selectedCustomer) {
     document.getElementById("footerItems").innerText = cart.length;
 
 document.getElementById("footerQty").innerText = totalQty;
-
+const grandTotal = Math.max(
+    0,
+    subTotalAmount - discountAmount
+);
 document.getElementById("footerAmount").innerText = grandTotal;
 
 document.getElementById("subTotal").innerText = grandTotal;
