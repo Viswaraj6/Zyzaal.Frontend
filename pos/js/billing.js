@@ -278,6 +278,7 @@ document.getElementById("checkoutAmount").innerText = 0;
 
 }
     cartBody.innerHTML = "";
+   if (clearBtn) clearBtn.style.display = "block";
     emptyCart.classList.add("hidden");
 cartHeader.classList.remove("hidden");
 // Cart has items
