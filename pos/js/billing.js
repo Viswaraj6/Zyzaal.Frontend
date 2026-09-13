@@ -1686,3 +1686,78 @@ function clearCart(){
 
     updateGoCartBar();
 }
+function openDiscount(){
+
+    const modal = document.getElementById("discountModal");
+
+    modal.classList.remove("hidden");
+
+    document.getElementById("discountPercent").value = "";
+    document.getElementById("discountAmount").value = "";
+
+}
+
+
+function closeDiscount(){
+
+    document
+        .getElementById("discountModal")
+        .classList.add("hidden");
+
+}
+
+
+function calculateDiscountFromPercent(){
+
+    const percent =
+        Number(document.getElementById("discountPercent").value) || 0;
+
+    const subTotal =
+        cart.reduce((sum,item) => sum + (item.qty * item.price), 0);
+
+    const amount = (subTotal * percent) / 100;
+
+    document.getElementById("discountAmount").value =
+        amount.toFixed(2);
+
+}
+
+
+function calculateDiscountFromAmount(){
+
+    const amount =
+        Number(document.getElementById("discountAmount").value) || 0;
+
+    const subTotal =
+        cart.reduce((sum,item) => sum + (item.qty * item.price), 0);
+
+    if(subTotal > 0){
+
+        const percent = (amount / subTotal) * 100;
+
+        document.getElementById("discountPercent").value =
+            percent.toFixed(2);
+
+    }
+
+}
+
+
+function applyDiscount(){
+
+    const amount =
+        Number(document.getElementById("discountAmount").value) || 0;
+
+    const subTotal =
+        cart.reduce((sum,item) => sum + (item.qty * item.price), 0);
+
+    discountAmount = Math.min(amount, subTotal);
+
+    document.getElementById("discountDisplay").innerText =
+        "₹" + discountAmount.toFixed(2);
+
+    closeDiscount();
+
+    renderCart();
+
+}
