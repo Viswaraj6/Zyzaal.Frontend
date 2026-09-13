@@ -373,8 +373,10 @@ const grandTotal = Math.round(netTotal);
 
 const roundOff = grandTotal - netTotal;
  
-   document.getElementById("roundOff").innerText =
-    (roundOff >= 0 ? "+" : "") + roundOff.toFixed(2);
+ document.getElementById("roundOff").innerText =
+    roundOff === 0
+        ? "0"
+        : (roundOff > 0 ? "+" : "-") + Math.abs(roundOff).toFixed(2);
    
 document.getElementById("footerAmount").innerText = grandTotal;
 
