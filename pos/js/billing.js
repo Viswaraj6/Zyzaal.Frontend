@@ -122,7 +122,7 @@ function openProduct(id){
         box.innerHTML += `
 
         <div class="size-item"
-             onclick="selectSize('${product._id}','${size.sku}')">
+            onclick="selectSize('${product._id}','${size.size}')"
 
             <div>
 
