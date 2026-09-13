@@ -2604,5 +2604,8 @@ display:none !important;
         font-size:22px;
         z-index:5;
     }
-
+   /* Hide Amount from mobile footer */
+    .cart-footer > div:has(#footerAmount){
+        display:none !important;
+    }
 }
