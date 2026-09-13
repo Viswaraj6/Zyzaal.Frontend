@@ -1579,11 +1579,10 @@ async function saveBill() {
 
         total: Number(document.getElementById("subTotal").innerText) || 0,
 
-       discount: discountAmount,
-
-        tax: 0,
-
-        grandTotal: Number(document.getElementById("grandTotal").innerText) || 0
+      discount: discountAmount,
+roundOff: Number(document.getElementById("roundOff").innerText) || 0,
+tax: 0,
+grandTotal: Number(document.getElementById("grandTotal").innerText) || 0
 
     };
 
