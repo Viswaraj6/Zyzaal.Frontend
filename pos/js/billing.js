@@ -252,7 +252,7 @@ function renderCart(){
     const cartBody = document.querySelector(".cart-body");
     const emptyCart = document.getElementById("emptyCart");
 const cartHeader = document.getElementById("cartHeader");
-
+const clearBtn = document.querySelector(".clear-all-btn");
     if (cart.length === 0) {
 
     emptyCart.classList.remove("hidden");
