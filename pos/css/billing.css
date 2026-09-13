@@ -2658,3 +2658,11 @@ display:none !important;
     }
 
 }
+@media (min-width:801px){
+
+    .cart-footer > div:has(#footerAmount){
+        position:relative;
+        left:-30px;
+    }
+
+}
