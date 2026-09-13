@@ -1691,15 +1691,20 @@ function clearCart(){
 }
 function openDiscount(){
 
-    const modal = document.getElementById("discountModal");
+    const subTotal = cart.reduce(
+        (sum, item) => sum + (item.qty * item.price),
+        0
+    );
 
-    modal.classList.remove("hidden");
+    document.getElementById("discountSubTotal").innerText =
+        subTotal.toFixed(2);
+
+    document.getElementById("discountModal")
+        .classList.remove("hidden");
 
     document.getElementById("discountPercent").value = "";
     document.getElementById("discountAmount").value = "";
-
 }
-
 
 function closeDiscount(){
 
