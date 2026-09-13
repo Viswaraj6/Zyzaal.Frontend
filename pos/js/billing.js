@@ -1579,7 +1579,7 @@ async function saveBill() {
 
         total: Number(document.getElementById("subTotal").innerText) || 0,
 
-        discount: 0,
+       discount: discountAmount,
 
         tax: 0,
 
