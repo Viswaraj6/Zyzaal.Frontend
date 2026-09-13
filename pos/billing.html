@@ -364,6 +364,45 @@
     </div>
 
 </div>
+
+      <div id="discountModal" class="discount-modal hidden">
+
+    <div class="discount-box">
+
+        <h3>Discount</h3>
+
+        <label>Percentage (%)</label>
+        <input
+            type="number"
+            id="discountPercent"
+            placeholder="0"
+            min="0"
+            max="100"
+            oninput="calculateDiscountFromPercent()">
+
+        <label>Amount (₹)</label>
+        <input
+            type="number"
+            id="discountAmount"
+            placeholder="0"
+            min="0"
+            oninput="calculateDiscountFromAmount()">
+
+        <div class="discount-actions">
+
+            <button onclick="closeDiscount()">
+                Cancel
+            </button>
+
+            <button onclick="applyDiscount()">
+                Apply
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
     <!-- Checkout -->
     <button class="checkout-btn" onclick="openCheckout()">
 
