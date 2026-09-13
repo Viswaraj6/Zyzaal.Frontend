@@ -369,32 +369,81 @@
 
     <div class="discount-box">
 
-        <h3>Discount</h3>
+        <div class="discount-header">
 
-        <label>Percentage (%)</label>
-        <input
-            type="number"
-            id="discountPercent"
-            placeholder="0"
-            min="0"
-            max="100"
-            oninput="calculateDiscountFromPercent()">
+            <h2>Discount</h2>
 
-        <label>Amount (₹)</label>
-        <input
-            type="number"
-            id="discountAmount"
-            placeholder="0"
-            min="0"
-            oninput="calculateDiscountFromAmount()">
+            <button
+                class="discount-close"
+                onclick="closeDiscount()">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="discount-subtotal">
+
+            <span>Sub Total</span>
+
+            <strong>
+                ₹<span id="discountSubTotal">0</span>
+            </strong>
+
+        </div>
+
+
+        <div class="discount-inputs">
+
+            <div class="discount-field">
+
+                <label>Percentage (%)</label>
+
+                <input
+                    type="number"
+                    id="discountPercent"
+                    placeholder="0"
+                    min="0"
+                    max="100"
+                    oninput="calculateDiscountFromPercent()">
+
+            </div>
+
+
+            <div class="discount-field">
+
+                <label>Amount (₹)</label>
+
+                <input
+                    type="number"
+                    id="discountAmount"
+                    placeholder="0"
+                    min="0"
+                    oninput="calculateDiscountFromAmount()">
+
+            </div>
+
+        </div>
+
+
+        <div class="discount-info">
+
+            Discount will be applied to the subtotal.
+
+        </div>
+
 
         <div class="discount-actions">
 
-            <button onclick="closeDiscount()">
+            <button
+                class="discount-cancel"
+                onclick="closeDiscount()">
                 Cancel
             </button>
 
-            <button onclick="applyDiscount()">
+            <button
+                class="discount-apply"
+                onclick="applyDiscount()">
                 Apply
             </button>
 
@@ -403,7 +452,7 @@
     </div>
 
 </div>
-    <!-- Checkout -->
+      <!-- Checkout -->
     <button class="checkout-btn" onclick="openCheckout()">
 
         <span>Checkout</span>
