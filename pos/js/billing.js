@@ -1580,7 +1580,7 @@ async function saveBill() {
         total: Number(document.getElementById("subTotal").innerText) || 0,
 
       discount: discountAmount,
-roundOff: Number(document.getElementById("roundOff").innerText) || 0,
+roundOff: Number(document.getElementById("roundOff").innerText.replace("+","").replace("-","")) || 0,
 tax: 0,
 grandTotal: Number(document.getElementById("grandTotal").innerText) || 0
 
