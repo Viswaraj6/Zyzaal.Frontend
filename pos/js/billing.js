@@ -1671,3 +1671,17 @@ document.getElementById("barcodeInput").focus();
     }
 
 }
+function clearCart(){
+
+    if(cart.length === 0) return;
+
+    if(!confirm("Clear all items?")) return;
+
+    cart = [];
+
+    localStorage.removeItem("cart");
+
+    renderCart();
+
+    updateGoCartBar();
+}
