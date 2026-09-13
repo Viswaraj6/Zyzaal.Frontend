@@ -299,7 +299,7 @@ if (selectedCustomer) {
         .classList.add("hidden");
 
 }
-    let grandTotal = 0;
+    let subTotalAmount = 0;
     let totalQty = 0;
 
     cart.forEach((item,index)=>{
