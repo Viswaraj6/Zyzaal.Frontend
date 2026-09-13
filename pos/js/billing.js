@@ -220,17 +220,15 @@ function addToCart(product,size){
 
     }else{
 
-        cart.push({
-
-            productId: product._id,
-            product: product.name,
-            category: product.category,
-            barcode: size.sku || "",
-            size: size.size,
-            price: product.price,
-            qty: 1
-
-        });
+       cart.push({
+    productId: product._id,
+    product: product.name,
+    category: product.category,
+    barcode: size.sku,
+    size: size.size,
+    price: product.price,
+    qty:1
+});
 
     }
 
