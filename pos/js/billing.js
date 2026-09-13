@@ -306,7 +306,7 @@ if (selectedCustomer) {
 
         const amount = item.qty * item.price;
 
-        grandTotal += amount;
+      subTotalAmount += amount;
         totalQty += item.qty;
 
         cartBody.innerHTML += `
