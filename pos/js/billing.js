@@ -515,17 +515,7 @@ function selectSize(productId,barcode){
         .value="";
 }
 
-    addToCart(product,size);
-
-    closeSize();
-
-    closeSearch();
-
-    document
-        .getElementById("barcodeInput")
-        .value="";
-
-}
+   
 function changeQty(index,value){
 
     cart[index].qty += value;
