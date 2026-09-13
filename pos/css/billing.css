@@ -2667,3 +2667,221 @@ display:none !important;
     }
 
 }
+/* ===== Discount Popup ===== */
+
+#discountModal{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    z-index:99999;
+}
+
+/* Hide */
+#discountModal.hidden{
+    display:none !important;
+}
+
+/* Popup Box */
+.discount-box{
+    width:520px;
+    max-width:100%;
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+    animation:discountPopup .2s ease;
+}
+
+/* Header */
+.discount-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.discount-header h2{
+    margin:0;
+
+    font-size:24px;
+
+    color:#222;
+}
+
+.discount-close{
+    border:none;
+    background:none;
+
+    font-size:28px;
+    color:#555;
+
+    cursor:pointer;
+}
+
+/* Sub Total */
+.discount-subtotal{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#eef8f6;
+
+    padding:16px 18px;
+
+    border-radius:10px;
+
+    margin-bottom:20px;
+
+    color:#14866d;
+
+    font-size:17px;
+    font-weight:600;
+}
+
+/* Inputs */
+.discount-inputs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+    margin-bottom:15px;
+}
+
+.discount-field label{
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:#333;
+}
+
+.discount-field input{
+    width:100%;
+
+    height:50px;
+
+    border:1px solid #d5d5d5;
+
+    border-radius:9px;
+
+    padding:0 14px;
+
+    font-size:18px;
+
+    outline:none;
+}
+
+.discount-field input:focus{
+    border-color:#16a085;
+}
+
+/* Info */
+.discount-info{
+    background:#eef8f6;
+
+    color:#14866d;
+
+    padding:13px 15px;
+
+    border-radius:9px;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+}
+
+/* Buttons */
+.discount-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+}
+
+.discount-actions button{
+    height:52px;
+
+    border-radius:10px;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.discount-cancel{
+    background:#fff;
+
+    border:1px solid #d5d5d5;
+
+    color:#333;
+}
+
+.discount-apply{
+    background:#16a085;
+
+    border:1px solid #16a085;
+
+    color:#fff;
+}
+
+.discount-apply:hover{
+    background:#14866d;
+}
+
+@keyframes discountPopup{
+    from{
+        opacity:0;
+        transform:scale(.95);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* Mobile */
+@media(max-width:600px){
+
+    #discountModal{
+        padding:15px;
+    }
+
+    .discount-box{
+        width:100%;
+        padding:20px;
+
+        border-radius:14px;
+    }
+
+    .discount-header h2{
+        font-size:21px;
+    }
+
+    .discount-inputs{
+        grid-template-columns:1fr;
+    }
+
+    .discount-actions{
+        grid-template-columns:1fr 1fr;
+    }
+}
