@@ -254,7 +254,7 @@ function renderCart(){
 const cartHeader = document.getElementById("cartHeader");
 const clearBtn = document.querySelector(".clear-all-btn");
     if (cart.length === 0) {
-
+  if (clearBtn) clearBtn.style.display = "none";
     emptyCart.classList.remove("hidden");
     cartHeader.classList.add("hidden");
 document.getElementById("selectedCustomerBox")
