@@ -1610,7 +1610,11 @@ grandTotal: Number(document.getElementById("grandTotal").innerText) || 0
 
         }
 
-        alert("Bill Saved : " + data.billNo);
+       document.getElementById("savedBillNo").innerText =
+    data.billNo;
+
+document.getElementById("billSavedScreen")
+    .classList.remove("hidden");
 
        // Reset
 cart = [];
