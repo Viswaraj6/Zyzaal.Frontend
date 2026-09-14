@@ -1322,7 +1322,10 @@ if (cart.length > 0) {
 }
 }
 function openPayment(mode){
-
+if(cart.length === 0){
+    alert("Please add product first");
+    return;
+}
     currentPaymentMode = mode;
 
     document.getElementById("paymentTitle").innerText =
