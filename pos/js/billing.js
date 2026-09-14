@@ -964,8 +964,12 @@ function selectCustomer(customer){
 }
 function openCheckout(){
 
-  
-     document.querySelector(".header").style.display = "none";
+    if(cart.length === 0){
+        alert("Please add product first");
+        return;
+    }
+
+    document.querySelector(".header").style.display = "none";
     document.getElementById("cartPanel").style.display = "none";
 
     document.getElementById("paymentPanel").style.display = "block";
