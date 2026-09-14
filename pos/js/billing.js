@@ -390,6 +390,39 @@ document.getElementById("paymentGrandTotal").innerText = grandTotal;
 document.getElementById("checkoutAmount").innerText = grandTotal;
     
 }
+
+async function calculateGST(){
+
+    if(cart.length === 0) return;
+
+    try{
+
+        const res = await fetch(
+            BASE_URL + "/calculate-gst",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    items: cart,
+                    discount: discountAmount
+                })
+            }
+        );
+
+        const data = await res.json();
+
+        console.log("GST RESULT:", data);
+
+    }catch(err){
+
+        console.error("GST Calculation Error:", err);
+
+    }
+
+}
+
 function openCustomer(){
 
     // Mobile
