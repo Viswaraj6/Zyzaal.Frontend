@@ -738,6 +738,42 @@
      </div>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="js/billing.js"></script>
+<!-- BILL SAVED SCREEN -->
+
+<div id="billSavedScreen" class="bill-saved-screen hidden">
+
+    <div class="bill-saved-box">
+
+        <div class="bill-success-icon">✓</div>
+
+        <h1>Bill Saved Successfully!</h1>
+
+        <p>
+            Bill No:
+            <strong id="savedBillNo">—</strong>
+        </p>
+
+        <div class="bill-saved-actions">
+
+            <button onclick="printSavedBill()">
+                🖨️ Print Bill (F9)
+            </button>
+
+            <button onclick="viewSavedBill()">
+                📄 View Bill
+            </button>
+
+            <button onclick="newBill()">
+                ＋ New Bill
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+    
 <audio id="beepSound">
     <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">
 </audio>
