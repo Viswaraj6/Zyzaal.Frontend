@@ -388,7 +388,7 @@ document.getElementById("grandTotal").innerText = grandTotal;
 document.getElementById("paymentGrandTotal").innerText = grandTotal;
 
 document.getElementById("checkoutAmount").innerText = grandTotal;
-    
+  calculateGST();  
 }
 
 async function calculateGST(){
