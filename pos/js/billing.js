@@ -1620,7 +1620,13 @@ receivedAmount = 0;
 cashPaid = 0;
 currentPaymentMode = "Cash";
 currentPaymentTotal = 0;
+discountAmount = 0;
 
+document.getElementById("footerSummary")
+    .classList.add("hidden");
+
+document.querySelector(".footer-arrow")
+    .innerHTML = "▼";
 // Customer Reset
 selectedCustomer = null;
 // Clear Customer Card
