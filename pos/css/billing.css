@@ -2892,3 +2892,91 @@ display:none !important;
     margin-right:12px;
     cursor:pointer;
 }
+/* =========================
+   BILL SAVED SCREEN
+========================= */
+
+.bill-saved-screen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:99999;
+}
+
+.bill-saved-screen.hidden{
+    display:none !important;
+}
+
+.bill-saved-box{
+    width:500px;
+    max-width:100%;
+    background:#fff;
+    border-radius:18px;
+    padding:35px 30px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.bill-success-icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:#16a085;
+    color:#fff;
+    font-size:42px;
+    line-height:70px;
+    font-weight:bold;
+}
+
+.bill-saved-box h1{
+    margin:0 0 10px;
+    font-size:26px;
+    color:#222;
+}
+
+.bill-saved-box p{
+    margin:0 0 25px;
+    color:#666;
+    font-size:17px;
+}
+
+.bill-saved-box p strong{
+    color:#16a085;
+}
+
+.bill-saved-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+}
+
+.bill-saved-actions button{
+    height:52px;
+    border:none;
+    border-radius:10px;
+    background:#16a085;
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.bill-saved-actions button:hover{
+    background:#14866d;
+}
+
+@media(max-width:600px){
+
+    .bill-saved-box{
+        padding:28px 20px;
+    }
+
+    .bill-saved-box h1{
+        font-size:22px;
+    }
+}
