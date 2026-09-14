@@ -1809,3 +1809,8 @@ function newBill(){
     document.getElementById("barcodeInput").focus();
 
 }
+function viewSavedBill(){
+
+    alert("View Bill - Coming Next");
+
+}
