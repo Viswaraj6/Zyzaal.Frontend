@@ -414,7 +414,13 @@ async function calculateGST(){
         const data = await res.json();
 
         console.log("GST RESULT:", data);
+       
+document.getElementById("cgstAmount").innerText =
+    Number(data.cgst || 0).toFixed(2);
 
+document.getElementById("sgstAmount").innerText =
+    Number(data.sgst || 0).toFixed(2);
+       
     }catch(err){
 
         console.error("GST Calculation Error:", err);
