@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Invoice History - ZYZAAL POS</title>
+
+</head>
+
+<body>
+
+    <h1>ZYZAAL POS</h1>
+
+    <h2>Invoice History</h2>
+
+    <p>Search and view all invoices</p>
+
+    <div>
+
+        <input
+            type="text"
+            id="searchInvoice"
+            placeholder="Search by Invoice No / Customer / Mobile">
+
+        <button onclick="loadBills()">
+            Refresh
+        </button>
+
+    </div>
+
+    <br>
+
+    <div id="invoiceList">
+
+        Loading invoices...
+
+    </div>
+
+    <script>
+
+        const BASE_URL =
+            "https://fark618-backend.onrender.com";
+
+        async function loadBills(){
+
+            try{
+
+                const res = await fetch(
+                    BASE_URL + "/pos/bills"
+                );
+
+                const data = await res.json();
+
+                console.log("INVOICE DATA:", data);
+
+                if(!data.success){
+
+                    document.getElementById("invoiceList").innerText =
+                        "Failed to load invoices";
+
+                    return;
+                }
+
+                document.getElementById("invoiceList").innerText =
+                    "Total Invoices: " + data.bills.length;
+
+            }catch(err){
+
+                console.error(err);
+
+                document.getElementById("invoiceList").innerText =
+                    "Server connection failed";
+
+            }
+
+        }
+
+        loadBills();
+
+    </script>
+
+</body>
+
+</html>
