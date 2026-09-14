@@ -2591,7 +2591,16 @@ onchange="addExtraImage(event,'${p._id}')"
               value="${p.styleNo || ""}"
               style="display:none;">
             </div>
+<b>HSN Code</b>
+<div>
+    <span class="view-mode">${p.hsnCode || "-"}</span>
 
+    <input
+        class="edit-mode"
+        id="edit-hsnCode"
+        value="${p.hsnCode || ""}"
+        style="display:none;">
+</div>
             <b>Category</b>
             <div>
               <span class="view-mode">${p.category || "-"}</span>
