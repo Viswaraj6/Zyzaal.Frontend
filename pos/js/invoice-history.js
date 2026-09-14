@@ -20,8 +20,13 @@ async function loadBills(){
 
         if(!data.success){
 
-            document.getElementById("invoiceList").innerText =
-                "Failed to load invoices";
+            document.getElementById("invoiceList").innerHTML = `
+                <tr>
+                    <td colspan="9">
+                        Failed to load invoices
+                    </td>
+                </tr>
+            `;
 
             return;
         }
@@ -35,15 +40,20 @@ async function loadBills(){
 
         console.error(err);
 
-        document.getElementById("invoiceList").innerText =
-            "Server connection failed";
+        document.getElementById("invoiceList").innerHTML = `
+            <tr>
+                <td colspan="9">
+                    Server connection failed
+                </td>
+            </tr>
+        `;
 
     }
 
 }
 
 
-/* ================= RENDER ================= */
+/* ================= RENDER BILLS ================= */
 
 function renderBills(bills){
 
@@ -53,38 +63,233 @@ function renderBills(bills){
     container.innerHTML = "";
 
 
+    /* ================= SUMMARY ================= */
+
+    let totalSales = 0;
+
+    bills.forEach(bill => {
+
+        totalSales += Number(
+            bill.grandTotal || 0
+        );
+
+    });
+
+
+    document.getElementById("totalInvoices").innerText =
+        bills.length;
+
+
+    document.getElementById("totalSales").innerText =
+        "₹" + totalSales.toLocaleString("en-IN");
+
+
+    document.getElementById("totalReturns").innerText =
+        "₹0";
+
+
+    document.getElementById("netSales").innerText =
+        "₹" + totalSales.toLocaleString("en-IN");
+
+
+    document.getElementById("invoiceCount").innerText =
+        "Showing 1 to " +
+        bills.length +
+        " of " +
+        bills.length +
+        " invoices";
+
+
+    /* ================= EMPTY ================= */
+
     if(bills.length === 0){
 
-        container.innerHTML =
-            "<p>No invoices found</p>";
+        container.innerHTML = `
+            <tr>
+                <td colspan="9" style="text-align:center;">
+                    No invoices found
+                </td>
+            </tr>
+        `;
 
         return;
 
     }
 
 
+    /* ================= TABLE ROWS ================= */
+
     bills.forEach((bill,index)=>{
 
-        const div =
-            document.createElement("div");
+        const customer =
+            bill.customer?.name ||
+            "Walk-in Customer";
 
-        div.innerHTML = `
 
-            <p>
+        const mobile =
+            bill.customer?.mobile ||
+            "";
+
+
+        const itemCount =
+            (bill.items || []).reduce(
+                (sum,item) =>
+                    sum + Number(item.qty || 0),
+                0
+            );
+
+
+        const payment =
+            bill.payments?.[0]?.mode ||
+            bill.payments?.[0]?.method ||
+            "Cash";
+
+
+        const amount =
+            Number(
+                bill.grandTotal || 0
+            );
+
+
+        const date =
+            bill.createdAt
+                ? new Date(bill.createdAt)
+                : null;
+
+
+        let dateText = "-";
+        let timeText = "";
+
+
+        if(date){
+
+            dateText =
+                date.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day:"2-digit",
+                        month:"short",
+                        year:"numeric"
+                    }
+                );
+
+
+            timeText =
+                date.toLocaleTimeString(
+                    "en-IN",
+                    {
+                        hour:"2-digit",
+                        minute:"2-digit"
+                    }
+                );
+
+        }
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${index + 1}
+            </td>
+
+
+            <td>
                 <strong>
                     ${bill.billNo || "-"}
                 </strong>
+            </td>
 
-                -
-                ₹${Number(
-                    bill.grandTotal || 0
-                ).toLocaleString("en-IN")}
 
-            </p>
+            <td>
+
+                <div>
+                    ${dateText}
+                </div>
+
+                <div style="
+                    color:#777;
+                    font-size:12px;
+                    margin-top:4px;
+                ">
+                    ${timeText}
+                </div>
+
+            </td>
+
+
+            <td>
+
+                <span class="customer-name">
+                    ${customer}
+                </span>
+
+                ${
+                    mobile
+                    ? `
+                        <span class="customer-mobile">
+                            ${mobile}
+                        </span>
+                    `
+                    : ""
+                }
+
+            </td>
+
+
+            <td>
+                ${itemCount}
+            </td>
+
+
+            <td>
+
+                <span class="payment-badge">
+
+                    ${payment}
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <strong>
+                    ₹${amount.toLocaleString("en-IN")}
+                </strong>
+
+            </td>
+
+
+            <td>
+
+                <span class="status">
+                    Paid
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <button
+                    class="action-btn"
+                    onclick="viewBill('${bill.billNo}')">
+
+                    ⋮
+
+                </button>
+
+            </td>
 
         `;
 
-        container.appendChild(div);
+
+        container.appendChild(row);
 
     });
 
@@ -120,8 +325,10 @@ document
                     const invoice =
                         bill.billNo || "";
 
+
                     const customer =
                         bill.customer?.name || "";
+
 
                     const mobile =
                         bill.customer?.mobile || "";
@@ -129,12 +336,17 @@ document
 
                     const items =
                         (bill.items || [])
-                            .map(item =>
-                                `${item.product || ""}
-                                 ${item.barcode || ""}
-                                 ${item.size || ""}
-                                 ${item.styleNo || ""}`
-                            )
+                            .map(item => {
+
+                                return `
+                                    ${item.product || ""}
+                                    ${item.barcode || ""}
+                                    ${item.size || ""}
+                                    ${item.styleNo || ""}
+                                    ${item.sku || ""}
+                                `;
+
+                            })
                             .join(" ");
 
 
@@ -159,6 +371,194 @@ document
 
         }
     );
+
+
+/* ================= PAYMENT FILTER ================= */
+
+document
+    .getElementById("paymentFilter")
+    .addEventListener(
+        "change",
+        function(){
+
+            applyFilters();
+
+        }
+    );
+
+
+/* ================= DATE FILTER ================= */
+
+document
+    .getElementById("invoiceDate")
+    .addEventListener(
+        "change",
+        function(){
+
+            applyFilters();
+
+        }
+    );
+
+
+/* ================= FILTER ================= */
+
+function applyFilters(){
+
+    const search =
+        document.getElementById("searchInvoice")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const payment =
+        document.getElementById("paymentFilter")
+            .value;
+
+
+    const selectedDate =
+        document.getElementById("invoiceDate")
+            .value;
+
+
+    const filtered =
+        allBills.filter(bill=>{
+
+
+            /* SEARCH */
+
+            let searchMatch = true;
+
+
+            if(search){
+
+                const invoice =
+                    bill.billNo || "";
+
+
+                const customer =
+                    bill.customer?.name || "";
+
+
+                const mobile =
+                    bill.customer?.mobile || "";
+
+
+                const items =
+                    (bill.items || [])
+                        .map(item => `
+                            ${item.product || ""}
+                            ${item.barcode || ""}
+                            ${item.size || ""}
+                            ${item.styleNo || ""}
+                            ${item.sku || ""}
+                        `)
+                        .join(" ");
+
+
+                const text =
+                    (
+                        invoice +
+                        " " +
+                        customer +
+                        " " +
+                        mobile +
+                        " " +
+                        items
+                    ).toLowerCase();
+
+
+                searchMatch =
+                    text.includes(search);
+
+            }
+
+
+            /* PAYMENT */
+
+            let paymentMatch = true;
+
+
+            if(payment){
+
+                const billPayment =
+                    bill.payments?.[0]?.mode ||
+                    bill.payments?.[0]?.method ||
+                    "Cash";
+
+
+                paymentMatch =
+                    billPayment.toLowerCase() ===
+                    payment.toLowerCase();
+
+            }
+
+
+            /* DATE */
+
+            let dateMatch = true;
+
+
+            if(selectedDate && bill.createdAt){
+
+                const billDate =
+                    new Date(bill.createdAt)
+                        .toISOString()
+                        .split("T")[0];
+
+
+                dateMatch =
+                    billDate === selectedDate;
+
+            }
+
+
+            return (
+                searchMatch &&
+                paymentMatch &&
+                dateMatch
+            );
+
+        });
+
+
+    renderBills(filtered);
+
+}
+
+
+/* ================= VIEW BILL ================= */
+
+function viewBill(billNo){
+
+    const bill =
+        allBills.find(
+            b => b.billNo === billNo
+        );
+
+
+    if(!bill){
+
+        alert("Bill not found");
+
+        return;
+
+    }
+
+
+    console.log("SELECTED BILL:", bill);
+
+    alert(
+        "Invoice: " +
+        bill.billNo +
+        "\nAmount: ₹" +
+        Number(
+            bill.grandTotal || 0
+        ).toLocaleString("en-IN")
+    );
+
+}
 
 
 /* ================= START ================= */
