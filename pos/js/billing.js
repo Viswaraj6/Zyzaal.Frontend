@@ -1799,3 +1799,13 @@ document.getElementById("discountAdd").innerText =
     renderCart();
 
 }
+function newBill(){
+
+    document.getElementById("billSavedScreen")
+        .classList.add("hidden");
+
+    document.getElementById("barcodeInput").value = "";
+
+    document.getElementById("barcodeInput").focus();
+
+}
