@@ -1589,7 +1589,8 @@ body:has(#invoiceViewModal:not(.hidden)){
     position:fixed;
 
     right:25px;
-    bottom:25px;
+    top:25px;
+    bottom:auto;
 
     width:360px;
     min-height:78px;
