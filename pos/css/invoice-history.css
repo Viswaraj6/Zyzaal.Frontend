@@ -495,3 +495,71 @@ tbody tr:last-child td{
     opacity:.45;
     cursor:not-allowed;
 }
+.action-menu-wrapper{
+    position:relative;
+    display:inline-block;
+}
+
+.action-menu{
+    position:absolute;
+    right:0;
+    top:40px;
+
+    width:150px;
+
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+
+    padding:6px;
+
+    display:none;
+
+    z-index:1000;
+}
+
+.action-menu.show{
+    display:block;
+}
+
+.action-menu button{
+    width:100%;
+
+    height:40px;
+
+    border:none;
+
+    background:#fff;
+
+    border-radius:7px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:0 12px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    text-align:left;
+}
+
+.action-menu button:hover{
+    background:#eef8f5;
+}
+
+.action-menu .delete-action{
+    color:#d64545;
+}
+
+.action-menu .delete-action:hover{
+    background:#fff1f1;
+}
