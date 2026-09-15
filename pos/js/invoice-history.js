@@ -146,7 +146,7 @@ document
 
     });
 });
-function reopenInvoiceAfterCustomer(){
+async function reopenInvoiceAfterCustomer(){
 
     const billNo =
         localStorage.getItem(
@@ -161,11 +161,11 @@ function reopenInvoiceAfterCustomer(){
         "invoiceEditBillNo"
     );
 
-    setTimeout(() => {
+    // First load invoices completely
+    await loadBills();
 
-        viewBill(billNo);
-
-    }, 100);
+    // Now open the same invoice
+    viewBill(billNo);
 
 }
 function loadInvoiceEditCustomer(){
