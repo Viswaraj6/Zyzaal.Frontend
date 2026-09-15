@@ -434,7 +434,23 @@ document
         }
     );
 
+function goToPage(page){
 
+    const totalPages =
+        Math.ceil(
+            currentBills.length /
+            ITEMS_PER_PAGE
+        );
+
+    if(page < 1 || page > totalPages){
+        return;
+    }
+
+    currentPage = page;
+
+    renderBills(currentBills);
+
+}
 /* ================= FILTER ================= */
 
 function applyFilters(){
