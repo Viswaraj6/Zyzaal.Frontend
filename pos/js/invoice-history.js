@@ -366,38 +366,27 @@ row.onclick = function(event){
     </button>
 
 
-    <div
-        class="action-menu"
-        id="menu-${bill.billNo}">
+   <div class="action-menu">
 
-        <button
-            onclick="viewBill('${bill.billNo}')">
+    <button
+        onclick="viewBill('${bill.billNo}')">
 
-            👁
-            <span>View</span>
+        👁
+        <span>View</span>
 
-        </button>
+    </button>
 
 
-        <button
-            onclick="editBill('${bill.billNo}')">
+    <button
+        class="delete-action"
+        onclick="deleteBill('${bill.billNo}')">
 
-            ✏️
-            <span>Edit</span>
+        🗑
+        <span>Delete</span>
 
-        </button>
+    </button>
 
-
-        <button
-            class="delete-action"
-            onclick="deleteBill('${bill.billNo}')">
-
-            🗑
-            <span>Delete</span>
-
-        </button>
-
-    </div>
+</div>
 
 </div>
 
