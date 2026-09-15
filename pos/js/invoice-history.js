@@ -1076,7 +1076,7 @@ function enableInvoiceEditMode(){
     document
         .getElementById("editCustomer")
         .focus();
-
+document.querySelector(".invoice-edit-icon").style.display = "none";
 }
 
 function selectEditCustomer(customerId){
