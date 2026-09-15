@@ -1161,6 +1161,7 @@ currentViewBill = bill;
     document
         .getElementById("invoiceViewModal")
         .classList.remove("hidden");
+    document.body.classList.add("modal-open");
 
 }
 function enableInvoiceEditMode(){
