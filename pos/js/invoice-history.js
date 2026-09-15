@@ -717,7 +717,61 @@ function viewBill(billNo){
 
 }
 
+function toggleActionMenu(event, billNo){
 
+    event.stopPropagation();
+
+    document
+        .querySelectorAll(".action-menu")
+        .forEach(menu => {
+
+            if(menu.id !== "menu-" + billNo){
+
+                menu.classList.remove("show");
+
+            }
+
+        });
+
+
+    const menu =
+        document.getElementById(
+            "menu-" + billNo
+        );
+
+    menu.classList.toggle("show");
+
+}
+function editBill(billNo){
+
+    alert(
+        "Edit Invoice: " +
+        billNo
+    );
+
+}
+
+
+function deleteBill(billNo){
+
+    const confirmDelete =
+        confirm(
+            "Delete Invoice " +
+            billNo +
+            "?"
+        );
+
+
+    if(!confirmDelete){
+        return;
+    }
+
+
+    alert(
+        "Delete functionality will be added next."
+    );
+
+}
 /* ================= START ================= */
 
 loadBills();
