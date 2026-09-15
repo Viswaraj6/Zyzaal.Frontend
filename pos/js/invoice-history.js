@@ -1109,6 +1109,11 @@ function selectEditCustomer(customerId){
         .innerText =
         customer.name || "Walk-in Customer";
 
+    document
+    .getElementById("viewMobile")
+    .innerText =
+    customer.mobile || "-";
+
 }
 
 function closeInvoiceView(){
