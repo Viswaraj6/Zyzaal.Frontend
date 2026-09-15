@@ -13,6 +13,8 @@ let editProducts = [];
 
 let currentViewBill = null;
 
+let invoiceEditMode = false;
+
 async function loadEditProducts(){
 
     try{
