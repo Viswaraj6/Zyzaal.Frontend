@@ -1537,6 +1537,107 @@ function editCurrentInvoice(){
         .classList.add("invoice-editing");
 
 }
+
+function searchEditProduct(input){
+
+    const query =
+        input.value
+            .toLowerCase()
+            .trim();
+
+    const index =
+        Number(input.dataset.index);
+
+    /* Remove old result */
+
+    const oldResult =
+        input.parentElement.parentElement
+            .querySelector(".edit-product-results");
+
+    if(oldResult){
+        oldResult.remove();
+    }
+
+    if(!query){
+        return;
+    }
+
+
+    const matches =
+        editProducts.filter(product => {
+
+            const name =
+                String(product.name || "")
+                    .toLowerCase();
+
+            const styleNo =
+                String(product.styleNo || "")
+                    .toLowerCase();
+
+            return (
+                name.includes(query) ||
+                styleNo.includes(query)
+            );
+
+        }).slice(0,8);
+
+
+    if(matches.length === 0){
+        return;
+    }
+
+
+    const result =
+        document.createElement("div");
+
+    result.className =
+        "edit-product-results";
+
+
+    matches.forEach(product => {
+
+        const option =
+            document.createElement("button");
+
+        option.type = "button";
+
+        option.className =
+            "edit-product-result";
+
+
+        option.innerHTML = `
+            <span>
+                ${product.name || "-"}
+            </span>
+
+            <small>
+                ${product.styleNo || ""}
+                ${product.color
+                    ? " • " + product.color
+                    : ""}
+            </small>
+        `;
+
+
+        option.onclick = function(){
+
+            selectEditProduct(
+                product,
+                index
+            );
+
+        };
+
+
+        result.appendChild(option);
+
+    });
+
+
+    input.parentElement.parentElement
+        .appendChild(result);
+
+}
 /* ================= START ================= */
 
 loadBills();
