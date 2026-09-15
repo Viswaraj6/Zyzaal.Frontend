@@ -84,13 +84,29 @@ document
 
             });
 
-        if(matches.length === 0){
+       if(matches.length === 0){
 
-            results.innerHTML = `
-                <div class="customer-no-result">
-                    No customer found
-                </div>
-            `;
+    results.innerHTML = `
+
+        <div class="customer-no-result">
+
+            <div>
+                No customer found
+            </div>
+
+            <button
+                type="button"
+                onclick="addNewCustomerFromInvoice()">
+
+                ＋ Add New Customer
+
+            </button>
+
+        </div>
+
+    `;
+
+}
 
         }else{
 
