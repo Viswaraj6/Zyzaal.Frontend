@@ -606,7 +606,10 @@ tbody tr:last-child td{
 
     padding:28px;
 }
-
+/* Lock background when Invoice View is open */
+body:has(#invoiceViewModal:not(.hidden)){
+    overflow:hidden;
+}
 
 /* HEADER */
 
