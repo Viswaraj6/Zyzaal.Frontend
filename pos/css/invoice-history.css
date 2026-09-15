@@ -1532,28 +1532,50 @@ body:has(#invoiceViewModal:not(.hidden)){
 /* ================= SAVE BUTTON LOADING ================= */
 
 .invoice-save-btn.saving{
+
+    background:#e8f8f4 !important;
+
+    border:1px solid #8bd4c3 !important;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     cursor:not-allowed;
-    opacity:.9;
+
+    opacity:1;
 }
 
-.save-loader{
-    width:20px;
-    height:20px;
 
-    border:3px solid rgba(255,255,255,.35);
-    border-top-color:#fff;
+/* ================= ROTATING SPINNER ================= */
+
+.invoice-save-btn.saving .save-loader{
+
+    width:22px;
+    height:22px;
+
+    border:3px solid rgba(22,160,133,.20);
+
+    border-top:3px solid #16a085;
+
+    border-right:3px solid #16a085;
 
     border-radius:50%;
 
-    display:inline-block;
+    display:block;
 
     animation:
         saveButtonSpin .7s linear infinite;
 }
 
+
 @keyframes saveButtonSpin{
 
-    to{
+    0%{
+        transform:rotate(0deg);
+    }
+
+    100%{
         transform:rotate(360deg);
     }
 
@@ -1563,20 +1585,35 @@ body:has(#invoiceViewModal:not(.hidden)){
 /* ================= UPDATED STATE ================= */
 
 .invoice-save-btn.updated{
+
     background:#dff7ec !important;
+
+    border:1px solid #8bd4c3 !important;
+
     color:#14866d !important;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
 }
 
+
 .save-success-icon{
+
     width:22px;
     height:22px;
 
     border-radius:50%;
 
     background:#16a085;
+
     color:#fff;
 
     display:inline-flex;
+
     align-items:center;
     justify-content:center;
 
