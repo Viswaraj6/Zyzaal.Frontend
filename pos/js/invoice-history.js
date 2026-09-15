@@ -1273,7 +1273,7 @@ function closeInvoiceView(){
     document
         .getElementById("invoiceViewModal")
         .classList.add("hidden");
-
+ document.body.classList.remove("modal-open");
 }
 
 function toggleActionMenu(event, billNo){
