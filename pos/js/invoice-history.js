@@ -250,40 +250,45 @@ document
 
 
 
-        }else{
+       }else{
 
-            matches.slice(0, 8).forEach(customer => {
+    matches.slice(0, 8).forEach(customer => {
 
-                const item =
-                    document.createElement("div");
+        const item =
+            document.createElement("div");
 
-                item.className =
-                    "customer-search-item";
+        item.className =
+            "customer-search-item";
 
-                item.innerHTML = `
-                    <div>
-                        <strong>
-                            ${customer.name || "-"}
-                        </strong>
+        item.innerHTML = `
 
-                        <small>
-                            ${customer.mobile || "-"}
-                        </small>
-                    </div>
+            <div class="customer-search-info">
 
-                    <button
-                        type="button"
-                        onclick="selectEditCustomer('${customer._id}')">
-                        Select
-                    </button>
-                `;
+                <strong>
+                    ${customer.name || "-"}
+                </strong>
 
-                results.appendChild(item);
+                <small>
+                    ${customer.mobile || "-"}
+                </small>
 
-            });
+            </div>
 
-        }
+        `;
 
+        item.onclick = function(){
+
+            selectEditCustomer(
+                customer._id
+            );
+
+        };
+
+        results.appendChild(item);
+
+    });
+
+}
         results.classList.add("show");
 
     });
