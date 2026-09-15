@@ -1638,6 +1638,98 @@ function searchEditProduct(input){
         .appendChild(result);
 
 }
+
+function selectEditProduct(product, index){
+
+    if(!product){
+        return;
+    }
+
+    const input =
+        document.querySelector(
+            `.edit-product-search[data-index="${index}"]`
+        );
+
+    if(!input){
+        return;
+    }
+
+    /* Product name */
+
+    input.value =
+        product.name || "";
+
+
+    /* Store selected product */
+
+    input.dataset.productId =
+        product._id || "";
+
+
+    /* Hide search results */
+
+    const wrapper =
+        input.parentElement.parentElement;
+
+    const result =
+        wrapper.querySelector(
+            ".edit-product-results"
+        );
+
+    if(result){
+        result.remove();
+    }
+
+
+    /* ================= RATE ================= */
+
+    const rate =
+        Number(product.price || 0);
+
+
+    document.getElementById(
+        `editViewRate-${index}`
+    ).innerText =
+        "₹" + rate.toFixed(2);
+
+
+    /* ================= CURRENT QTY ================= */
+
+    const billItem =
+        currentViewBill.items[index];
+
+    const qty =
+        Number(billItem?.qty || 1);
+
+
+    /* ================= AMOUNT ================= */
+
+    document.getElementById(
+        `editViewAmount-${index}`
+    ).innerText =
+        "₹" + (qty * rate).toFixed(2);
+
+
+    /* ================= SIZE ================= */
+
+    /*
+       Size is NOT a dropdown.
+       Existing invoice size remains unchanged.
+    */
+
+    const sizeElement =
+        document.getElementById(
+            `editViewSize-${index}`
+        );
+
+    if(sizeElement){
+
+        sizeElement.innerText =
+            billItem?.size || "-";
+
+    }
+
+}
 /* ================= START ================= */
 
 loadBills();
