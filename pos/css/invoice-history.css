@@ -1719,7 +1719,7 @@ body:has(#invoiceViewModal:not(.hidden)){
 
     from{
         opacity:0;
-        transform:translateY(15px);
+        transform:translateY(-15px);
     }
 
     to{
@@ -1728,7 +1728,6 @@ body:has(#invoiceViewModal:not(.hidden)){
     }
 
 }
-
 @keyframes invoiceUpdateProgress{
 
     from{
@@ -1743,13 +1742,13 @@ body:has(#invoiceViewModal:not(.hidden)){
 
 
 /* MOBILE */
-
 @media(max-width:600px){
 
     .invoice-update-toast{
         left:15px;
         right:15px;
-        bottom:15px;
+        top:15px;
+        bottom:auto;
 
         width:auto;
     }
