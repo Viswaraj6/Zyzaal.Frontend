@@ -1090,11 +1090,7 @@ async function confirmDeleteInvoice(){
 
         await loadBills();
 
-        alert(
-            "Invoice " +
-            billNo +
-            " deleted successfully."
-        );
+        showDeleteSuccessToast(billNo);
 
     }
     catch(err){
@@ -1109,6 +1105,68 @@ async function confirmDeleteInvoice(){
         );
 
     }
+
+}
+
+let deleteSuccessTimer = null;
+
+
+function showDeleteSuccessToast(billNo){
+
+    const toast =
+        document.getElementById(
+            "deleteSuccessToast"
+        );
+
+    const message =
+        document.getElementById(
+            "deleteSuccessMessage"
+        );
+
+    message.innerText =
+        "Invoice " +
+        billNo +
+        " deleted successfully.";
+
+    toast.classList.remove("hidden");
+
+    /* Restart progress animation */
+
+    const progress =
+        toast.querySelector(
+            ".success-toast-progress"
+        );
+
+    progress.style.animation = "none";
+
+    void progress.offsetWidth;
+
+    progress.style.animation =
+        "successToastProgress 3s linear forwards";
+
+
+    clearTimeout(deleteSuccessTimer);
+
+    deleteSuccessTimer =
+        setTimeout(() => {
+
+            closeDeleteSuccessToast();
+
+        }, 3000);
+
+}
+
+
+function closeDeleteSuccessToast(){
+
+    const toast =
+        document.getElementById(
+            "deleteSuccessToast"
+        );
+
+    toast.classList.add("hidden");
+
+    clearTimeout(deleteSuccessTimer);
 
 }
 /* ================= START ================= */
