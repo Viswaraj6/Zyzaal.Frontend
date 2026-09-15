@@ -727,7 +727,37 @@
     <div class="success-toast-progress"></div>
 
 </div>
+<div
+    id="invoiceUpdateToast"
+    class="invoice-update-toast hidden">
 
+    <div class="invoice-update-icon">
+        ✓
+    </div>
+
+    <div class="invoice-update-content">
+
+        <strong>
+            Invoice Updated
+        </strong>
+
+        <span>
+            Changes saved successfully
+        </span>
+
+    </div>
+
+    <button
+        type="button"
+        onclick="document.getElementById('invoiceUpdateToast').classList.add('hidden')">
+
+        ✕
+
+    </button>
+
+    <div class="invoice-update-progress"></div>
+
+</div>
     
 </body>
 
