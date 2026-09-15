@@ -373,7 +373,212 @@
     src="js/invoice-history.js">
 </script>
 
+<!-- ================= VIEW INVOICE MODAL ================= -->
 
+<div id="invoiceViewModal" class="invoice-view-modal hidden">
+
+    <div class="invoice-view-box">
+
+
+        <!-- HEADER -->
+
+        <div class="invoice-view-header">
+
+            <div>
+
+                <h2>Invoice Details</h2>
+
+                <p>
+                    Invoice No:
+                    <strong id="viewBillNo">—</strong>
+                </p>
+
+            </div>
+
+
+            <button
+                class="invoice-view-close"
+                onclick="closeInvoiceView()">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <!-- BILL INFO -->
+
+        <div class="invoice-info-grid">
+
+            <div>
+                <small>Date & Time</small>
+                <strong id="viewDate">—</strong>
+            </div>
+
+            <div>
+                <small>Customer</small>
+                <strong id="viewCustomer">Walk-in Customer</strong>
+            </div>
+
+            <div>
+                <small>Mobile</small>
+                <strong id="viewMobile">—</strong>
+            </div>
+
+            <div>
+                <small>Payment Method</small>
+                <strong id="viewPayment">—</strong>
+            </div>
+
+        </div>
+
+
+        <!-- ITEMS -->
+
+        <h3>Items</h3>
+
+        <div class="invoice-items-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Size</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="viewItems">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- TOTALS -->
+
+        <div class="invoice-totals">
+
+
+            <div class="invoice-total-row">
+
+                <span>Sub Total</span>
+
+                <strong id="viewSubTotal">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-total-row">
+
+                <span>Discount</span>
+
+                <strong id="viewDiscount">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-total-row">
+
+                <span>Taxable Value</span>
+
+                <strong id="viewTaxable">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-total-row">
+
+                <span>CGST</span>
+
+                <strong id="viewCGST">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-total-row">
+
+                <span>SGST</span>
+
+                <strong id="viewSGST">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-total-row">
+
+                <span>Round Off</span>
+
+                <strong id="viewRoundOff">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-grand-total">
+
+                <span>Grand Total</span>
+
+                <strong id="viewGrandTotal">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="invoice-view-actions">
+
+            <button>
+                🖨 Print Invoice
+            </button>
+
+            <button>
+                📄 Print A4
+            </button>
+
+            <button>
+                ↗ Share
+            </button>
+
+            <button>
+                ↩ Return / Exchange
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+    
 </body>
 
 </html>
