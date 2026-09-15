@@ -860,7 +860,6 @@ document
 
         }
     );
-});
 
 
 function goToPage(page){
