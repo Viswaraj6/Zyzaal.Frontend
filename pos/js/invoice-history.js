@@ -993,24 +993,81 @@ function editBill(billNo){
 }
 
 
-function deleteBill(billNo){
+async function deleteBill(billNo){
+
+    const bill =
+        allBills.find(
+            b => b.billNo === billNo
+        );
+
+    if(!bill){
+
+        alert("Invoice not found");
+
+        return;
+
+    }
 
     const confirmDelete =
         confirm(
             "Delete Invoice " +
             billNo +
-            "?"
+            "?\n\nThis action cannot be undone."
         );
 
-
     if(!confirmDelete){
+
         return;
+
     }
 
+    try{
 
-    alert(
-        "Delete functionality will be added next."
-    );
+        const res =
+            await fetch(
+                BASE_URL +
+                "/pos/bills/" +
+                bill._id,
+                {
+                    method: "DELETE"
+                }
+            );
+
+        const data =
+            await res.json();
+
+        if(!res.ok || !data.success){
+
+            alert(
+                data.message ||
+                "Failed to delete invoice"
+            );
+
+            return;
+
+        }
+
+        alert(
+            "Invoice " +
+            billNo +
+            " deleted successfully."
+        );
+
+        loadBills();
+
+    }
+    catch(err){
+
+        console.error(
+            "Delete Invoice Error:",
+            err
+        );
+
+        alert(
+            "Unable to delete invoice."
+        );
+
+    }
 
 }
 /* ================= START ================= */
