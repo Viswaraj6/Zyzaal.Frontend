@@ -1078,6 +1078,39 @@ function enableInvoiceEditMode(){
         .focus();
 
 }
+
+function selectEditCustomer(customerId){
+
+    const customer =
+        allCustomers.find(
+            c => c._id === customerId
+        );
+
+    if(!customer){
+        return;
+    }
+
+    selectedEditCustomer = customer;
+
+    /* Update input */
+    document
+        .getElementById("editCustomer")
+        .value =
+        customer.name || "";
+
+    /* Close search results */
+    document
+        .getElementById("customerSearchResults")
+        .classList.remove("show");
+
+    /* For now update displayed customer */
+    document
+        .getElementById("viewCustomer")
+        .innerText =
+        customer.name || "Walk-in Customer";
+
+}
+
 function closeInvoiceView(){
 
     document
