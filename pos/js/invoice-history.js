@@ -17,7 +17,7 @@ const invoiceProductSearch =
 
 const invoiceProductResults =
     document.getElementById("invoiceProductResults");
-
+document.addEventListener("DOMContentLoaded", function(){
 
 invoiceProductSearch.addEventListener(
     "input",
