@@ -1711,11 +1711,22 @@ async function saveInvoiceEdit(){
     }
 
     if(!selectedEditCustomer){
-
         alert("Please select a customer");
-
         return;
     }
+
+    const saveBtn =
+        document.getElementById("invoiceSaveBtn");
+
+    /* ================= LOADING ================= */
+
+    saveBtn.disabled = true;
+
+    saveBtn.innerHTML = `
+        <span class="save-loader"></span>
+    `;
+
+    saveBtn.classList.add("saving");
 
     try{
 
@@ -1746,17 +1757,14 @@ async function saveInvoiceEdit(){
 
         if(!res.ok || !data.success){
 
-            alert(
+            throw new Error(
                 data.message ||
                 "Failed to update invoice"
             );
 
-            return;
         }
 
-        alert(
-            "Invoice updated successfully"
-        );
+        /* ================= UPDATED ================= */
 
         currentViewBill =
             data.bill;
@@ -1779,21 +1787,45 @@ async function saveInvoiceEdit(){
             data.bill.customer?.name ||
             "";
 
-        document.getElementById(
-            "invoiceSaveBtn"
-        ).style.display = "none";
+        /* Button → Updated */
 
-        document.querySelector(
-            ".invoice-edit-icon"
-        ).style.display = "flex";
+        saveBtn.innerHTML = `
+            <span class="save-success-icon">✓</span>
+            Updated
+        `;
 
-        document
-    .getElementById("customerSearchBox")
-    .style.display = "none";
+        saveBtn.classList.remove("saving");
+        saveBtn.classList.add("updated");
 
-document
-    .querySelector(".invoice-view-mode")
-    .style.display = "block";
+        /* Wait before closing edit mode */
+
+        setTimeout(() => {
+
+            saveBtn.style.display = "none";
+
+            saveBtn.disabled = false;
+
+            saveBtn.classList.remove("updated");
+
+            saveBtn.innerHTML = `
+                💾 Save Changes
+            `;
+
+            document.querySelector(
+                ".invoice-edit-icon"
+            ).style.display = "flex";
+
+            document.getElementById(
+                "customerSearchBox"
+            ).style.display = "none";
+
+            document.querySelector(
+                ".invoice-view-mode"
+            ).style.display = "block";
+
+            showInvoiceUpdateToast();
+
+        }, 900);
 
     }
     catch(err){
@@ -1803,7 +1835,18 @@ document
             err
         );
 
+        /* Restore button */
+
+        saveBtn.disabled = false;
+
+        saveBtn.classList.remove("saving");
+
+        saveBtn.innerHTML = `
+            💾 Save Changes
+        `;
+
         alert(
+            err.message ||
             "Unable to update invoice."
         );
 
