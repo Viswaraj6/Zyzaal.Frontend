@@ -1728,6 +1728,7 @@ async function saveInvoiceEdit(){
 
     saveBtn.classList.add("saving");
 
+
     try{
 
         const res =
@@ -1752,8 +1753,10 @@ async function saveInvoiceEdit(){
                 }
             );
 
+
         const data =
             await res.json();
+
 
         if(!res.ok || !data.success){
 
@@ -1764,10 +1767,12 @@ async function saveInvoiceEdit(){
 
         }
 
-        /* ================= UPDATED ================= */
+
+        /* ================= UPDATE CURRENT BILL ================= */
 
         currentViewBill =
             data.bill;
+
 
         document.getElementById(
             "viewCustomer"
@@ -1775,11 +1780,13 @@ async function saveInvoiceEdit(){
             data.bill.customer?.name ||
             "Walk-in Customer";
 
+
         document.getElementById(
             "viewMobile"
         ).innerText =
             data.bill.customer?.mobile ||
             "-";
+
 
         document.getElementById(
             "editCustomer"
@@ -1787,7 +1794,8 @@ async function saveInvoiceEdit(){
             data.bill.customer?.name ||
             "";
 
-        /* Button → Updated */
+
+        /* ================= SUCCESS ================= */
 
         saveBtn.innerHTML = `
             <span class="save-success-icon">✓</span>
@@ -1795,9 +1803,16 @@ async function saveInvoiceEdit(){
         `;
 
         saveBtn.classList.remove("saving");
+
         saveBtn.classList.add("updated");
 
-        /* Wait before closing edit mode */
+
+        /* ================= REFRESH INVOICE HISTORY ================= */
+
+        await loadBills();
+
+
+        /* ================= CLOSE EDIT MODE ================= */
 
         setTimeout(() => {
 
@@ -1811,21 +1826,37 @@ async function saveInvoiceEdit(){
                 💾 Save Changes
             `;
 
+
             document.querySelector(
                 ".invoice-edit-icon"
             ).style.display = "flex";
+
 
             document.getElementById(
                 "customerSearchBox"
             ).style.display = "none";
 
+
             document.querySelector(
                 ".invoice-view-mode"
             ).style.display = "block";
 
+
+            /* ================= SCROLL TO TOP ================= */
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+
+            /* ================= SUCCESS TOAST ================= */
+
             showInvoiceUpdateToast();
 
+
         }, 900);
+
 
     }
     catch(err){
@@ -1834,6 +1865,7 @@ async function saveInvoiceEdit(){
             "Invoice Update Error:",
             err
         );
+
 
         /* Restore button */
 
@@ -1844,6 +1876,7 @@ async function saveInvoiceEdit(){
         saveBtn.innerHTML = `
             💾 Save Changes
         `;
+
 
         alert(
             err.message ||
