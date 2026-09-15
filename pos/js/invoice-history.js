@@ -45,6 +45,90 @@ async function loadCustomersForEdit(){
     }
 
 }
+
+document
+    .getElementById("editCustomer")
+    .addEventListener("input", function(){
+
+        const query =
+            this.value
+                .toLowerCase()
+                .trim();
+
+        const results =
+            document.getElementById(
+                "customerSearchResults"
+            );
+
+        results.innerHTML = "";
+
+        if(!query){
+            results.classList.remove("show");
+            return;
+        }
+
+        const matches =
+            allCustomers.filter(customer => {
+
+                const name =
+                    customer.name || "";
+
+                const mobile =
+                    customer.mobile || "";
+
+                return (
+                    name.toLowerCase().includes(query) ||
+                    mobile.includes(query)
+                );
+
+            });
+
+        if(matches.length === 0){
+
+            results.innerHTML = `
+                <div class="customer-no-result">
+                    No customer found
+                </div>
+            `;
+
+        }else{
+
+            matches.slice(0, 8).forEach(customer => {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "customer-search-item";
+
+                item.innerHTML = `
+                    <div>
+                        <strong>
+                            ${customer.name || "-"}
+                        </strong>
+
+                        <small>
+                            ${customer.mobile || "-"}
+                        </small>
+                    </div>
+
+                    <button
+                        type="button"
+                        onclick="selectEditCustomer('${customer._id}')">
+                        Select
+                    </button>
+                `;
+
+                results.appendChild(item);
+
+            });
+
+        }
+
+        results.classList.add("show");
+
+    });
+
 /* ================= LOAD BILLS ================= */
 
 async function loadBills(){
