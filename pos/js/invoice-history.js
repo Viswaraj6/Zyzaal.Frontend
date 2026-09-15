@@ -1201,15 +1201,29 @@ currentViewBill = bill;
             ${item.product || "-"}
         </span>
 
-        <button
-            type="button"
-            class="invoice-product-remove"
-            onclick="removeInvoiceProduct(${index})"
-            style="display:none;">
+       <button
+    type="button"
+    class="invoice-product-remove"
+    onclick="removeInvoiceProduct(${index})"
+    style="
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:18px;
+        height:18px;
+        margin-left:6px;
+        border:none;
+        background:#fff;
+        color:#d64545;
+        font-size:14px;
+        font-weight:bold;
+        cursor:pointer;
+        padding:0;
+    ">
 
-            ✕
+    ✕
 
-        </button>
+</button>
 
     </div>
 
