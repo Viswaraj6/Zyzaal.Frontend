@@ -318,13 +318,51 @@ document.getElementById("invoiceCount").innerText =
 
             <td>
 
-                <button
-                    class="action-btn"
-                    onclick="viewBill('${bill.billNo}')">
+               <div class="action-menu-wrapper">
 
-                    ⋮
+    <button
+        class="action-btn"
+        onclick="toggleActionMenu(event, '${bill.billNo}')">
 
-                </button>
+        ⋮
+
+    </button>
+
+
+    <div
+        class="action-menu"
+        id="menu-${bill.billNo}">
+
+        <button
+            onclick="viewBill('${bill.billNo}')">
+
+            👁
+            <span>View</span>
+
+        </button>
+
+
+        <button
+            onclick="editBill('${bill.billNo}')">
+
+            ✏️
+            <span>Edit</span>
+
+        </button>
+
+
+        <button
+            class="delete-action"
+            onclick="deleteBill('${bill.billNo}')">
+
+            🗑
+            <span>Delete</span>
+
+        </button>
+
+    </div>
+
+</div>
 
             </td>
 
