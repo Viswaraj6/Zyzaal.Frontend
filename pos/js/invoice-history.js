@@ -1496,7 +1496,104 @@ function closeDeleteSuccessToast(){
     clearTimeout(deleteSuccessTimer);
 
 }
+async function saveInvoiceEdit(){
 
+    if(!currentViewBill){
+        return;
+    }
+
+    if(!selectedEditCustomer){
+
+        alert("Please select a customer");
+
+        return;
+    }
+
+    try{
+
+        const res =
+            await fetch(
+                BASE_URL +
+                "/pos/bills/" +
+                currentViewBill._id,
+                {
+                    method:"PUT",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        customer:
+                            selectedEditCustomer
+
+                    })
+                }
+            );
+
+        const data =
+            await res.json();
+
+        if(!res.ok || !data.success){
+
+            alert(
+                data.message ||
+                "Failed to update invoice"
+            );
+
+            return;
+        }
+
+        alert(
+            "Invoice updated successfully"
+        );
+
+        currentViewBill =
+            data.bill;
+
+        document.getElementById(
+            "viewCustomer"
+        ).innerText =
+            data.bill.customer?.name ||
+            "Walk-in Customer";
+
+        document.getElementById(
+            "viewMobile"
+        ).innerText =
+            data.bill.customer?.mobile ||
+            "-";
+
+        document.getElementById(
+            "editCustomer"
+        ).value =
+            data.bill.customer?.name ||
+            "";
+
+        document.getElementById(
+            "invoiceSaveBtn"
+        ).style.display = "none";
+
+        document.querySelector(
+            ".invoice-edit-icon"
+        ).style.display = "flex";
+
+    }
+    catch(err){
+
+        console.error(
+            "Invoice Update Error:",
+            err
+        );
+
+        alert(
+            "Unable to update invoice."
+        );
+
+    }
+
+}
 /* ================= START ================= */
 
 loadBills();
