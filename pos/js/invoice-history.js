@@ -1095,9 +1095,7 @@ function editBill(billNo){
     );
 
 
-    /* Calculate totals */
-
-    calculateEditTotals();
+   
 
 
     /* Open edit modal */
