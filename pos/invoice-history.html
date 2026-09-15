@@ -382,30 +382,43 @@
 
         <!-- HEADER -->
 
-        <div class="invoice-view-header">
+       <div class="invoice-view-header">
 
-            <div>
+    <div>
 
-                <h2>Invoice Details</h2>
+        <h2>Invoice Details</h2>
 
-                <p>
-                    Invoice No:
-                    <strong id="viewBillNo">—</strong>
-                </p>
+        <p>
+            Invoice No:
+            <strong id="viewBillNo">—</strong>
+        </p>
 
-            </div>
+    </div>
 
 
-            <button
-                class="invoice-view-close"
-                onclick="closeInvoiceView()">
+    <div class="invoice-header-actions">
 
-                ✕
+        <button
+            class="invoice-edit-icon"
+            onclick="editCurrentInvoice()"
+            title="Edit Invoice">
 
-            </button>
+            ✏️
 
-        </div>
+        </button>
 
+
+        <button
+            class="invoice-view-close"
+            onclick="closeInvoiceView()">
+
+            ✕
+
+        </button>
+
+    </div>
+
+</div>
 
         <!-- BILL INFO -->
 
