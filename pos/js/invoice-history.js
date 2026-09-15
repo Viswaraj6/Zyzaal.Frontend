@@ -366,7 +366,9 @@ row.onclick = function(event){
     </button>
 
 
-   <div class="action-menu">
+ <div
+    class="action-menu"
+    id="menu-${bill.billNo}">
 
     <button
         onclick="viewBill('${bill.billNo}')">
