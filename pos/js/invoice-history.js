@@ -1346,11 +1346,18 @@ function enableInvoiceEditMode(){
         .style.display = "block";
 
     /* Load current customer name */
-    document
-        .getElementById("editCustomer")
-        .value =
-        currentViewBill.customer?.name || "";
+   const customerInput =
+    document.getElementById("editCustomer");
 
+customerInput.value =
+    currentViewBill.customer?.name || "";
+
+customerInput.readOnly = true;
+
+document
+    .querySelector(".customer-search-clear")
+    .style.display = "block";
+    
     /* Clear previous search results */
     document
         .getElementById("customerSearchResults")
