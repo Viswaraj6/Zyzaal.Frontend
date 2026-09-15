@@ -215,7 +215,7 @@ const pageBills =
         row.innerHTML = `
 
             <td>
-                ${index + 1}
+               ${startIndex + index + 1}
             </td>
 
 
