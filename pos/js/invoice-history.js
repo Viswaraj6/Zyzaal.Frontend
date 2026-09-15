@@ -1371,8 +1371,11 @@ document.querySelector(".invoice-edit-icon").style.display = "none";
 
 document.getElementById(
     "invoiceProductEditArea"
-).style.display = "block";
-
+).style.setProperty(
+    "display",
+    "block",
+    "important"
+);
 document.getElementById(
     "invoiceProductSearch"
 ).value = "";
