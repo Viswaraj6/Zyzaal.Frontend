@@ -146,6 +146,53 @@ document
 
     });
 });
+
+function loadInvoiceEditCustomer(){
+
+    const customer =
+        JSON.parse(
+            localStorage.getItem(
+                "invoiceEditCustomer"
+            )
+        );
+
+    if(!customer){
+        return;
+    }
+
+    selectedEditCustomer = customer;
+
+    localStorage.removeItem(
+        "invoiceEditCustomer"
+    );
+
+    /* Update current invoice customer */
+
+    if(currentViewBill){
+
+        currentViewBill.customer =
+            customer;
+
+        document.getElementById(
+            "viewCustomer"
+        ).innerText =
+            customer.name ||
+            "Walk-in Customer";
+
+        document.getElementById(
+            "viewMobile"
+        ).innerText =
+            customer.mobile || "-";
+
+        document.getElementById(
+            "editCustomer"
+        ).value =
+            customer.name || "";
+
+    }
+
+}
+
 /* ================= LOAD BILLS ================= */
 
 async function loadBills(){
@@ -1376,3 +1423,4 @@ function closeDeleteSuccessToast(){
 
 loadBills();
 loadCustomersForEdit();
+loadInvoiceEditCustomer();
