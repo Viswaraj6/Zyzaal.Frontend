@@ -11,6 +11,44 @@ let currentBills = [];
 
 let editProducts = [];
 
+async function loadEditProducts(){
+
+    try{
+
+        const res =
+            await fetch(
+                BASE_URL + "/products"
+            );
+
+        if(!res.ok){
+
+            throw new Error(
+                "Failed to load products"
+            );
+
+        }
+
+        editProducts =
+            await res.json();
+
+        console.log(
+            "EDIT PRODUCTS:",
+            editProducts
+        );
+
+    }
+    catch(err){
+
+        console.error(
+            "Edit Products Error:",
+            err
+        );
+
+        editProducts = [];
+
+    }
+
+}
 /* ================= LOAD BILLS ================= */
 
 async function loadBills(){
