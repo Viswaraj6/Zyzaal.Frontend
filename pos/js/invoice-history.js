@@ -1198,6 +1198,10 @@ function enableInvoiceEditMode(){
         .getElementById("editCustomer")
         .focus();
 document.querySelector(".invoice-edit-icon").style.display = "none";
+    
+    document.getElementById(
+    "invoiceSaveBtn").style.display = "block";
+    
 }
 
 function selectEditCustomer(customerId){
