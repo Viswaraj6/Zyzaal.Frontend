@@ -1844,11 +1844,17 @@ async function saveInvoiceEdit(){
 
             /* ================= SCROLL TO TOP ================= */
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+            const invoiceModal =
+    document.getElementById("invoiceViewModal");
 
+if(invoiceModal){
+
+    invoiceModal.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
 
             /* ================= SUCCESS TOAST ================= */
 
