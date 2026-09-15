@@ -983,12 +983,128 @@ document.addEventListener("click", function(event){
     }
 
 });
+
 function editBill(billNo){
 
-    alert(
-        "Edit Invoice: " +
-        billNo
+    const bill =
+        allBills.find(
+            b => b.billNo === billNo
+        );
+
+    if(!bill){
+
+        alert("Invoice not found");
+
+        return;
+
+    }
+
+    /* Close action menu */
+
+    document
+        .querySelectorAll(".action-menu")
+        .forEach(menu => {
+            menu.classList.remove("show");
+        });
+
+
+    /* Store current invoice */
+
+    deleteInvoiceId = bill._id;
+    deleteInvoiceBillNo = bill.billNo;
+
+
+    /* Invoice number */
+
+    document.getElementById("editBillNo").innerText =
+        bill.billNo || "—";
+
+
+    /* Customer */
+
+    document.getElementById("editCustomerName").value =
+        bill.customer?.name || "";
+
+    document.getElementById("editCustomerMobile").value =
+        bill.customer?.mobile || "";
+
+
+    /* Discount */
+
+    document.getElementById("editDiscount").value =
+        Number(bill.discount || 0);
+
+
+    /* Items */
+
+    const container =
+        document.getElementById("editInvoiceItems");
+
+    container.innerHTML = "";
+
+
+    (bill.items || []).forEach(
+        (item,index)=>{
+
+            const qty =
+                Number(item.qty || 0);
+
+            const rate =
+                Number(item.price || 0);
+
+            const amount =
+                qty * rate;
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    ${item.product || "-"}
+                </td>
+
+                <td>
+                    ${item.size || "-"}
+                </td>
+
+                <td>
+                    ${qty}
+                </td>
+
+                <td>
+                    ₹${rate.toFixed(2)}
+                </td>
+
+                <td>
+                    ₹${amount.toFixed(2)}
+                </td>
+
+            `;
+
+
+            container.appendChild(row);
+
+        }
     );
+
+
+    /* Calculate totals */
+
+    calculateEditTotals();
+
+
+    /* Open edit modal */
+
+    document
+        .getElementById("editInvoiceModal")
+        .classList.remove("hidden");
 
 }
 
