@@ -993,7 +993,11 @@ function editBill(billNo){
 }
 
 
-async function deleteBill(billNo){
+let deleteInvoiceId = null;
+let deleteInvoiceBillNo = null;
+
+
+function deleteBill(billNo){
 
     const bill =
         allBills.find(
@@ -1008,18 +1012,54 @@ async function deleteBill(billNo){
 
     }
 
-    const confirmDelete =
-        confirm(
-            "Delete Invoice " +
-            billNo +
-            "?\n\nThis action cannot be undone."
-        );
+    deleteInvoiceId = bill._id;
+    deleteInvoiceBillNo = bill.billNo;
 
-    if(!confirmDelete){
+    document.getElementById("deleteBillNo").innerText =
+        bill.billNo || "—";
 
+    const date =
+        bill.createdAt
+            ? new Date(bill.createdAt)
+            : null;
+
+    document.getElementById("deleteBillDate").innerText =
+        date
+            ? date.toLocaleDateString("en-IN") +
+              " " +
+              date.toLocaleTimeString("en-IN", {
+                  hour:"2-digit",
+                  minute:"2-digit"
+              })
+            : "—";
+
+    document
+        .getElementById("deleteInvoiceModal")
+        .classList.remove("hidden");
+
+}
+
+
+function closeDeleteModal(){
+
+    document
+        .getElementById("deleteInvoiceModal")
+        .classList.add("hidden");
+
+    deleteInvoiceId = null;
+    deleteInvoiceBillNo = null;
+
+}
+
+
+async function confirmDeleteInvoice(){
+
+    if(!deleteInvoiceId){
         return;
-
     }
+
+    const billNo =
+        deleteInvoiceBillNo;
 
     try{
 
@@ -1027,9 +1067,9 @@ async function deleteBill(billNo){
             await fetch(
                 BASE_URL +
                 "/pos/bills/" +
-                bill._id,
+                deleteInvoiceId,
                 {
-                    method: "DELETE"
+                    method:"DELETE"
                 }
             );
 
@@ -1044,16 +1084,17 @@ async function deleteBill(billNo){
             );
 
             return;
-
         }
+
+        closeDeleteModal();
+
+        await loadBills();
 
         alert(
             "Invoice " +
             billNo +
             " deleted successfully."
         );
-
-        loadBills();
 
     }
     catch(err){
