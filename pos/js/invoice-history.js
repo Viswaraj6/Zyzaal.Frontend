@@ -1381,10 +1381,13 @@ document
     .querySelectorAll(".invoice-product-remove")
     .forEach(button => {
 
-        button.style.display = "inline-flex";
+        button.style.setProperty(
+            "display",
+            "inline-flex",
+            "important"
+        );
 
     });
-
 document.getElementById(
     "invoiceSaveBtn"
 ).style.display = "block";
