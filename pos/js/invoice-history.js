@@ -1332,7 +1332,11 @@ currentViewBill = bill;
     document.getElementById("viewGrandTotal").innerText =
         "₹" + grandTotal.toFixed(2);
 
-
+document
+    .querySelectorAll(".invoice-product-remove")
+    .forEach(button => {
+        button.style.display = "none";
+    });
     /* ================= OPEN MODAL ================= */
 
     document
