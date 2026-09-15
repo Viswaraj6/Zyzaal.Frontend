@@ -1853,6 +1853,30 @@ async function saveInvoiceEdit(){
     }
 
 }
+function showInvoiceUpdateToast(){
+
+    const toast =
+        document.getElementById(
+            "invoiceUpdateToast"
+        );
+
+    if(!toast){
+        return;
+    }
+
+    toast.classList.remove("hidden");
+
+    clearTimeout(
+        window.invoiceUpdateToastTimer
+    );
+
+    window.invoiceUpdateToastTimer =
+        setTimeout(() => {
+
+            toast.classList.add("hidden");
+
+        }, 3000);
+}
 function selectInvoiceProduct(product){
 
     if(!product){
