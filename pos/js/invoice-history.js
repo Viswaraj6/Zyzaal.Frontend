@@ -1636,7 +1636,7 @@ document
 
 }
 /* ================= START ================= */
-
 loadBills();
 loadCustomersForEdit();
+loadProductsForInvoiceEdit();
 reopenInvoiceAfterCustomer();
