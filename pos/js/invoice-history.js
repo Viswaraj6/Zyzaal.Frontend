@@ -231,6 +231,19 @@ document.getElementById("invoiceCount").innerText =
         const row =
             document.createElement("tr");
 
+        row.classList.add("invoice-row");
+
+row.onclick = function(event){
+
+    if(
+        event.target.closest(".action-menu-wrapper")
+    ){
+        return;
+    }
+
+    viewBill(bill.billNo);
+
+};
 
         row.innerHTML = `
 
