@@ -46,6 +46,7 @@ async function loadCustomersForEdit(){
 
 }
 
+document.addEventListener("DOMContentLoaded", function(){
 document
     .getElementById("editCustomer")
     .addEventListener("input", function(){
@@ -128,7 +129,7 @@ document
         results.classList.add("show");
 
     });
-
+});
 /* ================= LOAD BILLS ================= */
 
 async function loadBills(){
