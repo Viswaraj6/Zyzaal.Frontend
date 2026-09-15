@@ -1048,7 +1048,34 @@ function enableInvoiceEditMode(){
         return;
     }
 
-    alert("Edit mode - Coming Next");
+    /* Show customer search */
+    document
+        .querySelector(".invoice-view-mode")
+        .style.display = "none";
+
+    document
+        .getElementById("customerSearchBox")
+        .style.display = "block";
+
+    /* Load current customer name */
+    document
+        .getElementById("editCustomer")
+        .value =
+        currentViewBill.customer?.name || "";
+
+    /* Clear previous search results */
+    document
+        .getElementById("customerSearchResults")
+        .innerHTML = "";
+
+    document
+        .getElementById("customerSearchResults")
+        .classList.remove("show");
+
+    /* Focus search */
+    document
+        .getElementById("editCustomer")
+        .focus();
 
 }
 function closeInvoiceView(){
