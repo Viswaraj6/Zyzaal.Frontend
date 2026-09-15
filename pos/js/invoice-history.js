@@ -743,6 +743,23 @@ function toggleActionMenu(event, billNo){
     clickedMenu.classList.toggle("show");
 
 }
+document.addEventListener("click", function(event){
+
+    if(
+        !event.target.closest(".action-menu-wrapper")
+    ){
+
+        document
+            .querySelectorAll(".action-menu")
+            .forEach(menu => {
+
+                menu.classList.remove("show");
+
+            });
+
+    }
+
+});
 function editBill(billNo){
 
     alert(
