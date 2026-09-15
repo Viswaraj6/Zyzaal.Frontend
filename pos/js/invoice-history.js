@@ -326,6 +326,9 @@ document.getElementById("invoiceCount").innerText =
         container.appendChild(row);
 
     });
+    
+renderPagination();
+
 
 }
 
