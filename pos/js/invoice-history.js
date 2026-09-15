@@ -775,8 +775,8 @@ function viewBill(billNo){
         return;
 
     }
-
-
+currentViewBill = bill;
+    
     /* ================= BILL INFO ================= */
 
     document.getElementById("viewBillNo").innerText =
