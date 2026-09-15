@@ -1215,8 +1215,15 @@ function addNewCustomerFromInvoice(){
         currentViewBill.billNo
     );
 
-    window.location.href =
-        "customer.html";
+   const mobile =
+    document
+        .getElementById("editCustomer")
+        .value
+        .trim();
+
+window.location.href =
+    "customer.html?addNew=true&mobile=" +
+    encodeURIComponent(mobile);
 
 }
 function closeInvoiceView(){
