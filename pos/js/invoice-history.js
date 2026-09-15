@@ -114,13 +114,25 @@ const pageBills =
         "₹" + totalSales.toLocaleString("en-IN");
 
 
-    document.getElementById("invoiceCount").innerText =
-        "Showing 1 to " +
-        bills.length +
-        " of " +
-        bills.length +
-        " invoices";
+    const showingFrom =
+    bills.length === 0
+        ? 0
+        : startIndex + 1;
 
+const showingTo =
+    Math.min(
+        endIndex,
+        bills.length
+    );
+
+document.getElementById("invoiceCount").innerText =
+    "Showing " +
+    showingFrom +
+    " to " +
+    showingTo +
+    " of " +
+    bills.length +
+    " invoices";
 
     /* ================= EMPTY ================= */
 
