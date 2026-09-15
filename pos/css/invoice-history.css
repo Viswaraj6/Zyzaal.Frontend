@@ -458,3 +458,40 @@ tbody tr:last-child td{
     }
 
 }
+.pagination{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:7px;
+}
+
+.pagination button{
+    min-width:36px;
+    height:36px;
+
+    padding:0 10px;
+
+    border:1px solid #ddd;
+    background:#fff;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    font-size:14px;
+}
+
+.pagination button:hover{
+    background:#f3f7f6;
+}
+
+.pagination button.active{
+    background:#16a085;
+    color:#fff;
+    border-color:#16a085;
+}
+
+.pagination button:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
