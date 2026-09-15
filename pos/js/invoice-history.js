@@ -1389,6 +1389,154 @@ function closeDeleteSuccessToast(){
     clearTimeout(deleteSuccessTimer);
 
 }
+
+function editCurrentInvoice(){
+
+    if(!currentViewBill){
+        return;
+    }
+
+    invoiceEditMode = true;
+
+    const bill = currentViewBill;
+
+    /* ================= CUSTOMER ================= */
+
+    document.getElementById("viewCustomer").innerHTML = `
+        <div class="edit-customer-inline">
+
+            <input
+                type="text"
+                id="editViewCustomerMobile"
+                value="${bill.customer?.mobile || ""}"
+                placeholder="Search mobile number"
+                maxlength="10"
+                oninput="searchEditCustomer(this.value)"
+            >
+
+            <div
+                id="editCustomerResult"
+                class="edit-customer-result">
+            </div>
+
+        </div>
+    `;
+
+
+    /* ================= ITEMS ================= */
+
+    const itemsContainer =
+        document.getElementById("viewItems");
+
+    itemsContainer.innerHTML = "";
+
+
+    (bill.items || []).forEach(
+        (item,index)=>{
+
+            const qty =
+                Number(item.qty || 1);
+
+            const rate =
+                Number(item.price || 0);
+
+            const amount =
+                qty * rate;
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+
+                    <div class="edit-product-cell">
+
+                        <input
+                            type="text"
+                            class="edit-product-search"
+                            value="${item.product || ""}"
+                            data-index="${index}"
+                            placeholder="Search product"
+                            oninput="searchEditProduct(this)"
+                        >
+
+                        <button
+                            type="button"
+                            class="edit-product-clear"
+                            onclick="clearEditProduct(${index})">
+
+                            ✕
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+                <td>
+                    <span id="editViewSize-${index}">
+                        ${item.size || "-"}
+                    </span>
+                </td>
+
+                <td>
+                    ${qty}
+                </td>
+
+                <td>
+                    <span id="editViewRate-${index}">
+                        ₹${rate.toFixed(2)}
+                    </span>
+                </td>
+
+                <td>
+                    <span id="editViewAmount-${index}">
+                        ₹${amount.toFixed(2)}
+                    </span>
+                </td>
+
+            `;
+
+
+            itemsContainer.appendChild(row);
+
+        }
+    );
+
+
+    /* ================= DISCOUNT ================= */
+
+    const discountRow =
+        document.getElementById("viewDiscount");
+
+    discountRow.innerHTML = `
+        <button
+            type="button"
+            class="edit-discount-btn"
+            onclick="openEditDiscount()">
+
+            - ₹${Number(
+                bill.discount || 0
+            ).toFixed(2)}
+
+        </button>
+    `;
+
+
+    /* ================= EDIT STATE ================= */
+
+    document
+        .getElementById("invoiceViewModal")
+        .classList.add("invoice-editing");
+
+}
 /* ================= START ================= */
 
 loadBills();
