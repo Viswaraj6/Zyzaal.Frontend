@@ -563,3 +563,10 @@ tbody tr:last-child td{
 .action-menu .delete-action:hover{
     background:#fff1f1;
 }
+.invoice-row{
+    cursor:pointer;
+}
+
+.invoice-row:hover{
+    background:#f4fbf9;
+}
