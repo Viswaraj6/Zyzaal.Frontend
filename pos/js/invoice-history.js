@@ -11,6 +11,8 @@ let currentBills = [];
 
 let editProducts = [];
 
+let currentViewBill = null;
+
 async function loadEditProducts(){
 
     try{
