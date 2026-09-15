@@ -1579,6 +1579,14 @@ async function saveInvoiceEdit(){
             ".invoice-edit-icon"
         ).style.display = "flex";
 
+        document
+    .getElementById("customerSearchBox")
+    .style.display = "none";
+
+document
+    .querySelector(".invoice-view-mode")
+    .style.display = "block";
+
     }
     catch(err){
 
