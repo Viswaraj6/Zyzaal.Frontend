@@ -578,6 +578,66 @@
     </div>
 
 </div>
+
+    <!-- ================= DELETE INVOICE MODAL ================= -->
+
+<div id="deleteInvoiceModal" class="delete-invoice-modal hidden">
+
+    <div class="delete-invoice-box">
+
+        <button
+            class="delete-modal-close"
+            onclick="closeDeleteModal()">
+            ✕
+        </button>
+
+        <div class="delete-icon">
+            🗑
+        </div>
+
+        <h2>Delete Invoice?</h2>
+
+        <p class="delete-question">
+            Are you sure you want to delete this invoice?
+        </p>
+
+        <div class="delete-invoice-info">
+
+            <div>
+                <span>Invoice No</span>
+                <strong id="deleteBillNo">—</strong>
+            </div>
+
+            <div>
+                <span>Date & Time</span>
+                <strong id="deleteBillDate">—</strong>
+            </div>
+
+        </div>
+
+        <div class="delete-warning">
+            ⚠️ This action cannot be undone.
+        </div>
+
+        <div class="delete-modal-actions">
+
+            <button
+                class="delete-cancel-btn"
+                onclick="closeDeleteModal()">
+                Cancel
+            </button>
+
+            <button
+                class="delete-confirm-btn"
+                onclick="confirmDeleteInvoice()">
+                🗑 Delete Invoice
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
     
 </body>
 
