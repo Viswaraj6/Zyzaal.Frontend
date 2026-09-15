@@ -164,8 +164,45 @@ async function reopenInvoiceAfterCustomer(){
     // First load invoices completely
     await loadBills();
 
-    // Now open the same invoice
+    // Open the same invoice
     viewBill(billNo);
+
+    // Check whether a new customer was created
+    const customer =
+        JSON.parse(
+            localStorage.getItem(
+                "invoiceEditCustomer"
+            )
+        );
+
+    if(customer){
+
+        selectedEditCustomer = customer;
+
+        currentViewBill.customer =
+            customer;
+
+        document.getElementById(
+            "viewCustomer"
+        ).innerText =
+            customer.name ||
+            "Walk-in Customer";
+
+        document.getElementById(
+            "viewMobile"
+        ).innerText =
+            customer.mobile || "-";
+
+        document.getElementById(
+            "editCustomer"
+        ).value =
+            customer.name || "";
+
+        localStorage.removeItem(
+            "invoiceEditCustomer"
+        );
+
+    }
 
 }
 function loadInvoiceEditCustomer(){
