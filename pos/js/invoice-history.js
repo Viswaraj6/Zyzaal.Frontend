@@ -1701,6 +1701,28 @@ document
     }
 
 }
+function selectInvoiceProduct(product){
+
+    if(!product){
+        return;
+    }
+
+    console.log(
+        "Selected Product:",
+        product
+    );
+
+    // Search box update
+    document.getElementById(
+        "invoiceProductSearch"
+    ).value = product.name || "";
+
+    // Close results
+    document.getElementById(
+        "invoiceProductResults"
+    ).style.display = "none";
+
+}
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
