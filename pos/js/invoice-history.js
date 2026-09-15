@@ -146,7 +146,28 @@ document
 
     });
 });
+function reopenInvoiceAfterCustomer(){
 
+    const billNo =
+        localStorage.getItem(
+            "invoiceEditBillNo"
+        );
+
+    if(!billNo){
+        return;
+    }
+
+    localStorage.removeItem(
+        "invoiceEditBillNo"
+    );
+
+    setTimeout(() => {
+
+        viewBill(billNo);
+
+    }, 100);
+
+}
 function loadInvoiceEditCustomer(){
 
     const customer =
@@ -1433,3 +1454,4 @@ function closeDeleteSuccessToast(){
 loadBills();
 loadCustomersForEdit();
 loadInvoiceEditCustomer();
+reopenInvoiceAfterCustomer();
