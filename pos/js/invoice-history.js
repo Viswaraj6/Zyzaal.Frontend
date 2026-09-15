@@ -141,7 +141,7 @@ const pageBills =
 
     /* ================= TABLE ROWS ================= */
 
-    bills.forEach((bill,index)=>{
+    pageBills.forEach((bill,index)=>{
 
         const customer =
             bill.customer?.name ||
