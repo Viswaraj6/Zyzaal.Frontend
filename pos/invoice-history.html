@@ -429,10 +429,44 @@
                 <strong id="viewDate">—</strong>
             </div>
 
-            <div>
-                <small>Customer</small>
-                <strong id="viewCustomer">Walk-in Customer</strong>
-            </div>
+           <div class="invoice-customer-edit">
+
+    <small>Customer</small>
+
+    <!-- Normal View -->
+    <strong
+        id="viewCustomer"
+        class="invoice-view-mode">
+        Walk-in Customer
+    </strong>
+
+    <!-- Edit Search -->
+    <div
+        id="customerSearchBox"
+        class="invoice-edit-mode"
+        style="display:none;">
+
+        <div class="customer-search-input">
+
+            <span>🔍</span>
+
+            <input
+                type="text"
+                id="editCustomer"
+                placeholder="Search name / mobile"
+                autocomplete="off">
+
+        </div>
+
+        <!-- Search Results -->
+        <div
+            id="customerSearchResults"
+            class="customer-search-results">
+        </div>
+
+    </div>
+
+</div>
 
             <div>
                 <small>Mobile</small>
