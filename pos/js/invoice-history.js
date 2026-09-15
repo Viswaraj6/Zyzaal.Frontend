@@ -451,6 +451,90 @@ function goToPage(page){
     renderBills(currentBills);
 
 }
+
+function renderPagination(){
+
+    const pagination =
+        document.getElementById("pagination");
+
+    pagination.innerHTML = "";
+
+    const totalPages =
+        Math.ceil(
+            currentBills.length /
+            ITEMS_PER_PAGE
+        );
+
+    if(totalPages <= 1){
+        return;
+    }
+
+
+    /* PREVIOUS */
+
+    const prev =
+        document.createElement("button");
+
+    prev.innerText = "‹";
+
+    prev.disabled =
+        currentPage === 1;
+
+    prev.onclick = function(){
+
+        goToPage(currentPage - 1);
+
+    };
+
+    pagination.appendChild(prev);
+
+
+    /* PAGE NUMBERS */
+
+    for(let i = 1; i <= totalPages; i++){
+
+        const button =
+            document.createElement("button");
+
+        button.innerText = i;
+
+        if(i === currentPage){
+
+            button.classList.add("active");
+
+        }
+
+        button.onclick = function(){
+
+            goToPage(i);
+
+        };
+
+        pagination.appendChild(button);
+
+    }
+
+
+    /* NEXT */
+
+    const next =
+        document.createElement("button");
+
+    next.innerText = "›";
+
+    next.disabled =
+        currentPage === totalPages;
+
+    next.onclick = function(){
+
+        goToPage(currentPage + 1);
+
+    };
+
+    pagination.appendChild(next);
+
+}
+
 /* ================= FILTER ================= */
 
 function applyFilters(){
