@@ -1131,7 +1131,17 @@ function selectEditCustomer(customerId){
     customer.mobile || "-";
 
 }
+function addNewCustomerFromInvoice(){
 
+    localStorage.setItem(
+        "returnToInvoiceEdit",
+        "true"
+    );
+
+    window.location.href =
+        "customer.html";
+
+}
 function closeInvoiceView(){
 
     document
