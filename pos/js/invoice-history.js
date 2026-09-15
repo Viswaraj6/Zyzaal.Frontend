@@ -1497,5 +1497,4 @@ function closeDeleteSuccessToast(){
 
 loadBills();
 loadCustomersForEdit();
-loadInvoiceEditCustomer();
 reopenInvoiceAfterCustomer();
