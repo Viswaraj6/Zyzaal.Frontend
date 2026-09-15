@@ -1193,9 +1193,31 @@ currentViewBill = bill;
                     ${index + 1}
                 </td>
 
-                <td>
-                    ${item.product || "-"}
-                </td>
+               <td class="invoice-product-cell">
+
+    <div class="invoice-product-name">
+
+        <span>
+            ${item.product || "-"}
+        </span>
+
+        <button
+            type="button"
+            class="invoice-product-remove"
+            onclick="removeInvoiceProduct(${index})"
+            style="display:none;">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <div class="invoice-product-meta">
+        SKU: ${item.barcode || item.sku || "-"}
+    </div>
+
+</td>
 
                 <td>
                     ${item.size || "-"}
