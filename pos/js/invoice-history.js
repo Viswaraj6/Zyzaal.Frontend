@@ -11,71 +11,115 @@ let currentBills = [];
 let currentViewBill = null;
 let allCustomers = [];
 let selectedEditCustomer = null;
+
 let allProducts = [];
-const invoiceProductSearch =
-    document.getElementById("invoiceProductSearch");
 
-const invoiceProductResults =
-    document.getElementById("invoiceProductResults");
-document.addEventListener("DOMContentLoaded", function(){
 
-invoiceProductSearch.addEventListener(
-    "input",
+/* ================= PRODUCT SEARCH ================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
     function(){
 
-        const search =
-            this.value.trim().toLowerCase();
+        const invoiceProductSearch =
+            document.getElementById(
+                "invoiceProductSearch"
+            );
 
-        invoiceProductResults.innerHTML = "";
+        const invoiceProductResults =
+            document.getElementById(
+                "invoiceProductResults"
+            );
 
-        if(!search){
-            invoiceProductResults.style.display = "none";
+
+        if(
+            !invoiceProductSearch ||
+            !invoiceProductResults
+        ){
             return;
         }
 
-        const results =
-            allProducts.filter(product => {
 
-                const name =
-                    String(product.name || "")
-                    .toLowerCase();
+        invoiceProductSearch.addEventListener(
+            "input",
+            function(){
 
-                const sku =
-                    String(product.sku || "")
-                    .toLowerCase();
+                const search =
+                    this.value
+                        .trim()
+                        .toLowerCase();
 
-                const styleNo =
-                    String(product.styleNo || "")
-                    .toLowerCase();
+                invoiceProductResults.innerHTML = "";
 
-                return (
-                    name.includes(search) ||
-                    sku.includes(search) ||
-                    styleNo.includes(search)
-                );
 
-            });
+                if(!search){
 
-        results.forEach(product => {
+                    invoiceProductResults.style.display =
+                        "none";
 
-            const div =
-                document.createElement("div");
+                    return;
+                }
 
-            div.innerText =
-                `${product.name} | ${product.styleNo || ""}`;
 
-            div.onclick = function(){
+                const results =
+                    allProducts.filter(product => {
 
-                selectInvoiceProduct(product);
+                        const name =
+                            String(
+                                product.name || ""
+                            ).toLowerCase();
 
-            };
+                        const sku =
+                            String(
+                                product.sku || ""
+                            ).toLowerCase();
 
-            invoiceProductResults.appendChild(div);
+                        const styleNo =
+                            String(
+                                product.styleNo || ""
+                            ).toLowerCase();
 
-        });
 
-        invoiceProductResults.style.display =
-            results.length ? "block" : "none";
+                        return (
+                            name.includes(search) ||
+                            sku.includes(search) ||
+                            styleNo.includes(search)
+                        );
+
+                    });
+
+
+                results.forEach(product => {
+
+                    const div =
+                        document.createElement("div");
+
+                    div.innerText =
+                        `${product.name} | ${product.styleNo || ""}`;
+
+
+                    div.onclick = function(){
+
+                        selectInvoiceProduct(
+                            product
+                        );
+
+                    };
+
+
+                    invoiceProductResults
+                        .appendChild(div);
+
+                });
+
+
+                invoiceProductResults.style.display =
+                    results.length
+                        ? "block"
+                        : "none";
+
+            }
+        );
 
     }
 );
