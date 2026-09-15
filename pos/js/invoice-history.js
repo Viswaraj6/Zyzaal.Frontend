@@ -8,11 +8,9 @@ let currentPage = 1;
 const ITEMS_PER_PAGE = 20;
 
 let currentBills = [];
-
-
-
 let currentViewBill = null;
-
+let allCustomers = [];
+let selectedEditCustomer = null;
 
 
 /* ================= LOAD BILLS ================= */
