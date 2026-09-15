@@ -410,32 +410,6 @@ document
     );
 
 
-/* ================= PAYMENT FILTER ================= */
-
-document
-    .getElementById("paymentFilter")
-    .addEventListener(
-        "change",
-        function(){
-
-            applyFilters();
-
-        }
-    );
-
-
-/* ================= DATE FILTER ================= */
-
-document
-    .getElementById("invoiceDate")
-    .addEventListener(
-        "change",
-        function(){
-
-            applyFilters();
-
-        }
-    );
 
 function goToPage(page){
 
