@@ -1199,3 +1199,4 @@ function closeDeleteSuccessToast(){
 /* ================= START ================= */
 
 loadBills();
+loadCustomersForEdit();
