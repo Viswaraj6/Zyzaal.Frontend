@@ -14,6 +14,14 @@ let currentBills = [];
 
 async function loadBills(){
 
+     document.getElementById("searchInvoice").value = "";
+
+    document.getElementById("invoiceDate").value = "";
+
+    document.getElementById("paymentFilter").value = "";
+
+    currentPage = 1;
+
     try{
 
         const res = await fetch(
