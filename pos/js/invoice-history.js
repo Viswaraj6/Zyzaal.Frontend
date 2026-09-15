@@ -1023,7 +1023,7 @@ document.addEventListener("click", function(event){
 
 });
 
-function editBill(billNo){
+async function editBill(billNo){
 
     const bill =
         allBills.find(
@@ -1033,18 +1033,26 @@ function editBill(billNo){
     if(!bill){
 
         alert("Invoice not found");
-
         return;
 
     }
 
-    /* Close action menu */
+    /* Close action menus */
 
     document
         .querySelectorAll(".action-menu")
         .forEach(menu => {
             menu.classList.remove("show");
         });
+
+
+    /* Load products if not loaded */
+
+    if(editProducts.length === 0){
+
+        await loadEditProducts();
+
+    }
 
 
     /* Store current invoice */
@@ -1085,14 +1093,12 @@ function editBill(billNo){
     (bill.items || []).forEach(
         (item,index)=>{
 
-            const qty =
-                Number(item.qty || 0);
-
-            const rate =
-                Number(item.price || 0);
-
-            const amount =
-                qty * rate;
+            const currentProduct =
+                editProducts.find(
+                    p =>
+                        p._id === item.productId ||
+                        p.name === item.product
+                );
 
 
             const row =
@@ -1106,23 +1112,84 @@ function editBill(billNo){
                 </td>
 
                 <td>
-                    ${item.product || "-"}
+
+                    <select
+                        class="edit-product-select"
+                        onchange="editProductChanged(this, ${index})">
+
+                        <option value="">
+                            Select Product
+                        </option>
+
+                        ${editProducts.map(p => `
+
+                            <option
+                                value="${p._id}"
+                                ${currentProduct &&
+                                  currentProduct._id === p._id
+                                  ? "selected"
+                                  : ""}>
+
+                                ${p.name}
+                                ${p.styleNo
+                                    ? " - " + p.styleNo
+                                    : ""}
+
+                            </option>
+
+                        `).join("")}
+
+                    </select>
+
                 </td>
 
                 <td>
-                    ${item.size || "-"}
+
+                    <select
+                        class="edit-size-select"
+                        id="editSize-${index}">
+
+                        <option>
+                            ${item.size || "-"}
+                        </option>
+
+                    </select>
+
                 </td>
 
                 <td>
-                    ${qty}
+
+                    <input
+                        type="number"
+                        class="edit-qty-input"
+                        id="editQty-${index}"
+                        value="${Number(item.qty || 1)}"
+                        min="1"
+                        oninput="editQtyChanged(${index})">
+
                 </td>
 
                 <td>
-                    ₹${rate.toFixed(2)}
+
+                    <span
+                        id="editRate-${index}">
+                        ₹${Number(item.price || 0).toFixed(2)}
+                    </span>
+
                 </td>
 
                 <td>
-                    ₹${amount.toFixed(2)}
+
+                    <span
+                        id="editAmount-${index}">
+
+                        ₹${(
+                            Number(item.qty || 0) *
+                            Number(item.price || 0)
+                        ).toFixed(2)}
+
+                    </span>
+
                 </td>
 
             `;
@@ -1134,9 +1201,6 @@ function editBill(billNo){
     );
 
 
-   
-
-
     /* Open edit modal */
 
     document
@@ -1144,7 +1208,6 @@ function editBill(billNo){
         .classList.remove("hidden");
 
 }
-
 
 let deleteInvoiceId = null;
 let deleteInvoiceBillNo = null;
