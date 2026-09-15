@@ -1588,8 +1588,9 @@ body:has(#invoiceViewModal:not(.hidden)){
 .invoice-update-toast{
     position:fixed;
 
-    right:25px;
     top:25px;
+    left:50%;
+    right:auto;
     bottom:auto;
 
     width:360px;
@@ -1614,10 +1615,10 @@ body:has(#invoiceViewModal:not(.hidden)){
 
     overflow:hidden;
 
-    animation:
-        invoiceToastIn .25s ease;
-}
+    transform:translateX(-50%);
 
+    animation:invoiceToastIn .25s ease;
+}
 .invoice-update-toast.hidden{
     display:none !important;
 }
@@ -1719,12 +1720,12 @@ body:has(#invoiceViewModal:not(.hidden)){
 
     from{
         opacity:0;
-        transform:translateY(-15px);
+        transform:translate(-50%, -15px);
     }
 
     to{
         opacity:1;
-        transform:translateY(0);
+        transform:translate(-50%, 0);
     }
 
 }
@@ -1745,12 +1746,13 @@ body:has(#invoiceViewModal:not(.hidden)){
 @media(max-width:600px){
 
     .invoice-update-toast{
-        left:15px;
-        right:15px;
+        left:50%;
+        right:auto;
         top:15px;
-        bottom:auto;
 
-        width:auto;
+        width:calc(100% - 30px);
+
+        transform:translateX(-50%);
     }
 
 }
