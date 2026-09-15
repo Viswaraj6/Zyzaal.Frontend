@@ -1180,9 +1180,18 @@ function selectEditCustomer(customerId){
 }
 function addNewCustomerFromInvoice(){
 
+    if(!currentViewBill){
+        return;
+    }
+
     localStorage.setItem(
         "returnToInvoiceEdit",
         "true"
+    );
+
+    localStorage.setItem(
+        "invoiceEditBillNo",
+        currentViewBill.billNo
     );
 
     window.location.href =
