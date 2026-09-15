@@ -12,7 +12,73 @@ let currentViewBill = null;
 let allCustomers = [];
 let selectedEditCustomer = null;
 let allProducts = [];
+const invoiceProductSearch =
+    document.getElementById("invoiceProductSearch");
 
+const invoiceProductResults =
+    document.getElementById("invoiceProductResults");
+
+
+invoiceProductSearch.addEventListener(
+    "input",
+    function(){
+
+        const search =
+            this.value.trim().toLowerCase();
+
+        invoiceProductResults.innerHTML = "";
+
+        if(!search){
+            invoiceProductResults.style.display = "none";
+            return;
+        }
+
+        const results =
+            allProducts.filter(product => {
+
+                const name =
+                    String(product.name || "")
+                    .toLowerCase();
+
+                const sku =
+                    String(product.sku || "")
+                    .toLowerCase();
+
+                const styleNo =
+                    String(product.styleNo || "")
+                    .toLowerCase();
+
+                return (
+                    name.includes(search) ||
+                    sku.includes(search) ||
+                    styleNo.includes(search)
+                );
+
+            });
+
+        results.forEach(product => {
+
+            const div =
+                document.createElement("div");
+
+            div.innerText =
+                `${product.name} | ${product.styleNo || ""}`;
+
+            div.onclick = function(){
+
+                selectInvoiceProduct(product);
+
+            };
+
+            invoiceProductResults.appendChild(div);
+
+        });
+
+        invoiceProductResults.style.display =
+            results.length ? "block" : "none";
+
+    }
+);
 async function loadProductsForInvoiceEdit(){
 
     try{
