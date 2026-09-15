@@ -1,4 +1,4 @@
- BASE_URL =const
+const BASE_URL =
     "https://fark618-backend.onrender.com";
 
 let allBills = [];
