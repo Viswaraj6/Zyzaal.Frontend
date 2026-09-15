@@ -235,31 +235,32 @@ document.getElementById("invoiceCount").innerText =
 
 row.onclick = function(event){
 
-    const menu =
-        document.getElementById(
-            "menu-" + bill.billNo
-        );
-
-    /* 3-dot menu area */
+    /* 3-dot / menu area click */
     if(
         event.target.closest(".action-menu-wrapper")
     ){
         return;
     }
 
-    /* If menu is open, close it only */
-    if(
-        menu &&
-        menu.classList.contains("show")
-    ){
 
-        menu.classList.remove("show");
+    /* Check whether ANY menu is currently open */
+    const openMenu =
+        document.querySelector(
+            ".action-menu.show"
+        );
+
+
+    /* If any menu is open */
+    if(openMenu){
+
+        openMenu.classList.remove("show");
 
         return;
 
     }
 
-    /* Normal row click → View */
+
+    /* No menu open → View invoice */
     viewBill(bill.billNo);
 
 };
