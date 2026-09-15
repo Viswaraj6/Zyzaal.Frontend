@@ -736,16 +736,199 @@ function viewBill(billNo){
     }
 
 
-    console.log("SELECTED BILL:", bill);
+    /* ================= BILL INFO ================= */
 
-    alert(
-        "Invoice: " +
-        bill.billNo +
-        "\nAmount: ₹" +
+    document.getElementById("viewBillNo").innerText =
+        bill.billNo || "-";
+
+
+    const date =
+        bill.createdAt
+            ? new Date(bill.createdAt)
+            : null;
+
+
+    document.getElementById("viewDate").innerText =
+        date
+            ? date.toLocaleDateString("en-IN") +
+              " " +
+              date.toLocaleTimeString("en-IN", {
+                  hour:"2-digit",
+                  minute:"2-digit"
+              })
+            : "-";
+
+
+    document.getElementById("viewCustomer").innerText =
+        bill.customer?.name ||
+        "Walk-in Customer";
+
+
+    document.getElementById("viewMobile").innerText =
+        bill.customer?.mobile ||
+        "-";
+
+
+    const payment =
+        bill.payments?.[0]?.mode ||
+        bill.payments?.[0]?.method ||
+        "Cash";
+
+
+    document.getElementById("viewPayment").innerText =
+        payment;
+
+
+    /* ================= ITEMS ================= */
+
+    const itemsContainer =
+        document.getElementById("viewItems");
+
+    itemsContainer.innerHTML = "";
+
+
+    let subTotal = 0;
+
+    let totalQty = 0;
+
+
+    (bill.items || []).forEach(
+        (item,index)=>{
+
+            const qty =
+                Number(item.qty || 0);
+
+            const rate =
+                Number(item.price || 0);
+
+            const amount =
+                qty * rate;
+
+
+            subTotal += amount;
+
+            totalQty += qty;
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    ${item.product || "-"}
+                </td>
+
+                <td>
+                    ${item.size || "-"}
+                </td>
+
+                <td>
+                    ${qty}
+                </td>
+
+                <td>
+                    ₹${rate.toFixed(2)}
+                </td>
+
+                <td>
+                    ₹${amount.toFixed(2)}
+                </td>
+
+            `;
+
+
+            itemsContainer.appendChild(row);
+
+        }
+    );
+
+
+    /* ================= DISCOUNT ================= */
+
+    const discount =
+        Number(bill.discount || 0);
+
+
+    const taxable =
+        Math.max(
+            0,
+            subTotal - discount
+        );
+
+
+    /* ================= GST ================= */
+
+    const cgst =
+        Number(
+            bill.cgst ||
+            bill.tax / 2 ||
+            0
+        );
+
+
+    const sgst =
+        Number(
+            bill.sgst ||
+            bill.tax / 2 ||
+            0
+        );
+
+
+    /* ================= TOTALS ================= */
+
+    const grandTotal =
         Number(
             bill.grandTotal || 0
-        ).toLocaleString("en-IN")
-    );
+        );
+
+
+    const roundOff =
+        Number(
+            bill.roundOff || 0
+        );
+
+
+    document.getElementById("viewSubTotal").innerText =
+        "₹" + subTotal.toFixed(2);
+
+
+    document.getElementById("viewDiscount").innerText =
+        "- ₹" + discount.toFixed(2);
+
+
+    document.getElementById("viewTaxable").innerText =
+        "₹" + taxable.toFixed(2);
+
+
+    document.getElementById("viewCGST").innerText =
+        "₹" + cgst.toFixed(2);
+
+
+    document.getElementById("viewSGST").innerText =
+        "₹" + sgst.toFixed(2);
+
+
+    document.getElementById("viewRoundOff").innerText =
+        roundOff >= 0
+            ? "₹" + roundOff.toFixed(2)
+            : "- ₹" + Math.abs(roundOff).toFixed(2);
+
+
+    document.getElementById("viewGrandTotal").innerText =
+        "₹" + grandTotal.toFixed(2);
+
+
+    /* ================= OPEN MODAL ================= */
+
+    document
+        .getElementById("invoiceViewModal")
+        .classList.remove("hidden");
 
 }
 
