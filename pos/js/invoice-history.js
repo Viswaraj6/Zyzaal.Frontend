@@ -1377,7 +1377,13 @@ document.getElementById(
 document.getElementById(
     "invoiceProductResults"
 ).style.display = "none";
+document
+    .querySelectorAll(".invoice-product-remove")
+    .forEach(button => {
 
+        button.style.display = "inline-flex";
+
+    });
 
 document.getElementById(
     "invoiceSaveBtn"
