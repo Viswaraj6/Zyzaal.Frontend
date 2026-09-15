@@ -3,6 +3,12 @@ const BASE_URL =
 
 let allBills = [];
 
+let currentPage = 1;
+
+const ITEMS_PER_PAGE = 20;
+
+let currentBills = [];
+
 
 /* ================= LOAD BILLS ================= */
 
