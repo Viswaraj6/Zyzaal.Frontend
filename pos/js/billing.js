@@ -189,11 +189,10 @@ function barcodeScan(e){
     }
 
    const size = product.sizeStock.find(s => {
-    if(product.type === "pant"){
-        return s.size === barcode;
-    }
-
-    return s.size === shirtMap[sizeCode];
+    return (
+        String(s.size) === String(shirtMap[sizeCode]) ||
+        String(s.size) === String(pantMap[sizeCode])
+    );
 });
 
     if(!size){
