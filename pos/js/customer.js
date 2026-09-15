@@ -8,6 +8,64 @@ const searchInput = document.getElementById("customerSearch");
 loadCustomers();
 loadEditCustomer();
 loadInvoiceNewCustomer();
+
+function loadInvoiceNewCustomer(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const addNew =
+        params.get("addNew");
+
+    const mobile =
+        params.get("mobile");
+
+    if(
+        addNew !== "true" ||
+        !mobile
+    ){
+        return;
+    }
+
+    document.getElementById(
+        "customerDropdown"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+        "customerCreate"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+        "customerForm"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+        "noCustomerMsg"
+    ).style.display = "none";
+
+    document.getElementById(
+        "createCustomerBtn"
+    ).style.display = "none";
+
+    document.getElementById(
+        "customerSearch"
+    ).style.display = "none";
+
+    document.getElementById(
+        "customerList"
+    ).style.display = "none";
+
+    document.getElementById(
+        "pageTitle"
+    ).innerText = "Add Customer";
+
+    document.getElementById(
+        "custMobile"
+    ).value = mobile;
+
+}
 async function loadCustomers(){
 
     try{
