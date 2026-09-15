@@ -1529,3 +1529,57 @@ body:has(#invoiceViewModal:not(.hidden)){
 .customer-no-result button:hover{
     background:#14866d;
 }
+/* ================= SAVE BUTTON LOADING ================= */
+
+.invoice-save-btn.saving{
+    cursor:not-allowed;
+    opacity:.9;
+}
+
+.save-loader{
+    width:20px;
+    height:20px;
+
+    border:3px solid rgba(255,255,255,.35);
+    border-top-color:#fff;
+
+    border-radius:50%;
+
+    display:inline-block;
+
+    animation:
+        saveButtonSpin .7s linear infinite;
+}
+
+@keyframes saveButtonSpin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* ================= UPDATED STATE ================= */
+
+.invoice-save-btn.updated{
+    background:#dff7ec !important;
+    color:#14866d !important;
+}
+
+.save-success-icon{
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    background:#16a085;
+    color:#fff;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:14px;
+    font-weight:bold;
+}
