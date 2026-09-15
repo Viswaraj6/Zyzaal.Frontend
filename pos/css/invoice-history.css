@@ -1399,3 +1399,25 @@ body:has(#invoiceViewModal:not(.hidden)){
 .customer-search-results.show{
     display:block;
 }
+/* CUSTOMER SEARCH CLEAR */
+
+.customer-search-clear{
+    border:none;
+    background:transparent;
+
+    width:auto;
+    height:auto;
+
+    padding:0;
+    margin-left:auto;
+
+    font-size:18px;
+    line-height:1;
+
+    color:#777;
+    cursor:pointer;
+}
+
+.customer-search-clear:hover{
+    color:#222;
+}
