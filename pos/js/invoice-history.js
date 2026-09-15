@@ -932,6 +932,14 @@ function viewBill(billNo){
 
 }
 
+function closeInvoiceView(){
+
+    document
+        .getElementById("invoiceViewModal")
+        .classList.add("hidden");
+
+}
+
 function toggleActionMenu(event, billNo){
 
     event.stopPropagation();
