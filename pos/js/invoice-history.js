@@ -1820,6 +1820,25 @@ function selectInvoiceProduct(product){
     ).style.display = "none";
 
 }
+function clearInvoiceCustomerSearch(){
+
+    const input =
+        document.getElementById("editCustomer");
+
+    const results =
+        document.getElementById(
+            "customerSearchResults"
+        );
+
+    input.value = "";
+
+    results.innerHTML = "";
+
+    results.classList.remove("show");
+
+    input.focus();
+
+}
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
