@@ -7,6 +7,7 @@ const searchInput = document.getElementById("customerSearch");
 
 loadCustomers();
 loadEditCustomer();
+loadInvoiceNewCustomer();
 async function loadCustomers(){
 
     try{
