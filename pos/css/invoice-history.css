@@ -882,3 +882,191 @@ tbody tr:last-child td{
     }
 
 }
+/* ================= DELETE INVOICE MODAL ================= */
+
+.delete-invoice-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15, 23, 42, .55);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:99999;
+}
+
+.delete-invoice-modal.hidden{
+    display:none !important;
+}
+
+.delete-invoice-box{
+    position:relative;
+    width:500px;
+    max-width:100%;
+    background:#fff;
+    border-radius:18px;
+    padding:32px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+    animation:deleteModalIn .2s ease;
+}
+
+.delete-modal-close{
+    position:absolute;
+    top:15px;
+    right:15px;
+    width:36px;
+    height:36px;
+    border:none;
+    background:#fff;
+    border-radius:8px;
+    font-size:20px;
+    cursor:pointer;
+    color:#555;
+}
+
+.delete-modal-close:hover{
+    background:#f3f3f3;
+}
+
+.delete-icon{
+    width:78px;
+    height:78px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:#ffe5e5;
+    color:#e53935;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:36px;
+}
+
+.delete-invoice-box h2{
+    margin:0 0 8px;
+    font-size:25px;
+    color:#172033;
+}
+
+.delete-question{
+    margin:0 0 22px;
+    color:#666;
+    font-size:15px;
+}
+
+.delete-invoice-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#fff1f1;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+    text-align:left;
+}
+
+.delete-invoice-info > div{
+    padding:0 15px;
+}
+
+.delete-invoice-info > div + div{
+    border-left:1px solid #f0caca;
+}
+
+.delete-invoice-info span{
+    display:block;
+    font-size:12px;
+    color:#777;
+    margin-bottom:6px;
+}
+
+.delete-invoice-info strong{
+    display:block;
+    font-size:16px;
+    color:#222;
+}
+
+.delete-warning{
+    color:#e53935;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:22px;
+}
+
+.delete-modal-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.delete-modal-actions button{
+    height:52px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.delete-cancel-btn{
+    background:#fff;
+    border:1px solid #cfd5dc;
+    color:#333;
+}
+
+.delete-cancel-btn:hover{
+    background:#f5f6f7;
+}
+
+.delete-confirm-btn{
+    background:#e53935;
+    border:1px solid #e53935;
+    color:#fff;
+}
+
+.delete-confirm-btn:hover{
+    background:#c62828;
+}
+
+@keyframes deleteModalIn{
+
+    from{
+        opacity:0;
+        transform:scale(.95);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .delete-invoice-box{
+        padding:26px 20px;
+    }
+
+    .delete-invoice-box h2{
+        font-size:22px;
+    }
+
+    .delete-invoice-info{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .delete-invoice-info > div{
+        padding:0;
+    }
+
+    .delete-invoice-info > div + div{
+        border-left:none;
+        border-top:1px solid #f0caca;
+        padding-top:14px;
+    }
+
+    .delete-modal-actions{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
