@@ -11,7 +11,39 @@ let currentBills = [];
 let currentViewBill = null;
 let allCustomers = [];
 let selectedEditCustomer = null;
+let allProducts = [];
 
+async function loadProductsForInvoiceEdit(){
+
+    try{
+
+        const res =
+            await fetch(
+                BASE_URL + "/products"
+            );
+
+        const data =
+            await res.json();
+
+        allProducts =
+            data.products || [];
+
+        console.log(
+            "PRODUCTS:",
+            allProducts
+        );
+
+    }
+    catch(err){
+
+        console.error(
+            "Product Load Error:",
+            err
+        );
+
+    }
+
+}
 async function loadCustomersForEdit(){
 
     try{
