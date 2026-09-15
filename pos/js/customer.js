@@ -178,7 +178,31 @@ const res = await fetch(url,{
 });
     const data = await res.json();
 
-   if (data.success) {
+  if (data.success) {
+
+    /* ================= INVOICE EDIT RETURN ================= */
+
+    if(
+        localStorage.getItem("returnToInvoiceEdit") === "true"
+    ){
+
+        localStorage.setItem(
+            "invoiceEditCustomer",
+            JSON.stringify(data.customer)
+        );
+
+        localStorage.removeItem(
+            "returnToInvoiceEdit"
+        );
+
+        window.location.href =
+            "invoice-history.html";
+
+        return;
+    }
+
+
+    /* ================= NORMAL CUSTOMER FLOW ================= */
 
     localStorage.setItem(
         "selectedCustomer",
