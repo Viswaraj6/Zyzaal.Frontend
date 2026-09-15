@@ -721,11 +721,17 @@ function toggleActionMenu(event, billNo){
 
     event.stopPropagation();
 
+    const clickedMenu =
+        document.getElementById(
+            "menu-" + billNo
+        );
+
+
     document
         .querySelectorAll(".action-menu")
         .forEach(menu => {
 
-            if(menu.id !== "menu-" + billNo){
+            if(menu !== clickedMenu){
 
                 menu.classList.remove("show");
 
@@ -734,12 +740,7 @@ function toggleActionMenu(event, billNo){
         });
 
 
-    const menu =
-        document.getElementById(
-            "menu-" + billNo
-        );
-
-    menu.classList.toggle("show");
+    clickedMenu.classList.toggle("show");
 
 }
 function editBill(billNo){
