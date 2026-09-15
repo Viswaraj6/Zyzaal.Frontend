@@ -328,7 +328,7 @@ document.getElementById("invoiceCount").innerText =
     });
 
 }
-
+renderPagination();
 
 /* ================= SEARCH ================= */
 
