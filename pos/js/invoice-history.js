@@ -1837,11 +1837,32 @@ function clearInvoiceCustomerSearch(){
             "customerSearchResults"
         );
 
+    /* Clear customer */
+
     input.value = "";
+
+    /* Enable typing/search */
+
+    input.readOnly = false;
+
+    /* Hide close icon */
+
+    const clearButton =
+        document.querySelector(
+            ".customer-search-clear"
+        );
+
+    if(clearButton){
+        clearButton.style.display = "none";
+    }
+
+    /* Close old results */
 
     results.innerHTML = "";
 
     results.classList.remove("show");
+
+    /* Focus search */
 
     input.focus();
 
