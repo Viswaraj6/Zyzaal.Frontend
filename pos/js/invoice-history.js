@@ -9,6 +9,7 @@ const ITEMS_PER_PAGE = 20;
 
 let currentBills = [];
 
+let editProducts = [];
 
 /* ================= LOAD BILLS ================= */
 
