@@ -235,16 +235,34 @@ document.getElementById("invoiceCount").innerText =
 
 row.onclick = function(event){
 
+    const menu =
+        document.getElementById(
+            "menu-" + bill.billNo
+        );
+
+    /* 3-dot menu area */
     if(
         event.target.closest(".action-menu-wrapper")
     ){
         return;
     }
 
+    /* If menu is open, close it only */
+    if(
+        menu &&
+        menu.classList.contains("show")
+    ){
+
+        menu.classList.remove("show");
+
+        return;
+
+    }
+
+    /* Normal row click → View */
     viewBill(bill.billNo);
 
 };
-
         row.innerHTML = `
 
             <td>
