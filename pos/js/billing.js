@@ -188,14 +188,13 @@ function barcodeScan(e){
         return;
     }
 
-    const sizeMap =
-        product.type === "pant"
-            ? pantMap
-            : shirtMap;
+   const size = product.sizeStock.find(s => {
+    if(product.type === "pant"){
+        return s.size === barcode;
+    }
 
-    const size = product.sizeStock.find(s =>
-        s.size === sizeMap[sizeCode]
-    );
+    return s.size === shirtMap[sizeCode];
+});
 
     if(!size){
         alert("Size Not Found");
