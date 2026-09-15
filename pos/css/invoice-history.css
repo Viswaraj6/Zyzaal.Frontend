@@ -1583,3 +1583,174 @@ body:has(#invoiceViewModal:not(.hidden)){
     font-size:14px;
     font-weight:bold;
 }
+/* ================= INVOICE UPDATE TOAST ================= */
+
+.invoice-update-toast{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    width:360px;
+    min-height:78px;
+
+    background:#fff;
+
+    border:1px solid #dce9e5;
+    border-radius:12px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.15);
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 42px 18px 15px;
+
+    z-index:100000;
+
+    overflow:hidden;
+
+    animation:
+        invoiceToastIn .25s ease;
+}
+
+.invoice-update-toast.hidden{
+    display:none !important;
+}
+
+
+/* ICON */
+
+.invoice-update-icon{
+    width:42px;
+    height:42px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:#dff7ec;
+    color:#16a085;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:22px;
+    font-weight:bold;
+}
+
+
+/* CONTENT */
+
+.invoice-update-content{
+    display:flex;
+    flex-direction:column;
+
+    gap:3px;
+
+    flex:1;
+}
+
+.invoice-update-content strong{
+    font-size:15px;
+    color:#172033;
+}
+
+.invoice-update-content span{
+    font-size:13px;
+    color:#777;
+}
+
+
+/* CLOSE */
+
+.invoice-update-toast > button{
+    position:absolute;
+
+    top:9px;
+    right:9px;
+
+    width:28px;
+    height:28px;
+
+    border:none;
+    background:transparent;
+
+    color:#777;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    border-radius:6px;
+}
+
+.invoice-update-toast > button:hover{
+    background:#f2f2f2;
+}
+
+
+/* PROGRESS */
+
+.invoice-update-progress{
+    position:absolute;
+
+    left:0;
+    bottom:0;
+
+    width:100%;
+    height:3px;
+
+    background:#16a085;
+
+    animation:
+        invoiceUpdateProgress 3s linear forwards;
+}
+
+
+/* ANIMATION */
+
+@keyframes invoiceToastIn{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes invoiceUpdateProgress{
+
+    from{
+        width:100%;
+    }
+
+    to{
+        width:0;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .invoice-update-toast{
+        left:15px;
+        right:15px;
+        bottom:15px;
+
+        width:auto;
+    }
+
+}
