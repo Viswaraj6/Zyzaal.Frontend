@@ -927,7 +927,15 @@ currentViewBill = bill;
         .classList.remove("hidden");
 
 }
+function enableInvoiceEditMode(){
 
+    if(!currentViewBill){
+        return;
+    }
+
+    alert("Edit mode - Coming Next");
+
+}
 function closeInvoiceView(){
 
     document
