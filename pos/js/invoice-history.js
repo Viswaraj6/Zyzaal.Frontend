@@ -67,7 +67,23 @@ function renderBills(bills){
         document.getElementById("invoiceList");
 
     container.innerHTML = "";
+currentBills = bills;
 
+const totalPages =
+    Math.ceil(bills.length / ITEMS_PER_PAGE);
+
+if(currentPage > totalPages && totalPages > 0){
+    currentPage = totalPages;
+}
+
+const startIndex =
+    (currentPage - 1) * ITEMS_PER_PAGE;
+
+const endIndex =
+    startIndex + ITEMS_PER_PAGE;
+
+const pageBills =
+    bills.slice(startIndex, endIndex);
 
     /* ================= SUMMARY ================= */
 
