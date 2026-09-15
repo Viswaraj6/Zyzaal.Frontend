@@ -816,7 +816,7 @@ document
 
         }
     );
-
+});
 
 
 function goToPage(page){
