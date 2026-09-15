@@ -12,7 +12,39 @@ let currentViewBill = null;
 let allCustomers = [];
 let selectedEditCustomer = null;
 
+async function loadCustomersForEdit(){
 
+    try{
+
+        const res = await fetch(
+            BASE_URL + "/pos/customers"
+        );
+
+        const data = await res.json();
+
+        if(data.success){
+
+            allCustomers =
+                data.customers || [];
+
+            console.log(
+                "CUSTOMERS:",
+                allCustomers
+            );
+
+        }
+
+    }
+    catch(err){
+
+        console.error(
+            "Customer Load Error:",
+            err
+        );
+
+    }
+
+}
 /* ================= LOAD BILLS ================= */
 
 async function loadBills(){
