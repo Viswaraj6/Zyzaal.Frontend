@@ -1297,9 +1297,26 @@ function enableInvoiceEditMode(){
         .getElementById("editCustomer")
         .focus();
 document.querySelector(".invoice-edit-icon").style.display = "none";
-    
-    document.getElementById(
-    "invoiceSaveBtn").style.display = "block";
+
+
+/* Show Product Search */
+
+document.getElementById(
+    "invoiceProductEditArea"
+).style.display = "block";
+
+document.getElementById(
+    "invoiceProductSearch"
+).value = "";
+
+document.getElementById(
+    "invoiceProductResults"
+).style.display = "none";
+
+
+document.getElementById(
+    "invoiceSaveBtn"
+).style.display = "block";
     
 }
 
