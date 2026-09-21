@@ -922,7 +922,15 @@ document.getElementById("productSection")
 
 }
   function exportExcel(){
-  fetch(BASE_URL + "/products")
+ fetch(
+  BASE_URL + `/products?brandId=${BRAND_ID}`,
+  {
+    headers: {
+      Authorization:
+        "Bearer " + localStorage.getItem("adminToken")
+    }
+  }
+)
     .then(res => res.json())
     .then(data => {
 
