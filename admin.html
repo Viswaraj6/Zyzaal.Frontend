@@ -852,6 +852,7 @@ images = imageArray;
         "Authorization":"Bearer " + localStorage.getItem("adminToken")
       },
       body: JSON.stringify({
+         brandId: BRAND_ID,
         name,
         styleNo: document.getElementById("styleNo").value,
         price,
