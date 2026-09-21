@@ -638,6 +638,12 @@ Reactivation Requests
  <script> 
    const BASE_URL = "https://fark618-backend.onrender.com";
    const BRAND_ID = "FARK618";
+   function brandUrl(path) {
+  const separator =
+    path.includes("?") ? "&" : "?";
+
+  return `${BASE_URL}${path}${separator}brandId=${encodeURIComponent(BRAND_ID)}`;
+}
 /* LOGIN CHECK */
 if(!localStorage.getItem("adminToken")){
   alert("Login first ❌");
