@@ -3942,7 +3942,12 @@ html2pdf()
   async function loadDashboard(){
 
 const products =
-await fetch(BASE_URL + "/products")
+await fetch(brandUrl("/products"), {
+  headers: {
+    Authorization:
+      "Bearer " + localStorage.getItem("adminToken")
+  }
+})
 .then(r=>r.json());
 
 const orders =
