@@ -1696,7 +1696,12 @@ function deleteProduct(id){
 }
 function editProduct(id){
 
-  fetch(BASE_URL + "/products")
+  fetch(brandUrl("/products"), {
+  headers: {
+    Authorization:
+      "Bearer " + localStorage.getItem("adminToken")
+  }
+})
     .then(res => res.json())
     .then(data => {
 
@@ -2350,7 +2355,12 @@ function updateStatus(id,status){
 }
   function updateSizeStock(id,size,value){
 
-  fetch(BASE_URL + "/products")
+  fetch(brandUrl("/products"), {
+  headers: {
+    Authorization:
+      "Bearer " + localStorage.getItem("adminToken")
+  }
+})
   .then(res => res.json())
   .then(data => {
 
@@ -2393,7 +2403,12 @@ document.getElementById("exportBtn").style.display = "none";
 document.getElementById("selectionBar").style.display = "none";
 document.getElementById("deleteBtn").style.display = "none";
   
-  fetch(BASE_URL + "/products")
+ fetch(brandUrl("/products"), {
+  headers: {
+    Authorization:
+      "Bearer " + localStorage.getItem("adminToken")
+  }
+})
   .then(res => res.json())
   .then(data => {
 
