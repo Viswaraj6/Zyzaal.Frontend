@@ -1401,17 +1401,6 @@ fetch(
 
   return JSON.parse(text);
 })
-.then((data) => {
-
-  console.log("Products Loaded:", data);
-
-  // உங்கள் existing product rendering code இங்கே தொடர வேண்டும்
-})
-.catch((error) => {
-
-  console.error("Products loading failed:", error);
-});
-  
   .then(res => res.json())
   .then(data => {
    
