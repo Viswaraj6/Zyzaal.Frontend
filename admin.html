@@ -1374,14 +1374,43 @@ const search =
 .toLowerCase();
 
 fetch(
-  BASE_URL + `/products?brandId=${BRAND_ID}`,
+  BASE_URL + "/products",
   {
+    method: "GET",
+
     headers: {
       Authorization:
         "Bearer " + localStorage.getItem("adminToken")
-    }
+    },
+
+    cache: "no-store"
   }
 )
+.then(async (response) => {
+
+  const text = await response.text();
+
+  console.log("Products API Status:", response.status);
+  console.log("Products API Response:", text);
+
+  if (!response.ok) {
+    throw new Error(
+      "Products API Error: " + response.status + " - " + text
+    );
+  }
+
+  return JSON.parse(text);
+})
+.then((data) => {
+
+  console.log("Products Loaded:", data);
+
+  // உங்கள் existing product rendering code இங்கே தொடர வேண்டும்
+})
+.catch((error) => {
+
+  console.error("Products loading failed:", error);
+});
   
   .then(res => res.json())
   .then(data => {
