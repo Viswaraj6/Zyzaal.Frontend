@@ -178,6 +178,31 @@ function openProduct(id){
         .classList.remove("hidden");
 
 }
+
+function findVariantByBarcode(barcode) {
+    const cleanBarcode = String(barcode).trim();
+
+    for (const product of allProducts) {
+
+        const variants = Array.isArray(product.variants)
+            ? product.variants
+            : [];
+
+        const variant = variants.find(v =>
+            String(v.barcode || "").trim() === cleanBarcode
+        );
+
+        if (variant) {
+            return {
+                product,
+                variant
+            };
+        }
+    }
+
+    return null;
+}
+
 function barcodeScan(e){
 
     if(e.key !== "Enter") return;
