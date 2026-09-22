@@ -231,9 +231,10 @@ async function loadProducts() {
 showSyncStatus(
     `${currentBrandId} products synced successfully`
 );
-        alert(
-            `${currentBrandId} products load failed: ${err.message}`
-        );
+       showSyncStatus(
+    `${currentBrandId} products load failed`,
+    "error"
+);
     }
 }
 function renderProducts(){
