@@ -252,46 +252,63 @@ function barcodeScan(e) {
 
     e.target.value = "";
 }
-function addToCart(product,size){
+function addToCart(product, size, variant = null) {
+
+    const barcode =
+        variant?.barcode ||
+        size?.barcode ||
+        size?.sku ||
+        "";
 
     const existing = cart.find(item =>
         item.productId === product._id &&
-        item.size === size.size
+        item.barcode === barcode
     );
 
-    if(existing){
+    if (existing) {
 
         existing.qty++;
 
-    }else{
+    } else {
 
-       cart.push({
-    productId: product._id,
-    product: product.name,
-    category: product.category,
-    barcode: size.sku,
-    size: size.size,
-   price: product.price,
-hsnCode: product.hsnCode,
-qty: 1
-});
+        cart.push({
 
+            productId: product._id,
+
+            brandId: currentBrandId,
+
+            product: product.name,
+
+            category: product.category,
+
+            barcode: barcode,
+
+            sku: variant?.sku || size?.sku || "",
+
+            variantId: variant?._id || null,
+
+            colour: variant?.colour || size?.colour || "",
+
+            size: variant?.size || size?.size || "",
+
+            price:
+                variant?.sellingPrice ??
+                size?.sellingPrice ??
+                product.price ??
+                0,
+
+            purchaseRate: variant?.purchaseRate ?? 0,
+
+            hsnCode: product.hsnCode || "",
+
+            qty: 1
+
+        });
     }
-
-    console.log(cart);
-    console.log(product);
-    console.log(size);
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
 
     renderCart();
 
-    showScanToast(product,size);
-
-    updateGoCartBar();
+    calculateTotal();
 }
 function renderCart(){
 
