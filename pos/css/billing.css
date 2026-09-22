@@ -2980,3 +2980,128 @@ display:none !important;
         font-size:22px;
     }
 }
+/* ================================= */
+/* POS HEADER - FIXED LAYOUT         */
+/* ================================= */
+
+.header {
+    display: grid !important;
+
+    grid-template-columns:
+        52px
+        minmax(0, 1fr)
+        280px
+        auto;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    flex-wrap: nowrap !important;
+}
+
+
+/* Menu Button */
+.header-menu-btn {
+    width: 52px;
+    height: 52px;
+}
+
+
+/* Barcode Search */
+.product-search {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+
+/* Customer Search */
+.customer-search {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+
+/* Brand Selector */
+.brand-selector {
+    display: flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    width: auto;
+
+    white-space: nowrap;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+}
+
+.brand-selector label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #333;
+}
+
+.brand-selector select {
+    height: 36px;
+
+    padding: 0 8px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* ================================= */
+/* Smaller Screens                   */
+/* ================================= */
+
+@media (max-width: 1000px) {
+
+    .header {
+        grid-template-columns:
+            45px
+            minmax(0, 1fr)
+            220px
+            auto;
+
+        gap: 6px;
+    }
+
+    .header-menu-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .brand-selector {
+        gap: 3px;
+    }
+
+    .brand-selector label {
+        font-size: 12px;
+    }
+
+    .brand-selector select {
+        font-size: 12px;
+
+        padding: 0 4px;
+    }
+}
