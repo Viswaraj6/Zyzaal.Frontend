@@ -228,7 +228,9 @@ async function loadProducts() {
         allProducts = [];
 
         renderProducts();
-
+showSyncStatus(
+    `${currentBrandId} products synced successfully`
+);
         alert(
             `${currentBrandId} products load failed: ${err.message}`
         );
