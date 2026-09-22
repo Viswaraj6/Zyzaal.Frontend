@@ -1678,7 +1678,7 @@ function editCashPayment(){
 async function saveBill() {
 
     const bill = {
-
+  brandId: currentBrandId,
         customer: selectedCustomer || null,
 
         items: cart,
