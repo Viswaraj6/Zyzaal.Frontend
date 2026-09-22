@@ -23,7 +23,7 @@ let selectedCustomer = null;
 let isEditMode = false;
 
 window.onload = async() => {
-
+initializeBrandSelector();
    await loadProducts();
 
     const barcodeInput =
