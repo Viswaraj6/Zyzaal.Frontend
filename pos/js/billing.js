@@ -215,6 +215,136 @@ function renderProducts(){
     });
 
 }
+
+// =========================================
+// SAREE / SARI CHECK
+// =========================================
+
+function isSareeProduct(product) {
+
+    const category = String(
+        product.category || ""
+    ).toLowerCase();
+
+    const name = String(
+        product.name || ""
+    ).toLowerCase();
+
+    return (
+        category.includes("saree") ||
+        category.includes("sari") ||
+        name.includes("saree") ||
+        name.includes("sari")
+    );
+}
+
+
+// =========================================
+// GET COLOUR NAME
+// =========================================
+
+function getColourName(product, variant = null) {
+
+    return (
+        variant?.colour ||
+        variant?.color ||
+        product.colour ||
+        product.color ||
+        product.colorName ||
+        "Default"
+    );
+
+}
+
+
+// =========================================
+// BUILD SAREE COLOUR OPTIONS
+// =========================================
+
+function getSareeColorOptions(product) {
+
+    const sameStyleProducts = allProducts.filter(p =>
+        String(p.styleNo || "") ===
+        String(product.styleNo || "") &&
+        isSareeProduct(p)
+    );
+
+    const options = [];
+
+    sameStyleProducts.forEach(p => {
+
+        const variants = Array.isArray(p.variants)
+            ? p.variants
+            : [];
+
+        if (variants.length > 0) {
+
+            variants.forEach(variant => {
+
+                const colour = getColourName(p, variant);
+
+                options.push({
+                    product: p,
+                    variant: variant,
+                    colour: colour,
+                    stock:
+                        variant.openingStock ??
+                        variant.stock ??
+                        0,
+                    price:
+                        variant.sellingPrice ??
+                        p.price ??
+                        0,
+                    barcode:
+                        variant.barcode ||
+                        variant.sku ||
+                        ""
+                });
+
+            });
+
+        } else {
+
+            options.push({
+
+                product: p,
+                variant: null,
+                colour: getColourName(p),
+                stock: p.stock ?? 0,
+                price: p.price ?? 0,
+                barcode: p.barcode || p.sku || ""
+
+            });
+
+        }
+
+    });
+
+
+    // Remove duplicate colour options
+    const uniqueOptions = [];
+
+    const seen = new Set();
+
+    options.forEach(option => {
+
+        const key =
+            `${option.product._id}-${option.colour}`;
+
+        if (!seen.has(key)) {
+
+            seen.add(key);
+
+            uniqueOptions.push(option);
+
+        }
+
+    });
+
+    return uniqueOptions;
+
+}
+
 function openProduct(id){
 
     const product = allProducts.find(p => p._id === id);
