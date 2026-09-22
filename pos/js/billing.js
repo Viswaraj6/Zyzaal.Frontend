@@ -134,7 +134,10 @@ async function changeBrand(brandId) {
 
 let syncToastTimer = null;
 
-function showSyncStatus(message, type = "success") {
+function showSyncStatus(
+    message,
+    type = "success"
+) {
 
     let toast =
         document.getElementById("syncStatusToast");
@@ -146,8 +149,6 @@ function showSyncStatus(message, type = "success") {
 
         toast.id = "syncStatusToast";
 
-        toast.className = "sync-status-toast";
-
         document.body.appendChild(toast);
 
     }
@@ -156,31 +157,38 @@ function showSyncStatus(message, type = "success") {
     toast.textContent = message;
 
 
-    toast.classList.remove("success", "error");
+    if (type === "error") {
 
-    toast.classList.add(type);
+        toast.style.background = "#fdecec";
 
+        toast.style.color = "#b91c1c";
 
-    // Re-trigger animation
+        toast.style.borderColor = "#f5b5b5";
 
-    toast.classList.remove("show");
+    } else {
 
-    void toast.offsetWidth;
+        toast.style.background = "#e8f5e9";
+
+        toast.style.color = "#2e7d32";
+
+        toast.style.borderColor = "#a5d6a7";
+
+    }
+
 
     toast.classList.add("show");
 
 
-    clearTimeout(syncToastTimer);
+    clearTimeout(window.syncToastTimer);
 
 
-    syncToastTimer = setTimeout(() => {
+    window.syncToastTimer = setTimeout(() => {
 
         toast.classList.remove("show");
 
     }, 3000);
 
 }
-
 async function loadProducts() {
 
     try {
