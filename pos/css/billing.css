@@ -2980,3 +2980,169 @@ display:none !important;
         font-size:22px;
     }
 }
+/* ========================================= */
+/* POS HEADER - BRAND BEFORE PRODUCT SEARCH  */
+/* ========================================= */
+
+.header {
+    display: grid !important;
+
+    grid-template-columns:
+        52px
+        145px
+        minmax(0, 1fr)
+        280px;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    flex-wrap: nowrap !important;
+}
+
+
+/* ========================================= */
+/* MENU BUTTON                               */
+/* ========================================= */
+
+.header-menu-btn {
+    width: 52px;
+    height: 52px;
+}
+
+
+/* ========================================= */
+/* BRAND SELECTOR                            */
+/* ========================================= */
+
+.brand-selector {
+    display: flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    width: 145px;
+
+    min-width: 145px;
+
+    height: 42px;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    white-space: nowrap;
+}
+
+.brand-selector label {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #333;
+}
+
+.brand-selector select {
+    width: 92px;
+
+    height: 36px;
+
+    padding: 0 5px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #222;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+.brand-selector select:focus {
+    border-color: #159f89;
+
+    box-shadow:
+        0 0 0 2px rgba(21, 159, 137, 0.15);
+}
+
+
+/* ========================================= */
+/* PRODUCT SEARCH                            */
+/* ========================================= */
+
+.product-search {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    flex: 1 1 auto;
+}
+
+
+/* ========================================= */
+/* CUSTOMER SEARCH                           */
+/* ========================================= */
+
+.customer-search {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    flex: 0 0 auto;
+}
+
+
+/* ========================================= */
+/* RESPONSIVE                                */
+/* ========================================= */
+
+@media (max-width: 1000px) {
+
+    .header {
+        grid-template-columns:
+            45px
+            125px
+            minmax(0, 1fr)
+            220px;
+
+        gap: 6px;
+    }
+
+    .header-menu-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .brand-selector {
+        width: 125px;
+
+        min-width: 125px;
+
+        gap: 3px;
+    }
+
+    .brand-selector label {
+        font-size: 12px;
+    }
+
+    .brand-selector select {
+        width: 78px;
+
+        font-size: 12px;
+
+        padding: 0 3px;
+    }
+}
