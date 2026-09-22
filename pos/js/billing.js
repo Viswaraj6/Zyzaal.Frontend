@@ -345,48 +345,148 @@ function getSareeColorOptions(product) {
 
 }
 
-function openProduct(id){
+function openProduct(id) {
 
-    const product = allProducts.find(p => p._id === id);
+    const product = allProducts.find(
+        p => p._id === id
+    );
+
+    if (!product) {
+
+        alert("Product Not Found");
+
+        return;
+    }
+
 
     document.getElementById("sizeTitle").innerHTML =
-        product.styleNo + " - " + product.name;
+        `${product.styleNo} - ${product.name}`;
 
-    const box = document.getElementById("sizeList");
+    const box =
+        document.getElementById("sizeList");
 
     box.innerHTML = "";
 
-    product.sizeStock.forEach(size=>{
+
+    // =====================================
+    // SAREE = COLOUR SELECTION
+    // =====================================
+
+    if (isSareeProduct(product)) {
+
+        sareeColorOptions =
+            getSareeColorOptions(product);
+
+
+        if (sareeColorOptions.length === 0) {
+
+            alert("Saree colour options not found");
+
+            return;
+        }
+
+
+        box.innerHTML = `
+            <div style="
+                font-weight:600;
+                margin-bottom:12px;
+            ">
+                Select Colour
+            </div>
+        `;
+
+
+        sareeColorOptions.forEach((option, index) => {
+
+            box.innerHTML += `
+
+                <div
+                    class="size-item"
+                    onclick="selectSareeColor(${index})"
+                    style="cursor:pointer;"
+                >
+
+                    <div>
+                        <strong>
+                            ${option.colour}
+                        </strong>
+                    </div>
+
+                    <div>
+                        Stock : ${option.stock}
+                    </div>
+
+                    <div>
+                        ₹${option.price}
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        document
+            .getElementById("sizePopup")
+            .classList.remove("hidden");
+
+        return;
+    }
+
+
+    // =====================================
+    // FARK618 / NORMAL PRODUCTS
+    // EXISTING SIZE SELECTION
+    // =====================================
+
+    const sizes = Array.isArray(product.sizeStock)
+        ? product.sizeStock
+        : [];
+
+
+    if (sizes.length === 0) {
+
+        alert("Size Not Available");
+
+        return;
+    }
+
+
+    sizes.forEach(size => {
 
         box.innerHTML += `
 
-        <div class="size-item"
-            onclick="selectSize('${product._id}','${size.size}')"
+            <div
+                class="size-item"
+                onclick="
+                    selectSize(
+                        '${product._id}',
+                        '${size.size}'
+                    )
+                "
+            >
 
-            <div>
+                <div>
+                    <strong>${size.size}</strong>
+                </div>
 
-                <strong>${size.size}</strong>
+                <div>
+                    Stock : ${size.stock}
+                </div>
 
             </div>
-
-            <div>
-
-                Stock : ${size.stock}
-
-            </div>
-
-        </div>
 
         `;
 
     });
+
 
     document
         .getElementById("sizePopup")
         .classList.remove("hidden");
 
 }
-
 function findVariantByBarcode(barcode) {
     const cleanBarcode = String(barcode).trim();
 
