@@ -688,35 +688,77 @@ function closeSize(){
 
 }
 
-function selectSize(productId,barcode){
+function selectSize(productId, barcode) {
 
-    const product =
-        allProducts.find(p=>p._id===productId);
+    const product = allProducts.find(
+        p => p._id === productId
+    );
 
-    console.log("PRODUCT:", product);
-    console.log("BARCODE:", barcode);
-    console.log("SIZE STOCK:", product.sizeStock);
+    if (!product) {
 
-    const size =
-    product.sizeStock.find(s=>s.size===barcode);
+        alert("Product Not Found");
 
-    console.log("SELECTED SIZE:", size);
-
-    if(!size){
-        alert("Size SKU Not Found");
         return;
     }
 
-    addToCart(product,size);
+    console.log("PRODUCT:", product);
 
-    closeSize();
-    closeSearch();
+    console.log("SIZE SELECTED:", barcode);
 
-    document
-        .getElementById("barcodeInput")
-        .value="";
+    const sizeStock = Array.isArray(product.sizeStock)
+        ? product.sizeStock
+        : [];
+
+    const size = sizeStock.find(
+        s => String(s.size) === String(barcode)
+    );
+
+    console.log("SELECTED SIZE:", size);
+
+    if (!size) {
+
+        alert("Size SKU Not Found");
+
+        return;
+    }
+
+    try {
+
+        addToCart(product, size);
+
+    } catch (error) {
+
+        console.error(
+            "Add To Cart Error:",
+            error
+        );
+
+        alert(
+            "Product cart-la add panna error: " +
+            error.message
+        );
+
+        return;
+
+    } finally {
+
+        // Close size popup
+        closeSize();
+
+        // Close product search popup
+        closeSearch();
+
+        // Clear search input
+        const barcodeInput =
+            document.getElementById("barcodeInput");
+
+        if (barcodeInput) {
+            barcodeInput.value = "";
+        }
+
+    }
+
 }
-
    
 function changeQty(index,value){
 
