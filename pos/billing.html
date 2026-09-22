@@ -114,7 +114,22 @@
     <button class="header-menu-btn" onclick="toggleSidebar()">
         ☰
     </button>
+<!-- Brand Selector -->
+    <div class="brand-selector">
 
+        <label for="brandSelect">Brand</label>
+
+        <select
+            id="brandSelect"
+            onchange="changeBrand(this.value)">
+
+            <option value="FARK618">FARK618</option>
+
+            <option value="ZYZAAL">ZYZAAL</option>
+
+        </select>
+
+    </div>
    <div class="search-box product-search">
 
         <input
@@ -226,22 +241,7 @@
     </div>
 
 </div>
-<!-- Brand Selector -->
-<div class="brand-selector">
 
-    <label for="brandSelect">Brand</label>
-
-    <select
-        id="brandSelect"
-        onchange="changeBrand(this.value)">
-
-        <option value="FARK618">FARK618</option>
-
-        <option value="ZYZAAL">ZYZAAL</option>
-
-    </select>
-
-</div>
 </div>
     
     <button
