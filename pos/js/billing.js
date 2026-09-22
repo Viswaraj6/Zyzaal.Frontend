@@ -2770,10 +2770,4 @@ function selectZyzaalSize(sizeIndex) {
     }
 
 }
-setTimeout(() => {
 
-    showSyncStatus(
-        "Test notification working"
-    );
-
-}, 1000);
