@@ -3146,3 +3146,34 @@ display:none !important;
         padding: 0 3px;
     }
 }
+/* Mobile: Hide Customer Search */
+@media (max-width: 600px) {
+
+    .customer-search {
+        display: none !important;
+    }
+
+    .header {
+        grid-template-columns:
+            56px
+            145px
+            minmax(0, 1fr) !important;
+
+        grid-template-areas:
+            "menu brand product" !important;
+
+        gap: 8px !important;
+
+        padding: 10px 12px !important;
+    }
+
+    .brand-selector {
+        width: 145px !important;
+        min-width: 0 !important;
+    }
+
+    .product-search {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+}
