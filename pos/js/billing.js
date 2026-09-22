@@ -288,16 +288,27 @@ function barcodeScan(e) {
 
     if (!barcode) return;
 
-    // Barcode must be exactly 12 digits
-    if (!/^\d{12}$/.test(barcode)) {
+   // Brand-wise barcode validation
+const isValidBarcode =
+    currentBrandId === "FARK618"
+        ? /^\d{5}$/.test(barcode)
+        : currentBrandId === "ZYZAAL"
+            ? /^\d{12}$/.test(barcode)
+            : false;
 
-        alert("Invalid Barcode. Enter 12-digit barcode.");
+if (!isValidBarcode) {
 
-        e.target.value = "";
+    const expectedLength =
+        currentBrandId === "FARK618" ? 5 : 12;
 
-        return;
-    }
+    alert(
+        `${currentBrandId} barcode must contain ${expectedLength} digits.`
+    );
 
+    e.target.value = "";
+
+    return;
+}
     const found = findVariantByBarcode(barcode);
 
     if (!found) {
