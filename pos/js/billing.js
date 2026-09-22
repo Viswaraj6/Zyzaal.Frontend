@@ -226,6 +226,11 @@ async function loadProducts() {
 
         renderProducts();
 
+        // ✅ SUCCESS NOTIFICATION
+        showSyncStatus(
+            `${currentBrandId} products synced successfully`
+        );
+
     } catch (err) {
 
         console.error(
@@ -236,14 +241,15 @@ async function loadProducts() {
         allProducts = [];
 
         renderProducts();
-showSyncStatus(
-    `${currentBrandId} products synced successfully`
-);
-       showSyncStatus(
-    `${currentBrandId} products load failed`,
-    "error"
-);
+
+        // ❌ ERROR NOTIFICATION
+        showSyncStatus(
+            `${currentBrandId} products load failed`,
+            "error"
+        );
+
     }
+
 }
 function renderProducts(){
 
