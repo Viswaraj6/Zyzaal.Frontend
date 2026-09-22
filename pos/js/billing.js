@@ -53,20 +53,46 @@ window.addEventListener("pageshow", () => {
 });
 async function loadProducts() {
     try {
-        const res = await fetch(BASE_URL + "/products");
-       allProducts = await res.json();
+        const url =
+            `${BASE_URL}/products?brandId=${encodeURIComponent(currentBrandId)}`;
 
-console.log(allProducts);
+        const res = await fetch(url);
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(
+                data.message || "Products loading failed"
+            );
+        }
+
+        allProducts = Array.isArray(data)
+            ? data
+            : Array.isArray(data.products)
+                ? data.products
+                : [];
+
+        console.log(
+            `${currentBrandId} products loaded:`,
+            allProducts.length
+        );
+
         renderProducts();
-console.log(allProducts[0]);
-console.log(allProducts[0].sizeStock);
 
+        if (allProducts.length > 0) {
+            console.log("First product:", allProducts[0]);
+        }
 
     } catch (err) {
-        console.error(err);
+        console.error("Product loading error:", err);
+
+        allProducts = [];
+
+        alert(
+            `${currentBrandId} products load failed: ${err.message}`
+        );
     }
 }
-
 function renderProducts(){
 
     const grid = document.getElementById("productGrid");
