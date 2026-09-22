@@ -55,6 +55,72 @@ window.addEventListener("pageshow", () => {
     loadSelectedCustomer();
     renderCart();
 });
+
+function initializeBrandSelector() {
+
+    const brandSelect =
+        document.getElementById("brandSelect");
+
+    if (!brandSelect) return;
+
+    brandSelect.value = currentBrandId;
+}
+async function changeBrand(brandId) {
+
+    if (
+        brandId !== "FARK618" &&
+        brandId !== "ZYZAAL"
+    ) {
+        alert("Invalid Brand");
+        return;
+    }
+
+    if (brandId === currentBrandId) {
+        return;
+    }
+
+    if (cart.length > 0) {
+
+        const confirmChange = confirm(
+            "Cart contains items. Change brand and clear cart?"
+        );
+
+        if (!confirmChange) {
+
+            const brandSelect =
+                document.getElementById("brandSelect");
+
+            if (brandSelect) {
+                brandSelect.value = currentBrandId;
+            }
+
+            return;
+        }
+
+        cart = [];
+
+        localStorage.removeItem("cart");
+
+        renderCart();
+    }
+
+    currentBrandId = brandId;
+
+    localStorage.setItem(
+        "posBrandId",
+        currentBrandId
+    );
+
+    currentPage = 1;
+
+    await loadProducts();
+
+    console.log(
+        "Current Brand:",
+        currentBrandId
+    );
+}
+
 async function loadProducts() {
     try {
         const url =
