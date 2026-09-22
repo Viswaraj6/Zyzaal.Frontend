@@ -8,7 +8,13 @@ const PRODUCTS_PER_PAGE = 12;
 let currentPage = 1;
 
 let allProducts = [];
+// =========================================
+// ZYZAAL VARIANT SELECTION
+// =========================================
 
+let zyzaalColourOptions = [];
+let zyzaalSizeOptions = [];
+let zyzaalSelectedProduct = null;
 let cart = [];
 let sareeColorOptions = [];
 let discountAmount = 0;
