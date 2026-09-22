@@ -3177,3 +3177,85 @@ display:none !important;
         min-width: 0 !important;
     }
 }
+/* =====================================
+   TOP SYNC STATUS NOTIFICATION
+===================================== */
+
+.sync-status-toast {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+
+    z-index: 99999;
+
+    min-width: 280px;
+    max-width: calc(100% - 32px);
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: center;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+/* Success - Green */
+
+.sync-status-toast.success {
+    background: #16a34a;
+}
+
+
+/* Error - Red */
+
+.sync-status-toast.error {
+    background: #dc2626;
+}
+
+
+/* Show notification */
+
+.sync-status-toast.show {
+
+    opacity: 1;
+
+    transform: translateX(-50%) translateY(0);
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .sync-status-toast {
+
+        top: 10px;
+
+        min-width: 0;
+
+        width: calc(100% - 32px);
+
+        font-size: 13px;
+
+        padding: 11px 14px;
+
+    }
+
+}
