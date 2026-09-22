@@ -128,6 +128,59 @@ async function changeBrand(brandId) {
     );
 }
 
+// =====================================
+// TOP STATUS NOTIFICATION
+// =====================================
+
+let syncToastTimer = null;
+
+function showSyncStatus(message, type = "success") {
+
+    let toast =
+        document.getElementById("syncStatusToast");
+
+
+    if (!toast) {
+
+        toast = document.createElement("div");
+
+        toast.id = "syncStatusToast";
+
+        toast.className = "sync-status-toast";
+
+        document.body.appendChild(toast);
+
+    }
+
+
+    toast.textContent = message;
+
+
+    toast.classList.remove("success", "error");
+
+    toast.classList.add(type);
+
+
+    // Re-trigger animation
+
+    toast.classList.remove("show");
+
+    void toast.offsetWidth;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(syncToastTimer);
+
+
+    syncToastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
 async function loadProducts() {
 
     try {
