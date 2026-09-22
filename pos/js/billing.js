@@ -1,4 +1,8 @@
 const BASE_URL = "https://fark618-backend.onrender.com";
+const DEFAULT_BRAND_ID = "FARK618";
+
+let currentBrandId =
+    localStorage.getItem("posBrandId") || DEFAULT_BRAND_ID;
 const PRODUCTS_PER_PAGE = 12;
 
 let currentPage = 1;
