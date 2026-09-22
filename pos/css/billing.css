@@ -3189,24 +3189,21 @@ display:none !important;
 
     z-index: 99999;
 
-    min-width: 280px;
+    width: fit-content;
     max-width: calc(100% - 32px);
 
-    padding: 12px 20px;
+    padding: 8px 14px;
 
-    border-radius: 8px;
+    border-radius: 6px;
 
-    color: #ffffff;
-
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
 
     text-align: center;
 
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
     opacity: 0;
-
     pointer-events: none;
 
     transition:
@@ -3214,18 +3211,22 @@ display:none !important;
         transform 0.25s ease;
 }
 
-
-/* Success - Green */
+/* Light Success - Green */
 
 .sync-status-toast.success {
-    background: #16a34a;
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
 }
 
 
-/* Error - Red */
+
+/* Light Error - Red */
 
 .sync-status-toast.error {
-    background: #dc2626;
+    background: #FDECEC;
+    color: #B91C1C;
+    border: 1px solid #F5B5B5;
 }
 
 
