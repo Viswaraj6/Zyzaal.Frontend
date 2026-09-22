@@ -2604,3 +2604,93 @@ function selectZyzaalColour(colourIndex) {
     });
 
 }
+// =========================================
+// ZYZAAL SIZE SELECT
+// =========================================
+
+function selectZyzaalSize(sizeIndex) {
+
+    const product =
+        zyzaalSelectedProduct;
+
+    const variant =
+        zyzaalSizeOptions[sizeIndex];
+
+
+    if (!product || !variant) {
+
+        alert("Variant Not Found");
+
+        return;
+    }
+
+
+    const colour =
+        variant.colour ||
+        variant.color ||
+        variant.colorName ||
+        "Default";
+
+
+    const size = {
+
+        size: variant.size || "Free Size",
+
+        stock:
+            variant.openingStock ??
+            variant.stock ??
+            0,
+
+        sku: variant.sku || "",
+
+        barcode:
+            variant.barcode ||
+            variant.sku ||
+            "",
+
+        colour: colour,
+
+        sellingPrice:
+            variant.sellingPrice ??
+            product.price ??
+            0
+
+    };
+
+
+    try {
+
+        addToCart(
+            product,
+            size,
+            variant
+        );
+
+        closeSize();
+
+        closeSearch();
+
+        const barcodeInput =
+            document.getElementById("barcodeInput");
+
+        if (barcodeInput) {
+
+            barcodeInput.value = "";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "ZYZAAL Variant Cart Error:",
+            error
+        );
+
+        alert(
+            "Cart-la add panna error: " +
+            error.message
+        );
+
+    }
+
+}
