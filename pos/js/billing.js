@@ -2037,3 +2037,12 @@ function viewSavedBill(){
     alert("View Bill - Coming Next");
 
 }
+// =========================================
+// CART TOTAL REFRESH
+// =========================================
+
+function calculateTotal() {
+
+    renderCart();
+
+}
