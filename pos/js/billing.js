@@ -10,6 +10,7 @@ let currentPage = 1;
 let allProducts = [];
 
 let cart = [];
+let sareeColorOptions = [];
 let discountAmount = 0;
 let paymentHistory = [];
 let receivedAmount = 0;
