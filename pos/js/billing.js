@@ -122,17 +122,26 @@ async function changeBrand(brandId) {
 }
 
 async function loadProducts() {
+
     try {
+
         const url =
             `${BASE_URL}/products?brandId=${encodeURIComponent(currentBrandId)}`;
+
+        console.log(
+            "Loading products for:",
+            currentBrandId
+        );
 
         const res = await fetch(url);
 
         const data = await res.json();
 
         if (!res.ok) {
+
             throw new Error(
-                data.message || "Products loading failed"
+                data.message ||
+                "Products loading failed"
             );
         }
 
@@ -143,20 +152,22 @@ async function loadProducts() {
                 : [];
 
         console.log(
-            `${currentBrandId} products loaded:`,
+            `${currentBrandId} products:`,
             allProducts.length
         );
 
         renderProducts();
 
-        if (allProducts.length > 0) {
-            console.log("First product:", allProducts[0]);
-        }
-
     } catch (err) {
-        console.error("Product loading error:", err);
+
+        console.error(
+            "Product loading error:",
+            err
+        );
 
         allProducts = [];
+
+        renderProducts();
 
         alert(
             `${currentBrandId} products load failed: ${err.message}`
