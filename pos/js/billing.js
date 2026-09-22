@@ -389,6 +389,85 @@ function openProduct(id) {
             alert("Saree colour options not found");
 
             return;
+
+            // =====================================
+// ZYZAAL SHIRT / PANT
+// COLOUR SELECTION
+// =====================================
+
+if (
+    currentBrandId === "ZYZAAL" &&
+    Array.isArray(product.variants) &&
+    product.variants.length > 0
+) {
+
+    zyzaalSelectedProduct = product;
+
+    const colourMap = new Map();
+
+    product.variants.forEach((variant, index) => {
+
+        const colour =
+            variant.colour ||
+            variant.color ||
+            variant.colorName ||
+            "Default";
+
+        const key = String(colour).trim().toLowerCase();
+
+        if (!colourMap.has(key)) {
+
+            colourMap.set(key, {
+                colour: colour,
+                index: index
+            });
+
+        }
+
+    });
+
+    zyzaalColourOptions =
+        Array.from(colourMap.values());
+
+
+    box.innerHTML = `
+        <div style="
+            font-weight:600;
+            margin-bottom:12px;
+        ">
+            Select Colour
+        </div>
+    `;
+
+
+    zyzaalColourOptions.forEach((option, index) => {
+
+        box.innerHTML += `
+
+            <div
+                class="size-item"
+                onclick="selectZyzaalColour(${index})"
+                style="cursor:pointer;"
+            >
+
+                <strong>
+                    ${option.colour}
+                </strong>
+
+            </div>
+
+        `;
+
+    });
+
+
+    document
+        .getElementById("sizePopup")
+        .classList.remove("hidden");
+
+    return;
+
+}
         }
 
 
