@@ -2488,3 +2488,119 @@ function selectSareeColor(index) {
     }
 
 }
+// =========================================
+// ZYZAAL COLOUR SELECT
+// =========================================
+
+function selectZyzaalColour(colourIndex) {
+
+    const product =
+        zyzaalSelectedProduct;
+
+    if (!product) {
+
+        alert("Product Not Found");
+
+        return;
+    }
+
+
+    const selectedColour =
+        zyzaalColourOptions[colourIndex];
+
+    if (!selectedColour) {
+
+        alert("Colour Not Found");
+
+        return;
+    }
+
+
+    const selectedColourName =
+        String(selectedColour.colour)
+            .trim()
+            .toLowerCase();
+
+
+    zyzaalSizeOptions =
+        product.variants.filter(variant => {
+
+            const colour =
+                variant.colour ||
+                variant.color ||
+                variant.colorName ||
+                "Default";
+
+            return String(colour)
+                .trim()
+                .toLowerCase() === selectedColourName;
+
+        });
+
+
+    if (zyzaalSizeOptions.length === 0) {
+
+        alert("Size Not Found");
+
+        return;
+    }
+
+
+    const box =
+        document.getElementById("sizeList");
+
+    box.innerHTML = `
+
+        <div style="
+            font-weight:600;
+            margin-bottom:12px;
+        ">
+            ${selectedColour.colour} - Select Size
+        </div>
+
+    `;
+
+
+    zyzaalSizeOptions.forEach((variant, index) => {
+
+        const size =
+            variant.size || "Free Size";
+
+        const stock =
+            variant.openingStock ??
+            variant.stock ??
+            0;
+
+        const price =
+            variant.sellingPrice ??
+            product.price ??
+            0;
+
+
+        box.innerHTML += `
+
+            <div
+                class="size-item"
+                onclick="selectZyzaalSize(${index})"
+                style="cursor:pointer;"
+            >
+
+                <div>
+                    <strong>${size}</strong>
+                </div>
+
+                <div>
+                    Stock : ${stock}
+                </div>
+
+                <div>
+                    ₹${price}
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
