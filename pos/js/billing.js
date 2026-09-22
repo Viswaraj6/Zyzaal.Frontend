@@ -203,59 +203,50 @@ function findVariantByBarcode(barcode) {
     return null;
 }
 
-function barcodeScan(e){
+function barcodeScan(e) {
 
-    if(e.key !== "Enter") return;
+    if (e.key !== "Enter") return;
 
     const barcode = String(e.target.value).trim();
 
-    if(!barcode) return;
+    if (!barcode) return;
 
-    // Last digit = Size
-    const sizeCode = barcode.slice(-1);
+    // Barcode must be exactly 12 digits
+    if (!/^\d{12}$/.test(barcode)) {
 
-    // Remaining digits = Style No
-    const styleNo = barcode.slice(0, -1);
+        alert("Invalid Barcode. Enter 12-digit barcode.");
 
-    const shirtMap = {
-        "1":"S",
-        "2":"M",
-        "3":"L",
-        "4":"XL",
-        "5":"XXL"
-    };
+        e.target.value = "";
 
-    const pantMap = {
-        "1":"30",
-        "2":"32",
-        "3":"34",
-        "4":"36",
-        "5":"38",
-        "6":"40"
-    };
-
-    const product = allProducts.find(p =>
-        String(p.styleNo) === styleNo
-    );
-
-    if(!product){
-        alert("Product Not Found");
         return;
     }
 
-   const size = product.sizeStock.find(s => {
-    return (
-        String(s.size) === String(shirtMap[sizeCode]) ||
-        String(s.size) === String(pantMap[sizeCode])
-    );
-});
+    const found = findVariantByBarcode(barcode);
 
-    if(!size){
-        alert("Size Not Found");
+    if (!found) {
+
+        alert(
+            `Product not found for barcode: ${barcode}`
+        );
+
+        e.target.value = "";
+
         return;
     }
 
-    addToCart(product, size);
+    const product = found.product;
+    const variant = found.variant;
+
+    const size = {
+        size: variant.size,
+        stock: variant.openingStock ?? 0,
+        sku: variant.sku || "",
+        barcode: variant.barcode || barcode,
+        colour: variant.colour || "",
+        sellingPrice: variant.sellingPrice ?? product.price
+    };
+
+    addToCart(product, size, variant);
 
     closeSearch();
 
