@@ -2319,3 +2319,87 @@ function calculateTotal() {
     renderCart();
 
 }
+function selectSareeColor(index) {
+
+    const option =
+        sareeColorOptions[index];
+
+    if (!option) {
+
+        alert("Colour Not Found");
+
+        return;
+    }
+
+
+    const product =
+        option.product;
+
+    const variant =
+        option.variant;
+
+
+    const freeSize = {
+
+        size: "Free Size",
+
+        stock: option.stock,
+
+        sku:
+            variant?.sku ||
+            product.sku ||
+            "",
+
+        barcode:
+            option.barcode ||
+            product.barcode ||
+            product.styleNo ||
+            "",
+
+        colour: option.colour,
+
+        sellingPrice: option.price
+
+    };
+
+
+    try {
+
+        addToCart(
+            product,
+            freeSize,
+            variant
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Saree Cart Error:",
+            error
+        );
+
+        alert(
+            "Saree cart-la add panna error: " +
+            error.message
+        );
+
+        return;
+
+    } finally {
+
+        closeSize();
+
+        closeSearch();
+
+        const barcodeInput =
+            document.getElementById("barcodeInput");
+
+        if (barcodeInput) {
+
+            barcodeInput.value = "";
+
+        }
+
+    }
+
+}
