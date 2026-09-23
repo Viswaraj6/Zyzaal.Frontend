@@ -1600,23 +1600,26 @@ function selectCustomer(customer) {
     // Scan summary refresh
     updateGoCartBar();
 }
-function openCheckout(){
+function openCheckout() {
 
-    // Close the camera before opening the payment screen
-    if(html5QrCode){
-        closeCamera();
-    }
-
-    if(cart.length === 0){
+    if (cart.length === 0) {
         alert("Please add product first");
         return;
     }
 
-    document.querySelector(".header").style.display = "none";
-    document.getElementById("cartPanel").style.display = "none";
+    // Cart-ஐ save செய்து customer page-க்கு செல்லும்
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-    document.getElementById("paymentPanel").style.display = "block";
+    // Existing selected customer இருந்தால் நேரடியாக payment
+    if (selectedCustomer) {
+        document.querySelector(".header").style.display = "none";
+        document.getElementById("cartPanel").style.display = "none";
+        document.getElementById("paymentPanel").style.display = "block";
+        return;
+    }
 
+    // Customer select / create page
+    window.location.href = "customer.html?return=billing";
 }
 function backToCart(){
      document.querySelector(".header").style.display = "flex";
