@@ -655,8 +655,10 @@ function openProduct(id) {
 
 }
 function findVariantByBarcode(barcode) {
+
     const cleanBarcode = String(barcode).trim();
 
+    // Existing exact barcode search
     for (const product of allProducts) {
 
         const variants = Array.isArray(product.variants)
@@ -670,14 +672,96 @@ function findVariantByBarcode(barcode) {
         if (variant) {
             return {
                 product,
-                variant
+                variant,
+                size: null
             };
         }
     }
 
-    return null;
-}
+    // =====================================
+    // FARK618 STYLE NUMBER + SIZE DIGIT
+    // =====================================
 
+    if (currentBrandId !== "FARK618") {
+        return null;
+    }
+
+    if (!/^\d{5}$/.test(cleanBarcode)) {
+        return null;
+    }
+
+    // Last digit = Size code
+    const sizeCode = cleanBarcode.slice(-1);
+
+    // First 4 digits = Style Number
+    const styleNo = cleanBarcode
+        .slice(0, -1)
+        .padStart(4, "0");
+
+    const shirtMap = {
+        "1": "S",
+        "2": "M",
+        "3": "L",
+        "4": "XL",
+        "5": "XXL"
+    };
+
+    const pantMap = {
+        "1": "30",
+        "2": "32",
+        "3": "34",
+        "4": "36",
+        "5": "38",
+        "6": "40"
+    };
+
+    // Find product using Style Number
+    const product = allProducts.find(p => {
+
+        const productStyle = String(
+            p.styleNo ??
+            p.styleNumber ??
+            ""
+        ).trim().padStart(4, "0");
+
+        return productStyle === styleNo;
+    });
+
+    if (!product) {
+        return null;
+    }
+
+    const category = String(product.category || "");
+
+    const isPant = /pant|jeans|trouser/i.test(category);
+
+    const expectedSize = isPant
+        ? pantMap[sizeCode]
+        : shirtMap[sizeCode];
+
+    if (!expectedSize) {
+        return null;
+    }
+
+    // Find size from FARK618 sizeStock
+    const sizes = Array.isArray(product.sizeStock)
+        ? product.sizeStock
+        : [];
+
+    const size = sizes.find(s =>
+        String(s.size || "").trim() === expectedSize
+    );
+
+    if (!size) {
+        return null;
+    }
+
+    return {
+        product,
+        variant: null,
+        size
+    };
+}
 function barcodeScan(e) {
 
     if (e.key !== "Enter") return;
