@@ -118,15 +118,22 @@ async function changeBrand(brandId) {
         currentBrandId
     );
 
-    currentPage = 1;
+   currentPage = 1;
 
+// Green rotating circle start
+showBrandLoader(true);
+
+try {
     await loadProducts();
-
-    console.log(
-        "Current Brand:",
-        currentBrandId
-    );
+} finally {
+    // Green rotating circle stop
+    showBrandLoader(false);
 }
+
+console.log(
+    "Current Brand:",
+    currentBrandId
+);
 
 // =====================================
 // TOP STATUS NOTIFICATION
