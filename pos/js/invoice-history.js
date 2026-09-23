@@ -412,9 +412,14 @@ async function loadBills(){
 
     try{
 
-        const res = await fetch(
-            BASE_URL + "/pos/bills"
-        );
+       const currentBrandId =
+    localStorage.getItem("posBrandId") || "FARK618";
+
+const res = await fetch(
+    BASE_URL +
+    "/pos/bills?brandId=" +
+    encodeURIComponent(currentBrandId)
+);
 
         const data = await res.json();
 
