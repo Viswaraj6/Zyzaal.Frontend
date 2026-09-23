@@ -1189,6 +1189,9 @@ function openCamera(){
     const popup = document.getElementById("cameraPopup");
     popup.classList.remove("hidden");
 
+    // Show the bottom scan summary immediately when camera opens
+    updateGoCartBar();
+
     if(html5QrCode){
         html5QrCode.stop().catch(()=>{});
     }
@@ -1363,6 +1366,7 @@ function updateGoCartBar(){
 
     // Camera open + Cart has items
     bar.classList.remove("hidden");
+    bar.style.display = "flex";
 
     const qty = cart.reduce((t,item)=>t + item.qty,0);
     const total = cart.reduce((t,item)=>t + (item.qty * item.price),0);
