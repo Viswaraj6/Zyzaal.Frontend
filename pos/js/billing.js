@@ -134,7 +134,7 @@ console.log(
     "Current Brand:",
     currentBrandId
 );
-
+}
 // =====================================
 // TOP STATUS NOTIFICATION
 // =====================================
