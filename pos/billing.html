@@ -650,13 +650,14 @@
             <button id="flashBtn">🔦</button>
 <div id="scanToast" class="scan-toast hidden">
 
-    <img id="toastImage">
+    <img id="toastImage" alt="Product image">
 
     <div class="toast-info">
 
         <h4 id="toastName"></h4>
 
         <small id="toastSize"></small>
+        <small id="toastCode"></small>
 
     </div>
 
@@ -710,29 +711,28 @@
 
 </div>
      
-<div id="goCartBar" class="go-cart hidden" onclick="scrollToCart()">
+<div id="goCartBar" class="go-cart hidden">
 
-    <div>
+    <div class="scan-summary-values">
+        <div class="scan-summary-stat">
+            <small>ITEMS</small>
+            <strong id="goCartItems">0</strong>
+        </div>
 
-        🛒 <strong>Go To Cart</strong>
+        <div class="scan-summary-stat">
+            <small>QTY</small>
+            <strong id="goCartQty">0</strong>
+        </div>
 
+        <div class="scan-summary-stat total-stat">
+            <small>TOTAL</small>
+            <strong>₹<span id="goCartTotal">0</span></strong>
+        </div>
     </div>
 
-    <div>
-
-        <span id="goCartItems">0 Items</span>
-
-        |
-
-        <span id="goCartQty">0 Qty</span>
-
-        |
-
-        ₹<span id="goCartTotal">0</span>
-
-        ➜
-
-    </div>
+    <button type="button" class="scan-checkout-btn" onclick="openCheckout()">
+        Checkout →
+    </button>
 
 </div>
    <!-- Cash Payment Screen -->
