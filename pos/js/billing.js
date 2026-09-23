@@ -804,20 +804,25 @@ if (!isValidBarcode) {
         return;
     }
 
-    const product = found.product;
-    const variant = found.variant;
+   const product = found.product;
+const variant = found.variant;
 
-    const size = {
-        size: variant.size,
-        stock: variant.openingStock ?? 0,
-        sku: variant.sku || "",
-        barcode: variant.barcode || barcode,
-        colour: variant.colour || "",
-        sellingPrice: variant.sellingPrice ?? product.price
-    };
+const size = found.size || {
+    size: variant?.size || "",
+    stock: variant?.openingStock ?? variant?.stock ?? 0,
+    sku: variant?.sku || "",
+    barcode: variant?.barcode || barcode,
+    colour: variant?.colour || "",
+    sellingPrice:
+        variant?.sellingPrice ?? product.price ?? 0
+};
 
-    addToCart(product, size, variant);
+addToCart(product, size, variant);
 
+closeSearch();
+
+e.target.value = "";
+    
     // Camera scan feedback: beep + product confirmation popup
     showScanToast(product, size, variant, barcode);
     updateGoCartBar();
