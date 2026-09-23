@@ -141,6 +141,24 @@ console.log(
 
 let syncToastTimer = null;
 
+ function showBrandLoader(show) {
+    let loader = document.getElementById("brandLoader");
+
+    if (!loader) {
+        loader = document.createElement("span");
+        loader.id = "brandLoader";
+        loader.className = "green-loader";
+
+        const brandSelect =
+            document.getElementById("brandSelect");
+
+        if (brandSelect) {
+            brandSelect.parentNode.appendChild(loader);
+        }
+    }
+
+    loader.style.display = show ? "inline-block" : "none";
+}   
 function showSyncStatus(
     message,
     type = "success"
