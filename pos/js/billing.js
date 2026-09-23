@@ -1241,30 +1241,30 @@ function openCamera(){
     });
 
 }
-function onScanSuccess(decodedText, decodedResult){
-
-    if(scanLock) return;
+function onScanSuccess(decodedText, decodedResult) {
+    if (scanLock) return;
 
     scanLock = true;
 
-    document.getElementById("barcodeInput").value = decodedText;
+    const barcodeInput = document.getElementById("barcodeInput");
 
+    // Barcode scan செய்து product search
     barcodeScan({
-
-        key:"Enter",
-
-        target:{
-            value:decodedText
+        key: "Enter",
+        target: {
+            value: decodedText
         }
-
     });
 
-    setTimeout(()=>{
+    // Search bar-ல் scanned number காட்டக்கூடாது
+    barcodeInput.value = "";
 
+    // Placeholder மீண்டும் காட்டும்
+    barcodeInput.placeholder = "🔍 Scan Barcode / Search Product";
+
+    setTimeout(() => {
         scanLock = false;
-
-    },1500);
-
+    }, 1500);
 }
 function closeCamera(){
 
