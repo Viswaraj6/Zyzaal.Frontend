@@ -734,6 +734,10 @@ if (!isValidBarcode) {
 
     addToCart(product, size, variant);
 
+    // Camera scan feedback: beep + product confirmation popup
+    showScanToast(product, size, variant, barcode);
+    updateGoCartBar();
+
     closeSearch();
 
     e.target.value = "";
@@ -1283,7 +1287,7 @@ function closeCamera(){
     .catch(console.error);
 
 }
-function showScanToast(product, size){
+function showScanToast(product, size, variant = null, scannedBarcode = ""){
 
     console.log("Toast Called");
 
@@ -1294,19 +1298,44 @@ function showScanToast(product, size){
         return;
     }
 
-    document.getElementById("toastImage").src =
-        product.primaryImage || "";
+    const image = document.getElementById("toastImage");
+    const imageUrl =
+        product.primaryImage ||
+        product.image ||
+        variant?.image ||
+        "";
+
+    if(image){
+        image.src = imageUrl;
+        image.style.display = imageUrl ? "block" : "none";
+    }
 
     document.getElementById("toastName").textContent =
-        product.name || "";
+        product.name || "Product";
 
     document.getElementById("toastSize").textContent =
-        "Size : " + (size.size || "");
+        "Size : " + (size?.size || "-");
 
+    const code =
+        variant?.sku ||
+        size?.sku ||
+        variant?.barcode ||
+        scannedBarcode ||
+        "";
+
+    const toastCode = document.getElementById("toastCode");
+    if(toastCode){
+        toastCode.textContent = code ? "SKU / Barcode : " + code : "";
+    }
+
+    toast.classList.toggle("no-image", !imageUrl);
     toast.classList.remove("hidden");
 
     const beep = document.getElementById("beepSound");
-    if(beep) beep.play().catch(()=>{});
+    if(beep){
+        beep.currentTime = 0;
+        beep.play().catch(()=>{});
+    }
 
     clearTimeout(window.toastTimer);
 
@@ -1345,8 +1374,9 @@ function updateGoCartBar(){
         qty + " Qty";
 
     document.getElementById("goCartTotal").innerText =
-        total;
+        Number(total).toLocaleString("en-IN");
 }
+
 function toggleSidebar(){
 
     const sidebar = document.getElementById("sidebar");
@@ -1558,6 +1588,11 @@ function selectCustomer(customer){
     renderCart();
 }
 function openCheckout(){
+
+    // Close the camera before opening the payment screen
+    if(html5QrCode){
+        closeCamera();
+    }
 
     if(cart.length === 0){
         alert("Please add product first");
@@ -2776,4 +2811,3 @@ function selectZyzaalSize(sizeIndex) {
     }
 
 }
-
