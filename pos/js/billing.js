@@ -1569,8 +1569,10 @@ document.getElementById("custAddress").value = "";
     dropdown.classList.remove("hidden");
 
 }
-function selectCustomer(customer){
+function selectCustomer(customer) {
 
+    // Selected customer மட்டும் update ஆகும்
+    // Existing cart products delete ஆகாது
     selectedCustomer = customer;
 
     localStorage.setItem(
@@ -1589,7 +1591,14 @@ function selectCustomer(customer){
         .getElementById("customerDropdown")
         .classList.add("hidden");
 
+    // Existing selected products / cart preserve ஆகும்
     renderCart();
+
+    // Total refresh
+    calculateTotal();
+
+    // Scan summary refresh
+    updateGoCartBar();
 }
 function openCheckout(){
 
