@@ -2192,93 +2192,151 @@ function selectQuickAmount(amount,btn){
     calculateCash();
 
 }
-function calculateCash(){
+function calculateCash() {
 
-const total = currentPaymentTotal;
+    // Already paid amount
+    const alreadyPaid = paymentHistory.reduce(
+        (total, payment) => total + Number(payment.amount || 0),
+        0
+    );
 
-    const received = parseFloat(document.getElementById("cashReceived").value) || 0;
-   receivedAmount = received;
+    // Current bill remaining amount
+    const grandTotal =
+        parseFloat(
+            document.getElementById("paymentGrandTotal").innerText
+        ) || 0;
 
-const balance = total - received;
+    const amountDue = Math.max(grandTotal - alreadyPaid, 0);
+
+    const received =
+        parseFloat(document.getElementById("cashReceived").value) || 0;
+
+    receivedAmount = received;
+
+    // Actual amount which belongs to this payment
+    const paymentAmount = Math.min(received, amountDue);
+
+    // Change given back to customer
+    const changeAmount = Math.max(received - amountDue, 0);
+
+    // Remaining bill amount
+    remainingAmount = Math.max(amountDue - paymentAmount, 0);
+
     const result = document.getElementById("cashResult");
     const message = document.getElementById("cashMessage");
 
-    result.innerHTML = "Save Bill";
+    // -----------------------------
+    // LESS THAN BILL
+    // -----------------------------
+    if (received < amountDue) {
 
-   if(received < total){
+        message.innerHTML = `
+            <span class="cash-remaining">
+                Remaining ₹${remainingAmount.toFixed(0)}
+            </span>
+        `;
 
-    message.innerHTML = `
-        <span class="cash-remaining">
-         Remaining ₹${(total-received).toFixed(0)}
-        </span>`;
+        result.innerHTML = "Next Payment ➜";
 
-    result.innerHTML = "Next Payment ➜";
+    }
 
+    // -----------------------------
+    // EXACT / MORE THAN BILL
+    // -----------------------------
+    else {
+
+        if (changeAmount > 0) {
+
+            message.innerHTML = `
+                <span class="cash-return">
+                    Return ₹${changeAmount.toFixed(0)}
+                </span>
+            `;
+
+        } else {
+
+            message.innerHTML = "";
+        }
+
+        result.innerHTML = "Save Bill";
+    }
 }
-else if(received > total){
 
-    message.innerHTML = `
-        <span class="cash-return">
-            Return ₹${(received-total).toFixed(0)}
-        </span>`;
 
-    result.innerHTML = "Save Bill";
+function cashButtonAction() {
 
-}
-else{
-
-    message.innerHTML = "";
-
-    result.innerHTML = "Save Bill";
-
-}
-}
-function cashButtonAction(){
-
-    const amount = receivedAmount;
-
-   const alreadyPaid = paymentHistory.find(
-    p => p.mode === currentPaymentMode
-);
-
-if (alreadyPaid && remainingAmount > 0) {
-
-    alreadyPaid.amount = amount;
-
-} else {
-
-    paymentHistory = paymentHistory.filter(
-        p => p.mode !== currentPaymentMode
-    );
-
-    paymentHistory.push({
-        mode: currentPaymentMode,
-        amount: amount
-    });
-
-}
-    // Remaining calculate
-    const paid = paymentHistory.reduce(
-        (t,p)=>t+p.amount,
+    const alreadyPaid = paymentHistory.reduce(
+        (total, payment) => total + Number(payment.amount || 0),
         0
     );
 
     const grandTotal =
-        parseFloat(document.getElementById("paymentGrandTotal").innerText);
+        parseFloat(
+            document.getElementById("paymentGrandTotal").innerText
+        ) || 0;
 
-    remainingAmount = grandTotal - paid;
+    const amountDue = Math.max(grandTotal - alreadyPaid, 0);
 
-    if(remainingAmount > 0){
+    const received = Number(receivedAmount || 0);
+
+    // IMPORTANT:
+    // Payment record should NEVER include customer change.
+    const actualPayment = Math.min(received, amountDue);
+
+    const changeAmount = Math.max(received - amountDue, 0);
+
+    // Remove previous Cash entry if editing Cash
+    paymentHistory = paymentHistory.filter(
+        payment => payment.mode !== "Cash"
+    );
+
+    // Add only actual bill payment
+    if (actualPayment > 0) {
+
+        paymentHistory.push({
+            mode: "Cash",
+            amount: actualPayment
+        });
+    }
+
+    // Calculate total paid
+    const totalPaid = paymentHistory.reduce(
+        (total, payment) => total + Number(payment.amount || 0),
+        0
+    );
+
+    // Calculate remaining
+    remainingAmount = Math.max(
+        grandTotal - totalPaid,
+        0
+    );
+
+    // -----------------------------
+    // CHANGE
+    // -----------------------------
+    if (changeAmount > 0) {
+
+        console.log(
+            `Customer paid ₹${received}, `
+            + `bill payment ₹${actualPayment}, `
+            + `return ₹${changeAmount}`
+        );
+    }
+
+    // -----------------------------
+    // REMAINING PAYMENT
+    // -----------------------------
+    if (remainingAmount > 0) {
 
         openRemainingPayment();
 
-    }else{
+    } else {
 
+        // Fully paid
         saveBill();
-
     }
-
 }
+
 function openRemainingPayment(){
 
     document.getElementById("cashScreen").style.display = "none";
