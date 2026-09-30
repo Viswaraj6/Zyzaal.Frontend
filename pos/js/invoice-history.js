@@ -1048,17 +1048,19 @@ function applyFilters(){
             let paymentMatch = true;
 
 
-            if(payment){
+           if(payment){
 
-               const billPayments = (bill.payments || [])
-    .map(p =>
-        (p.mode || p.method || "").toLowerCase()
-    );
-
-paymentMatch =
-    billPayments.includes(payment.toLowerCase());
-
-            }
+    paymentMatch =
+        (bill.payments || []).some(p =>
+            String(
+                p.mode ||
+                p.method ||
+                ""
+            ).toLowerCase() ===
+            payment.toLowerCase() &&
+            Number(p.amount || 0) > 0
+        );
+}
 
 
             /* DATE */
