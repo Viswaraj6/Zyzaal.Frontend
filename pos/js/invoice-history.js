@@ -1110,6 +1110,57 @@ function viewBill(billNo){
 
     }
 currentViewBill = bill;
+
+const cashPaid = getPaymentAmount(bill, "cash");
+const upiPaid = getPaymentAmount(bill, "upi");
+const cardPaid = getPaymentAmount(bill, "card");
+
+const totalPaid =
+    cashPaid +
+    upiPaid +
+    cardPaid;
+
+const grandTotal =
+    Number(bill.grandTotal || 0);
+
+const balance =
+    Math.max(grandTotal - totalPaid, 0);
+
+const cashEl = document.getElementById("viewCashPaid");
+const upiEl = document.getElementById("viewUpiPaid");
+const cardEl = document.getElementById("viewCardPaid");
+const totalPaidEl = document.getElementById("viewTotalPaid");
+const balanceEl = document.getElementById("viewBalance");
+
+if (cashEl)
+    cashEl.innerText =
+        "₹" + cashPaid.toLocaleString("en-IN", {
+            minimumFractionDigits: 2
+        });
+
+if (upiEl)
+    upiEl.innerText =
+        "₹" + upiPaid.toLocaleString("en-IN", {
+            minimumFractionDigits: 2
+        });
+
+if (cardEl)
+    cardEl.innerText =
+        "₹" + cardPaid.toLocaleString("en-IN", {
+            minimumFractionDigits: 2
+        });
+
+if (totalPaidEl)
+    totalPaidEl.innerText =
+        "₹" + totalPaid.toLocaleString("en-IN", {
+            minimumFractionDigits: 2
+        });
+
+if (balanceEl)
+    balanceEl.innerText =
+        "₹" + balance.toLocaleString("en-IN", {
+            minimumFractionDigits: 2
+        });
     
     /* ================= BILL INFO ================= */
 
