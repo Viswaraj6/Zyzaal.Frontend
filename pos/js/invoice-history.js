@@ -708,15 +708,11 @@ row.onclick = function(event){
             </td>
 
 
-            <td>
-
-                <span class="payment-badge">
-
-                    ${payment}
-
-                </span>
-
-            </td>
+           <td>
+    <div class="payment-split">
+        ${payment}
+    </div>
+</td>
 
 
             <td>
