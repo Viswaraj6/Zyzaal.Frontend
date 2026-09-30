@@ -576,10 +576,14 @@ document.getElementById("invoiceCount").innerText =
 
        const payment = getPaymentSplit(bill);
 
-        const amount =
-            Number(
-                bill.grandTotal || 0
-            );
+      const paymentFilter =
+    document.getElementById("paymentFilter").value;
+
+const amount =
+    getPaymentAmount(
+        bill,
+        paymentFilter
+    );
 
 
         const date =
