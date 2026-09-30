@@ -2038,10 +2038,24 @@ function clearInvoiceCustomerSearch(){
 
 function getPaymentAmount(bill, mode) {
 
-    return (bill.payments || [])
+    if (!bill) return 0;
+
+    const payments = bill.payments || [];
+
+    // All Payments
+    if (!mode) {
+        return Number(bill.grandTotal || 0);
+    }
+
+    // Selected payment method
+    return payments
         .filter(payment =>
-            (payment.mode || payment.method || "")
-                .toLowerCase() === mode.toLowerCase()
+            String(
+                payment.mode ||
+                payment.method ||
+                ""
+            ).toLowerCase() ===
+            String(mode).toLowerCase()
         )
         .reduce(
             (total, payment) =>
@@ -2049,7 +2063,6 @@ function getPaymentAmount(bill, mode) {
             0
         );
 }
-
 
 function getPaymentSplit(bill) {
 
