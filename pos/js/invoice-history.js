@@ -1196,8 +1196,8 @@ if (balanceEl)
    const paymentText = getPaymentMethodText(bill);
 
 
-    document.getElementById("viewPayment").innerText =
-        payment;
+   document.getElementById("viewPayment").innerText =
+    paymentText;
 
 
     /* ================= ITEMS ================= */
