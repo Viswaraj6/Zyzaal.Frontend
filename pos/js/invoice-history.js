@@ -1127,6 +1127,23 @@ const balance =
 const cashEl = document.getElementById("viewCashPaid");
 const upiEl = document.getElementById("viewUpiPaid");
 const cardEl = document.getElementById("viewCardPaid");
+
+    const cashCard = document.querySelector(".cash-card");
+const upiCard = document.querySelector(".upi-card");
+const cardCard = document.querySelector(".card-card");
+
+if (cashCard) {
+    cashCard.style.display = cashPaid > 0 ? "flex" : "none";
+}
+
+if (upiCard) {
+    upiCard.style.display = upiPaid > 0 ? "flex" : "none";
+}
+
+if (cardCard) {
+    cardCard.style.display = cardPaid > 0 ? "flex" : "none";
+}
+    
 const totalPaidEl = document.getElementById("viewTotalPaid");
 const balanceEl = document.getElementById("viewBalance");
 
