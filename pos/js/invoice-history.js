@@ -1983,6 +1983,99 @@ function clearInvoiceCustomerSearch(){
     input.focus();
 
 }
+
+/* ================= PAYMENT HELPERS ================= */
+
+function getPaymentAmount(bill, mode) {
+
+    return (bill.payments || [])
+        .filter(payment =>
+            (payment.mode || payment.method || "")
+                .toLowerCase() === mode.toLowerCase()
+        )
+        .reduce(
+            (total, payment) =>
+                total + Number(payment.amount || 0),
+            0
+        );
+}
+
+
+function getPaymentSplit(bill) {
+
+    const payments = bill.payments || [];
+
+    if (!payments.length) {
+        return `
+            <span class="payment-chip cash">
+                💵 Cash ₹0
+            </span>
+        `;
+    }
+
+    return payments
+        .filter(payment => Number(payment.amount || 0) > 0)
+        .map(payment => {
+
+            const mode =
+                payment.mode ||
+                payment.method ||
+                "Cash";
+
+            const amount =
+                Number(payment.amount || 0);
+
+            let icon = "💵";
+            let className = "cash";
+
+            if (mode.toLowerCase() === "upi") {
+                icon = "📱";
+                className = "upi";
+            }
+
+            if (mode.toLowerCase() === "card") {
+                icon = "💳";
+                className = "card";
+            }
+
+            if (mode.toLowerCase() === "credit note") {
+                icon = "🧾";
+                className = "credit";
+            }
+
+            return `
+                <span class="payment-chip ${className}">
+                    ${icon} ${mode}
+                    <strong>
+                        ₹${amount.toLocaleString("en-IN")}
+                    </strong>
+                </span>
+            `;
+
+        })
+        .join("");
+}
+
+
+function getPaymentMethodText(bill) {
+
+    const payments = (bill.payments || [])
+        .filter(payment =>
+            Number(payment.amount || 0) > 0
+        );
+
+    if (!payments.length) {
+        return "Cash";
+    }
+
+    return payments
+        .map(payment =>
+            payment.mode ||
+            payment.method ||
+            "Cash"
+        )
+        .join(" + ");
+}
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
