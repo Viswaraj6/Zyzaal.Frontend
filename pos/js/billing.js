@@ -2085,11 +2085,13 @@ if (cart.length > 0) {
     document.querySelector(".customer-btn").style.display = "none";
 }
 }
-function openPayment(mode){
-if(cart.length === 0){
-    alert("Please add product first");
-    return;
-}
+function openPayment(mode) {
+
+    if (cart.length === 0) {
+        alert("Please add product first");
+        return;
+    }
+
     currentPaymentMode = mode;
 
     document.getElementById("paymentTitle").innerText =
@@ -2098,50 +2100,77 @@ if(cart.length === 0){
     document.querySelector(".payment-body h3").innerText =
         mode + " Received";
 
-    let amount;
+    // -----------------------------------------
+    // BILL GRAND TOTAL
+    // -----------------------------------------
 
-    const existingPayment =
-        paymentHistory.find(p => p.mode === mode);
-
-    if(existingPayment){
-
-        amount = existingPayment.amount;
-
-        currentPaymentTotal =
-            existingPayment.amount + remainingAmount;
-
-    }else if(remainingAmount > 0){
-
-        amount = remainingAmount;
-
-        currentPaymentTotal = remainingAmount;
-
-    }else{
-
-        amount = parseFloat(
+    const grandTotal =
+        parseFloat(
             document.getElementById("paymentGrandTotal").innerText
+        ) || 0;
+
+    // -----------------------------------------
+    // ALREADY PAID BY OTHER PAYMENT METHODS
+    // -----------------------------------------
+
+    const paidByOthers = paymentHistory
+        .filter(p => p.mode !== currentPaymentMode)
+        .reduce(
+            (total, p) => total + Number(p.amount || 0),
+            0
         );
 
-        currentPaymentTotal = amount;
+    // -----------------------------------------
+    // CURRENT PAYMENT DUE
+    // -----------------------------------------
 
-    }
+    const currentDue =
+        Math.max(0, grandTotal - paidByOthers);
 
-    document.getElementById("cashReceived").value = amount;
+    currentPaymentTotal = currentDue;
 
-    generateQuickAmounts(amount);
+    // -----------------------------------------
+    // DEFAULT PAYMENT AMOUNT
+    // -----------------------------------------
+
+    const existingPayment =
+        paymentHistory.find(
+            p => p.mode === currentPaymentMode
+        );
+
+    const amount = existingPayment
+        ? Math.min(
+            Number(existingPayment.amount || 0),
+            currentDue
+        )
+        : currentDue;
+
+    document.getElementById("cashReceived").value =
+        amount;
+
+    // -----------------------------------------
+    // QUICK AMOUNTS
+    // -----------------------------------------
+
+    generateQuickAmounts(currentDue);
+
+    // -----------------------------------------
+    // CALCULATE
+    // -----------------------------------------
 
     calculateCash();
 
-    // Mobile மட்டும் Payment Panel Hide
-    if(window.innerWidth <= 800){
+    // -----------------------------------------
+    // OPEN PAYMENT SCREEN
+    // -----------------------------------------
 
-        document.getElementById("paymentPanel").style.display = "none";
-
+    if (window.innerWidth <= 800) {
+        document.getElementById("paymentPanel").style.display =
+            "none";
     }
 
-    // Desktop + Mobile இரண்டுக்கும்
-    document.getElementById("cashScreen").style.display = "flex";
-
+    document.getElementById("cashScreen").style.display =
+        "flex";
 }
 function closeCashScreen(){
 
