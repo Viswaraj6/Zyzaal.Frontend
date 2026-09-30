@@ -1152,10 +1152,7 @@ currentViewBill = bill;
         "-";
 
 
-    const payment =
-        bill.payments?.[0]?.mode ||
-        bill.payments?.[0]?.method ||
-        "Cash";
+   const paymentText = getPaymentMethodText(bill);
 
 
     document.getElementById("viewPayment").innerText =
