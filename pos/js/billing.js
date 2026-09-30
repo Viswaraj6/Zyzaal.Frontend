@@ -2265,78 +2265,108 @@ function calculateCash() {
 
 function cashButtonAction() {
 
-    const alreadyPaid = paymentHistory.reduce(
-        (total, payment) => total + Number(payment.amount || 0),
-        0
-    );
+    // Amount entered by user
+    const received =
+        Number(receivedAmount || 0);
+
+    // -----------------------------------------
+    // BILL GRAND TOTAL
+    // -----------------------------------------
 
     const grandTotal =
         parseFloat(
             document.getElementById("paymentGrandTotal").innerText
         ) || 0;
 
-    const amountDue = Math.max(grandTotal - alreadyPaid, 0);
+    // -----------------------------------------
+    // OTHER PAYMENTS ALREADY PAID
+    // -----------------------------------------
 
-    const received = Number(receivedAmount || 0);
+    const paidByOthers = paymentHistory
+        .filter(p => p.mode !== currentPaymentMode)
+        .reduce(
+            (total, p) => total + Number(p.amount || 0),
+            0
+        );
 
-    // IMPORTANT:
-    // Payment record should NEVER include customer change.
-    const actualPayment = Math.min(received, amountDue);
+    // -----------------------------------------
+    // CURRENT PAYMENT DUE
+    // -----------------------------------------
 
-    const changeAmount = Math.max(received - amountDue, 0);
+    const currentDue =
+        Math.max(0, grandTotal - paidByOthers);
 
-    // Remove previous Cash entry if editing Cash
-    paymentHistory = paymentHistory.filter(
-        payment => payment.mode !== "Cash"
-    );
+    // -----------------------------------------
+    // ACTUAL AMOUNT TO SAVE
+    // -----------------------------------------
+    // Example:
+    // Bill = ₹999
+    // Cash received = ₹1000
+    //
+    // Save only ₹999
+    // Return = ₹1
+    // -----------------------------------------
 
-    // Add only actual bill payment
-    if (actualPayment > 0) {
+    const appliedAmount =
+        Math.min(received, currentDue);
+
+    // -----------------------------------------
+    // REMOVE OLD ENTRY OF SAME PAYMENT MODE
+    // -----------------------------------------
+
+    paymentHistory =
+        paymentHistory.filter(
+            p => p.mode !== currentPaymentMode
+        );
+
+    // -----------------------------------------
+    // ADD ACTUAL PAYMENT
+    // -----------------------------------------
+
+    if (appliedAmount > 0) {
 
         paymentHistory.push({
-            mode: "Cash",
-            amount: actualPayment
+            mode: currentPaymentMode,
+            amount: appliedAmount
         });
+
     }
 
-    // Calculate total paid
-    const totalPaid = paymentHistory.reduce(
-        (total, payment) => total + Number(payment.amount || 0),
-        0
-    );
+    // -----------------------------------------
+    // TOTAL PAID
+    // -----------------------------------------
 
-    // Calculate remaining
-    remainingAmount = Math.max(
-        grandTotal - totalPaid,
-        0
-    );
-
-    // -----------------------------
-    // CHANGE
-    // -----------------------------
-    if (changeAmount > 0) {
-
-        console.log(
-            `Customer paid ₹${received}, `
-            + `bill payment ₹${actualPayment}, `
-            + `return ₹${changeAmount}`
+    const paid =
+        paymentHistory.reduce(
+            (total, p) =>
+                total + Number(p.amount || 0),
+            0
         );
-    }
 
-    // -----------------------------
-    // REMAINING PAYMENT
-    // -----------------------------
+    // -----------------------------------------
+    // REMAINING AMOUNT
+    // -----------------------------------------
+
+    remainingAmount =
+        Math.max(
+            0,
+            grandTotal - paid
+        );
+
+    // -----------------------------------------
+    // NEXT PAYMENT OR SAVE BILL
+    // -----------------------------------------
+
     if (remainingAmount > 0) {
 
         openRemainingPayment();
 
     } else {
 
-        // Fully paid
         saveBill();
+
     }
 }
-
 function openRemainingPayment(){
 
     document.getElementById("cashScreen").style.display = "none";
