@@ -1324,11 +1324,6 @@ if (balanceEl)
 
     /* ================= TOTALS ================= */
 
-    const grandTotal =
-        Number(
-            bill.grandTotal || 0
-        );
-
 
     const roundOff =
         Number(
