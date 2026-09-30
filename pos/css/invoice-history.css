@@ -2108,3 +2108,129 @@ body:has(#invoiceViewModal:not(.hidden)){
 .payment-total-card strong {
     white-space: nowrap;
 }
+/* =========================================
+   MOBILE RESPONSIVE - INVOICE DETAILS MODAL
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    /* Modal */
+    .invoice-modal,
+    .invoice-details-modal,
+    .modal-content {
+        width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px) !important;
+        margin: 12px auto !important;
+        max-height: calc(100vh - 24px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Modal header */
+    .invoice-modal-header,
+    .modal-header {
+        padding: 18px 16px !important;
+        gap: 10px;
+    }
+
+    .invoice-modal-header h2,
+    .modal-header h2 {
+        font-size: 24px !important;
+    }
+
+    /* Invoice top information cards */
+    .invoice-info-grid,
+    .invoice-meta-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    .invoice-info-card,
+    .invoice-meta-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* =====================================
+       PAYMENT SUMMARY
+       ===================================== */
+
+    .payment-summary {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .payment-summary-grid,
+    .payment-summary-cards {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .payment-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Total paid + balance */
+    .payment-total,
+    .payment-balance {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* =====================================
+       ITEMS TABLE
+       ===================================== */
+
+    .invoice-items-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .invoice-items-table {
+        min-width: 650px !important;
+    }
+
+    /* =====================================
+       AMOUNT / TOTAL SECTION
+       ===================================== */
+
+    .invoice-totals {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .invoice-total-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 15px !important;
+    }
+
+    /* =====================================
+       MODAL FOOTER
+       ===================================== */
+
+    .invoice-modal-footer,
+    .modal-footer {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .invoice-modal-footer button,
+    .modal-footer button {
+        width: 100% !important;
+    }
+}
