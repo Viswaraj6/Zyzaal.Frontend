@@ -1046,15 +1046,13 @@ function applyFilters(){
 
             if(payment){
 
-                const billPayment =
-                    bill.payments?.[0]?.mode ||
-                    bill.payments?.[0]?.method ||
-                    "Cash";
+               const billPayments = (bill.payments || [])
+    .map(p =>
+        (p.mode || p.method || "").toLowerCase()
+    );
 
-
-                paymentMatch =
-                    billPayment.toLowerCase() ===
-                    payment.toLowerCase();
+paymentMatch =
+    billPayments.includes(payment.toLowerCase());
 
             }
 
