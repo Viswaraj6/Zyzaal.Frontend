@@ -574,11 +574,7 @@ document.getElementById("invoiceCount").innerText =
             );
 
 
-        const payment =
-            bill.payments?.[0]?.mode ||
-            bill.payments?.[0]?.method ||
-            "Cash";
-
+       const payment = getPaymentSplit(bill);
 
         const amount =
             Number(
