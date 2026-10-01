@@ -3215,35 +3215,27 @@ function renderInvoiceEditRows(){
             <div class="customer-search-input">
 
                 <input
-                    type="text"
-                    class="invoice-product-search-input"
-                    value="${item.product || ""}"
-                    placeholder="Search product / SKU / Style No"
-                    autocomplete="off"
+    type="text"
+    class="invoice-product-search-input"
+    value="${item.product || ""}"
+    placeholder="Search product / SKU / Style No"
+    autocomplete="off"
 
-                    oninput="
-                        searchInvoiceProduct(
-                            this,
-                            ${index}
-                        )
-                    "
-                >
+    oninput="
+        searchInvoiceProduct(this, ${index});
+        toggleInvoiceProductClear(this);
+    "
+>
 
-                <button
-                    type="button"
-                    class="invoice-product-remove"
-
-                    onclick="
-                        removeInvoiceProduct(
-                            ${index}
-                        )
-                    "
-
-                    title="Remove product"
-                >
-                    ✕
-                </button>
-
+<button
+    type="button"
+    class="invoice-product-remove"
+    onclick="clearInvoiceProductSearch(${index})"
+    title="Remove product"
+    style="display:${item.product ? 'inline-flex' : 'none'};"
+>
+    ✕
+</button>
             </div>
 
 
