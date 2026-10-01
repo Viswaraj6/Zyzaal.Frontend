@@ -1513,31 +1513,13 @@ document
         box.style.display = "none";
     });
 
-document
-    .querySelectorAll(".invoice-product-remove")
-    .forEach(button => {
-        button.style.setProperty(
-            "display",
-            "inline-flex",
-            "important"
-        );
-    });
+
 
 document.getElementById(
     "invoiceSaveBtn"
 ).style.display = "block";
 
-    document
-    .querySelectorAll(".invoice-product-remove")
-    .forEach(button => {
-
-        button.style.setProperty(
-            "display",
-            "inline-flex",
-            "important"
-        );
-
-    });
+   
 document.getElementById(
     "invoiceSaveBtn"
 ).style.display = "block";
