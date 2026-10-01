@@ -2536,6 +2536,31 @@ function getPaymentMethodText(bill) {
         )
         .join(" + ");
 }
+
+function clearInvoiceProductSearch(){
+
+    const input =
+        document.getElementById(
+            "invoiceProductSearch"
+        );
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults"
+        );
+
+    if(input){
+        input.value = "";
+        input.focus();
+    }
+
+    if(results){
+        results.innerHTML = "";
+        results.style.display = "none";
+    }
+
+}
+
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
