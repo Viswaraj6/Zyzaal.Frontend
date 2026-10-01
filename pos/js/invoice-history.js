@@ -1456,24 +1456,35 @@ document
         .focus();
 document.querySelector(".invoice-edit-icon").style.display = "none";
 
+/* ================= PRODUCT EDIT MODE ================= */
 
-/* Show Product Search */
-
-document.getElementById(
-    "invoiceProductEditArea"
-).style.setProperty(
-    "display",
-    "block",
-    "important"
-);
-document.getElementById(
-    "invoiceProductSearch"
-).value = "";
-
-document.getElementById(
-    "invoiceProductResults"
-).style.display = "none";
 document
+    .querySelectorAll(".invoice-product-edit")
+    .forEach(box => {
+        box.style.display = "flex";
+    });
+
+document
+    .querySelectorAll(".invoice-product-view")
+    .forEach(box => {
+        box.style.display = "none";
+    });
+
+document
+    .querySelectorAll(".invoice-product-remove")
+    .forEach(button => {
+        button.style.setProperty(
+            "display",
+            "inline-flex",
+            "important"
+        );
+    });
+
+document.getElementById(
+    "invoiceSaveBtn"
+).style.display = "block";
+
+    document
     .querySelectorAll(".invoice-product-remove")
     .forEach(button => {
 
