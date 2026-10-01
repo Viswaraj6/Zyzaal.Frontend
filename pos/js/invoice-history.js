@@ -2540,6 +2540,7 @@ function clearInvoiceProductSearch(){
 
     if(input){
         input.value = "";
+        toggleInvoiceProductClear(input);
         input.focus();
     }
 
