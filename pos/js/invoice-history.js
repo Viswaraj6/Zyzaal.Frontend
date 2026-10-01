@@ -2749,6 +2749,237 @@ function selectInvoiceProduct(product, index){
     renderInvoiceEditRows();
 
 }
+
+function renderInvoiceEditRows(){
+
+    if(!currentViewBill){
+        return;
+    }
+
+    const itemsContainer =
+        document.getElementById(
+            "viewItems"
+        );
+
+    if(!itemsContainer){
+        return;
+    }
+
+
+    itemsContainer.innerHTML = "";
+
+
+    let subTotal = 0;
+
+
+    currentViewBill.items.forEach(
+        (item, index) => {
+
+            const qty =
+                Number(item.qty || 0);
+
+            const rate =
+                Number(item.price || 0);
+
+            const amount =
+                qty * rate;
+
+
+            subTotal += amount;
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+
+                <td class="invoice-product-cell">
+
+                    <div
+                        class="invoice-product-view"
+                        style="display:none;"
+                    >
+
+                        <div
+                            class="invoice-product-name"
+                        >
+                            <span>
+                                ${item.product || "-"}
+                            </span>
+                        </div>
+
+                        <div
+                            class="invoice-product-meta"
+                        >
+                            SKU:
+                            ${item.barcode || item.sku || "-"}
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="invoice-product-edit"
+                        style="display:flex;"
+                    >
+
+                        <div
+                            class="customer-search-input"
+                        >
+
+                            <input
+                                type="text"
+                                class="invoice-product-search-input"
+                                value="${item.product || ""}"
+                                placeholder="Search product / SKU / Style No"
+                                autocomplete="off"
+                                oninput="
+                                    searchInvoiceProduct(
+                                        this,
+                                        ${index}
+                                    )
+                                "
+                            >
+
+                            <button
+                                type="button"
+                                class="invoice-product-remove"
+                                onclick="
+                                    removeInvoiceProduct(
+                                        ${index}
+                                    )
+                                "
+                                title="Remove product"
+                            >
+                                ✕
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="invoice-product-results"
+                            id="invoiceProductResults-${index}"
+                        ></div>
+
+
+                        <div
+                            class="invoice-product-meta"
+                        >
+                            SKU:
+                            ${item.barcode || item.sku || "-"}
+                        </div>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+                    ${item.size || "-"}
+                </td>
+
+
+                <td>
+                    ${qty}
+                </td>
+
+
+                <td>
+                    ₹${rate.toFixed(2)}
+                </td>
+
+
+                <td>
+                    ₹${amount.toFixed(2)}
+                </td>
+
+            `;
+
+
+            itemsContainer.appendChild(row);
+
+        }
+    );
+
+
+    /*
+     * Recalculate totals
+     */
+
+    currentViewBill.total =
+        subTotal;
+
+
+    const discount =
+        Number(
+            currentViewBill.discount || 0
+        );
+
+
+    const taxable =
+        Math.max(
+            0,
+            subTotal - discount
+        );
+
+
+    const cgst =
+        Number(
+            currentViewBill.cgst ||
+            0
+        );
+
+
+    const sgst =
+        Number(
+            currentViewBill.sgst ||
+            0
+        );
+
+
+    const roundOff =
+        Number(
+            currentViewBill.roundOff || 0
+        );
+
+
+    currentViewBill.grandTotal =
+        taxable +
+        cgst +
+        sgst +
+        roundOff;
+
+
+    document.getElementById(
+        "viewSubTotal"
+    ).innerText =
+        "₹" +
+        subTotal.toFixed(2);
+
+
+    document.getElementById(
+        "viewTaxable"
+    ).innerText =
+        "₹" +
+        taxable.toFixed(2);
+
+
+    document.getElementById(
+        "viewGrandTotal"
+    ).innerText =
+        "₹" +
+        currentViewBill.grandTotal
+            .toFixed(2);
+
+}
+
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
