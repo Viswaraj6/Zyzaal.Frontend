@@ -1805,12 +1805,39 @@ async function saveInvoiceEdit(){
                             "application/json"
                     },
 
-                    body:JSON.stringify({
+                  body:JSON.stringify({
 
-                        customer:
-                            selectedEditCustomer
+    customer:
+        selectedEditCustomer,
 
-                    })
+    items:
+        currentViewBill.items,
+
+    payments:
+        currentViewBill.payments,
+
+    total:
+        currentViewBill.total,
+
+    discount:
+        currentViewBill.discount,
+
+    roundOff:
+        currentViewBill.roundOff,
+
+    tax:
+        currentViewBill.tax,
+
+    cgst:
+        currentViewBill.cgst,
+
+    sgst:
+        currentViewBill.sgst,
+
+    grandTotal:
+        currentViewBill.grandTotal
+
+})
                 }
             );
 
