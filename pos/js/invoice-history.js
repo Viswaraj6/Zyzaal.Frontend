@@ -3322,45 +3322,136 @@ function renderInvoiceEditRows(){
         subTotal;
 
 
-    const discount =
-        Number(
-            currentViewBill.discount || 0
+    /* ================= TOTALS ================= */
+
+const discount =
+    Number(
+        currentViewBill.discount || 0
+    );
+
+
+/*
+ * SAME ROUND-OFF LOGIC AS BILLING.JS
+ */
+
+const netTotal =
+    Math.max(
+        0,
+        subTotal - discount
+    );
+
+
+const grandTotal =
+    Math.round(netTotal);
+
+
+const roundOff =
+    grandTotal - netTotal;
+
+
+/*
+ * GST
+ */
+
+const cgst =
+    Number(
+        currentViewBill.cgst ||
+        currentViewBill.tax / 2 ||
+        0
+    );
+
+
+const sgst =
+    Number(
+        currentViewBill.sgst ||
+        currentViewBill.tax / 2 ||
+        0
+    );
+
+
+/*
+ * Save calculated values
+ */
+
+currentViewBill.total =
+    subTotal;
+
+currentViewBill.discount =
+    discount;
+
+currentViewBill.roundOff =
+    roundOff;
+
+currentViewBill.grandTotal =
+    grandTotal;
+
+currentViewBill.cgst =
+    cgst;
+
+currentViewBill.sgst =
+    sgst;
+
+
+/*
+ * UPDATE UI
+ */
+
+document.getElementById(
+    "viewSubTotal"
+).innerText =
+    "₹" +
+    subTotal.toFixed(2);
+
+
+document.getElementById(
+    "viewDiscount"
+).innerText =
+    "- ₹" +
+    discount.toFixed(2);
+
+
+document.getElementById(
+    "viewTaxable"
+).innerText =
+    "₹" +
+    netTotal.toFixed(2);
+
+
+document.getElementById(
+    "viewCGST"
+).innerText =
+    "₹" +
+    cgst.toFixed(2);
+
+
+document.getElementById(
+    "viewSGST"
+).innerText =
+    "₹" +
+    sgst.toFixed(2);
+
+
+document.getElementById(
+    "viewRoundOff"
+).innerText =
+    roundOff === 0
+        ? "₹0.00"
+        : (
+            roundOff > 0
+                ? "₹+" +
+                  roundOff.toFixed(2)
+                : "- ₹" +
+                  Math.abs(
+                      roundOff
+                  ).toFixed(2)
         );
 
 
-    const taxable =
-        Math.max(
-            0,
-            subTotal - discount
-        );
-
-
-    const cgst =
-        Number(
-            currentViewBill.cgst ||
-            0
-        );
-
-
-    const sgst =
-        Number(
-            currentViewBill.sgst ||
-            0
-        );
-
-
-    const roundOff =
-        Number(
-            currentViewBill.roundOff || 0
-        );
-
-
-    currentViewBill.grandTotal =
-        taxable +
-        cgst +
-        sgst +
-        roundOff;
-
+document.getElementById(
+    "viewGrandTotal"
+).innerText =
+    "₹" +
+    grandTotal.toFixed(2);
 
     document.getElementById(
         "viewSubTotal"
