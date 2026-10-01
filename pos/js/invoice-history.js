@@ -1979,26 +1979,185 @@ function showInvoiceUpdateToast(){
 }
 function selectInvoiceProduct(product){
 
-    if(!product){
+    if(!product || !currentViewBill){
         return;
     }
 
+    console.log("Selected Product:", product);
+
+    const searchInput =
+        document.getElementById("invoiceProductSearch");
+
+    const results =
+        document.getElementById("invoiceProductResults");
+
+    if(searchInput){
+        searchInput.value = "";
+    }
+
+    if(results){
+        results.style.display = "none";
+        results.innerHTML = "";
+    }
+
+    /*
+     * Current invoice-ல் எந்த product-ஐ மாற்ற வேண்டும்?
+     *
+     * Search select பண்ணும்போது:
+     * - last product row-ஐ replace செய்வோம்
+     *
+     * இதனால் existing product remove ஆகி
+     * புதிய product அதே row-ல் வரும்.
+     */
+
+    const items = currentViewBill.items || [];
+
+    if(items.length === 0){
+        return;
+    }
+
+    const index = items.length - 1;
+
+    const oldItem = items[index];
+
+    /*
+     * ZYZAAL variant
+     *
+     * Product-ல் variants இருந்தால்
+     * first available variant-ஐ automatic-ஆக use செய்கிறோம்.
+     *
+     * அடுத்த step-ல் colour/size selection
+     * வேண்டுமென்றால் இதை expand பண்ணலாம்.
+     */
+
+    const variants =
+        Array.isArray(product.variants)
+            ? product.variants
+            : [];
+
+    const variant =
+        variants.length > 0
+            ? variants[0]
+            : null;
+
+    const newSize =
+        variant?.size ||
+        product.size ||
+        oldItem?.size ||
+        "";
+
+    const newSku =
+        variant?.sku ||
+        product.sku ||
+        "";
+
+    const newBarcode =
+        variant?.barcode ||
+        variant?.sku ||
+        product.barcode ||
+        newSku ||
+        "";
+
+    const newColour =
+        variant?.colour ||
+        variant?.color ||
+        product.colour ||
+        product.color ||
+        oldItem?.colour ||
+        "";
+
+    const newPrice =
+        Number(
+            variant?.sellingPrice ??
+            product.price ??
+            0
+        );
+
+    /*
+     * Qty existing quantity-ஆகவே இருக்கும்.
+     */
+
+    const qty =
+        Number(oldItem?.qty || 1);
+
+    /*
+     * Replace product data
+     */
+
+    currentViewBill.items[index] = {
+
+        ...oldItem,
+
+        productId:
+            product._id,
+
+        brandId:
+            product.brandId ||
+            oldItem?.brandId,
+
+        product:
+            product.name || "",
+
+        category:
+            product.category ||
+            oldItem?.category ||
+            "",
+
+        styleNo:
+            product.styleNo ||
+            oldItem?.styleNo ||
+            "",
+
+        barcode:
+            newBarcode,
+
+        sku:
+            newSku,
+
+        variantId:
+            variant?._id ||
+            null,
+
+        colour:
+            newColour,
+
+        size:
+            newSize,
+
+        price:
+            newPrice,
+
+        qty:
+
+            qty,
+
+        amount:
+            qty * newPrice,
+
+        purchaseRate:
+            variant?.purchaseRate ??
+            oldItem?.purchaseRate ??
+            0,
+
+        hsnCode:
+            product.hsnCode ||
+            oldItem?.hsnCode ||
+            ""
+
+    };
+
+    /*
+     * Re-render invoice
+     */
+
+    renderInvoiceItemsForEdit();
+
     console.log(
-        "Selected Product:",
-        product
+        "Invoice Product Updated:",
+        currentViewBill.items[index]
     );
-
-    // Search box update
-    document.getElementById(
-        "invoiceProductSearch"
-    ).value = product.name || "";
-
-    // Close results
-    document.getElementById(
-        "invoiceProductResults"
-    ).style.display = "none";
-
 }
+
 function clearInvoiceCustomerSearch(){
 
     const input =
