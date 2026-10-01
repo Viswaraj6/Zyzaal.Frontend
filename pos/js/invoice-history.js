@@ -1297,9 +1297,7 @@ if (balanceEl)
 
         </div>
 
-        <div class="invoice-product-meta">
-            SKU: ${item.barcode || item.sku || "-"}
-        </div>
+       
 
     </div>
 
@@ -1337,13 +1335,15 @@ if (balanceEl)
             id="invoiceProductResults-${index}"
         ></div>
 
-        <div class="invoice-product-meta">
-            SKU: ${item.barcode || item.sku || "-"}
-        </div>
+       
 
     </div>
 
 </td>
+ <!-- BARCODE -->
+    <td>
+        ${item.barcode || "-"}
+    </td>
 
                 <td>
                     ${item.size || "-"}
