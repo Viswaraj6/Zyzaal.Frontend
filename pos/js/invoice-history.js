@@ -1281,27 +1281,66 @@ if (balanceEl)
                     ${index + 1}
                 </td>
 
-               <td class="invoice-product-cell">
+              <td class="invoice-product-cell">
 
-    <div class="invoice-product-name">
+    <!-- NORMAL VIEW -->
+    <div
+        class="invoice-product-view"
+        style="display:flex;"
+    >
 
-        <span>
-            ${item.product || "-"}
-        </span>
+        <div class="invoice-product-name">
 
-       <button
-    type="button"
-    class="invoice-product-remove"
-    onclick="removeInvoiceProduct(${index})"
-    
-    ✕
+            <span>
+                ${item.product || "-"}
+            </span>
 
-</button>
+        </div>
+
+        <div class="invoice-product-meta">
+            SKU: ${item.barcode || item.sku || "-"}
+        </div>
 
     </div>
 
-    <div class="invoice-product-meta">
-        SKU: ${item.barcode || item.sku || "-"}
+
+    <!-- EDIT VIEW -->
+    <div
+        class="invoice-product-edit"
+        style="display:none;"
+    >
+
+        <div class="customer-search-input">
+
+            <input
+                type="text"
+                class="invoice-product-search-input"
+                value="${item.product || ""}"
+                placeholder="Search product / SKU / Style No"
+                autocomplete="off"
+                oninput="searchInvoiceProduct(this, ${index})"
+            >
+
+            <button
+                type="button"
+                class="invoice-product-remove"
+                onclick="removeInvoiceProduct(${index})"
+                title="Remove product"
+            >
+                ✕
+            </button>
+
+        </div>
+
+        <div
+            class="invoice-product-results"
+            id="invoiceProductResults-${index}"
+        ></div>
+
+        <div class="invoice-product-meta">
+            SKU: ${item.barcode || item.sku || "-"}
+        </div>
+
     </div>
 
 </td>
