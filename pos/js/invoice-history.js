@@ -3385,30 +3385,30 @@ function renderInvoiceEditRows(){
 
 }
 
-function removeInvoiceProduct(index){
+function clearInvoiceProductSearch(index){
 
-    if(!currentViewBill){
-        return;
+    const inputs =
+        document.querySelectorAll(
+            ".invoice-product-search-input"
+        );
+
+    const currentInput =
+        inputs[index];
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
+
+    if(currentInput){
+        currentInput.value = "";
+        currentInput.focus();
     }
 
-
-    if(
-        !Array.isArray(
-            currentViewBill.items
-        )
-    ){
-        return;
+    if(results){
+        results.innerHTML = "";
+        results.style.display = "none";
     }
-
-
-    currentViewBill.items.splice(
-        index,
-        1
-    );
-
-
-    renderInvoiceEditRows();
-
 }
 /* ================= START ================= */
 loadBills();
