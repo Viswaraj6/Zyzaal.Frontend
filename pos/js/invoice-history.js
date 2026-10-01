@@ -3472,7 +3472,18 @@ function clearInvoiceProductSearch(index){
         );
 
     if(currentInput){
+
         currentInput.value = "";
+
+        const clearButton =
+            currentInput
+                .closest(".customer-search-input")
+                ?.querySelector(".invoice-product-remove");
+
+        if(clearButton){
+            clearButton.style.display = "none";
+        }
+
         currentInput.focus();
     }
 
