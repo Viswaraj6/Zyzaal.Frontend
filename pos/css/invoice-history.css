@@ -1529,6 +1529,29 @@ body:has(#invoiceViewModal:not(.hidden)){
 .customer-no-result button:hover{
     background:#14866d;
 }
+
+/* PRODUCT SEARCH CLEAR */
+.product-search-clear{
+    border:none;
+    background:transparent;
+
+    width:auto;
+    height:auto;
+
+    padding:0;
+    margin-left:auto;
+
+    font-size:18px;
+    line-height:1;
+
+    color:#777;
+    cursor:pointer;
+}
+
+.product-search-clear:hover{
+    color:#222;
+}
+
 /* ================= SAVE BUTTON LOADING ================= */
 
 .invoice-save-btn.saving{
