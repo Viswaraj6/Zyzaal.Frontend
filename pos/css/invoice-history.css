@@ -718,12 +718,14 @@ body:has(#invoiceViewModal:not(.hidden)){
 
 .invoice-items-wrapper{
     border:1px solid #e5e5e5;
-
     border-radius:10px;
 
-    overflow:auto;
+    overflow:visible;
 
     margin-bottom:20px;
+
+    position:relative;
+    z-index:20;
 }
 
 .invoice-items-wrapper table{
