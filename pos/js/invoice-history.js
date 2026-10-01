@@ -2158,6 +2158,194 @@ function selectInvoiceProduct(product){
     );
 }
 
+function renderInvoiceItemsForEdit(){
+
+    if(!currentViewBill){
+        return;
+    }
+
+    const itemsContainer =
+        document.getElementById("viewItems");
+
+    if(!itemsContainer){
+        return;
+    }
+
+    itemsContainer.innerHTML = "";
+
+    let subTotal = 0;
+    let totalQty = 0;
+
+    (currentViewBill.items || []).forEach(
+        (item, index) => {
+
+            const qty =
+                Number(item.qty || 0);
+
+            const rate =
+                Number(item.price || 0);
+
+            const amount =
+                qty * rate;
+
+            subTotal += amount;
+            totalQty += qty;
+
+            const row =
+                document.createElement("tr");
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td class="invoice-product-cell">
+
+                    <div class="invoice-product-name">
+
+                        <span>
+                            ${item.product || "-"}
+                        </span>
+
+                        <button
+                            type="button"
+                            class="invoice-product-remove"
+                            onclick="removeInvoiceProduct(${index})"
+                            style="display:inline-flex !important;"
+                        >
+                            ✕
+                        </button>
+
+                    </div>
+
+                    <div class="invoice-product-meta">
+                        SKU:
+                        ${item.barcode || item.sku || "-"}
+                    </div>
+
+                </td>
+
+                <td>
+                    ${item.size || "-"}
+                </td>
+
+                <td>
+                    ${qty}
+                </td>
+
+                <td>
+                    ₹${rate.toFixed(2)}
+                </td>
+
+                <td>
+                    ₹${amount.toFixed(2)}
+                </td>
+
+            `;
+
+            itemsContainer.appendChild(row);
+
+        }
+    );
+
+    /*
+     * Update subtotal
+     */
+
+    const discount =
+        Number(currentViewBill.discount || 0);
+
+    const taxable =
+        Math.max(
+            0,
+            subTotal - discount
+        );
+
+    const cgst =
+        Number(
+            currentViewBill.cgst ||
+            currentViewBill.tax / 2 ||
+            0
+        );
+
+    const sgst =
+        Number(
+            currentViewBill.sgst ||
+            currentViewBill.tax / 2 ||
+            0
+        );
+
+    const roundOff =
+        Number(
+            currentViewBill.roundOff || 0
+        );
+
+    const grandTotal =
+        taxable +
+        cgst +
+        sgst +
+        roundOff;
+
+    currentViewBill.total =
+        subTotal;
+
+    currentViewBill.grandTotal =
+        grandTotal;
+
+    currentViewBill.cgst =
+        cgst;
+
+    currentViewBill.sgst =
+        sgst;
+
+    if(
+        document.getElementById("viewSubTotal")
+    ){
+        document.getElementById(
+            "viewSubTotal"
+        ).innerText =
+            "₹" + subTotal.toFixed(2);
+    }
+
+    if(
+        document.getElementById("viewTaxable")
+    ){
+        document.getElementById(
+            "viewTaxable"
+        ).innerText =
+            "₹" + taxable.toFixed(2);
+    }
+
+    if(
+        document.getElementById("viewCGST")
+    ){
+        document.getElementById(
+            "viewCGST"
+        ).innerText =
+            "₹" + cgst.toFixed(2);
+    }
+
+    if(
+        document.getElementById("viewSGST")
+    ){
+        document.getElementById(
+            "viewSGST"
+        ).innerText =
+            "₹" + sgst.toFixed(2);
+    }
+
+    if(
+        document.getElementById("viewGrandTotal")
+    ){
+        document.getElementById(
+            "viewGrandTotal"
+        ).innerText =
+            "₹" + grandTotal.toFixed(2);
+    }
+
+}
+
 function clearInvoiceCustomerSearch(){
 
     const input =
