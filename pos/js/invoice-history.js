@@ -2225,56 +2225,54 @@ function renderInvoiceItemsForEdit(){
             const row =
                 document.createElement("tr");
 
-            row.innerHTML = `
+           row.innerHTML = `
 
-                <td>
-                    ${index + 1}
-                </td>
+    <td>
+        ${index + 1}
+    </td>
 
-                <td class="invoice-product-cell">
+    <td class="invoice-product-cell">
 
-                    <div class="invoice-product-name">
+        <div class="invoice-product-name">
 
-                        <span>
-                            ${item.product || "-"}
-                        </span>
+            <span>
+                ${item.product || "-"}
+            </span>
 
-                        <button
-                            type="button"
-                            class="invoice-product-remove"
-                           onclick="clearInvoiceProductSearch(${index})"
-                            style="display:inline-flex !important;"
-                        >
-                            ✕
-                        </button>
+            <button
+                type="button"
+                class="invoice-product-remove"
+                onclick="clearInvoiceProductSearch(${index})"
+                style="display:inline-flex !important;"
+            >
+                ✕
+            </button>
 
-                    </div>
+        </div>
 
-                    <div class="invoice-product-meta">
-                        SKU:
-                        ${item.barcode || item.sku || "-"}
-                    </div>
+    </td>
 
-                </td>
+    <td>
+        ${item.barcode || "-"}
+    </td>
 
-                <td>
-                    ${item.size || "-"}
-                </td>
+    <td>
+        ${item.size || "-"}
+    </td>
 
-                <td>
-                    ${qty}
-                </td>
+    <td>
+        ${qty}
+    </td>
 
-                <td>
-                    ₹${rate.toFixed(2)}
-                </td>
+    <td>
+        ₹${rate.toFixed(2)}
+    </td>
 
-                <td>
-                    ₹${amount.toFixed(2)}
-                </td>
+    <td>
+        ₹${amount.toFixed(2)}
+    </td>
 
-            `;
-
+`;
             itemsContainer.appendChild(row);
 
         }
