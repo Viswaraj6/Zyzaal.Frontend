@@ -2547,7 +2547,208 @@ function clearInvoiceProductSearch(){
     }
 
 }
+function selectInvoiceProduct(product, index){
 
+    if(!product || !currentViewBill){
+        return;
+    }
+
+
+    const oldItem =
+        currentViewBill.items[index];
+
+    if(!oldItem){
+        return;
+    }
+
+
+    /*
+     * Existing quantity keep
+     */
+
+    const qty =
+        Number(oldItem.qty || 1);
+
+
+    /*
+     * Find matching variant
+     *
+     * First try same colour.
+     */
+
+    let variant = null;
+
+    const variants =
+        Array.isArray(product.variants)
+            ? product.variants
+            : [];
+
+
+    if(oldItem.colour && variants.length){
+
+        variant =
+            variants.find(v =>
+
+                String(
+                    v.colour ||
+                    v.color ||
+                    v.colorName ||
+                    ""
+                )
+                .trim()
+                .toLowerCase()
+
+                ===
+
+                String(oldItem.colour)
+                    .trim()
+                    .toLowerCase()
+
+            );
+
+    }
+
+
+    /*
+     * If same colour not found,
+     * use first variant.
+     */
+
+    if(!variant && variants.length){
+
+        variant = variants[0];
+
+    }
+
+
+    /*
+     * Product data
+     */
+
+    const size =
+        variant?.size ||
+        "Free Size";
+
+
+    const sku =
+        variant?.sku ||
+        "";
+
+
+    const barcode =
+        variant?.barcode ||
+        variant?.sku ||
+        "";
+
+
+    const colour =
+        variant?.colour ||
+        variant?.color ||
+        variant?.colorName ||
+        oldItem.colour ||
+        "";
+
+
+    const price =
+        Number(
+            variant?.sellingPrice ??
+            product.price ??
+            0
+        );
+
+
+    /*
+     * Replace current item
+     */
+
+    currentViewBill.items[index] = {
+
+        ...oldItem,
+
+        productId:
+            product._id,
+
+        brandId:
+            product.brandId ||
+            oldItem.brandId,
+
+        product:
+            product.name || "",
+
+        category:
+            product.category ||
+            oldItem.category ||
+            "",
+
+        styleNo:
+            product.styleNo ||
+            oldItem.styleNo ||
+            "",
+
+        barcode:
+            barcode,
+
+        sku:
+            sku,
+
+        variantId:
+            variant?._id ||
+            null,
+
+        colour:
+            colour,
+
+        size:
+            size,
+
+        price:
+            price,
+
+        qty:
+            qty,
+
+        amount:
+            qty * price,
+
+        purchaseRate:
+            variant?.purchaseRate ??
+            oldItem.purchaseRate ??
+            0,
+
+        hsnCode:
+            product.hsnCode ||
+            oldItem.hsnCode ||
+            ""
+
+    };
+
+
+    /*
+     * Close this row's dropdown
+     */
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
+
+    if(results){
+
+        results.innerHTML = "";
+
+        results.style.display =
+            "none";
+
+    }
+
+
+    /*
+     * Re-render invoice
+     */
+
+    renderInvoiceEditRows();
+
+}
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
