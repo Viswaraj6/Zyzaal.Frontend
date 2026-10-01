@@ -2980,6 +2980,31 @@ function renderInvoiceEditRows(){
 
 }
 
+function removeInvoiceProduct(index){
+
+    if(!currentViewBill){
+        return;
+    }
+
+
+    if(
+        !Array.isArray(
+            currentViewBill.items
+        )
+    ){
+        return;
+    }
+
+
+    currentViewBill.items.splice(
+        index,
+        1
+    );
+
+
+    renderInvoiceEditRows();
+
+}
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
