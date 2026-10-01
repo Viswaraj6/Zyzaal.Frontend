@@ -1322,14 +1322,15 @@ if (balanceEl)
 "
             >
 
-            <button
-                type="button"
-                class="invoice-product-remove"
-                onclick="clearInvoiceProductSearch(${index})"
-                title="Remove product"
-            >
-                ✕
-            </button>
+           <button
+    type="button"
+    class="invoice-product-remove"
+    onclick="clearInvoiceProductSearch(${index})"
+    title="Remove product"
+    style="${item.product ? 'display:inline-flex;' : 'display:none;'}"
+>
+    ✕
+</button>
 
         </div>
 
