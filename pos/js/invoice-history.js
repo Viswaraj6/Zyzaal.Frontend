@@ -1324,7 +1324,7 @@ if (balanceEl)
             <button
                 type="button"
                 class="invoice-product-remove"
-                onclick="removeInvoiceProduct(${index})"
+                onclick="clearInvoiceProductSearch(${index})"
                 title="Remove product"
             >
                 ✕
@@ -2242,7 +2242,7 @@ function renderInvoiceItemsForEdit(){
                         <button
                             type="button"
                             class="invoice-product-remove"
-                            onclick="removeInvoiceProduct(${index})"
+                           onclick="clearInvoiceProductSearch(${index})"
                             style="display:inline-flex !important;"
                         >
                             ✕
