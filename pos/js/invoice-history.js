@@ -3195,116 +3195,95 @@ function renderInvoiceEditRows(){
                 document.createElement("tr");
 
 
-            row.innerHTML = `
+           row.innerHTML = `
 
-                <td>
-                    ${index + 1}
-                </td>
+    <td>
+        ${index + 1}
+    </td>
 
+    <!-- PRODUCT -->
+    <td class="invoice-product-cell">
 
-                <td class="invoice-product-cell">
+        <div
+            class="invoice-product-edit"
+            style="display:flex;"
+        >
 
-                    <div
-                        class="invoice-product-view"
-                        style="display:none;"
-                    >
+            <div class="customer-search-input">
 
-                        <div
-                            class="invoice-product-name"
-                        >
-                            <span>
-                                ${item.product || "-"}
-                            </span>
-                        </div>
+                <input
+                    type="text"
+                    class="invoice-product-search-input"
+                    value="${item.product || ""}"
+                    placeholder="Search product / SKU / Style No"
+                    autocomplete="off"
 
-                        <div
-                            class="invoice-product-meta"
-                        >
-                            SKU:
-                            ${item.barcode || item.sku || "-"}
-                        </div>
+                    oninput="
+                        searchInvoiceProduct(
+                            this,
+                            ${index}
+                        )
+                    "
+                >
 
-                    </div>
+                <button
+                    type="button"
+                    class="invoice-product-remove"
 
+                    onclick="
+                        removeInvoiceProduct(
+                            ${index}
+                        )
+                    "
 
-                    <div
-                        class="invoice-product-edit"
-                        style="display:flex;"
-                    >
+                    title="Remove product"
+                >
+                    ✕
+                </button>
 
-                        <div
-                            class="customer-search-input"
-                        >
-
-                            <input
-                                type="text"
-                                class="invoice-product-search-input"
-                                value="${item.product || ""}"
-                                placeholder="Search product / SKU / Style No"
-                                autocomplete="off"
-                                oninput="
-                                    searchInvoiceProduct(
-                                        this,
-                                        ${index}
-                                    )
-                                "
-                            >
-
-                            <button
-                                type="button"
-                                class="invoice-product-remove"
-                                onclick="
-                                    removeInvoiceProduct(
-                                        ${index}
-                                    )
-                                "
-                                title="Remove product"
-                            >
-                                ✕
-                            </button>
-
-                        </div>
+            </div>
 
 
-                        <div
-                            class="invoice-product-results"
-                            id="invoiceProductResults-${index}"
-                        ></div>
+            <div
+                class="invoice-product-results"
+                id="invoiceProductResults-${index}"
+            ></div>
+
+        </div>
+
+    </td>
 
 
-                        <div
-                            class="invoice-product-meta"
-                        >
-                            SKU:
-                            ${item.barcode || item.sku || "-"}
-                        </div>
-
-                    </div>
-
-                </td>
+    <!-- BARCODE -->
+    <td>
+        ${item.barcode || "-"}
+    </td>
 
 
-                <td>
-                    ${item.size || "-"}
-                </td>
+    <!-- SIZE -->
+    <td>
+        ${item.size || "-"}
+    </td>
 
 
-                <td>
-                    ${qty}
-                </td>
+    <!-- QTY -->
+    <td>
+        ${qty}
+    </td>
 
 
-                <td>
-                    ₹${rate.toFixed(2)}
-                </td>
+    <!-- RATE -->
+    <td>
+        ₹${rate.toFixed(2)}
+    </td>
 
 
-                <td>
-                    ₹${amount.toFixed(2)}
-                </td>
+    <!-- AMOUNT -->
+    <td>
+        ₹${amount.toFixed(2)}
+    </td>
 
-            `;
-
+`;
 
             itemsContainer.appendChild(row);
 
