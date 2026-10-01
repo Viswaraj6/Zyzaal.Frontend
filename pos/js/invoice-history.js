@@ -2714,6 +2714,447 @@ function selectInvoiceProduct(product, index){
 
 }
 
+function isInvoiceSareeProduct(product){
+
+    const category =
+        String(
+            product.category || ""
+        ).toLowerCase();
+
+    const name =
+        String(
+            product.name || ""
+        ).toLowerCase();
+
+    return (
+        category.includes("saree") ||
+        category.includes("sari") ||
+        name.includes("saree") ||
+        name.includes("sari")
+    );
+}
+
+function showInvoiceColourOptions(
+    options,
+    index
+){
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
+
+    if(!results){
+        return;
+    }
+
+    results.innerHTML = `
+        <div class="invoice-variant-title">
+            Select Colour
+        </div>
+    `;
+
+    options.forEach((option, colourIndex) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "invoice-product-search-item";
+
+        div.innerHTML = `
+
+            <div>
+                <strong>
+                    ${option.colour}
+                </strong>
+
+                <small>
+                    Stock: ${option.stock}
+                    &nbsp; | &nbsp;
+                    ₹${option.price}
+                </small>
+            </div>
+
+        `;
+
+        div.onclick = function(){
+
+            /*
+             * Saree = Colour + Free Size
+             */
+
+            applyInvoiceProductVariant(
+                option.product,
+                option.variant,
+                index
+            );
+
+        };
+
+        results.appendChild(div);
+
+    });
+
+    results.style.display = "block";
+}
+
+function showInvoiceProductColourOptions(
+    product,
+    index
+){
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
+
+    if(!results){
+        return;
+    }
+
+    const colourMap =
+        new Map();
+
+
+    product.variants.forEach(
+        variant => {
+
+            const colour =
+                variant.colour ||
+                variant.color ||
+                variant.colorName ||
+                "Default";
+
+            const key =
+                String(colour)
+                    .trim()
+                    .toLowerCase();
+
+            if(!colourMap.has(key)){
+
+                colourMap.set(
+                    key,
+                    colour
+                );
+
+            }
+
+        }
+    );
+
+
+    results.innerHTML = `
+        <div class="invoice-variant-title">
+            Select Colour
+        </div>
+    `;
+
+
+    Array.from(
+        colourMap.entries()
+    ).forEach(
+        ([key, colour]) => {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "invoice-product-search-item";
+
+            div.innerHTML = `
+                <strong>
+                    ${colour}
+                </strong>
+            `;
+
+
+            div.onclick = function(){
+
+                showInvoiceSizeOptions(
+                    product,
+                    colour,
+                    index
+                );
+
+            };
+
+
+            results.appendChild(div);
+
+        }
+    );
+
+
+    results.style.display = "block";
+}
+
+function showInvoiceSizeOptions(
+    product,
+    colour,
+    index
+){
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
+
+    if(!results){
+        return;
+    }
+
+
+    const selectedColour =
+        String(colour)
+            .trim()
+            .toLowerCase();
+
+
+    const variants =
+        product.variants.filter(
+            variant => {
+
+                const variantColour =
+                    variant.colour ||
+                    variant.color ||
+                    variant.colorName ||
+                    "Default";
+
+                return (
+                    String(variantColour)
+                        .trim()
+                        .toLowerCase()
+                    ===
+                    selectedColour
+                );
+
+            }
+        );
+
+
+    results.innerHTML = `
+
+        <div class="invoice-variant-title">
+            ${colour} - Select Size
+        </div>
+
+    `;
+
+
+    variants.forEach(
+        (variant, sizeIndex) => {
+
+            const size =
+                variant.size ||
+                "Free Size";
+
+            const stock =
+                variant.openingStock ??
+                variant.stock ??
+                0;
+
+            const price =
+                variant.sellingPrice ??
+                product.price ??
+                0;
+
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "invoice-product-search-item";
+
+
+            div.innerHTML = `
+
+                <div>
+
+                    <strong>
+                        ${size}
+                    </strong>
+
+                    <small>
+                        Stock: ${stock}
+                        &nbsp; | &nbsp;
+                        ₹${price}
+                    </small>
+
+                </div>
+
+            `;
+
+
+            div.onclick = function(){
+
+                applyInvoiceProductVariant(
+                    product,
+                    variant,
+                    index
+                );
+
+            };
+
+
+            results.appendChild(div);
+
+        }
+    );
+
+
+    results.style.display = "block";
+}
+
+function applyInvoiceProductVariant(
+    product,
+    variant,
+    index
+){
+
+    if(!currentViewBill){
+        return;
+    }
+
+
+    const oldItem =
+        currentViewBill.items[index];
+
+
+    if(!oldItem){
+        return;
+    }
+
+
+    const qty =
+        Number(
+            oldItem.qty || 1
+        );
+
+
+    const colour =
+        variant?.colour ||
+        variant?.color ||
+        variant?.colorName ||
+        oldItem.colour ||
+        "";
+
+
+    const size =
+        variant?.size ||
+        "Free Size";
+
+
+    const sku =
+        variant?.sku ||
+        product.sku ||
+        "";
+
+
+    const barcode =
+        variant?.barcode ||
+        variant?.sku ||
+        product.barcode ||
+        "";
+
+
+    const price =
+        Number(
+            variant?.sellingPrice ??
+            product.price ??
+            0
+        );
+
+
+    currentViewBill.items[index] = {
+
+        ...oldItem,
+
+        productId:
+            product._id,
+
+        brandId:
+            product.brandId ||
+            oldItem.brandId,
+
+        product:
+            product.name || "",
+
+        category:
+            product.category ||
+            oldItem.category ||
+            "",
+
+        styleNo:
+            product.styleNo ||
+            oldItem.styleNo ||
+            "",
+
+        barcode:
+            barcode,
+
+        sku:
+            sku,
+
+        variantId:
+            variant?._id ||
+            null,
+
+        colour:
+            colour,
+
+        size:
+            size,
+
+        price:
+            price,
+
+        qty:
+            qty,
+
+        amount:
+            qty * price,
+
+        purchaseRate:
+            variant?.purchaseRate ??
+            oldItem.purchaseRate ??
+            0,
+
+        hsnCode:
+            product.hsnCode ||
+            oldItem.hsnCode ||
+            ""
+
+    };
+
+
+    /*
+     * Close dropdown
+     */
+
+    const results =
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
+
+    if(results){
+
+        results.innerHTML = "";
+
+        results.style.display =
+            "none";
+
+    }
+
+
+    /*
+     * Re-render
+     */
+
+    renderInvoiceEditRows();
+
+}
+
 function renderInvoiceEditRows(){
 
     if(!currentViewBill){
