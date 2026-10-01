@@ -127,16 +127,30 @@ async function loadProductsForInvoiceEdit(){
 
     try{
 
-        const res =
-            await fetch(
-                BASE_URL + "/products"
-            );
+        const brandId =
+            currentViewBill?.brandId ||
+            localStorage.getItem("posBrandId") ||
+            "ZYZAAL";
 
-        const data =
-            await res.json();
+        const res = await fetch(
+            BASE_URL +
+            "/products?brandId=" +
+            encodeURIComponent(brandId)
+        );
+
+        const data = await res.json();
+
+        if(!res.ok){
+            throw new Error(
+                data.message ||
+                "Products loading failed"
+            );
+        }
 
         allProducts =
-            data.products || [];
+            Array.isArray(data)
+                ? data
+                : data.products || [];
 
         console.log(
             "PRODUCTS:",
@@ -151,9 +165,12 @@ async function loadProductsForInvoiceEdit(){
             err
         );
 
+        allProducts = [];
+
     }
 
 }
+
 async function loadCustomersForEdit(){
 
     try{
