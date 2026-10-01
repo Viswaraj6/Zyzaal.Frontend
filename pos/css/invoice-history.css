@@ -1552,6 +1552,209 @@ body:has(#invoiceViewModal:not(.hidden)){
     color:#222;
 }
 
+/* ================= INVOICE PRODUCT DROPDOWN ================= */
+
+.invoice-product-edit{
+    position:relative;
+    width:100%;
+}
+
+.invoice-product-edit
+.customer-search-input{
+    position:relative;
+    width:100%;
+}
+
+
+.invoice-product-search-input{
+    width:100%;
+    height:40px;
+
+    padding:0 42px 0 14px;
+
+    border:1px solid #d8d8d8;
+    border-radius:8px;
+
+    font-size:14px;
+
+    outline:none;
+    background:#fff;
+
+    box-sizing:border-box;
+}
+
+
+.invoice-product-search-input:focus{
+    border-color:#00a99d;
+    box-shadow:
+        0 0 0 2px
+        rgba(0,169,157,.10);
+}
+
+
+/* X button */
+
+.invoice-product-remove{
+    position:absolute;
+
+    right:7px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:28px;
+    height:28px;
+
+    padding:0;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid #aaa;
+    border-radius:5px;
+
+    background:#fff;
+
+    color:#555;
+
+    font-size:16px;
+    line-height:1;
+
+    cursor:pointer;
+
+    z-index:2;
+}
+
+.invoice-product-remove:hover{
+    background:#f5f5f5;
+    color:#222;
+}
+
+
+/* ================= DROPDOWN ================= */
+
+.invoice-product-results{
+
+    position:absolute;
+
+    top:44px;
+    left:0;
+    right:0;
+
+    width:100%;
+
+    max-height:220px;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border:1px solid #d8d8d8;
+
+    border-radius:8px;
+
+    box-shadow:
+        0 6px 18px
+        rgba(0,0,0,.12);
+
+    z-index:1000;
+
+    box-sizing:border-box;
+}
+
+
+/* Individual option */
+
+.invoice-product-search-item{
+
+    padding:10px 14px;
+
+    min-height:42px;
+
+    display:flex;
+    align-items:center;
+
+    border-bottom:1px solid #f0f0f0;
+
+    background:#fff;
+
+    cursor:pointer;
+
+    box-sizing:border-box;
+}
+
+.invoice-product-search-item:last-child{
+    border-bottom:none;
+}
+
+
+.invoice-product-search-item:hover{
+    background:#f6fbfa;
+}
+
+
+/* Product name / colour / size */
+
+.invoice-product-search-item strong{
+    display:block;
+
+    font-size:14px;
+    font-weight:500;
+
+    color:#222;
+}
+
+
+/* Stock + price */
+
+.invoice-product-search-item small{
+
+    display:block;
+
+    margin-top:3px;
+
+    font-size:12px;
+
+    color:#777;
+}
+
+
+/* Dropdown heading */
+
+.invoice-variant-title{
+
+    padding:9px 14px;
+
+    font-size:12px;
+    font-weight:600;
+
+    color:#777;
+
+    background:#f7f7f7;
+
+    border-bottom:1px solid #e5e5e5;
+
+    position:sticky;
+    top:0;
+
+    z-index:1;
+}
+
+
+/* No result */
+
+.invoice-product-no-result{
+
+    padding:14px;
+
+    text-align:center;
+
+    font-size:13px;
+
+    color:#888;
+}
+
 /* ================= SAVE BUTTON LOADING ================= */
 
 .invoice-save-btn.saving{
