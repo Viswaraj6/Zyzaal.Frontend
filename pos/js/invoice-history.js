@@ -2549,6 +2549,22 @@ function clearInvoiceProductSearch(){
     }
 
 }
+
+function toggleInvoiceProductClear(input) {
+
+    const button =
+        input
+            .closest(".customer-search-input")
+            ?.querySelector(".invoice-product-remove");
+
+    if (!button) return;
+
+    button.style.display =
+        input.value.trim()
+            ? "inline-flex"
+            : "none";
+}
+
 function selectInvoiceProduct(product, index){
 
     if(!product || !currentViewBill){
