@@ -2071,185 +2071,122 @@ function showInvoiceUpdateToast(){
 
         }, 3000);
 }
-function selectInvoiceProduct(product){
+function searchInvoiceProduct(input, index){
 
-    if(!product || !currentViewBill){
-        return;
-    }
-
-    console.log("Selected Product:", product);
-
-    const searchInput =
-        document.getElementById("invoiceProductSearch");
+    const search =
+        input.value
+            .trim()
+            .toLowerCase();
 
     const results =
-        document.getElementById("invoiceProductResults");
+        document.getElementById(
+            "invoiceProductResults-" + index
+        );
 
-    if(searchInput){
-        searchInput.value = "";
-    }
-
-    if(results){
-        results.style.display = "none";
-        results.innerHTML = "";
-    }
-
-    /*
-     * Current invoice-ல் எந்த product-ஐ மாற்ற வேண்டும்?
-     *
-     * Search select பண்ணும்போது:
-     * - last product row-ஐ replace செய்வோம்
-     *
-     * இதனால் existing product remove ஆகி
-     * புதிய product அதே row-ல் வரும்.
-     */
-
-    const items = currentViewBill.items || [];
-
-    if(items.length === 0){
+    if(!results){
         return;
     }
 
-    const index = items.length - 1;
+    results.innerHTML = "";
 
-    const oldItem = items[index];
+    if(!search){
 
-    /*
-     * ZYZAAL variant
-     *
-     * Product-ல் variants இருந்தால்
-     * first available variant-ஐ automatic-ஆக use செய்கிறோம்.
-     *
-     * அடுத்த step-ல் colour/size selection
-     * வேண்டுமென்றால் இதை expand பண்ணலாம்.
-     */
+        results.style.display = "none";
 
-    const variants =
-        Array.isArray(product.variants)
-            ? product.variants
-            : [];
+        return;
+    }
 
-    const variant =
-        variants.length > 0
-            ? variants[0]
-            : null;
 
-    const newSize =
-        variant?.size ||
-        product.size ||
-        oldItem?.size ||
-        "";
+    const matches =
+        allProducts
+            .filter(product => {
 
-    const newSku =
-        variant?.sku ||
-        product.sku ||
-        "";
+                const name =
+                    String(
+                        product.name || ""
+                    ).toLowerCase();
 
-    const newBarcode =
-        variant?.barcode ||
-        variant?.sku ||
-        product.barcode ||
-        newSku ||
-        "";
+                const styleNo =
+                    String(
+                        product.styleNo ||
+                        product.styleNumber ||
+                        ""
+                    ).toLowerCase();
 
-    const newColour =
-        variant?.colour ||
-        variant?.color ||
-        product.colour ||
-        product.color ||
-        oldItem?.colour ||
-        "";
+                const sku =
+                    String(
+                        product.sku || ""
+                    ).toLowerCase();
 
-    const newPrice =
-        Number(
-            variant?.sellingPrice ??
-            product.price ??
-            0
-        );
+                const barcode =
+                    String(
+                        product.barcode || ""
+                    ).toLowerCase();
 
-    /*
-     * Qty existing quantity-ஆகவே இருக்கும்.
-     */
+                return (
+                    name.includes(search) ||
+                    styleNo.includes(search) ||
+                    sku.includes(search) ||
+                    barcode.includes(search)
+                );
 
-    const qty =
-        Number(oldItem?.qty || 1);
+            })
+            .slice(0, 8);
 
-    /*
-     * Replace product data
-     */
 
-    currentViewBill.items[index] = {
+    if(matches.length === 0){
 
-        ...oldItem,
+        results.innerHTML = `
+            <div class="invoice-product-no-result">
+                No product found
+            </div>
+        `;
 
-        productId:
-            product._id,
+        results.style.display = "block";
 
-        brandId:
-            product.brandId ||
-            oldItem?.brandId,
+        return;
+    }
 
-        product:
-            product.name || "",
 
-        category:
-            product.category ||
-            oldItem?.category ||
-            "",
+    matches.forEach(product => {
 
-        styleNo:
-            product.styleNo ||
-            oldItem?.styleNo ||
-            "",
+        const div =
+            document.createElement("div");
 
-        barcode:
-            newBarcode,
+        div.className =
+            "invoice-product-search-item";
 
-        sku:
-            newSku,
+        div.innerHTML = `
 
-        variantId:
-            variant?._id ||
-            null,
+            <div>
+                <strong>
+                    ${product.name || "-"}
+                </strong>
 
-        colour:
-            newColour,
+                <small>
+                    Style:
+                    ${product.styleNo || "-"}
+                </small>
+            </div>
 
-        size:
-            newSize,
+        `;
 
-        price:
-            newPrice,
+        div.onclick = function(){
 
-        qty:
+            selectInvoiceProduct(
+                product,
+                index
+            );
 
-            qty,
+        };
 
-        amount:
-            qty * newPrice,
+        results.appendChild(div);
 
-        purchaseRate:
-            variant?.purchaseRate ??
-            oldItem?.purchaseRate ??
-            0,
+    });
 
-        hsnCode:
-            product.hsnCode ||
-            oldItem?.hsnCode ||
-            ""
 
-    };
+    results.style.display = "block";
 
-    /*
-     * Re-render invoice
-     */
-
-    renderInvoiceItemsForEdit();
-
-    console.log(
-        "Invoice Product Updated:",
-        currentViewBill.items[index]
-    );
 }
 
 function renderInvoiceItemsForEdit(){
