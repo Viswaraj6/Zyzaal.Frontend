@@ -1316,7 +1316,10 @@ if (balanceEl)
                 value="${item.product || ""}"
                 placeholder="Search product / SKU / Style No"
                 autocomplete="off"
-                oninput="searchInvoiceProduct(this, ${index})"
+                oninput="
+    searchInvoiceProduct(this, ${index});
+    toggleInvoiceProductClear(this);
+"
             >
 
             <button
