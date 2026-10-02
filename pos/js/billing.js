@@ -2584,12 +2584,16 @@ grandTotal:
 
         const data = await res.json();
 
-        if (!data.success) {
+      if (!data.success) {
 
-            alert("Bill Save Failed");
-            return;
+    if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save Bill";
+    }
 
-        }
+    alert("Bill Save Failed");
+    return;
+}
 
        document.getElementById("savedBillNo").innerText =
     data.billNo;
