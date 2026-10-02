@@ -1685,8 +1685,7 @@ document.getElementById("custAddress").value = "";
 }
 function selectCustomer(customer) {
 
-    // Selected customer மட்டும் update ஆகும்
-    // Existing cart products delete ஆகாது
+    // Customer மட்டும் update
     selectedCustomer = customer;
 
     localStorage.setItem(
@@ -1694,26 +1693,50 @@ function selectCustomer(customer) {
         JSON.stringify(customer)
     );
 
+    // Desktop customer name
     document.getElementById("customerSearch").value =
         `${customer.name} (${customer.mobile})`;
 
+    // Customer actions
     document
         .getElementById("customerActions")
         .classList.remove("hidden");
 
+    // Close customer dropdown
     document
         .getElementById("customerDropdown")
         .classList.add("hidden");
 
-    // Existing selected products / cart preserve ஆகும்
-    renderCart();
+    // Mobile customer card update
+    document.getElementById("selectedCustomerName").innerText =
+        customer.name;
 
-    // Total refresh
-    calculateTotal();
+    document.getElementById("selectedCustomerMobile").innerText =
+        customer.mobile;
 
-    // Scan summary refresh
+    const box =
+        document.getElementById("selectedCustomerBox");
+
+    // Mobile மட்டும் customer card show
+    if (window.innerWidth <= 800) {
+
+        box.classList.remove("hidden");
+        box.classList.add("show");
+
+        document.querySelector(".customer-btn").style.display =
+            "none";
+
+    } else {
+
+        box.classList.add("hidden");
+    }
+
+    // Cart-ஐ render பண்ண வேண்டாம்
+    // Existing products அப்படியே இருக்கும்
+
     updateGoCartBar();
 }
+
 function openCheckout() {
 
     if (cart.length === 0) {
