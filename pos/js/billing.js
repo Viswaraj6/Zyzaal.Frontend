@@ -2514,6 +2514,15 @@ function editCashPayment(){
 }
 async function saveBill() {
 
+    const saveBtn = document.getElementById("cashResult");
+
+if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `
+        <span class="save-spinner"></span>
+        Saving...
+    `;
+}
     const bill = {
   brandId: currentBrandId,
         customer: selectedCustomer || null,
