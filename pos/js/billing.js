@@ -1734,7 +1734,7 @@ function selectCustomer(customer) {
     // Cart-ஐ render பண்ண வேண்டாம்
     // Existing products அப்படியே இருக்கும்
 
-    updateGoCartBar();
+    
 }
 
 function openCheckout() {
