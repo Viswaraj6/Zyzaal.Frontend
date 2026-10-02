@@ -11,6 +11,126 @@
 
 <link rel="stylesheet" href="css/billing.css">
 
+
+<style>
+/* ===== Mobile billing screen redesign ===== */
+.mobile-customer-bar{display:none;}
+@media (max-width:800px){
+  .mobile-customer-bar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:6px 8px 8px;
+    padding:10px 14px;
+    min-height:64px;
+    border:1px solid #d7eee8;
+    border-radius:18px;
+    background:linear-gradient(90deg,#effaf7,#e8f7f4);
+    box-sizing:border-box;
+    cursor:pointer;
+  }
+  .mobile-customer-icon{
+    width:48px;height:48px;min-width:48px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:#0f9f86;color:#fff;font-size:27px;font-weight:700;
+  }
+  .mobile-customer-text{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px;}
+  .mobile-customer-text strong{font-size:17px;color:#0c8d77;line-height:1.15;}
+  .mobile-customer-text span{font-size:13px;color:#777;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mobile-customer-chevron{font-size:34px;line-height:1;color:#118b76;padding-left:4px;}
+
+  /* Don't show the old compact + customer button on mobile */
+  .customer-btn{display:none !important;}
+  #selectedCustomerBox{display:none !important;}
+
+  /* Cart table/card */
+  .cart-header,.cart-item{
+    grid-template-columns:32px minmax(150px,1fr) 48px 92px 70px 78px 44px !important;
+  }
+  .cart-header{font-size:12px !important;}
+  .cart-header > div:last-child{font-size:0;}
+  .cart-header > div:last-child::after{content:'';}
+  .cart-item{font-size:13px !important;min-height:74px;}
+  .cart-item > div:nth-child(2) strong{font-size:16px;line-height:1.1;}
+  .cart-item > div:nth-child(2) small{font-size:11px;color:#8b8b8b;}
+  .cart-item > div:nth-child(4){display:flex;align-items:center;justify-content:center;gap:5px;}
+  .cart-item > div:nth-child(4) button{
+    width:32px;height:32px;border-radius:9px;border:1px solid #d9eee9;
+    background:#eff9f6;color:#078f78;font-size:20px;line-height:1;
+  }
+  .cart-item > div:last-child{display:flex;align-items:center;justify-content:center;gap:7px;}
+  .cart-item > div:last-child button{
+    width:38px;height:38px;border:0;border-radius:10px;
+    background:#ffe0e0;color:#e84b4b;font-size:18px;line-height:1;
+  }
+  .cart-item > div:last-child::after{
+    content:'›';
+    width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    background:#f1f3f3;color:#222;font-size:30px;line-height:1;
+  }
+
+  /* Bottom summary */
+  .cart-footer{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto 42px !important;
+    gap:6px !important;padding:10px 8px !important;min-height:62px;
+    border-radius:16px 16px 0 0;
+  }
+  .footer-stat{gap:4px;}
+  .footer-label{font-size:15px !important;}
+  .footer-stat strong{font-size:20px !important;}
+  .clear-all-btn{min-width:104px !important;height:42px !important;border-radius:10px !important;font-size:14px !important;}
+  .clear-all-btn::before{content:'🗑 ';}
+  .footer-arrow{width:42px !important;height:42px !important;border-radius:10px !important;font-size:24px !important;}
+  .footer-summary{position:static !important;max-height:none !important;border-radius:16px !important;border:1px solid #e7e7e7;margin:0 8px 8px;}
+  .summary-row{padding:8px 14px !important;font-size:16px;}
+  .grand-total{padding:12px 14px !important;}
+  .checkout-btn{min-height:70px !important;border-radius:18px !important;margin:0 8px 8px !important;width:calc(100% - 16px) !important;font-size:20px !important;}
+
+  /* Hide legacy cart empty customer card spacing */
+  .left-panel{padding-top:0 !important;}
+}
+
+/* ===== FINAL SAMPLE MATCH OVERRIDES ===== */
+@media (max-width:800px){
+  .mobile-customer-bar{
+    display:none;
+    width:calc(100% - 16px);
+    margin:0 8px 8px;
+    min-height:78px;
+    padding:10px 14px;
+    border:1px solid #d7eee8;
+    border-radius:18px;
+    background:linear-gradient(90deg,#effaf7,#e8f7f4);
+  }
+  .mobile-customer-icon{width:48px;height:48px;min-width:48px;}
+  .mobile-customer-text strong{font-size:17px;}
+  .mobile-customer-text span{font-size:13px;}
+
+  /* Keep the bottom summary bar visible even when cart is empty */
+  .cart-footer{display:flex !important;}
+  .clear-all-btn{display:block !important;}
+
+  /* Details are closed initially */
+  .footer-summary.hidden{display:none !important;}
+
+  /* Checkout is disabled-looking when there are no products */
+  .checkout-btn.mobile-checkout-disabled{
+    background:#b8c6cc !important;
+    color:#fff !important;
+    opacity:1 !important;
+    cursor:not-allowed !important;
+  }
+
+  .checkout-btn{
+    justify-content:space-between !important;
+    padding:0 24px !important;
+    font-size:20px !important;
+    font-weight:700 !important;
+  }
+}
+
+</style>
 </head>
 
 <body>
@@ -244,8 +364,16 @@
 
 </div>
     
-  <button
-    id="mobileCustomerBtn"
+    <div id="mobileCustomerBar" class="mobile-customer-bar" onclick="openCustomer()">
+        <div class="mobile-customer-icon">♙</div>
+        <div class="mobile-customer-text">
+            <strong id="mobileCustomerTitle">Add / Select Customer</strong>
+            <span id="mobileCustomerSubtitle">Search by name or mobile number</span>
+        </div>
+        <div class="mobile-customer-chevron">›</div>
+    </div>
+
+    <button
     class="customer-btn"
     onclick="openCustomer()">
 
@@ -306,42 +434,38 @@
     </div>
  <div class="cart-body">
 </div>
-<div class="cart-footer hidden" id="cartFooter">
-    <div></div>
+<div class="cart-footer" id="cartFooter">
 
-    <div>
-        <strong>Items :
-            <span id="footerItems">0</span>
-        </strong>
+    <div class="footer-stat footer-items">
+        <span class="footer-label">Items :</span>
+        <strong id="footerItems">0</strong>
     </div>
 
-    <div></div>
-
-    <div>
-        <strong>Qty:
-            <span id="footerQty">0</span>
-        </strong>
+    <div class="footer-stat footer-qty">
+        <span class="footer-label">Qty :</span>
+        <strong id="footerQty">0</strong>
     </div>
 
-    <div></div>
-
-    <div>
-        <strong>
-            ₹<span id="footerAmount">0</span>
-        </strong>
+    <div class="footer-amount" aria-hidden="true">
+        ₹<span id="footerAmount">0</span>
     </div>
 
     <button
+        type="button"
         class="clear-all-btn"
         onclick="clearCart()">
         Clear All
     </button>
 
-    <div
+    <button
+        type="button"
         class="footer-arrow"
-        onclick="toggleFooterSummary()">
+        id="footerArrow"
+        onclick="toggleFooterSummary()"
+        aria-label="Show billing details"
+        aria-expanded="false">
         ▼
-    </div>
+    </button>
 
 </div>
 <div
@@ -490,10 +614,7 @@
 
 </div>
       <!-- Checkout -->
- <button
-    id="mainCheckoutBtn"
-    class="checkout-btn hidden"
-    onclick="openCheckout()">
+    <button class="checkout-btn" onclick="openCheckout()">
 
         <span>Checkout</span>
 
@@ -775,6 +896,93 @@
      </div>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="js/billing.js"></script>
+<script>
+(function(){
+  function syncMobileCustomerBar(){
+    const bar=document.getElementById('mobileCustomerBar');
+    const checkout=document.querySelector('.checkout-btn');
+    const summary=document.getElementById('footerSummary');
+    const arrow=document.getElementById('footerArrow');
+    if(!bar) return;
+
+    const title=document.getElementById('mobileCustomerTitle');
+    const sub=document.getElementById('mobileCustomerSubtitle');
+    const hasItems=(typeof cart !== 'undefined' && Array.isArray(cart) && cart.length>0);
+
+    bar.style.display=hasItems ? 'flex' : 'none';
+
+    if(typeof selectedCustomer !== 'undefined' && selectedCustomer){
+      title.textContent=selectedCustomer.name || 'Selected Customer';
+      sub.textContent=selectedCustomer.mobile || 'Customer selected';
+    }else{
+      title.textContent='Add / Select Customer';
+      sub.textContent='Search by name or mobile number';
+    }
+
+    if(checkout){
+      checkout.classList.toggle('mobile-checkout-disabled',!hasItems);
+      checkout.setAttribute('aria-disabled',hasItems ? 'false' : 'true');
+    }
+
+    /* If cart becomes empty, always close billing details. */
+    if(!hasItems && summary){
+      summary.classList.add('hidden');
+      if(arrow){
+        arrow.innerHTML='▼';
+        arrow.setAttribute('aria-expanded','false');
+      }
+    }
+  }
+
+  const oldSelectCustomer=window.selectCustomer;
+  if(typeof oldSelectCustomer==='function'){
+    window.selectCustomer=function(customer){
+      oldSelectCustomer(customer);
+      syncMobileCustomerBar();
+    };
+  }
+  const oldClearSelectedCustomer=window.clearSelectedCustomer;
+  if(typeof oldClearSelectedCustomer==='function'){
+    window.clearSelectedCustomer=function(){
+      oldClearSelectedCustomer();
+      syncMobileCustomerBar();
+    };
+  }
+  const oldClearCustomer=window.clearCustomer;
+  if(typeof oldClearCustomer==='function'){
+    window.clearCustomer=function(){
+      oldClearCustomer();
+      syncMobileCustomerBar();
+    };
+  }
+
+  const oldRenderCart=window.renderCart;
+  if(typeof oldRenderCart==='function'){
+    window.renderCart=function(){
+      oldRenderCart();
+      syncMobileCustomerBar();
+    };
+  }
+
+  const checkout=document.querySelector('.checkout-btn');
+  if(checkout){
+    checkout.addEventListener('click',function(e){
+      if(typeof cart==='undefined' || !Array.isArray(cart) || cart.length===0){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    },true);
+  }
+
+  const cartBody=document.querySelector('.cart-body');
+  if(cartBody){
+    const observer=new MutationObserver(syncMobileCustomerBar);
+    observer.observe(cartBody,{childList:true,subtree:true});
+  }
+  syncMobileCustomerBar();
+})();
+</script>
+
 <!-- BILL SAVED SCREEN -->
 
 <div id="billSavedScreen" class="bill-saved-screen hidden">
