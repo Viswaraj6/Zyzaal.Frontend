@@ -3501,7 +3501,7 @@ async function openSavedInvoiceFromBilling(){
 }
 
 /* ================= START ================= */
-loadBills();
+
 loadCustomersForEdit();
 loadProductsForInvoiceEdit();
 reopenInvoiceAfterCustomer();
