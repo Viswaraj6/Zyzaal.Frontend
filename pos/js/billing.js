@@ -949,6 +949,7 @@ document.getElementById("checkoutAmount").innerText = 0;
    if (clearBtn) clearBtn.style.display = "block";
     emptyCart.classList.add("hidden");
 cartHeader.classList.remove("hidden");
+    updateMobileBillingUI();
 // Cart has items
 
 document.querySelector(".customer-btn").style.display = "";
