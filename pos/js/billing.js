@@ -2796,8 +2796,21 @@ function newBill(){
 }
 function viewSavedBill(){
 
-    alert("View Bill - Coming Next");
+    const billNo =
+        document.getElementById("savedBillNo").innerText.trim();
 
+    if(!billNo || billNo === "—"){
+        alert("Bill number not found");
+        return;
+    }
+
+    localStorage.setItem(
+        "openInvoiceBillNo",
+        billNo
+    );
+
+    window.location.href =
+        "invoice-history.html";
 }
 // =========================================
 // CART TOTAL REFRESH
