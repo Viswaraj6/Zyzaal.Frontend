@@ -3083,3 +3083,43 @@ function selectZyzaalSize(sizeIndex) {
     }
 
 }
+function updateMobileBillingUI() {
+
+    const hasProducts =
+        Array.isArray(cart) && cart.length > 0;
+
+    const customerBtn =
+        document.getElementById("mobileCustomerBtn");
+
+    const cartHeader =
+        document.getElementById("cartHeader");
+
+    const cartFooter =
+        document.getElementById("cartFooter");
+
+    const checkoutBtn =
+        document.getElementById("mainCheckoutBtn");
+
+    const footerSummary =
+        document.getElementById("footerSummary");
+
+    if (!hasProducts) {
+
+        // Product இல்லையென்றால்
+        customerBtn?.classList.add("hidden");
+        cartHeader?.classList.add("hidden");
+        cartFooter?.classList.add("hidden");
+        checkoutBtn?.classList.add("hidden");
+
+        // Details close
+        footerSummary?.classList.add("hidden");
+
+    } else {
+
+        // Product இருந்தால்
+        customerBtn?.classList.remove("hidden");
+        cartHeader?.classList.remove("hidden");
+        cartFooter?.classList.remove("hidden");
+        checkoutBtn?.classList.remove("hidden");
+    }
+}
