@@ -244,7 +244,8 @@
 
 </div>
     
-    <button
+  <button
+    id="mobileCustomerBtn"
     class="customer-btn"
     onclick="openCustomer()">
 
@@ -305,8 +306,7 @@
     </div>
  <div class="cart-body">
 </div>
-<div class="cart-footer" id="cartFooter">
-
+<div class="cart-footer hidden" id="cartFooter">
     <div></div>
 
     <div>
@@ -490,7 +490,10 @@
 
 </div>
       <!-- Checkout -->
-    <button class="checkout-btn" onclick="openCheckout()">
+ <button
+    id="mainCheckoutBtn"
+    class="checkout-btn hidden"
+    onclick="openCheckout()">
 
         <span>Checkout</span>
 
