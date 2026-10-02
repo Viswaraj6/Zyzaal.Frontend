@@ -3484,8 +3484,25 @@ function clearInvoiceProductSearch(index){
         results.style.display = "none";
     }
 }
+async function openSavedInvoiceFromBilling(){
+
+    const billNo =
+        localStorage.getItem("openInvoiceBillNo");
+
+    if(!billNo){
+        return;
+    }
+
+    localStorage.removeItem("openInvoiceBillNo");
+
+    await loadBills();
+
+    viewBill(billNo);
+}
+
 /* ================= START ================= */
-loadBills();
 loadCustomersForEdit();
 loadProductsForInvoiceEdit();
 reopenInvoiceAfterCustomer();
+openSavedInvoiceFromBilling();
+
