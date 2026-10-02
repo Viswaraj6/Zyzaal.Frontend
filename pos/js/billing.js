@@ -1744,20 +1744,22 @@ function openCheckout() {
         return;
     }
 
-    // Cart-ஐ save செய்து customer page-க்கு செல்லும்
-    localStorage.setItem("cart", JSON.stringify(cart));
+    // Save current cart
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
-    // Existing selected customer இருந்தால் நேரடியாக payment
-    if (selectedCustomer) {
-        document.querySelector(".header").style.display = "none";
-        document.getElementById("cartPanel").style.display = "none";
-        document.getElementById("paymentPanel").style.display = "block";
-        return;
-    }
+    // Customer இருந்தாலும் இல்லையென்றாலும்
+    // நேராக Payment screen செல்ல வேண்டும்
 
-    // Customer select / create page
-    window.location.href = "customer.html?return=billing";
+    document.querySelector(".header").style.display = "none";
+
+    document.getElementById("cartPanel").style.display = "none";
+
+    document.getElementById("paymentPanel").style.display = "block";
 }
+
 function backToCart(){
      document.querySelector(".header").style.display = "flex";
     document.getElementById("paymentPanel").style.display = "none";
