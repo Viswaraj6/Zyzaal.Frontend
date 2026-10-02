@@ -3440,12 +3440,12 @@ display:none !important;
         align-items: center;
         justify-content: center;
 
-        width: 42px;
-        height: 42px;
+        width: 34px;
+        height: 34px;
 
         border-radius: 50%;
 
-        font-size: 20px;
+         font-size: 16px;
         line-height: 1;
     }
 }
