@@ -939,7 +939,8 @@ document.getElementById("grandTotal").innerText = 0;
 document.getElementById("paymentGrandTotal").innerText = 0;
 
 document.getElementById("checkoutAmount").innerText = 0;
-        
+     updateMobileBillingUI();
+    
    updateGoCartBar();
     return;
 
