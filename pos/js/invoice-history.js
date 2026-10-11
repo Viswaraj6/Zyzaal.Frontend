@@ -1153,7 +1153,7 @@ if (paymentStatusEl) {
 const isClosed = invoiceStatus === "Closed";
 
 if (paymentMethodBtn) {
-    paymentMethodBtn.style.display = "none";
+    paymentMethodBtn.style.display = "inline-flex";
 }
 
 if (editPaymentBtn) {
