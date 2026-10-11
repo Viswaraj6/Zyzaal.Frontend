@@ -2248,19 +2248,17 @@ function selectQuickAmount(amount,btn){
     calculateCash();
 
 }
+
 function calculateCash() {
-
-    // Already paid amount
-    const alreadyPaid = paymentHistory.reduce(
-        (total, payment) => total + Number(payment.amount || 0),
-        0
-    );
-
-    // Current bill remaining amount
     const grandTotal =
         parseFloat(
             document.getElementById("paymentGrandTotal").innerText
         ) || 0;
+
+    const alreadyPaid = paymentHistory.reduce(
+        (total, payment) => total + Number(payment.amount || 0),
+        0
+    );
 
     const amountDue = Math.max(grandTotal - alreadyPaid, 0);
 
@@ -2269,53 +2267,40 @@ function calculateCash() {
 
     receivedAmount = received;
 
-    // Actual amount which belongs to this payment
     const paymentAmount = Math.min(received, amountDue);
-
-    // Change given back to customer
-    const changeAmount = Math.max(received - amountDue, 0);
-
-    // Remaining bill amount
     remainingAmount = Math.max(amountDue - paymentAmount, 0);
+
+    const changeAmount = Math.max(received - amountDue, 0);
 
     const result = document.getElementById("cashResult");
     const message = document.getElementById("cashMessage");
 
-    // -----------------------------
-    // LESS THAN BILL
-    // -----------------------------
-    if (received < amountDue) {
-
+    if (received <= 0) {
+        message.innerHTML = "";
+    } else if (remainingAmount > 0) {
         message.innerHTML = `
             <span class="cash-remaining">
                 Remaining ₹${remainingAmount.toFixed(0)}
             </span>
         `;
-
-        result.innerHTML = "Next Payment ➜";
-
+    } else if (changeAmount > 0) {
+        message.innerHTML = `
+            <span class="cash-return">
+                Return ₹${changeAmount.toFixed(0)}
+            </span>
+        `;
+    } else {
+        message.innerHTML = "";
     }
 
-    // -----------------------------
-    // EXACT / MORE THAN BILL
-    // -----------------------------
-    else {
-
-        if (changeAmount > 0) {
-
-            message.innerHTML = `
-                <span class="cash-return">
-                    Return ₹${changeAmount.toFixed(0)}
-                </span>
-            `;
-
-        } else {
-
-            message.innerHTML = "";
-        }
-
-        result.innerHTML = "Save Bill";
-    }
+    result.innerHTML = `
+        <button type="button" onclick="cashButtonAction()">
+            Next Payment ➜
+        </button>
+        <button type="button" onclick="saveBill()">
+            Save Bill
+        </button>
+    `;
 }
 
 
