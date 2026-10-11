@@ -1135,6 +1135,47 @@ function viewBill(billNo){
     }
 currentViewBill = bill;
 
+    
+// Update invoice status and action buttons
+const invoiceStatus =
+    bill.invoiceStatus || "Open";
+
+document.getElementById("viewInvoiceStatus").innerText =
+    invoiceStatus;
+
+document.getElementById("viewPaymentStatus").innerText =
+    getInvoicePaymentStatus(bill);
+
+const isClosed = invoiceStatus === "Closed";
+
+document.getElementById("editPaymentBtn").style.display =
+    isClosed ? "none" : "inline-block";
+
+document.getElementById("closeInvoiceBtn").style.display =
+    isClosed ? "none" : "inline-block";
+
+document.getElementById("editPaymentMethodBtn").style.display =
+    isClosed ? "none" : "inline-flex";
+
+// Show Reopen only for closed invoices
+let reopenBtn = document.getElementById("reopenInvoiceBtn");
+
+if (!reopenBtn) {
+    reopenBtn = document.createElement("button");
+    reopenBtn.id = "reopenInvoiceBtn";
+    reopenBtn.type = "button";
+    reopenBtn.innerText = "Reopen Invoice";
+    reopenBtn.onclick = reopenInvoice;
+
+    document.getElementById("paymentEditActions")
+        .appendChild(reopenBtn);
+}
+
+reopenBtn.style.display =
+    isClosed ? "inline-block" : "none";
+
+
+
 const cashPaid = getPaymentAmount(bill, "cash");
 const upiPaid = getPaymentAmount(bill, "upi");
 const cardPaid = getPaymentAmount(bill, "card");
