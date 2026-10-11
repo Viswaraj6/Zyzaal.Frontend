@@ -480,10 +480,24 @@
                 <strong id="viewMobile">—</strong>
             </div>
 
-            <div>
-                <small>Payment Method</small>
-                <strong id="viewPayment">—</strong>
-            </div>
+           ```html
+<div class="payment-method-card">
+    <small>Payment Method</small>
+
+    <div class="payment-method-row">
+        <strong id="viewPayment">—</strong>
+
+        <button
+            type="button"
+            id="editPaymentMethodBtn"
+            class="invoice-edit-icon"
+            onclick="enableInvoicePaymentEdit()"
+            title="Edit Payment">
+            ✏️
+        </button>
+    </div>
+</div>
+```
 
         </div>
 
