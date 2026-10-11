@@ -3691,6 +3691,45 @@ async function closeInvoicePermanently() {
     }
 }
 
+/* ================= REOPEN INVOICE ================= */
+
+async function reopenInvoice() {
+    if (!currentViewBill) return;
+
+    if (currentViewBill.invoiceStatus !== "Closed") {
+        alert("Invoice is already open.");
+        return;
+    }
+
+    if (!confirm("Reopen this invoice?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            BASE_URL + "/pos/bills/" +
+            currentViewBill._id + "/reopen",
+            { method: "PATCH" }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(
+                data.message || "Unable to reopen invoice."
+            );
+        }
+
+        currentViewBill = data.bill;
+
+        await loadBills();
+        viewBill(currentViewBill.billNo);
+
+        alert("Invoice reopened successfully.");
+    } catch (error) {
+        alert(error.message || "Unable to reopen invoice.");
+    }
+}
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
