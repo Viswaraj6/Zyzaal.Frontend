@@ -2293,14 +2293,50 @@ function calculateCash() {
         message.innerHTML = "";
     }
 
-    result.innerHTML = `
-        <button type="button" onclick="cashButtonAction()">
+   
+result.innerHTML = `
+    <div style="
+        display:flex;
+        gap:12px;
+        width:100%;
+        margin-top:4px;
+    ">
+        <button
+            type="button"
+            onclick="cashButtonAction()"
+            style="
+                flex:1;
+                padding:13px 10px;
+                border:none;
+                border-radius:8px;
+                background:#ffffff;
+                color:#087f6e;
+                font-size:15px;
+                font-weight:600;
+                cursor:pointer;
+            ">
             Next Payment ➜
         </button>
-        <button type="button" onclick="saveBillWithPending()">
+
+        <button
+            type="button"
+            onclick="saveBillWithPending()"
+            style="
+                flex:1;
+                padding:13px 10px;
+                border:none;
+                border-radius:8px;
+                background:#064e3b;
+                color:#ffffff;
+                font-size:15px;
+                font-weight:600;
+                cursor:pointer;
+            ">
             Save Bill
         </button>
-    `;
+    </div>
+`;
+
 }
 
 
