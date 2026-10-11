@@ -2345,6 +2345,35 @@ function cashButtonAction() {
     openRemainingPayment();
 }
 
+
+function saveBillWithPending() {
+    const received =
+        Number(document.getElementById("cashReceived").value) || 0;
+
+    if (received > 0) {
+        const grandTotal =
+            Number(document.getElementById("paymentGrandTotal").innerText) || 0;
+
+        const paidByOthers = paymentHistory
+            .filter(p => p.mode !== currentPaymentMode)
+            .reduce((total, p) => total + Number(p.amount || 0), 0);
+
+        const currentDue = Math.max(0, grandTotal - paidByOthers);
+        const appliedAmount = Math.min(received, currentDue);
+
+        paymentHistory = paymentHistory.filter(
+            p => p.mode !== currentPaymentMode
+        );
+
+        paymentHistory.push({
+            mode: currentPaymentMode,
+            amount: appliedAmount
+        });
+    }
+
+    saveBill();
+}
+
 function openRemainingPayment(){
 
     document.getElementById("cashScreen").style.display = "none";
