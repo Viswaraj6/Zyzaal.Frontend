@@ -3792,15 +3792,21 @@ async function reopenInvoice() {
 }
 
 
+
 function openInvoiceWorkflowPopup() {
     if (!currentViewBill) return;
 
     const popup = document.getElementById("invoiceWorkflowPopup");
 
-    if (popup) {
-        popup.classList.remove("hidden");
-    }
+    if (!popup) return;
+
+    // Load existing payments and pending balance
+    enableInvoicePaymentEdit();
+
+    // Show the popup
+    popup.classList.remove("hidden");
 }
+
 
 function closeInvoiceWorkflowPopup() {
     const popup = document.getElementById("invoiceWorkflowPopup");
