@@ -3795,15 +3795,30 @@ function openInvoiceWorkflowPopup() {
     // Load existing payments and pending balance
    const paymentStatus = getInvoicePaymentStatus(currentViewBill);
 
-if (
+
+const paymentFields = document.getElementById("paymentEditFields");
+const paymentActions = document.getElementById("paymentEditActions");
+const paymentHeading = document.getElementById("editPaymentHeading");
+
+const isClosedAndPaid =
     currentViewBill.invoiceStatus === "Closed" &&
-    paymentStatus === "Paid"
-) {
-    document.getElementById("paymentEditFields").style.display = "none";
-    document.getElementById("paymentEditActions").style.display = "none";
+    paymentStatus === "Paid";
+
+if (isClosedAndPaid) {
+    paymentFields.style.display = "none";
+    paymentActions.style.display = "none";
+
+    if (paymentHeading) {
+        paymentHeading.style.display = "none";
+    }
 } else {
+    if (paymentHeading) {
+        paymentHeading.style.display = "block";
+    }
+
     enableInvoicePaymentEdit();
 }
+
 
     // Show the popup
     popup.classList.remove("hidden");
