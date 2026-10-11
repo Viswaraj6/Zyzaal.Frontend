@@ -1536,13 +1536,9 @@ document.querySelector(".invoice-edit-icon").style.display = "none";
     const paymentMethodBtn =
     document.getElementById("editPaymentMethodBtn");
 
-if (
-    paymentMethodBtn &&
-    currentViewBill.invoiceStatus !== "Closed"
-) {
+if (paymentMethodBtn) {
     paymentMethodBtn.style.display = "inline-flex";
 }
-
 /* ================= PRODUCT EDIT MODE ================= */
 
 document
