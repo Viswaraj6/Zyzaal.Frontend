@@ -1136,43 +1136,33 @@ function viewBill(billNo){
 currentViewBill = bill;
 
     
-// Update invoice status and action buttons
-const invoiceStatus =
-    bill.invoiceStatus || "Open";
 
-document.getElementById("viewInvoiceStatus").innerText =
-    invoiceStatus;
+const invoiceStatus = bill.invoiceStatus || "Open";
 
-document.getElementById("viewPaymentStatus").innerText =
-    getInvoicePaymentStatus(bill);
+const statusEl = document.getElementById("viewInvoiceStatus");
+const paymentStatusEl = document.getElementById("viewPaymentStatus");
+const editPaymentBtn = document.getElementById("editPaymentBtn");
+const closeInvoiceBtn = document.getElementById("closeInvoiceBtn");
+const paymentMethodBtn = document.getElementById("editPaymentMethodBtn");
+
+if (statusEl) statusEl.innerText = invoiceStatus;
+if (paymentStatusEl) {
+    paymentStatusEl.innerText = getInvoicePaymentStatus(bill);
+}
 
 const isClosed = invoiceStatus === "Closed";
 
-document.getElementById("editPaymentBtn").style.display =
-    isClosed ? "none" : "inline-block";
-
-document.getElementById("closeInvoiceBtn").style.display =
-    isClosed ? "none" : "inline-block";
-
-document.getElementById("editPaymentMethodBtn").style.display =
-    isClosed ? "none" : "inline-flex";
-
-// Show Reopen only for closed invoices
-let reopenBtn = document.getElementById("reopenInvoiceBtn");
-
-if (!reopenBtn) {
-    reopenBtn = document.createElement("button");
-    reopenBtn.id = "reopenInvoiceBtn";
-    reopenBtn.type = "button";
-    reopenBtn.innerText = "Reopen Invoice";
-    reopenBtn.onclick = reopenInvoice;
-
-    document.getElementById("paymentEditActions")
-        .appendChild(reopenBtn);
+if (paymentMethodBtn) {
+    paymentMethodBtn.style.display = isClosed ? "none" : "inline-flex";
 }
 
-reopenBtn.style.display =
-    isClosed ? "inline-block" : "none";
+if (editPaymentBtn) {
+    editPaymentBtn.style.display = isClosed ? "none" : "inline-block";
+}
+
+if (closeInvoiceBtn) {
+    closeInvoiceBtn.style.display = isClosed ? "none" : "inline-block";
+}
 
 
 
