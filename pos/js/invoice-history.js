@@ -3793,7 +3793,17 @@ function openInvoiceWorkflowPopup() {
     if (!popup) return;
 
     // Load existing payments and pending balance
+   const paymentStatus = getInvoicePaymentStatus(currentViewBill);
+
+if (
+    currentViewBill.invoiceStatus === "Closed" &&
+    paymentStatus === "Paid"
+) {
+    document.getElementById("paymentEditFields").style.display = "none";
+    document.getElementById("paymentEditActions").style.display = "none";
+} else {
     enableInvoicePaymentEdit();
+}
 
     // Show the popup
     popup.classList.remove("hidden");
