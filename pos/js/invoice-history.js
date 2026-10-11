@@ -3806,24 +3806,21 @@ const paymentFields = document.getElementById("paymentEditFields");
 const paymentActions = document.getElementById("paymentEditActions");
 const paymentHeading = document.getElementById("editPaymentHeading");
 
-const isClosedAndPaid =
-    currentViewBill.invoiceStatus === "Closed" &&
-    paymentStatus === "Paid";
 
-if (isClosedAndPaid) {
-    paymentFields.style.display = "none";
-    paymentActions.style.display = "none";
-
-    if (paymentHeading) {
-        paymentHeading.style.display = "none";
-    }
-} else {
-    if (paymentHeading) {
-        paymentHeading.style.display = "block";
-    }
-
-    enableInvoicePaymentEdit();
+if (paymentHeading) {
+    paymentHeading.style.display = "block";
 }
+
+if (paymentFields) {
+    paymentFields.style.display = "block";
+}
+
+if (paymentActions) {
+    paymentActions.style.display = "flex";
+}
+
+enableInvoicePaymentEdit();
+
 
 
     // Show the popup
