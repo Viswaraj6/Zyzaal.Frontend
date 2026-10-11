@@ -2462,3 +2462,119 @@ body:has(#invoiceViewModal:not(.hidden)){
         width: 100% !important;
     }
 }
+
+/* Invoice & Payment Status Popup */
+.invoice-workflow-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.invoice-workflow-popup.hidden {
+    display: none;
+}
+
+.invoice-workflow-box {
+    width: 100%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.invoice-workflow-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5ece9;
+}
+
+.invoice-workflow-header h3 {
+    margin: 0;
+    color: #183d35;
+    font-size: 20px;
+}
+
+.invoice-workflow-header button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    background: #f1f5f4;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.invoice-workflow-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.invoice-workflow-status p {
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f3f8f6;
+}
+
+.invoice-workflow-box h4 {
+    margin: 0 0 12px;
+    color: #183d35;
+}
+
+#paymentEditRows > div {
+    align-items: center;
+}
+
+#paymentEditRows select,
+#paymentEditRows input {
+    min-height: 40px;
+    padding: 8px;
+    border: 1px solid #d6e1dd;
+    border-radius: 8px;
+}
+
+.invoice-workflow-box button {
+    cursor: pointer;
+}
+
+.invoice-workflow-box #paymentEditFields > button {
+    margin: 10px 6px 0 0;
+    padding: 10px 14px;
+    border: 1px solid #d6e1dd;
+    border-radius: 8px;
+    background: #f4f8f6;
+}
+
+.invoice-workflow-box #savePaymentEditBtn {
+    background: #167d62;
+    color: #ffffff;
+    border-color: #167d62;
+}
+
+.invoice-workflow-actions {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid #e5ece9;
+}
+
+.invoice-workflow-actions button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #183d35;
+    color: white;
+}
