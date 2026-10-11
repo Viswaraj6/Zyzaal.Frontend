@@ -2304,106 +2304,47 @@ function calculateCash() {
 }
 
 
+
 function cashButtonAction() {
-
-    // Amount entered by user
     const received =
-        Number(receivedAmount || 0);
+        Number(document.getElementById("cashReceived").value) || 0;
 
-    // -----------------------------------------
-    // BILL GRAND TOTAL
-    // -----------------------------------------
+    if (received <= 0) {
+        alert("Enter payment amount");
+        return;
+    }
 
     const grandTotal =
-        parseFloat(
-            document.getElementById("paymentGrandTotal").innerText
-        ) || 0;
-
-    // -----------------------------------------
-    // OTHER PAYMENTS ALREADY PAID
-    // -----------------------------------------
+        Number(document.getElementById("paymentGrandTotal").innerText) || 0;
 
     const paidByOthers = paymentHistory
         .filter(p => p.mode !== currentPaymentMode)
-        .reduce(
-            (total, p) => total + Number(p.amount || 0),
-            0
-        );
+        .reduce((total, p) => total + Number(p.amount || 0), 0);
 
-    // -----------------------------------------
-    // CURRENT PAYMENT DUE
-    // -----------------------------------------
+    const currentDue = Math.max(0, grandTotal - paidByOthers);
+    const appliedAmount = Math.min(received, currentDue);
 
-    const currentDue =
-        Math.max(0, grandTotal - paidByOthers);
-
-    // -----------------------------------------
-    // ACTUAL AMOUNT TO SAVE
-    // -----------------------------------------
-    // Example:
-    // Bill = ₹999
-    // Cash received = ₹1000
-    //
-    // Save only ₹999
-    // Return = ₹1
-    // -----------------------------------------
-
-    const appliedAmount =
-        Math.min(received, currentDue);
-
-    // -----------------------------------------
-    // REMOVE OLD ENTRY OF SAME PAYMENT MODE
-    // -----------------------------------------
-
-    paymentHistory =
-        paymentHistory.filter(
-            p => p.mode !== currentPaymentMode
-        );
-
-    // -----------------------------------------
-    // ADD ACTUAL PAYMENT
-    // -----------------------------------------
+    paymentHistory = paymentHistory.filter(
+        p => p.mode !== currentPaymentMode
+    );
 
     if (appliedAmount > 0) {
-
         paymentHistory.push({
             mode: currentPaymentMode,
             amount: appliedAmount
         });
-
     }
 
-    // -----------------------------------------
-    // TOTAL PAID
-    // -----------------------------------------
+    const totalPaid = paymentHistory.reduce(
+        (total, p) => total + Number(p.amount || 0),
+        0
+    );
 
-    const paid =
-        paymentHistory.reduce(
-            (total, p) =>
-                total + Number(p.amount || 0),
-            0
-        );
+    remainingAmount = Math.max(0, grandTotal - totalPaid);
 
-    // -----------------------------------------
-    // REMAINING AMOUNT
-    // -----------------------------------------
-
-    remainingAmount =
-        Math.max(
-            0,
-            grandTotal - paid
-        );
-
-    // -----------------------------------------
-    // NEXT PAYMENT OR SAVE BILL
-    // -----------------------------------------
-
-   
-
-        saveBill();
-
-    
+    openRemainingPayment();
 }
+
 function openRemainingPayment(){
 
     document.getElementById("cashScreen").style.display = "none";
