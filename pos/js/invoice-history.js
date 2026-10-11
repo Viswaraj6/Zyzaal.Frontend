@@ -2405,6 +2405,25 @@ function clearInvoiceCustomerSearch(){
 
 }
 
+
+function getInvoicePaymentStatus(bill) {
+    const payments = Array.isArray(bill.payments)
+        ? bill.payments
+        : [];
+
+    const totalPaid = payments.reduce((sum, payment) => {
+        return sum + Math.max(0, Number(payment.amount || 0));
+    }, 0);
+
+    const grandTotal = Math.max(0, Number(bill.grandTotal || 0));
+
+    if (totalPaid <= 0) return "Pending";
+    if (totalPaid + 0.01 >= grandTotal) return "Paid";
+
+    return "Partial";
+}
+
+
 /* ================= PAYMENT HELPERS ================= */
 
 function getPaymentAmount(bill, mode) {
