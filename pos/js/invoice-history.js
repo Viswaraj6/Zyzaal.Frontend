@@ -3559,15 +3559,7 @@ function enableInvoicePaymentEdit() {
 
     const paymentStatus = getInvoicePaymentStatus(currentViewBill);
 
-    // Fully paid closed invoices cannot be edited.
-    if (
-        currentViewBill.invoiceStatus === "Closed" &&
-        paymentStatus === "Paid"
-    ) {
-        alert("This invoice is closed and fully paid.");
-        return;
-    }
-
+   
     const rows = document.getElementById("paymentEditRows");
     rows.innerHTML = "";
 
