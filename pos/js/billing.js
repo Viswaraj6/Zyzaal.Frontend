@@ -2413,15 +2413,11 @@ function cashButtonAction() {
     // NEXT PAYMENT OR SAVE BILL
     // -----------------------------------------
 
-    if (remainingAmount > 0) {
-
-        openRemainingPayment();
-
-    } else {
+   
 
         saveBill();
 
-    }
+    
 }
 function openRemainingPayment(){
 
