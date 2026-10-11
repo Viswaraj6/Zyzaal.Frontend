@@ -745,13 +745,16 @@ row.onclick = function(event){
             </td>
 
 
-            <td>
+           
+<td>
+    <div class="invoice-status-label">
+        ${bill.invoiceStatus || "Open"}
+    </div>
+    <div class="payment-status-label">
+        ${getInvoicePaymentStatus(bill)}
+    </div>
+</td>
 
-                <span class="status">
-                    Paid
-                </span>
-
-            </td>
 
 
             <td>
