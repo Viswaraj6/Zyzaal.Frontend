@@ -3761,6 +3761,26 @@ async function reopenInvoice() {
         alert(error.message || "Unable to reopen invoice.");
     }
 }
+
+
+function openInvoiceWorkflowPopup() {
+    if (!currentViewBill) return;
+
+    const popup = document.getElementById("invoiceWorkflowPopup");
+
+    if (popup) {
+        popup.classList.remove("hidden");
+    }
+}
+
+function closeInvoiceWorkflowPopup() {
+    const popup = document.getElementById("invoiceWorkflowPopup");
+
+    if (popup) {
+        popup.classList.add("hidden");
+    }
+}
+
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
