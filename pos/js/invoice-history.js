@@ -1157,7 +1157,7 @@ if (paymentMethodBtn) {
 }
 
 if (editPaymentBtn) {
-    editPaymentBtn.style.display = isClosed ? "none" : "inline-block";
+    editPaymentBtn.style.display = "inline-block";
 }
 
 if (closeInvoiceBtn) {
