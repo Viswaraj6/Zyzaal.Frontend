@@ -3553,11 +3553,18 @@ async function openSavedInvoiceFromBilling(){
     viewBill(billNo);
 }
 
+
 function enableInvoicePaymentEdit() {
     if (!currentViewBill) return;
 
-    if (currentViewBill.invoiceStatus === "Closed") {
-        alert("Closed invoice cannot be edited.");
+    const paymentStatus = getInvoicePaymentStatus(currentViewBill);
+
+    // Fully paid closed invoices cannot be edited.
+    if (
+        currentViewBill.invoiceStatus === "Closed" &&
+        paymentStatus === "Paid"
+    ) {
+        alert("This invoice is closed and fully paid.");
         return;
     }
 
@@ -3568,10 +3575,25 @@ function enableInvoicePaymentEdit() {
         ? currentViewBill.payments
         : [];
 
-    if (payments.length) {
-        payments.forEach(payment => addPaymentEditRow(payment));
-    } else {
-        addPaymentEditRow({ mode: "Cash", amount: 0 });
+    // Show all existing payments without changing their amounts.
+    payments.forEach(payment => addPaymentEditRow(payment));
+
+    const totalPaid = payments.reduce(
+        (sum, payment) => sum + Math.max(0, Number(payment.amount || 0)),
+        0
+    );
+
+    const balance = Math.max(
+        0,
+        Number(currentViewBill.grandTotal || 0) - totalPaid
+    );
+
+    // Automatically add the pending balance as a NEW payment row.
+    if (balance > 0) {
+        addPaymentEditRow({
+            mode: "Cash",
+            amount: balance
+        });
     }
 
     document.getElementById("paymentEditFields").style.display = "block";
