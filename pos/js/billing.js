@@ -2297,7 +2297,7 @@ function calculateCash() {
         <button type="button" onclick="cashButtonAction()">
             Next Payment ➜
         </button>
-        <button type="button" onclick="saveBill()">
+        <button type="button" onclick="saveBillWithPending()">
             Save Bill
         </button>
     `;
