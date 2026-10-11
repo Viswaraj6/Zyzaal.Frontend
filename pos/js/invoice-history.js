@@ -3690,10 +3690,17 @@ async function saveInvoicePayments() {
 async function closeInvoicePermanently() {
     if (!currentViewBill) return;
 
-    if (currentViewBill.invoiceStatus === "Closed") {
-        alert("Invoice is already closed.");
-        return;
-    }
+   if (currentViewBill.invoiceStatus === "Closed") {
+    alert("Invoice is already closed.");
+    return;
+}
+
+const paymentStatus = getInvoicePaymentStatus(currentViewBill);
+
+if (paymentStatus !== "Paid") {
+    alert("Payment Pending / Partial. Full payment received only then close invoice.");
+    return;
+}
 
     if (!confirm("Are you sure you want to close this invoice?")) {
         return;
