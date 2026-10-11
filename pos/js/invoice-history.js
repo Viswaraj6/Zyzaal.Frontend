@@ -3522,6 +3522,175 @@ async function openSavedInvoiceFromBilling(){
     viewBill(billNo);
 }
 
+function enableInvoicePaymentEdit() {
+    if (!currentViewBill) return;
+
+    if (currentViewBill.invoiceStatus === "Closed") {
+        alert("Closed invoice cannot be edited.");
+        return;
+    }
+
+    const rows = document.getElementById("paymentEditRows");
+    rows.innerHTML = "";
+
+    const payments = Array.isArray(currentViewBill.payments)
+        ? currentViewBill.payments
+        : [];
+
+    if (payments.length) {
+        payments.forEach(payment => addPaymentEditRow(payment));
+    } else {
+        addPaymentEditRow({ mode: "Cash", amount: 0 });
+    }
+
+    document.getElementById("paymentEditFields").style.display = "block";
+    document.getElementById("paymentEditActions").style.display = "none";
+}
+
+function addPaymentEditRow(payment = { mode: "Cash", amount: 0 }) {
+    const rows = document.getElementById("paymentEditRows");
+    const row = document.createElement("div");
+
+    row.style.cssText =
+        "display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;";
+
+    const select = document.createElement("select");
+
+    ["Cash", "Card", "UPI", "Credit Note"].forEach(mode => {
+        const option = document.createElement("option");
+        option.value = mode;
+        option.textContent = mode;
+        select.appendChild(option);
+    });
+
+    select.value = payment.mode || payment.method || "Cash";
+
+    const amount = document.createElement("input");
+    amount.type = "number";
+    amount.min = "0";
+    amount.step = "0.01";
+    amount.value = Number(payment.amount || 0);
+    amount.placeholder = "Amount";
+    amount.style.width = "130px";
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.textContent = "Remove";
+    remove.onclick = () => row.remove();
+
+    row.append(select, amount, remove);
+    row.dataset.paymentRow = "true";
+    row.appendChild(document.createElement("span")).style.display = "none";
+
+    // Store the controls directly on this row.
+    row.paymentModeSelect = select;
+    row.paymentAmountInput = amount;
+
+    rows.appendChild(row);
+}
+
+function cancelInvoicePaymentEdit() {
+    document.getElementById("paymentEditFields").style.display = "none";
+    document.getElementById("paymentEditActions").style.display = "flex";
+}
+
+async function saveInvoicePayments() {
+    if (!currentViewBill) return;
+
+    const saveBtn = document.getElementById("savePaymentEditBtn");
+    const rows = [
+        ...document.querySelectorAll("#paymentEditRows > div")
+    ];
+
+    const payments = rows.map(row => ({
+        mode: row.paymentModeSelect.value,
+        amount: Number(row.paymentAmountInput.value)
+    }));
+
+    if (payments.some(payment =>
+        !Number.isFinite(payment.amount) || payment.amount < 0
+    )) {
+        alert("Please enter valid payment amounts.");
+        return;
+    }
+
+    const totalPaid = payments.reduce((sum, payment) => sum + payment.amount, 0);
+    const grandTotal = Number(currentViewBill.grandTotal || 0);
+
+    if (totalPaid > grandTotal + 0.01) {
+        alert("Payment total cannot exceed invoice total.");
+        return;
+    }
+
+    saveBtn.disabled = true;
+
+    try {
+        const response = await fetch(
+            BASE_URL + "/pos/bills/" + currentViewBill._id + "/payments",
+            {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ payments })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Payment update failed.");
+        }
+
+        currentViewBill = data.bill;
+
+        await loadBills();
+        viewBill(currentViewBill.billNo);
+
+        document.getElementById("paymentEditFields").style.display = "none";
+        document.getElementById("paymentEditActions").style.display = "flex";
+
+        alert("Payment updated successfully.");
+    } catch (error) {
+        alert(error.message || "Unable to update payment.");
+    } finally {
+        saveBtn.disabled = false;
+    }
+}
+
+async function closeInvoicePermanently() {
+    if (!currentViewBill) return;
+
+    if (currentViewBill.invoiceStatus === "Closed") {
+        alert("Invoice is already closed.");
+        return;
+    }
+
+    if (!confirm("Are you sure you want to close this invoice?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            BASE_URL + "/pos/bills/" + currentViewBill._id + "/close",
+            { method: "PATCH" }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Unable to close invoice.");
+        }
+
+        currentViewBill = data.bill;
+
+        await loadBills();
+        viewBill(currentViewBill.billNo);
+
+        alert("Invoice closed successfully.");
+    } catch (error) {
+        alert(error.message || "Unable to close invoice.");
+    }
+}
+
 /* ================= START ================= */
 loadBills();
 loadCustomersForEdit();
