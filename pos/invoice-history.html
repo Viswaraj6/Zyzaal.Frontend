@@ -566,80 +566,47 @@
 
 
 
-<!-- INVOICE STATUS & PAYMENT EDIT -->
 
-<div id="invoiceWorkflowPanel" style="
-    margin: 16px 0;
-    padding: 16px;
-    border: 1px solid #dce9e5;
-    border-radius: 12px;
-    background: #f8fcfa;
-">
-    <h3 style="margin: 0 0 12px;">Invoice & Payment Status</h3>
+<!-- INVOICE & PAYMENT STATUS POPUP -->
+<div id="invoiceWorkflowPopup" class="invoice-workflow-popup hidden">
+    <div class="invoice-workflow-box">
 
-    <div style="
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-        margin-bottom: 14px;
-    ">
-        <span>
-            Invoice:
-            <strong id="viewInvoiceStatus">Open</strong>
-        </span>
+        <div class="invoice-workflow-header">
+            <h3>Invoice &amp; Payment Status</h3>
+            <button type="button"
+                    onclick="closeInvoiceWorkflowPopup()">✕</button>
+        </div>
 
-        <span>
-            Payment:
-            <strong id="viewPaymentStatus">Pending</strong>
-        </span>
-    </div>
+        <div class="invoice-workflow-status">
+            <p>Invoice: <strong id="viewInvoiceStatus">Open</strong></p>
+            <p>Payment: <strong id="viewPaymentStatus">Pending</strong></p>
+        </div>
 
-    <div id="paymentEditFields" style="display:none;">
-        <div id="paymentEditRows"></div>
+        <h4>Edit Payment Method</h4>
+        <div id="paymentEditFields">
+            <div id="paymentEditRows"></div>
 
-        <button
-            type="button"
-            onclick="addPaymentEditRow()"
-            style="margin-top:10px;">
-            + Add Payment
-        </button>
+            <button type="button" onclick="addPaymentEditRow()">
+                + Add Payment
+            </button>
 
-        <button
-            type="button"
-            id="savePaymentEditBtn"
-            onclick="saveInvoicePayments()"
-            style="margin-top:10px;">
-            Save Payment
-        </button>
+            <button type="button" id="savePaymentEditBtn"
+                    onclick="saveInvoicePayments()">
+                Update Payment
+            </button>
 
-        <button
-            type="button"
-            onclick="cancelInvoicePaymentEdit()"
-            style="margin-top:10px;">
-            Cancel
-        </button>
-    </div>
+            <button type="button" onclick="cancelInvoicePaymentEdit()">
+                Cancel
+            </button>
+        </div>
 
-    <div id="paymentEditActions" style="
-        display:flex;
-        flex-wrap:wrap;
-        gap:10px;
-        margin-top:12px;
-    ">
-        <button
-            type="button"
-            id="editPaymentBtn"
-            onclick="enableInvoicePaymentEdit()">
-            Edit Payment
-        </button>
+        <div class="invoice-workflow-actions">
+            <button type="button" id="closeInvoiceBtn"
+                    onclick="closeInvoicePermanently()">
+                Close Invoice
+            </button>
+        </div>
 
-        <button
-            type="button"
-            id="closeInvoiceBtn"
-            onclick="closeInvoicePermanently()">
-            Close Invoice
-        </button>
     </div>
 </div>
 
