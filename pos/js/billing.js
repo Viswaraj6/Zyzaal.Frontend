@@ -2308,17 +2308,19 @@ result.innerHTML = `
             <button
                 type="button"
                 onclick="cashButtonAction()"
-                style="
-                    flex:1;
-                    padding:13px 10px;
-                    border:none;
-                    border-radius:8px;
-                    background:#ffffff;
-                    color:#087f6e;
-                    font-size:15px;
-                    font-weight:600;
-                    cursor:pointer;
-                ">
+                
+style="
+    flex:1;
+    padding:13px 10px;
+    border:none;
+    border-radius:8px;
+    background:#16a085;
+    color:#ffffff;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+"
+>
                 Next Payment ➜
             </button>
         ` : ""}
