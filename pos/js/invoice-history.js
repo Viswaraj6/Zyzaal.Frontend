@@ -1095,18 +1095,34 @@ function applyFilters(){
             let paymentMatch = true;
 
 
-           if(payment){
+          if(payment){
 
-    paymentMatch =
-        (bill.payments || []).some(p =>
-            String(
-                p.mode ||
-                p.method ||
-                ""
-            ).toLowerCase() ===
-            payment.toLowerCase() &&
-            Number(p.amount || 0) > 0
-        );
+    /* ================= PENDING FILTER ================= */
+
+    if(payment.toLowerCase() === "pending"){
+
+        paymentMatch =
+            getPendingAmount(bill) > 0;
+
+    }
+
+    /* ================= PAYMENT METHOD FILTER ================= */
+
+    else{
+
+        paymentMatch =
+            (bill.payments || []).some(p =>
+                String(
+                    p.mode ||
+                    p.method ||
+                    ""
+                ).toLowerCase() ===
+                payment.toLowerCase() &&
+                Number(p.amount || 0) > 0
+            );
+
+    }
+
 }
 
 
