@@ -505,28 +505,21 @@ const pageBills =
 
     /* ================= SUMMARY ================= */
 
-   const selectedPayment =
+const selectedPayment =
     document.getElementById("paymentFilter").value;
-
-let totalSales = 0;
-
-bills.forEach(bill => {
-    totalSales += getPaymentAmount(
-        bill,
-        selectedPayment
-    );
-});
 
 let totalSales = 0;
 let totalQtySold = 0;
 
 bills.forEach(bill => {
 
+    // Total Sales
     totalSales += getPaymentAmount(
         bill,
         selectedPayment
     );
 
+    // Total Qty Sold
     totalQtySold += (bill.items || []).reduce(
         (sum, item) =>
             sum + Number(item.qty || 0),
@@ -534,22 +527,22 @@ bills.forEach(bill => {
     );
 
 });
-    
-    document.getElementById("totalInvoices").innerText =
-        bills.length;
 
 
-    document.getElementById("totalSales").innerText =
-        "₹" + totalSales.toLocaleString("en-IN");
+document.getElementById("totalInvoices").innerText =
+    bills.length;
 
 
-   document.getElementById("totalQtySold").innerText =
+document.getElementById("totalSales").innerText =
+    "₹" + totalSales.toLocaleString("en-IN");
+
+
+document.getElementById("totalQtySold").innerText =
     totalQtySold.toLocaleString("en-IN");
 
 
-    document.getElementById("netSales").innerText =
-        "₹" + totalSales.toLocaleString("en-IN");
-
+document.getElementById("netSales").innerText =
+    "₹" + totalSales.toLocaleString("en-IN");
 
     const showingFrom =
     bills.length === 0
