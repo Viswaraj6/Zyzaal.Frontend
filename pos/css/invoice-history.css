@@ -2578,3 +2578,9 @@ body:has(#invoiceViewModal:not(.hidden)){
     background: #183d35;
     color: white;
 }
+.pending-amount-label {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #d97706;
+}
