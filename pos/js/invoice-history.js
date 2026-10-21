@@ -505,15 +505,17 @@ const pageBills =
 
     /* ================= SUMMARY ================= */
 
-    let totalSales = 0;
+   const selectedPayment =
+    document.getElementById("paymentFilter").value;
 
-    bills.forEach(bill => {
+let totalSales = 0;
 
-        totalSales += Number(
-            bill.grandTotal || 0
-        );
-
-    });
+bills.forEach(bill => {
+    totalSales += getPaymentAmount(
+        bill,
+        selectedPayment
+    );
+});
 
 
     document.getElementById("totalInvoices").innerText =
