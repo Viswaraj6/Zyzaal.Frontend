@@ -2476,6 +2476,31 @@ function getInvoicePaymentStatus(bill) {
     return "Partial";
 }
 
+function getPendingAmount(bill) {
+
+    if (!bill) return 0;
+
+    const grandTotal =
+        Math.max(
+            0,
+            Number(bill.grandTotal || 0)
+        );
+
+    const totalPaid =
+        (bill.payments || []).reduce(
+            (sum, payment) =>
+                sum + Math.max(
+                    0,
+                    Number(payment.amount || 0)
+                ),
+            0
+        );
+
+    return Math.max(
+        grandTotal - totalPaid,
+        0
+    );
+}
 
 /* ================= PAYMENT HELPERS ================= */
 
