@@ -2497,61 +2497,49 @@ function getPaymentAmount(bill, mode) {
         );
 }
 
-function getPaymentSplit(bill) {
+function getPaymentSplit(bill, modeFilter = "") {
+    const payments = (bill.payments || []).filter(payment => {
+        const mode = String(
+            payment.mode || payment.method || "Cash"
+        ).toLowerCase();
 
-    const payments = bill.payments || [];
+        const amount = Number(payment.amount || 0);
 
-    if (!payments.length) {
+        return amount > 0 &&
+            (!modeFilter || mode === modeFilter.toLowerCase());
+    });
+
+    return payments.map(payment => {
+        const mode = String(
+            payment.mode || payment.method || "Cash"
+        );
+
+        const amount = Number(payment.amount || 0);
+
+        let icon = "💵";
+        let className = "cash";
+
+        if (mode.toLowerCase() === "upi") {
+            icon = "📱";
+            className = "upi";
+        } else if (mode.toLowerCase() === "card") {
+            icon = "💳";
+            className = "card";
+        } else if (mode.toLowerCase() === "credit note") {
+            icon = "🧾";
+            className = "credit";
+        }
+
         return `
-            <span class="payment-chip cash">
-                💵 Cash ₹0
+            <span class="payment-chip ${className}">
+                ${icon} ${mode}
+                <strong>
+                    ₹${amount.toLocaleString("en-IN")}
+                </strong>
             </span>
         `;
-    }
-
-    return payments
-        .filter(payment => Number(payment.amount || 0) > 0)
-        .map(payment => {
-
-            const mode =
-                payment.mode ||
-                payment.method ||
-                "Cash";
-
-            const amount =
-                Number(payment.amount || 0);
-
-            let icon = "💵";
-            let className = "cash";
-
-            if (mode.toLowerCase() === "upi") {
-                icon = "📱";
-                className = "upi";
-            }
-
-            if (mode.toLowerCase() === "card") {
-                icon = "💳";
-                className = "card";
-            }
-
-            if (mode.toLowerCase() === "credit note") {
-                icon = "🧾";
-                className = "credit";
-            }
-
-            return `
-                <span class="payment-chip ${className}">
-                    ${icon} ${mode}
-                    <strong>
-                        ₹${amount.toLocaleString("en-IN")}
-                    </strong>
-                </span>
-            `;
-
-        })
-        .join("");
+    }).join("");
 }
-
 
 function getPaymentMethodText(bill) {
 
