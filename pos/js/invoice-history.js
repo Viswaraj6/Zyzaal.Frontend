@@ -761,12 +761,25 @@ row.onclick = function(event){
 
            
 <td>
+
     <div class="invoice-status-label">
         ${bill.invoiceStatus || "Open"}
     </div>
+
     <div class="payment-status-label">
         ${getInvoicePaymentStatus(bill)}
     </div>
+
+    ${
+        getPendingAmount(bill) > 0
+        ? `
+            <div class="pending-amount-label">
+                ₹${getPendingAmount(bill).toLocaleString("en-IN")} Pending
+            </div>
+        `
+        : ""
+    }
+
 </td>
 
 
