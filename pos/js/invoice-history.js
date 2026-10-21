@@ -543,8 +543,8 @@ bills.forEach(bill => {
         "₹" + totalSales.toLocaleString("en-IN");
 
 
-    document.getElementById("totalReturns").innerText =
-        "₹0";
+   document.getElementById("totalQtySold").innerText =
+    totalQtySold.toLocaleString("en-IN");
 
 
     document.getElementById("netSales").innerText =
