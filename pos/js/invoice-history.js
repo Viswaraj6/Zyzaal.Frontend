@@ -517,7 +517,24 @@ bills.forEach(bill => {
     );
 });
 
+let totalSales = 0;
+let totalQtySold = 0;
 
+bills.forEach(bill => {
+
+    totalSales += getPaymentAmount(
+        bill,
+        selectedPayment
+    );
+
+    totalQtySold += (bill.items || []).reduce(
+        (sum, item) =>
+            sum + Number(item.qty || 0),
+        0
+    );
+
+});
+    
     document.getElementById("totalInvoices").innerText =
         bills.length;
 
