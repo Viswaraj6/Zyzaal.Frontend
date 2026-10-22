@@ -1911,10 +1911,14 @@ async function saveInvoiceEdit(){
         return;
     }
 
-    if(!selectedEditCustomer){
-        alert("Please select a customer");
-        return;
-    }
+   if(!selectedEditCustomer){
+    selectedEditCustomer = currentViewBill.customer || null;
+}
+
+if(!selectedEditCustomer){
+    alert("Please select a customer");
+    return;
+}
 
     const saveBtn =
         document.getElementById("invoiceSaveBtn");
