@@ -522,6 +522,15 @@ bills.forEach(bill => {
         bill,
         selectedPayment
     );
+        const cgst = Number(bill.cgst || 0);
+const sgst = Number(bill.sgst || 0);
+
+const tax = Number(
+    bill.tax || (cgst + sgst)
+);
+
+totalNetSales +=
+    Number(bill.grandTotal || 0) - tax;
 }
 
     // Total Qty Sold
