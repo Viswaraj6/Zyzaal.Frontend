@@ -556,7 +556,10 @@ document.getElementById("totalQtySold").innerText =
 
 
 document.getElementById("netSales").innerText =
-    "₹" + totalSales.toLocaleString("en-IN");
+    "₹" + totalNetSales.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 
     const showingFrom =
     bills.length === 0
