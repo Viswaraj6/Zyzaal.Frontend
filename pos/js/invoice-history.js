@@ -514,10 +514,14 @@ let totalQtySold = 0;
 bills.forEach(bill => {
 
     // Total Sales
+    if (selectedPayment.toLowerCase() === "pending") {
+    totalSales += getPendingAmount(bill);
+} else {
     totalSales += getPaymentAmount(
         bill,
         selectedPayment
     );
+}
 
     // Total Qty Sold
     totalQtySold += (bill.items || []).reduce(
