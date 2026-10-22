@@ -509,6 +509,7 @@ const selectedPayment =
     document.getElementById("paymentFilter").value;
 
 let totalSales = 0;
+let totalNetSales = 0;
 let totalQtySold = 0;
 
 bills.forEach(bill => {
