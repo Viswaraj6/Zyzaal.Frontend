@@ -1541,6 +1541,8 @@ function enableInvoiceEditMode(){
         return;
     }
 
+    selectedEditCustomer = currentViewBill.customer || null;
+    
     /* Show customer search */
     document
         .querySelector(".invoice-view-mode")
