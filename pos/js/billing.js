@@ -2509,14 +2509,69 @@ function editCashPayment(){
 async function saveBill() {
 
     const saveBtn = document.getElementById("cashResult");
+    const originalButtonHTML = saveBtn ? saveBtn.innerHTML : "";
 
-if (saveBtn) {
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = `
-        <span class="save-spinner"></span>
-        Saving...
-    `;
-}
+    // Full-screen loading layer while the bill is being saved
+    let loadingOverlay = document.getElementById("billSavingOverlay");
+    if (!loadingOverlay) {
+        loadingOverlay = document.createElement("div");
+        loadingOverlay.id = "billSavingOverlay";
+        loadingOverlay.innerHTML = `
+            <div class="bill-saving-card">
+                <span class="bill-saving-spinner"></span>
+                <strong>Saving Bill...</strong>
+                <small>Please wait. Do not close this screen.</small>
+            </div>
+        `;
+        Object.assign(loadingOverlay.style, {
+            position: "fixed",
+            inset: "0",
+            zIndex: "200000",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(15, 23, 42, 0.45)",
+            padding: "20px",
+            boxSizing: "border-box"
+        });
+        const card = loadingOverlay.querySelector(".bill-saving-card");
+        Object.assign(card.style, {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "12px",
+            padding: "28px 24px",
+            borderRadius: "16px",
+            background: "#ffffff",
+            color: "#172033",
+            boxShadow: "0 12px 40px rgba(0,0,0,.2)",
+            textAlign: "center",
+            fontFamily: "Arial, sans-serif"
+        });
+        const spinner = loadingOverlay.querySelector(".bill-saving-spinner");
+        Object.assign(spinner.style, {
+            width: "42px",
+            height: "42px",
+            border: "4px solid #d1fae5",
+            borderTopColor: "#16a085",
+            borderRadius: "50%",
+            animation: "billSavingSpin .8s linear infinite"
+        });
+        if (!document.getElementById("billSavingSpinnerStyle")) {
+            const style = document.createElement("style");
+            style.id = "billSavingSpinnerStyle";
+            style.textContent = "@keyframes billSavingSpin { to { transform: rotate(360deg); } }";
+            document.head.appendChild(style);
+        }
+        document.body.appendChild(loadingOverlay);
+    } else {
+        loadingOverlay.style.display = "flex";
+    }
+
+    if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.setAttribute("aria-busy", "true");
+    }
     const bill = {
   brandId: currentBrandId,
         customer: selectedCustomer || null,
@@ -2578,22 +2633,24 @@ grandTotal:
 
         const data = await res.json();
 
-      if (!data.success) {
+      if (!res.ok || !data.success) {
+        if (loadingOverlay) loadingOverlay.style.display = "none";
+        if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.removeAttribute("aria-busy");
+            saveBtn.innerHTML = originalButtonHTML;
+        }
+        alert(data.message || "Bill Save Failed. Please try again.");
+        return;
+      }
 
-    if (saveBtn) {
-        saveBtn.disabled = false;
-        saveBtn.innerHTML = "Save Bill";
-    }
+      // Hide the payment screen as soon as the server confirms success
+      document.getElementById("cashScreen").style.display = "none";
+      document.getElementById("paymentPanel").style.display = "none";
+      if (loadingOverlay) loadingOverlay.style.display = "none";
 
-    alert("Bill Save Failed");
-    return;
-}
-
-       document.getElementById("savedBillNo").innerText =
-    data.billNo;
-
-document.getElementById("billSavedScreen")
-    .classList.remove("hidden");
+      document.getElementById("savedBillNo").innerText = data.billNo || "—";
+      document.getElementById("billSavedScreen").classList.remove("hidden");
 
        // Reset
 cart = [];
@@ -2666,11 +2723,14 @@ document.querySelector(".header").style.display = "flex";
 // Focus
 document.getElementById("barcodeInput").focus();
     } catch (err) {
-
         console.error(err);
-
-        alert("Server Error");
-
+        if (loadingOverlay) loadingOverlay.style.display = "none";
+        if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.removeAttribute("aria-busy");
+            saveBtn.innerHTML = originalButtonHTML;
+        }
+        alert("Server Error. Please check your connection and try again.");
     }
 
 }
