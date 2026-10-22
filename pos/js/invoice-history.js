@@ -513,54 +513,53 @@ let totalNetSales = 0;
 let totalQtySold = 0;
 
 bills.forEach(bill => {
+    const grandTotal = Number(bill.grandTotal || 0);
+    const cgst = Number(bill.cgst || 0);
+    const sgst = Number(bill.sgst || 0);
+    const tax = Number(bill.tax || (cgst + sgst));
 
-    // Total Sales
+    let selectedAmount = 0;
+
     if (selectedPayment.toLowerCase() === "pending") {
-    totalSales += getPendingAmount(bill);
-} else {
-    totalSales += getPaymentAmount(
-        bill,
-        selectedPayment
-    );
-        const cgst = Number(bill.cgst || 0);
-const sgst = Number(bill.sgst || 0);
+        selectedAmount = getPendingAmount(bill);
+    } else {
+        selectedAmount = getPaymentAmount(
+            bill,
+            selectedPayment
+        );
+    }
 
-const tax = Number(
-    bill.tax || (cgst + sgst)
-);
+    totalSales += selectedAmount;
 
-totalNetSales +=
-    Number(bill.grandTotal || 0) - tax;
-}
+    // Calculate only the GST proportion for this payment/filter
+    const taxShare = grandTotal > 0
+        ? tax * (selectedAmount / grandTotal)
+        : 0;
 
-    // Total Qty Sold
+    totalNetSales += selectedAmount - taxShare;
+
     totalQtySold += (bill.items || []).reduce(
-        (sum, item) =>
-            sum + Number(item.qty || 0),
+        (sum, item) => sum + Number(item.qty || 0),
         0
     );
-
 });
 
-
-document.getElementById("totalInvoices").innerText =
-    bills.length;
-
+document.getElementById("totalInvoices").innerText = bills.length;
 
 document.getElementById("totalSales").innerText =
-    "₹" + totalSales.toLocaleString("en-IN");
-
+    "₹" + totalSales.toLocaleString("en-IN", {
+        maximumFractionDigits: 2
+    });
 
 document.getElementById("totalQtySold").innerText =
     totalQtySold.toLocaleString("en-IN");
-
 
 document.getElementById("netSales").innerText =
     "₹" + totalNetSales.toLocaleString("en-IN", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
-
+    
     const showingFrom =
     bills.length === 0
         ? 0
