@@ -3483,3 +3483,63 @@ display:none !important;
     opacity: .75;
     cursor: not-allowed;
 }
+
+
+
+/* =========================================
+   FIX: CASH PAYMENT DOUBLE BUTTON BACKGROUND
+   CSS ONLY — KEEP EXISTING JAVASCRIPT
+========================================= */
+
+@media (max-width: 800px) {
+    #cashScreen button#cashResult {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin: 15px 0 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        overflow: visible !important;
+    }
+
+    #cashScreen button#cashResult > div {
+        display: flex !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        box-sizing: border-box !important;
+    }
+
+    #cashScreen button#cashResult > div > button {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        min-height: 48px !important;
+        margin: 0 !important;
+        border: 0 !important;
+        border-radius: 9px !important;
+        background: #064e3b !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        line-height: 1.25 !important;
+        cursor: pointer !important;
+        box-sizing: border-box !important;
+    }
+
+    #cashScreen button#cashResult > div > button:active {
+        background: #043f30 !important;
+    }
+}
