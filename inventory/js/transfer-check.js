@@ -213,13 +213,34 @@
 
   
 $("stats").innerHTML = `
-  <div class="stat"><strong>${lines.length}</strong> Lines</div>
-  <div class="stat"><strong>${totalExpectedQty}</strong> Total Expected Qty</div>
-  <div class="stat"><strong>${totalReceivedQty}</strong> Total Received Qty</div>
-  <div class="stat"><strong>${pendingQty}</strong> Pending Qty</div>
-  <div class="stat"><strong>${matched}</strong> Matched</div>
-  <div class="stat"><strong>${variance}</strong> Variances</div>
-  <div class="stat"><strong>${overallStatus()}</strong> Overall</div>`;
+  <div class="stat">
+    <strong>${lines.length}</strong> Total Lines
+  </div>
+
+  <div class="stat">
+    <strong>${totalExpectedQty}</strong> Total Expected Qty
+  </div>
+
+  <div class="stat">
+    <strong>${totalReceivedQty}</strong> Total Received Qty
+  </div>
+
+  <div class="stat">
+    <strong>${pendingQty}</strong> Total Pending Qty
+  </div>
+
+  <div class="stat">
+    <strong>${matched}</strong> Matched
+  </div>
+
+  <div class="stat">
+    <strong>${variance}</strong> Shortage / Excess
+  </div>
+
+  <div class="stat">
+    <strong>${overallStatus()}</strong> Overall Status
+  </div>
+`;
 
   }
 
