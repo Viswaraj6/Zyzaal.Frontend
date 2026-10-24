@@ -116,10 +116,15 @@
     return items.map(item => {
       const sku = String(item.sku || item.item_sku || item.item_id || "").trim();
       const barcode = String(item.barcode || item.ean || item.upc || sku).trim();
-      const expectedQty = quantity(
-        item.quantity_transferred ?? item.quantity ?? item.transfer_quantity ??
-        item.quantity_to_transfer ?? item.quantity_ordered ?? 0
-      );
+     const expectedQty = Number(
+    item.quantity_transferred ??
+    item.quantity_transfer ??
+    item.quantity ??
+    item.transfer_quantity ??
+    item.quantity_to_transfer ??
+    item.quantity_ordered ??
+    0
+);
       return {
         barcode, sku: sku || barcode,
         name: String(item.name || item.item_name || item.description || ""),
