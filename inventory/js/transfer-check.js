@@ -13,10 +13,16 @@
   let lastCameraCode = "";
   let lastCameraTime = 0;
 
-  function getToken() {
-    // Must match the key used by your existing admin login page.
-    return localStorage.getItem("adminToken");
+function getToken() {
+  const token = localStorage.getItem("adminToken");
+
+  if (!token || token === "undefined" || token === "null") {
+    throw new Error("Admin token missing. Please login again.");
   }
+
+  return token.replace(/^Bearer\s+/i, "").trim();
+}
+
 
   function headers(hasBody = false) {
     const token = getToken();
