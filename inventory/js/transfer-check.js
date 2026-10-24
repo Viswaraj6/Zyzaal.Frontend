@@ -206,14 +206,29 @@
       ), 0
     );
 
-    $("stats").innerHTML = `
-      <div class="stat"><strong>${lines.length}</strong> Lines</div>
-      <div class="stat"><strong>${totalExpectedQty}</strong> Total Expected Qty</div>
-      <div class="stat"><strong>${totalReceivedQty}</strong> Total Received Qty</div>
-      <div class="stat"><strong>${pendingQty}</strong> Pending Qty</div>
-      <div class="stat"><strong>${matched}</strong> Matched</div>
-      <div class="stat"><strong>${variance}</strong> Variances</div>
-      <div class="stat"><strong>${overallStatus()}</strong> Overall</div>`;
+   const totalExpectedQty = lines.reduce(
+  (sum, line) => sum + quantity(line.expectedQty), 0
+);
+
+const totalReceivedQty = lines.reduce(
+  (sum, line) => sum + quantity(line.receivedQty), 0
+);
+
+const pendingQty = lines.reduce(
+  (sum, line) => sum + Math.max(
+    0,
+    quantity(line.expectedQty) - quantity(line.receivedQty)
+  ), 0
+);
+
+$("stats").innerHTML = `
+  <div class="stat"><strong>${lines.length}</strong> Lines</div>
+  <div class="stat"><strong>${totalExpectedQty}</strong> Total Expected Qty</div>
+  <div class="stat"><strong>${totalReceivedQty}</strong> Total Received Qty</div>
+  <div class="stat"><strong>${pendingQty}</strong> Pending Qty</div>
+  <div class="stat"><strong>${matched}</strong> Matched</div>
+  <div class="stat"><strong>${variance}</strong> Variances</div>
+  <div class="stat"><strong>${overallStatus()}</strong> Overall</div>`;
 
   }
 
