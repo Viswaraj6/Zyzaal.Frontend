@@ -250,6 +250,40 @@ $("stats").innerHTML = `
 
   }
 
+
+let audioContext;
+
+function playScanBeep() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+
+    if (!audioContext) {
+      audioContext = new AudioCtx();
+    }
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = 1000;
+    gain.gain.value = 0.15;
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.12);
+  } catch (error) {
+    console.warn("Scan beep unavailable:", error);
+  }
+}
+
+  
   function addScan(code) {
     code = String(code || "").trim();
     if (!code) return;
