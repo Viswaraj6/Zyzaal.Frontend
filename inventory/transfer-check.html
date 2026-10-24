@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FARK 618 | Transfer Check</title>
+<style>
+:root{font-family:Inter,Arial,sans-serif;color:#172033;background:#f4f7fb}
+*{box-sizing:border-box}body{margin:0}header{background:#101a2b;color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header h1{font-size:20px;margin:0}header small{color:#cbd5e1}.wrap{max-width:1200px;margin:22px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 3px 14px #0f172a0a}
+.row{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:6px;min-width:150px;flex:1}
+label{font-size:12px;font-weight:700;color:#475569}input,select,button{font:inherit;border-radius:8px;padding:10px 12px;border:1px solid #cbd5e1}input,select{width:100%;background:#fff}button{cursor:pointer;font-weight:700;border:0;background:#2563eb;color:white}button.secondary{background:#e2e8f0;color:#172033}button.dark{background:#172033}button.danger{background:#dc2626}button:disabled{opacity:.5;cursor:not-allowed}
+.notice{padding:11px 13px;border-radius:8px;margin:12px 0;background:#eff6ff;color:#1d4ed8;font-size:14px}.notice.error{background:#fef2f2;color:#b91c1c}.notice.success{background:#f0fdf4;color:#166534}
+.orders{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:10px;margin-top:14px}
+.order{border:1px solid #dbe3ef;border-radius:10px;padding:13px;text-align:left;background:#fff;color:#172033}.order:hover,.order.active{border:2px solid #2563eb;background:#eff6ff}.order strong{display:block;font-size:15px;margin-bottom:5px}.order span{display:block;color:#64748b;font-size:12px;margin-top:4px}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:10px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:13px}th{background:#f8fafc;color:#475569}td input{min-width:90px;padding:8px}.status{display:inline-block;padding:4px 8px;border-radius:20px;background:#e2e8f0;font-size:11px;font-weight:700}.Matched{background:#dcfce7;color:#166534}.Shortage,.Excess{background:#ffedd5;color:#9a3412}.Pending{background:#fee2e2;color:#991b1b}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar input{max-width:300px}.stats{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px;font-size:13px}.stat b{font-size:17px;margin-right:5px}
+#cameraBox{display:none;margin-top:12px}video{width:100%;max-width:420px;border-radius:10px;background:#0f172a;display:block}footer{font-size:12px;color:#64748b;padding:8px 2px 25px}
+@media(max-width:600px){header{padding:15px}.wrap{margin:12px auto;padding:0 10px}.card{padding:13px}.field{min-width:100%}.toolbar input{max-width:none;flex:1}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>FARK 618 · Transfer Check</h1><small>Physical receiving verification · FRM / AFS / RSP / KMT</small></div>
+  <button class="secondary" id="reloadBtn">Refresh Orders</button>
+</header>
+<main class="wrap">
+  <section class="card">
+    <div class="row">
+      <div class="field"><label for="searchOrders">Search transfer order</label><input id="searchOrders" placeholder="Order no. or store"></div>
+      <div class="field" style="max-width:180px"><label for="pageNo">Page</label><input id="pageNo" type="number" min="1" value="1"></div>
+      <button id="loadOrdersBtn">Load Orders</button>
+    </div>
+    <div id="orderNotice" class="notice">Loading transfer orders…</div>
+    <div id="orders" class="orders"></div>
+  </section>
+
+  <section class="card" id="checkCard" hidden>
+    <div class="row">
+      <div style="flex:1;min-width:230px"><h2 id="selectedTitle" style="margin:0 0 6px;font-size:20px">Transfer order</h2><div id="selectedMeta" style="font-size:13px;color:#64748b"></div></div>
+      <button class="secondary" id="cameraBtn">Scan with Camera</button>
+    </div>
+    <div id="cameraBox">
+      <div class="notice">Point the camera at a barcode. Camera scanning requires HTTPS and browser support for BarcodeDetector. If unavailable, type or use a USB scanner in the barcode field below.</div>
+      <video id="video" playsinline muted></video>
+      <div class="toolbar" style="margin-top:8px"><button class="danger" id="stopCameraBtn">Stop Camera</button><span id="cameraStatus" style="font-size:12px;color:#64748b"></span></div>
+    </div>
+    <div class="notice">Select an order, then scan/type each SKU or barcode. Received quantities are physical counts; Zoho's transferred status alone does not confirm receipt.</div>
+    <div class="toolbar">
+      <input id="barcodeInput" placeholder="Scan or enter barcode / SKU, then press Enter" autocomplete="off">
+      <button id="addBarcodeBtn">Add / Find SKU</button>
+      <button class="secondary" id="addLineBtn">Add Manual Line</button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Barcode / SKU</th><th>Product</th><th>Expected</th><th>Received</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="linesBody"></tbody>
+      </table>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button id="saveBtn">Save Verification</button>
+      <button class="secondary" id="resetCountsBtn">Reset Received Counts</button>
+    </div>
+    <div id="saveNotice" class="notice" hidden></div>
+  </section>
+  <section class="card">
+    <h2 style="margin:0 0 12px;font-size:18px">Previously saved checks</h2>
+    <div class="row">
+      <div class="field"><label for="filterStatus">Status</label><select id="filterStatus"><option value="">All statuses</option><option>Matched</option><option>Variance</option><option>Pending</option></select></div>
+      <button id="loadChecksBtn">Load Saved Checks</button>
+      <a id="exportLink" href="#" style="align-self:center;color:#2563eb;font-size:13px">StockTake Excel report</a>
+    </div>
+    <div id="checksNotice" class="notice">Load saved checks to view previous verifications.</div>
+    <div class="tablewrap"><table><thead><tr><th>Order</th><th>From</th><th>To</th><th>Status</th><th>Verified</th><th>Lines</th></tr></thead><tbody id="checksBody"></tbody></table></div>
+  </section>
+  <footer>Admin-only page. Keep your login token private. Stock differences are recorded for review; this page does not adjust Zoho stock.</footer>
+</main>
+<script>
+(() => {
+  const API = 'https://fark618-backend.onrender.com/admin/inventory';
+  const $ = id => document.getElementById(id);
+  let orders = [], selectedOrder = null, lines = [], cameraStream = null, scanTimer = null;
+  const token = () => localStorage.getItem('adminToken');
+  function authHeaders(json=true) {
+    const t = token();
+    if (!t) throw new Error('Admin token not found. Please log in again in the FARK 618 admin panel.');
+    const h = {'Authorization': `Bearer ${t}`};
+    if (json) h['Content-Type'] = 'application/json';
+    return h;
+  }
+  async function api(path, options={}) {
+    const response = await fetch(API + path, {...options, headers:{...authHeaders(options.body !== undefined), ...(options.headers||{})}});
+    const type = response.headers.get('content-type') || '';
+    if (!response.ok) {
+      let msg = `Request failed (${response.status})`;
+      try { const data = type.includes('json') ? await response.json() : null; if (data?.message) msg = data.message; } catch {}
+      throw new Error(msg);
+    }
+    return type.includes('json') ? response.json() : response;
+  }
+  function showNotice(id, message, kind='') { const el=$(id); el.textContent=message; el.className='notice'+(kind?' '+kind:''); el.hidden=false; }
+  function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function number(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n):0;}
+  function lineStatus(l){if(l.receivedQty===0&&l.expectedQty>0)return 'Pending';if(l.receivedQty<l.expectedQty)return 'Shortage';if(l.receivedQty>l.expectedQty)return 'Excess';return 'Matched';}
+  function overallStatus(){if(lines.every(l=>lineStatus(l)==='Matched'))return 'Matched';if(lines.some(l=>lineStatus(l)==='Pending'))return 'Pending';return 'Variance';}
+  function renderOrders(){
+    const q=$('searchOrders').value.trim().toLowerCase();
+    const filtered=orders.filter(o=>[o.transferOrderNo,o.fromStore,o.toStore,o.status].some(v=>String(v||'').toLowerCase().includes(q)));
+    $('orders').innerHTML=filtered.map(o=>`<button class="order ${selectedOrder?.transferOrderId===o.transferOrderId?'active':''}" data-id="${escapeHtml(o.transferOrderId)}"><strong>${escapeHtml(o.transferOrderNo||o.transferOrderId)}</strong><span>${escapeHtml(o.fromStore||'—')} → ${escapeHtml(o.toStore||'—')}</span><span>${escapeHtml(o.date||'')} · ${escapeHtml(o.status||'')} · Qty ${number(o.totalQuantity)}</span></button>`).join('')||'<div style="color:#64748b">No matching orders.</div>';
+    $('orders').querySelectorAll('[data-id]').forEach(b=>b.addEventListener('click',()=>chooseOrder(b.dataset.id)));
+  }
+  async function loadOrders(){
+    try{
+      showNotice('orderNotice','Loading Zoho transfer orders…');
+      const page=Math.max(1,number($('pageNo').value)||1);
+      const data=await api(`/transfer-orders?page=${page}&per_page=50`,{method:'GET'});
+      orders=data.orders||[]; renderOrders();
+      showNotice('orderNotice',`Loaded ${orders.length} transfer orders (page ${data.page||page}). Choose an order to verify physical receipt.`, 'success');
+    }catch(e){showNotice('orderNotice',e.message,'error');}
+  }
+  function extractLines(o){
+    const raw=o.line_items||o.transfer_order_line_items||o.items||[];
+    return raw.map((x,i)=>{
+      const sku=String(x.sku||x.item_sku||x.item_id||'').trim();
+      const barcode=String(x.barcode||x.ean||x.upc||sku).trim();
+      const qty=number(x.quantity_transferred??x.quantity??x.transfer_quantity??x.quantity_to_transfer??x.quantity_ordered??0);
+      return {barcode,sku:sku||barcode,name:String(x.name||x.item_name||x.description||''),expectedQty:qty,receivedQty:0};
+    });
+  }
+  async function chooseOrder(id){
+    const summary=orders.find(o=>o.transferOrderId===id); if(!summary)return;
+    try{
+      showNotice('orderNotice',`Loading ${summary.transferOrderNo} details…`);
+      const data=await api(`/transfer-orders/${encodeURIComponent(id)}`,{method:'GET'});
+      const o=data.transferOrder;
+      selectedOrder={...summary, raw:o};
+      lines=extractLines(o);
+      $('checkCard').hidden=false;
+      $('selectedTitle').textContent=summary.transferOrderNo||'Transfer order';
+      $('selectedMeta').textContent=`${summary.fromStore||'—'} → ${summary.toStore||'—'} · ${summary.date||''} · Zoho status: ${summary.status||'—'}`;
+      renderLines(); renderOrders();
+      showNotice('orderNotice',`Selected ${summary.transferOrderNo}. Confirm expected quantities before saving.`, 'success');
+      $('barcodeInput').focus();
+    }catch(e){showNotice('orderNotice',e.message,'error');}
+  }
+  function renderLines(){
+    $('linesBody').innerHTML=lines.map((l,i)=>`<tr>
+      <td><input aria-label="Barcode ${i+1}" data-i="${i}" data-k="barcode" value="${escapeHtml(l.barcode)}"></td>
+      <td><input aria-label="Product ${i+1}" data-i="${i}" data-k="name" value="${escapeHtml(l.name)}"></td>
+      <td><input type="number" min="0" step="1" aria-label="Expected quantity ${i+1}" data-i="${i}" data-k="expectedQty" value="${number(l.expectedQty)}"></td>
+      <td><input type="number" min="0" step="1" aria-label="Received quantity ${i+1}" data-i="${i}" data-k="receivedQty" value="${number(l.receivedQty)}"></td>
+      <td><span class="status ${lineStatus(l)}">${lineStatus(l)}</span></td>
+      <td><button class="danger" data-remove="${i}" style="padding:7px 9px">Remove</button></td>
+    </tr>`).join('');
+    $('linesBody').querySelectorAll('input[data-i]').forEach(inp=>inp.addEventListener('change',()=>{
+      const i=Number(inp.dataset.i), k=inp.dataset.k;
+      lines[i][k]=k==='expectedQty'||k==='receivedQty'?number(inp.value):inp.value.trim();
+      if(k==='barcode'&&!lines[i].sku)lines[i].sku=inp.value.trim();
+      renderLines();
+    }));
+    $('linesBody').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{lines.splice(Number(b.dataset.remove),1);renderLines();}));
+    const matched=lines.filter(l=>lineStatus(l)==='Matched').length, variance=lines.filter(l=>['Shortage','Excess'].includes(lineStatus(l))).length, pending=lines.filter(l=>lineStatus(l)==='Pending').length;
+    $('stats').innerHTML=`<div class="stat"><b>${lines.length}</b> lines</div><div class="stat"><b>${matched}</b> matched</div><div class="stat"><b>${variance}</b> shortage/excess</div><div class="stat"><b>${pending}</b> pending</div><div class="stat"><b>${overallStatus()}</b> overall status</div>`;
+  }
+  function addBarcode(){
+    const code=$('barcodeInput').value.trim();if(!code)return;
+    let found=lines.find(l=>l.barcode.toLowerCase()===code.toLowerCase()||l.sku.toLowerCase()===code.toLowerCase());
+    if(found){found.receivedQty=number(found.receivedQty)+1;renderLines();showNotice('saveNotice',`Scanned ${code}: received quantity increased by 1.`,'success');}
+    else {lines.push({barcode:code,sku:code,name:'',expectedQty:0,receivedQty:1});renderLines();showNotice('saveNotice',`SKU ${code} was not on the selected order. Added as an extra line; confirm barcode and expected quantity.`);}
+    $('barcodeInput').value='';$('barcodeInput').focus();
+  }
+  async function saveCheck(){
+    if(!selectedOrder){showNotice('saveNotice','Choose a transfer order first.','error');return;}
+    if(!lines.length){showNotice('saveNotice','Add at least one line before saving.','error');return;}
+    try{
+      $('saveBtn').disabled=true;
+      const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
+      const data=await api('/transfer-checks',{method:'POST',body:JSON.stringify(payload)});
+      showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}.`,'success');
+      loadChecks();
+    }catch(e){showNotice('saveNotice',e.message,'error');}finally{$('saveBtn').disabled=false;}
+  }
+  async function loadChecks(){
+    try{
+      const status=$('filterStatus').value;
+      const data=await api('/transfer-checks'+(status?'?status='+encodeURIComponent(status):''),{method:'GET'});
+      const checks=data.checks||[];
+      $('checksBody').innerHTML=checks.map(c=>`<tr><td>${escapeHtml(c.transferOrderNo||c.transferOrderId||'—')}</td><td>${escapeHtml(c.fromStore||'—')}</td><td>${escapeHtml(c.toStore||'—')}</td><td><span class="status ${escapeHtml(c.status||'')}">${escapeHtml(c.status||'—')}</span></td><td>${escapeHtml(c.verifiedAt?new Date(c.verifiedAt).toLocaleString():'—')}</td><td>${Array.isArray(c.lines)?c.lines.length:0}</td></tr>`).join('')||'<tr><td colspan="6">No saved checks found.</td></tr>';
+      showNotice('checksNotice',`Loaded ${checks.length} saved checks.`,'success');
+    }catch(e){showNotice('checksNotice',e.message,'error');}
+  }
+  async function startCamera(){
+    if(!('BarcodeDetector' in window)){showNotice('saveNotice','This browser does not support BarcodeDetector. Use a USB scanner or type the barcode.','error');return;}
+    try{
+      cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+      $('video').srcObject=cameraStream;await $('video').play();$('cameraBox').style.display='block';$('cameraStatus').textContent='Camera running…';
+      const detector=new BarcodeDetector();
+      scanTimer=setInterval(async()=>{
+        try{const codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue){const code=codes[0].rawValue;addBarcodeFromCamera(code);}}catch{}
+      },700);
+    }catch(e){showNotice('saveNotice',`Could not open camera: ${e.message}. Check browser camera permission.`, 'error');}
+  }
+  let lastCameraCode='',lastCameraAt=0;
+  function addBarcodeFromCamera(code){const now=Date.now();if(code===lastCameraCode&&now-lastCameraAt<1800)return;lastCameraCode=code;lastCameraAt=now;$('barcodeInput').value=code;addBarcode();$('cameraStatus').textContent=`Last scan: ${code}`;}
+  function stopCamera(){if(scanTimer)clearInterval(scanTimer);scanTimer=null;if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;$('video').srcObject=null;$('cameraBox').style.display='none';}
+  $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
+  $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcode();}});
+  $('addBarcodeBtn').addEventListener('click',addBarcode);
+  $('addLineBtn').addEventListener('click',()=>{lines.push({barcode:'',sku:'',name:'',expectedQty:0,receivedQty:0});renderLines();});
+  $('saveBtn').addEventListener('click',saveCheck);$('loadChecksBtn').addEventListener('click',loadChecks);$('resetCountsBtn').addEventListener('click',()=>{if(confirm('Reset all received quantities to zero?')){lines.forEach(l=>l.receivedQty=0);renderLines();}});
+  $('cameraBtn').addEventListener('click',()=>{if($('cameraBox').style.display==='block')stopCamera();else startCamera();});
+  $('stopCameraBtn').addEventListener('click',stopCamera);
+  $('exportLink').href=API+'/reports/stocktake.csv';
+  window.addEventListener('beforeunload',stopCamera);
+  loadOrders();
+})();
+</script>
+</body>
+</html>
