@@ -284,9 +284,13 @@ function playScanBeep() {
 }
 
   
-  function addScan(code) {
-    code = String(code || "").trim();
-    if (!code) return;
+ function addScan(code) {
+  code = String(code || "").trim();
+  if (!code) return;
+
+  playScanBeep();
+
+  // Keep the remaining existing code unchanged
 
     const found = lines.find(line =>
       String(line.barcode).toLowerCase() === code.toLowerCase() ||
