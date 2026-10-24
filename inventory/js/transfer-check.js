@@ -184,16 +184,37 @@
       });
     });
 
+   
     const matched = lines.filter(line => lineStatus(line) === "Matched").length;
     const pending = lines.filter(line => lineStatus(line) === "Pending").length;
-    const variance = lines.filter(line => ["Shortage", "Excess"].includes(lineStatus(line))).length;
+    const variance = lines.filter(line =>
+      ["Shortage", "Excess"].includes(lineStatus(line))
+    ).length;
+
+    const totalExpectedQty = lines.reduce(
+      (sum, line) => sum + quantity(line.expectedQty), 0
+    );
+
+    const totalReceivedQty = lines.reduce(
+      (sum, line) => sum + quantity(line.receivedQty), 0
+    );
+
+    const pendingQty = lines.reduce(
+      (sum, line) => sum + Math.max(
+        0,
+        quantity(line.expectedQty) - quantity(line.receivedQty)
+      ), 0
+    );
 
     $("stats").innerHTML = `
       <div class="stat"><strong>${lines.length}</strong> Lines</div>
+      <div class="stat"><strong>${totalExpectedQty}</strong> Total Expected Qty</div>
+      <div class="stat"><strong>${totalReceivedQty}</strong> Total Received Qty</div>
+      <div class="stat"><strong>${pendingQty}</strong> Pending Qty</div>
       <div class="stat"><strong>${matched}</strong> Matched</div>
-      <div class="stat"><strong>${pending}</strong> Pending</div>
       <div class="stat"><strong>${variance}</strong> Variances</div>
       <div class="stat"><strong>${overallStatus()}</strong> Overall</div>`;
+
   }
 
   function addScan(code) {
