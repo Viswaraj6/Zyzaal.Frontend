@@ -130,19 +130,34 @@
       audioContext = audioContext || new AudioCtx();
       if (audioContext.state === 'suspended') audioContext.resume();
       const now = audioContext.currentTime;
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.type = 'sine';
-      // Lower-pitched, deeper confirmation tone; a separate descending warning tone.
-      osc.frequency.setValueAtTime(success ? 440 : 220, now);
-      osc.frequency.exponentialRampToValueAtTime(success ? 330 : 110, now + (success ? 0.22 : 0.32));
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.025);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + (success ? 0.28 : 0.38));
-      osc.connect(gain); gain.connect(audioContext.destination);
-      osc.start(now); osc.stop(now + (success ? 0.3 : 0.4));
-    } catch (_) {}
+      const playTone = (frequency, endFrequency, startAt, duration, volume) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(frequency, startAt);
+        osc.frequency.exponentialRampToValueAtTime(Math.max(40, endFrequency), startAt + duration * 0.72);
+        gain.gain.setValueAtTime(0.0001, startAt);
+        gain.gain.exponentialRampToValueAtTime(volume, startAt + 0.025);
+        gain.gain.setValueAtTime(volume, startAt + duration * 0.48);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.start(startAt);
+        osc.stop(startAt + duration + 0.02);
+      };
+      if (success) {
+        // Deep, audible two-note confirmation.
+        playTone(330, 220, now, 0.24, 0.38);
+        playTone(247, 165, now + 0.12, 0.28, 0.34);
+      } else {
+        // Lower descending warning tone.
+        playTone(185, 82, now, 0.42, 0.42);
+      }
+    } catch (e) {
+      console.warn('Scan sound could not play:', e);
+    }
   }
+
   function highlightAndScroll(line){
     highlightedLineIndex = lines.indexOf(line);
     renderLines();
@@ -202,8 +217,28 @@
   async function startCamera(){
     if(!('BarcodeDetector' in window)){showNotice('saveNotice','This browser does not support BarcodeDetector. Use a USB scanner or type the barcode.','error');return;}
     try{
+      // Camera button is a user gesture: unlock audio here for scan feedback.
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        audioContext = audioContext || new AudioCtx();
+        if (audioContext.state === 'suspended') await audioContext.resume();
+      }
       cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
-      $('video').srcObject=cameraStream;await $('video').play();$('cameraBox').style.display='block';$('cameraStatus').textContent='Camera running…';
+      $('video').srcObject=cameraStream;
+      $('cameraBox').style.display='block';
+      $('cameraBox').classList.add('camera-fullscreen-ready');
+      $('video').style.width='100%';
+      $('video').style.maxHeight='calc(100vh - 120px)';
+      $('video').style.objectFit='contain';
+      await $('video').play();
+      $('cameraStatus').textContent='Camera running — fullscreen scan active';
+      // Fullscreen may be unavailable on some browsers/devices; camera still works inline.
+      const box=$('cameraBox');
+      if (box.requestFullscreen) {
+        try { await box.requestFullscreen(); } catch (fullscreenError) {
+          console.warn('Fullscreen was not allowed; continuing inline.', fullscreenError);
+        }
+      }
       const detector=new BarcodeDetector();
       scanTimer=setInterval(async()=>{
         try{const codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue){const code=codes[0].rawValue;addBarcodeFromCamera(code);}}catch{}
@@ -229,15 +264,36 @@
       ? `✓ Scanned: ${code} | ${line.name||line.sku||line.barcode} | Qty ${received}/${expected} | Item balance ${balance} | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`
       : `⚠ Scanned: ${code} | Extra item | Received 1 | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`;
   }
-  function stopCamera(){if(scanTimer)clearInterval(scanTimer);scanTimer=null;if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;$('video').srcObject=null;$('cameraBox').style.display='none';}
+  async function stopCamera(){
+    if(scanTimer)clearInterval(scanTimer);
+    scanTimer=null;
+    if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());
+    cameraStream=null;
+    $('video').srcObject=null;
+    $('cameraBox').style.display='none';
+    if(document.fullscreenElement && document.fullscreenElement === $('cameraBox')){
+      try { await document.exitFullscreen(); } catch (_) {}
+    }
+  }
   $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
-  $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcode();}});
-  $('addBarcodeBtn').addEventListener('click',addBarcode);
+  function addBarcodeManually(){
+    const result = addBarcode();
+    if(!result) return;
+    playScanSound(result.matched);
+    highlightAndScroll(result.line);
+  }
+  $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcodeManually();}});
+  $('addBarcodeBtn').addEventListener('click',()=>addBarcodeManually());
   $('addLineBtn').addEventListener('click',()=>{lines.push({barcode:'',sku:'',productCode:'',name:'',expectedQty:0,receivedQty:0,isExtra:true});renderLines();});
   $('saveBtn').addEventListener('click',saveCheck);$('loadChecksBtn').addEventListener('click',loadChecks);$('resetCountsBtn').addEventListener('click',()=>{if(confirm('Reset all received quantities to zero?')){lines.forEach(l=>l.receivedQty=0);renderLines();}});
   $('cameraBtn').addEventListener('click',()=>{if($('cameraBox').style.display==='block')stopCamera();else startCamera();});
   $('stopCameraBtn').addEventListener('click',stopCamera);
   $('exportLink').href=API+'/reports/stocktake.csv';
+  document.addEventListener('fullscreenchange',()=>{
+    if(!document.fullscreenElement && cameraStream && $('cameraBox').style.display==='block'){
+      $('cameraStatus').textContent='Camera running (fullscreen exited; scanning continues)';
+    }
+  });
   window.addEventListener('beforeunload',stopCamera);
   loadOrders();
 })();
