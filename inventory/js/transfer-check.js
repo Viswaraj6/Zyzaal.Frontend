@@ -173,11 +173,14 @@ function getOrderQty(order) {
     item.quantity_ordered ??
     0
 );
-      return {
-        barcode, sku: sku || barcode,
-        name: String(item.name || item.item_name || item.description || ""),
-        expectedQty, receivedQty: 0
-      };
+     return {
+  barcode,
+  sku,
+  productCode,
+  name: String(item.name || item.item_name || item.description || ""),
+  expectedQty,
+  receivedQty: 0
+};
     });
   }
 
