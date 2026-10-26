@@ -159,6 +159,10 @@ function getOrderQty(order) {
     const items = order.line_items || order.transfer_order_line_items || order.items || [];
     return items.map(item => {
       const sku = String(item.sku || item.item_sku || item.item_id || "").trim();
+      const productCode = String(
+  item.item_code || item.product_code || item.code || ""
+).trim();
+
       const barcode = String(item.barcode || item.ean || item.upc || sku).trim();
      const expectedQty = Number(
     item.quantity_transferred ??
