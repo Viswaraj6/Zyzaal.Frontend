@@ -337,10 +337,16 @@ function playScanBeep() {
 
   // Keep the remaining existing code unchanged
 
-    const found = lines.find(line =>
-      String(line.barcode).toLowerCase() === code.toLowerCase() ||
-      String(line.sku).toLowerCase() === code.toLowerCase()
-    );
+   const normalize = value =>
+  String(value ?? "").trim().toLowerCase();
+
+const scannedCode = normalize(code);
+
+const found = lines.find(line =>
+  scannedCode === normalize(line.barcode) ||
+  scannedCode === normalize(line.sku) ||
+  scannedCode === normalize(line.productCode)
+);
 
     if (found) {
       found.receivedQty = quantity(found.receivedQty) + 1;
