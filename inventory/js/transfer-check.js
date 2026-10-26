@@ -95,7 +95,21 @@ function getToken() {
       showMessage("orderMessage", error.message, "error");
     }
   }
+
 function getOrderQty(order) {
+  // First, use the total quantity if Zoho provides it
+  const totalQty = Number(
+    order.quantity_transfer ??
+    order.total_quantity ??
+    order.quantity ??
+    0
+  );
+
+  if (Number.isFinite(totalQty) && totalQty > 0) {
+    return totalQty;
+  }
+
+  // Otherwise, calculate from line items
   const items =
     order.line_items ||
     order.transfer_order_line_items ||
