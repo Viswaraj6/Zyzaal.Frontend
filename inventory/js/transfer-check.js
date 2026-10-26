@@ -1,485 +1,192 @@
 (() => {
-  "use strict";
-
-  const API = "https://fark618-backend.onrender.com/admin/inventory";
+  const API = 'https://fark618-backend.onrender.com/admin/inventory';
   const $ = id => document.getElementById(id);
-
-  let orders = [];
-  let selectedOrder = null;
-  let lines = [];
-  let cameraStream = null;
-  let cameraTimer = null;
-  let detector = null;
-  let lastCameraCode = "";
-  let lastCameraTime = 0;
-
-function getToken() {
-  const token = localStorage.getItem("adminToken");
-
-  if (!token || token === "undefined" || token === "null") {
-    throw new Error("Admin token missing. Please login again.");
+  let orders = [], selectedOrder = null, lines = [], cameraStream = null, scanTimer = null;
+  const token = () => localStorage.getItem('adminToken');
+  function authHeaders(json=true) {
+    const t = token();
+    if (!t) throw new Error('Admin token not found. Please log in again in the FARK 618 admin panel.');
+    const h = {'Authorization': `Bearer ${t}`};
+    if (json) h['Content-Type'] = 'application/json';
+    return h;
   }
-
-  return token.replace(/^Bearer\s+/i, "").trim();
-}
-
-
-  function headers(hasBody = false) {
-    const token = getToken();
-    if (!token) throw new Error("Admin token missing. Please login again.");
-
-    const result = { Authorization: `Bearer ${token}` };
-    if (hasBody) result["Content-Type"] = "application/json";
-    return result;
-  }
-
-  async function api(path, options = {}) {
-    const response = await fetch(API + path, {
-      ...options,
-      headers: {
-        ...headers(options.body !== undefined),
-        ...(options.headers || {})
-      }
-    });
-
-    const contentType = response.headers.get("content-type") || "";
-    let data = null;
-    if (contentType.includes("application/json")) data = await response.json();
-
+  async function api(path, options={}) {
+    const response = await fetch(API + path, {...options, headers:{...authHeaders(options.body !== undefined), ...(options.headers||{})}});
+    const type = response.headers.get('content-type') || '';
     if (!response.ok) {
-      throw new Error(data?.message || `Request failed: ${response.status}`);
+      let msg = `Request failed (${response.status})`;
+      try { const data = type.includes('json') ? await response.json() : null; if (data?.message) msg = data.message; } catch {}
+      throw new Error(msg);
     }
-    return data;
+    return type.includes('json') ? response.json() : response;
   }
-
-  function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    })[char]);
+  function showNotice(id, message, kind='') { const el=$(id); el.textContent=message; el.className='notice'+(kind?' '+kind:''); el.hidden=false; }
+  function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function number(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n):0;}
+  function lineStatus(l){if(l.receivedQty===0&&l.expectedQty>0)return 'Pending';if(l.receivedQty<l.expectedQty)return 'Shortage';if(l.receivedQty>l.expectedQty)return 'Excess';return 'Matched';}
+  function overallStatus(){if(lines.every(l=>lineStatus(l)==='Matched'))return 'Matched';if(lines.some(l=>lineStatus(l)==='Pending'))return 'Pending';return 'Variance';}
+  function renderOrders(){
+    const q=$('searchOrders').value.trim().toLowerCase();
+    const filtered=orders.filter(o=>[o.transferOrderNo,o.fromStore,o.toStore,o.status].some(v=>String(v||'').toLowerCase().includes(q)));
+    $('orders').innerHTML=filtered.map(o=>`<button class="order ${selectedOrder?.transferOrderId===o.transferOrderId?'active':''}" data-id="${escapeHtml(o.transferOrderId)}"><strong>${escapeHtml(o.transferOrderNo||o.transferOrderId)}</strong><span>${escapeHtml(o.fromStore||'—')} → ${escapeHtml(o.toStore||'—')}</span><span>${escapeHtml(o.date||'')} · ${escapeHtml(o.status||'')} · Qty ${number(o.totalQuantity)}</span></button>`).join('')||'<div style="color:#64748b">No matching orders.</div>';
+    $('orders').querySelectorAll('[data-id]').forEach(b=>b.addEventListener('click',()=>chooseOrder(b.dataset.id)));
   }
-
-  function quantity(value) {
-    const n = Number(value);
-    return Number.isFinite(n) && n >= 0 ? Math.floor(n) : 0;
+  async function loadOrders(){
+    try{
+      showNotice('orderNotice','Loading Zoho transfer orders…');
+      const page=Math.max(1,number($('pageNo').value)||1);
+      const data=await api(`/transfer-orders?page=${page}&per_page=50`,{method:'GET'});
+      orders=data.orders||[]; renderOrders();
+      showNotice('orderNotice',`Loaded ${orders.length} transfer orders (page ${data.page||page}). Choose an order to verify physical receipt.`, 'success');
+    }catch(e){showNotice('orderNotice',e.message,'error');}
   }
-
-  function showMessage(id, text, type = "") {
-    const el = $(id);
-    el.textContent = text;
-    el.className = "message" + (type ? " " + type : "");
-    el.hidden = false;
-  }
-
-  function lineStatus(line) {
-    if (line.receivedQty === 0 && line.expectedQty > 0) return "Pending";
-    if (line.receivedQty < line.expectedQty) return "Shortage";
-    if (line.receivedQty > line.expectedQty) return "Excess";
-    return "Matched";
-  }
-
-  function overallStatus() {
-    if (lines.every(line => lineStatus(line) === "Matched")) return "Matched";
-    if (lines.some(line => lineStatus(line) === "Pending")) return "Pending";
-    return "Variance";
-  }
-
-  async function loadOrders() {
-    try {
-      showMessage("orderMessage", "Loading transfer orders...");
-      const page = Math.max(1, quantity($("pageInput").value));
-      const data = await api(`/transfer-orders?page=${page}&per_page=50`);
-      orders = data.orders || [];
-      renderOrders();
-      showMessage("orderMessage", `Loaded ${orders.length} transfer orders.`, "success");
-    } catch (error) {
-      showMessage("orderMessage", error.message, "error");
-    }
-  }
-
-function getOrderQty(order) {
-  // First, use the total quantity if Zoho provides it
-  const totalQty = Number(
-    order.quantity_transfer ??
-    order.total_quantity ??
-    order.quantity ??
-    0
-  );
-
-  if (Number.isFinite(totalQty) && totalQty > 0) {
-    return totalQty;
-  }
-
-  // Otherwise, calculate from line items
-  const items =
-    order.line_items ||
-    order.transfer_order_line_items ||
-    order.items ||
-    [];
-
-  return items.reduce((total, item) => {
-    const qty = Number(
-      item.quantity_transferred ??
-      item.quantity_transfer ??
-      item.quantity ??
-      item.transfer_quantity ??
-      item.quantity_to_transfer ??
-      item.quantity_ordered ??
-      0
-    );
-
-    return total + (Number.isFinite(qty) && qty > 0 ? qty : 0);
-  }, 0);
-}
-  function renderOrders() {
-    const search = $("searchInput").value.trim().toLowerCase();
-    const filtered = orders.filter(order =>
-      [order.transferOrderNo, order.fromStore, order.toStore, order.status]
-        .some(value => String(value || "").toLowerCase().includes(search))
-    );
-
-    $("ordersList").innerHTML = filtered.map(order => `
-      <button class="order ${selectedOrder?.transferOrderId === order.transferOrderId ? "active" : ""}"
-        data-id="${escapeHtml(order.transferOrderId)}">
-        <strong>${escapeHtml(order.transferOrderNo || order.transferOrderId)}</strong>
-        <span>${escapeHtml(order.fromStore || "-")} → ${escapeHtml(order.toStore || "-")}</span>
-      <span>
-  ${escapeHtml(order.date || "")} ·
-  ${escapeHtml(order.status || "")} ·
-  Qty ${getOrderQty(order)}
-</span>
-      </button>
-    `).join("") || "<p>No matching transfer orders found.</p>";
-
-    $("ordersList").querySelectorAll("[data-id]").forEach(button => {
-      button.addEventListener("click", () => selectOrder(button.dataset.id));
+  function extractLines(o){
+    const raw=o.line_items||o.transfer_order_line_items||o.items||[];
+    return raw.map(x=>{
+      const sku=String(x.sku||x.item_sku||x.item_id||'').trim();
+      const productCode=String(x.item_code||x.product_code||x.code||x.productCode||'').trim();
+      const barcode=String(x.barcode||x.ean||x.upc||sku).trim();
+      const qty=number(
+        x.quantity_transfer ??
+        x.quantity_transferred ??
+        x.quantity ??
+        x.transfer_quantity ??
+        x.quantity_to_transfer ??
+        x.quantity_ordered ??
+        0
+      );
+      return {
+        barcode, sku:sku||barcode, productCode,
+        name:String(x.name||x.item_name||x.description||''),
+        expectedQty:qty, receivedQty:0, isExtra:false
+      };
     });
   }
-
-  function extractLines(order) {
-    const items = order.line_items || order.transfer_order_line_items || order.items || [];
-    return items.map(item => {
-      const sku = String(item.sku || item.item_sku || item.item_id || "").trim();
-      const productCode = String(
-  item.item_code || item.product_code || item.code || ""
-).trim();
-
-      const barcode = String(item.barcode || item.ean || item.upc || sku).trim();
-     const expectedQty = Number(
-    item.quantity_transferred ??
-    item.quantity_transfer ??
-    item.quantity ??
-    item.transfer_quantity ??
-    item.quantity_to_transfer ??
-    item.quantity_ordered ??
-    0
-);
-     return {
-  barcode,
-  sku,
-  productCode,
-  name: String(item.name || item.item_name || item.description || ""),
-  expectedQty,
-  receivedQty: 0
-};
-    });
+  async function chooseOrder(id){
+    const summary=orders.find(o=>o.transferOrderId===id); if(!summary)return;
+    try{
+      showNotice('orderNotice',`Loading ${summary.transferOrderNo} details…`);
+      const data=await api(`/transfer-orders/${encodeURIComponent(id)}`,{method:'GET'});
+      const o=data.transferOrder;
+      selectedOrder={...summary, raw:o};
+      lines=extractLines(o);
+      $('checkCard').hidden=false;
+      $('selectedTitle').textContent=summary.transferOrderNo||'Transfer order';
+      $('selectedMeta').textContent=`${summary.fromStore||'—'} → ${summary.toStore||'—'} · ${summary.date||''} · Zoho status: ${summary.status||'—'}`;
+      renderLines(); renderOrders();
+      showNotice('orderNotice',`Selected ${summary.transferOrderNo}. Confirm expected quantities before saving.`, 'success');
+      $('barcodeInput').focus();
+    }catch(e){showNotice('orderNotice',e.message,'error');}
   }
-
-  async function selectOrder(id) {
-    const summary = orders.find(order => order.transferOrderId === id);
-    if (!summary) return;
-
-    try {
-      showMessage("orderMessage", "Loading selected order...");
-      const data = await api(`/transfer-orders/${encodeURIComponent(id)}`);
-      const order = data.transferOrder;
-      if (!order) throw new Error("Transfer order details were not returned by API.");
-
-      selectedOrder = { ...summary, raw: order };
-      lines = extractLines(order);
-      $("checkCard").hidden = false;
-      $("orderTitle").textContent = summary.transferOrderNo || "Transfer Order";
-      $("orderDetails").textContent =
-        `${summary.fromStore || "-"} → ${summary.toStore || "-"} | ${summary.date || ""} | ${summary.status || ""}`;
-
-      renderLines();
-      renderOrders();
-      showMessage("orderMessage",
-        "Order loaded. Verify item names and expected quantities before saving.", "success");
-    } catch (error) {
-      showMessage("orderMessage", error.message, "error");
-    }
-  }
-
-  function renderLines() {
-    $("linesBody").innerHTML = lines.map((line, index) => {
-      const status = lineStatus(line);
-      return `<tr>
-        <td><input data-index="${index}" data-key="barcode" value="${escapeHtml(line.barcode)}"></td>
-        <td><input data-index="${index}" data-key="name" value="${escapeHtml(line.name)}"></td>
-        <td><input type="number" min="0" step="1" data-index="${index}" data-key="expectedQty" value="${quantity(line.expectedQty)}"></td>
-        <td><input type="number" min="0" step="1" data-index="${index}" data-key="receivedQty" value="${quantity(line.receivedQty)}"></td>
+  function renderLines(){
+    $('linesBody').innerHTML=lines.map((l,i)=>{
+      const extra=l.isExtra===true;
+      const status=lineStatus(l);
+      return `<tr class="${extra?'extra-line':''}">
+        <td><input aria-label="Barcode / SKU ${i+1}" data-i="${i}" data-k="barcode" value="${escapeHtml(l.barcode)}" ${extra?'':'readonly'}></td>
+        <td><input aria-label="Product ${i+1}" data-i="${i}" data-k="name" value="${escapeHtml(l.name)}" ${extra?'':'readonly'}></td>
+        <td><input type="number" min="0" step="1" aria-label="Expected quantity ${i+1}" data-i="${i}" data-k="expectedQty" value="${number(l.expectedQty)}" ${extra?'':'readonly'}></td>
+        <td><input type="number" min="0" step="1" aria-label="Received quantity ${i+1}" data-i="${i}" data-k="receivedQty" value="${number(l.receivedQty)}"></td>
         <td><span class="status ${status}">${status}</span></td>
-        <td><button class="danger" data-remove="${index}">Remove</button></td>
+        <td>${extra?`<button class="danger" data-remove="${i}" style="padding:7px 9px">Remove</button>`:'<span style="color:#94a3b8">Locked</span>'}</td>
       </tr>`;
-    }).join("");
+    }).join('');
 
-    $("linesBody").querySelectorAll("[data-index]").forEach(input => {
-      input.addEventListener("change", () => {
-        const index = Number(input.dataset.index);
-        const key = input.dataset.key;
-        lines[index][key] = ["expectedQty", "receivedQty"].includes(key)
-          ? quantity(input.value) : input.value.trim();
-        renderLines();
-      });
-    });
-
-    $("linesBody").querySelectorAll("[data-remove]").forEach(button => {
-      button.addEventListener("click", () => {
-        lines.splice(Number(button.dataset.remove), 1);
-        renderLines();
-      });
-    });
-
-   
-    const matched = lines.filter(line => lineStatus(line) === "Matched").length;
-    const pending = lines.filter(line => lineStatus(line) === "Pending").length;
-    const variance = lines.filter(line =>
-      ["Shortage", "Excess"].includes(lineStatus(line))
-    ).length;
-
-    const totalExpectedQty = lines.reduce(
-      (sum, line) => sum + quantity(line.expectedQty), 0
-    );
-
-    const totalReceivedQty = lines.reduce(
-      (sum, line) => sum + quantity(line.receivedQty), 0
-    );
-
-    const pendingQty = lines.reduce(
-      (sum, line) => sum + Math.max(
-        0,
-        quantity(line.expectedQty) - quantity(line.receivedQty)
-      ), 0
-    );
-
-  
-$("stats").innerHTML = `
-  <div class="stat">
-    <strong>${lines.length}</strong> Total Lines
-  </div>
-
-  <div class="stat">
-    <strong>${totalExpectedQty}</strong> Total Expected Qty
-  </div>
-
-  <div class="stat">
-    <strong>${totalReceivedQty}</strong> Total Received Qty
-  </div>
-
-  <div class="stat">
-    <strong>${pendingQty}</strong> Total Pending Qty
-  </div>
-
-  <div class="stat">
-    <strong>${matched}</strong> Matched
-  </div>
-
-  <div class="stat">
-    <strong>${variance}</strong> Shortage / Excess
-  </div>
-
-  <div class="stat">
-    <strong>${overallStatus()}</strong> Overall Status
-  </div>
-`;
-
-  }
-
-
-let audioContext;
-
-function playScanBeep() {
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return;
-
-    if (!audioContext) {
-      audioContext = new AudioCtx();
-    }
-
-    if (audioContext.state === "suspended") {
-      audioContext.resume();
-    }
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = "sine";
-    oscillator.frequency.value = 1000;
-    gain.gain.value = 0.15;
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.12);
-  } catch (error) {
-    console.warn("Scan beep unavailable:", error);
-  }
-}
-
-  
- function addScan(code) {
-  code = String(code || "").trim();
-  if (!code) return;
-
-  playScanBeep();
-
-  // Keep the remaining existing code unchanged
-
-   const normalize = value =>
-  String(value ?? "").trim().toLowerCase();
-
-const scannedCode = normalize(code);
-
-const found = lines.find(line =>
-  scannedCode === normalize(line.barcode) ||
-  scannedCode === normalize(line.sku) ||
-  scannedCode === normalize(line.productCode) ||
-  scannedCode === normalize(line.name)
-);
-
-    if (found) {
-      found.receivedQty = quantity(found.receivedQty) + 1;
+    $('linesBody').querySelectorAll('input[data-i]').forEach(inp=>inp.addEventListener('change',()=>{
+      const i=Number(inp.dataset.i), k=inp.dataset.k;
+      if(!lines[i]) return;
+      if(k!=='receivedQty' && lines[i].isExtra!==true) return;
+      lines[i][k]=(k==='expectedQty'||k==='receivedQty')?number(inp.value):inp.value.trim();
+      if(k==='barcode' && !lines[i].sku) lines[i].sku=inp.value.trim();
       renderLines();
-      showMessage("saveMessage", `Scanned ${code}. Received quantity increased by 1.`, "success");
+    }));
+    $('linesBody').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{
+      const i=Number(b.dataset.remove);
+      if(lines[i]?.isExtra===true){lines.splice(i,1);renderLines();}
+    }));
+
+    const matched=lines.filter(l=>lineStatus(l)==='Matched').length;
+    const variance=lines.filter(l=>['Shortage','Excess'].includes(lineStatus(l))).length;
+    const pending=lines.filter(l=>lineStatus(l)==='Pending').length;
+    const totalExpected=lines.reduce((sum,l)=>sum+number(l.expectedQty),0);
+    const totalReceived=lines.reduce((sum,l)=>sum+number(l.receivedQty),0);
+    const totalPending=lines.reduce((sum,l)=>sum+Math.max(0,number(l.expectedQty)-number(l.receivedQty)),0);
+
+    $('stats').innerHTML=`
+      <div class="stat"><b>${lines.length}</b> Total Lines</div>
+      <div class="stat"><b>${totalExpected}</b> Total Expected Qty</div>
+      <div class="stat"><b>${totalReceived}</b> Total Received Qty</div>
+      <div class="stat"><b>${totalPending}</b> Total Pending Qty</div>
+      <div class="stat"><b>${matched}</b> Matched</div>
+      <div class="stat"><b>${variance}</b> Shortage / Excess</div>
+      <div class="stat"><b>${overallStatus()}</b> Overall Status</div>`;
+  }
+  function normalizeCode(value){return String(value??'').trim().toLowerCase();}
+  function addBarcode(){
+    const code=$('barcodeInput').value.trim();
+    if(!code)return;
+    const scanned=normalizeCode(code);
+    const found=lines.find(l=>[
+      l.barcode,l.sku,l.productCode,l.name
+    ].some(value=>normalizeCode(value)===scanned));
+
+    if(found){
+      found.receivedQty=number(found.receivedQty)+1;
+      renderLines();
+      showNotice('saveNotice',`Scanned ${code}: received quantity increased by 1.`,'success');
     } else {
       lines.push({
-        barcode: code, sku: code, name: "Extra item - verify",
-        expectedQty: 0, receivedQty: 1
+        barcode:code,sku:code,productCode:code,name:'Extra item - verify',
+        expectedQty:0,receivedQty:1,isExtra:true
       });
       renderLines();
-      showMessage("saveMessage", `${code} was not on this order. Added as an extra line; verify before saving.`);
+      showNotice('saveNotice',`Code ${code} was not matched to an order line. Added as an editable extra line; verify details before saving.`);
     }
-
-    $("barcodeInput").value = "";
-    $("barcodeInput").focus();
+    $('barcodeInput').value='';
+    $('barcodeInput').focus();
   }
-
-  async function saveCheck() {
-    if (!selectedOrder) return showMessage("saveMessage", "Select a transfer order first.", "error");
-    if (!lines.length) return showMessage("saveMessage", "No items to save.", "error");
-
-    try {
-      $("saveBtn").disabled = true;
-      const payload = {
-        transferOrderId: selectedOrder.transferOrderId,
-        transferOrderNo: selectedOrder.transferOrderNo,
-        fromStore: selectedOrder.fromStore,
-        toStore: selectedOrder.toStore,
-        lines: lines.map(line => ({
-          barcode: line.barcode || line.sku,
-          sku: line.sku || line.barcode,
-          name: line.name,
-          expectedQty: quantity(line.expectedQty),
-          receivedQty: quantity(line.receivedQty)
-        }))
-      };
-
-      const data = await api("/transfer-checks", {
-        method: "POST", body: JSON.stringify(payload)
-      });
-
-      showMessage("saveMessage", `Saved. Status: ${data.check?.status || overallStatus()}`, "success");
-      await loadSavedChecks();
-    } catch (error) {
-      showMessage("saveMessage", error.message, "error");
-    } finally {
-      $("saveBtn").disabled = false;
-    }
+  async function saveCheck(){
+    if(!selectedOrder){showNotice('saveNotice','Choose a transfer order first.','error');return;}
+    if(!lines.length){showNotice('saveNotice','Add at least one line before saving.','error');return;}
+    try{
+      $('saveBtn').disabled=true;
+      const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,productCode:l.productCode||'',name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
+      const data=await api('/transfer-checks',{method:'POST',body:JSON.stringify(payload)});
+      showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}.`,'success');
+      loadChecks();
+    }catch(e){showNotice('saveNotice',e.message,'error');}finally{$('saveBtn').disabled=false;}
   }
-
-  async function loadSavedChecks() {
-    try {
-      const data = await api("/transfer-checks");
-      const checks = data.checks || [];
-      $("savedBody").innerHTML = checks.map(check => `<tr>
-        <td>${escapeHtml(check.transferOrderNo || check.transferOrderId || "-")}</td>
-        <td>${escapeHtml(check.fromStore || "-")}</td>
-        <td>${escapeHtml(check.toStore || "-")}</td>
-        <td>${escapeHtml(check.status || "-")}</td>
-        <td>${Array.isArray(check.lines) ? check.lines.length : 0}</td>
-      </tr>`).join("") || "<tr><td colspan='5'>No saved checks found.</td></tr>";
-      showMessage("savedMessage", `Loaded ${checks.length} saved checks.`, "success");
-    } catch (error) {
-      showMessage("savedMessage", error.message, "error");
-    }
+  async function loadChecks(){
+    try{
+      const status=$('filterStatus').value;
+      const data=await api('/transfer-checks'+(status?'?status='+encodeURIComponent(status):''),{method:'GET'});
+      const checks=data.checks||[];
+      $('checksBody').innerHTML=checks.map(c=>`<tr><td>${escapeHtml(c.transferOrderNo||c.transferOrderId||'—')}</td><td>${escapeHtml(c.fromStore||'—')}</td><td>${escapeHtml(c.toStore||'—')}</td><td><span class="status ${escapeHtml(c.status||'')}">${escapeHtml(c.status||'—')}</span></td><td>${escapeHtml(c.verifiedAt?new Date(c.verifiedAt).toLocaleString():'—')}</td><td>${Array.isArray(c.lines)?c.lines.length:0}</td></tr>`).join('')||'<tr><td colspan="6">No saved checks found.</td></tr>';
+      showNotice('checksNotice',`Loaded ${checks.length} saved checks.`,'success');
+    }catch(e){showNotice('checksNotice',e.message,'error');}
   }
-
-  async function startCamera() {
-    if (!("BarcodeDetector" in window)) {
-      $("cameraBox").hidden = false;
-      showMessage("cameraMessage",
-        "BarcodeDetector is not supported in this browser. Use a USB scanner or type the SKU.", "error");
-      return;
-    }
-
-    try {
-      cameraStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" } }, audio: false
-      });
-      $("cameraVideo").srcObject = cameraStream;
-      $("cameraBox").hidden = false;
-      await $("cameraVideo").play();
-      detector = new BarcodeDetector();
-
-      cameraTimer = setInterval(async () => {
-        try {
-          const results = await detector.detect($("cameraVideo"));
-          if (!results.length) return;
-          const code = results[0].rawValue;
-          const now = Date.now();
-          if (code && (code !== lastCameraCode || now - lastCameraTime > 1800)) {
-            lastCameraCode = code;
-            lastCameraTime = now;
-            addScan(code);
-            $("cameraMessage").textContent = `Last scan: ${code}`;
-          }
-        } catch (_) {}
-      }, 700);
-    } catch (error) {
-      $("cameraBox").hidden = false;
-      showMessage("cameraMessage", `Camera error: ${error.message}`, "error");
-    }
+  async function startCamera(){
+    if(!('BarcodeDetector' in window)){showNotice('saveNotice','This browser does not support BarcodeDetector. Use a USB scanner or type the barcode.','error');return;}
+    try{
+      cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+      $('video').srcObject=cameraStream;await $('video').play();$('cameraBox').style.display='block';$('cameraStatus').textContent='Camera running…';
+      const detector=new BarcodeDetector();
+      scanTimer=setInterval(async()=>{
+        try{const codes=await detector.detect($('video'));if(codes.length&&codes[0].rawValue){const code=codes[0].rawValue;addBarcodeFromCamera(code);}}catch{}
+      },700);
+    }catch(e){showNotice('saveNotice',`Could not open camera: ${e.message}. Check browser camera permission.`, 'error');}
   }
-
-  function stopCamera() {
-    if (cameraTimer) clearInterval(cameraTimer);
-    cameraTimer = null;
-    if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
-    cameraStream = null;
-    $("cameraVideo").srcObject = null;
-    $("cameraBox").hidden = true;
-  }
-
-  $("refreshBtn").addEventListener("click", loadOrders);
-  $("loadBtn").addEventListener("click", loadOrders);
-  $("searchInput").addEventListener("input", renderOrders);
-  $("scanBtn").addEventListener("click", () => addScan($("barcodeInput").value));
-  $("barcodeInput").addEventListener("keydown", event => {
-    if (event.key === "Enter") { event.preventDefault(); addScan($("barcodeInput").value); }
-  });
-  $("saveBtn").addEventListener("click", saveCheck);
-  $("savedBtn").addEventListener("click", loadSavedChecks);
-  $("resetBtn").addEventListener("click", () => {
-    if (confirm("Reset all received quantities to zero?")) {
-      lines.forEach(line => { line.receivedQty = 0; });
-      renderLines();
-    }
-  });
-  $("cameraBtn").addEventListener("click", startCamera);
-  $("stopCameraBtn").addEventListener("click", stopCamera);
-  window.addEventListener("beforeunload", stopCamera);
-
+  let lastCameraCode='',lastCameraAt=0;
+  function addBarcodeFromCamera(code){const now=Date.now();if(code===lastCameraCode&&now-lastCameraAt<1800)return;lastCameraCode=code;lastCameraAt=now;$('barcodeInput').value=code;addBarcode();$('cameraStatus').textContent=`Last scan: ${code}`;}
+  function stopCamera(){if(scanTimer)clearInterval(scanTimer);scanTimer=null;if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;$('video').srcObject=null;$('cameraBox').style.display='none';}
+  $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
+  $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcode();}});
+  $('addBarcodeBtn').addEventListener('click',addBarcode);
+  $('addLineBtn').addEventListener('click',()=>{lines.push({barcode:'',sku:'',productCode:'',name:'',expectedQty:0,receivedQty:0,isExtra:true});renderLines();});
+  $('saveBtn').addEventListener('click',saveCheck);$('loadChecksBtn').addEventListener('click',loadChecks);$('resetCountsBtn').addEventListener('click',()=>{if(confirm('Reset all received quantities to zero?')){lines.forEach(l=>l.receivedQty=0);renderLines();}});
+  $('cameraBtn').addEventListener('click',()=>{if($('cameraBox').style.display==='block')stopCamera();else startCamera();});
+  $('stopCameraBtn').addEventListener('click',stopCamera);
+  $('exportLink').href=API+'/reports/stocktake.csv';
+  window.addEventListener('beforeunload',stopCamera);
   loadOrders();
 })();
