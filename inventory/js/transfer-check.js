@@ -128,7 +128,11 @@ function getOrderQty(order) {
         data-id="${escapeHtml(order.transferOrderId)}">
         <strong>${escapeHtml(order.transferOrderNo || order.transferOrderId)}</strong>
         <span>${escapeHtml(order.fromStore || "-")} → ${escapeHtml(order.toStore || "-")}</span>
-        <span>${escapeHtml(order.date || "")} · ${escapeHtml(order.status || "")}</span>
+      <span>
+  ${escapeHtml(order.date || "")} ·
+  ${escapeHtml(order.status || "")} ·
+  Qty ${getOrderQty(order)}
+</span>
       </button>
     `).join("") || "<p>No matching transfer orders found.</p>";
 
