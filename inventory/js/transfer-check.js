@@ -52,18 +52,6 @@ function getToken() {
     return data;
   }
 
-  // Visual distinction for locked transfer-order fields.
-  if (!document.getElementById("transferCheckLockStyles")) {
-    const style = document.createElement("style");
-    style.id = "transferCheckLockStyles";
-    style.textContent = `
-      #linesBody input[readonly] { background:#f1f5f9; color:#64748b; cursor:not-allowed; border-color:#e2e8f0; }
-      #linesBody input:not([readonly]):focus { outline:2px solid #2563eb; border-color:#2563eb; }
-      #linesBody tr.extra-line { background:#fffdf5; }
-    `;
-    document.head.appendChild(style);
-  }
-
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -225,15 +213,13 @@ function getOrderQty(order) {
   function renderLines() {
     $("linesBody").innerHTML = lines.map((line, index) => {
       const status = lineStatus(line);
-      const editable = line.isExtra === true;
-      const lock = editable ? "" : "readonly";
-      return `<tr class="${editable ? "extra-line" : "standard-line"}">
-        <td><input data-index="${index}" data-key="barcode" value="${escapeHtml(line.barcode)}" ${lock} aria-label="Barcode or SKU"></td>
-        <td><input data-index="${index}" data-key="name" value="${escapeHtml(line.name)}" ${lock} aria-label="Product"></td>
-        <td><input type="number" min="0" step="1" data-index="${index}" data-key="expectedQty" value="${quantity(line.expectedQty)}" ${lock} aria-label="Expected quantity"></td>
-        <td><input type="number" min="0" step="1" data-index="${index}" data-key="receivedQty" value="${quantity(line.receivedQty)}" aria-label="Received quantity"></td>
+      return `<tr>
+        <td><input data-index="${index}" data-key="barcode" value="${escapeHtml(line.barcode)}"></td>
+        <td><input data-index="${index}" data-key="name" value="${escapeHtml(line.name)}"></td>
+        <td><input type="number" min="0" step="1" data-index="${index}" data-key="expectedQty" value="${quantity(line.expectedQty)}"></td>
+        <td><input type="number" min="0" step="1" data-index="${index}" data-key="receivedQty" value="${quantity(line.receivedQty)}"></td>
         <td><span class="status ${status}">${status}</span></td>
-        <td>${editable ? `<button class="danger" data-remove="${index}">Remove</button>` : `<span title="Existing transfer-order item is locked" aria-label="Locked">🔒</span>`}</td>
+        <td><button class="danger" data-remove="${index}">Remove</button></td>
       </tr>`;
     }).join("");
 
@@ -241,14 +227,7 @@ function getOrderQty(order) {
       input.addEventListener("change", () => {
         const index = Number(input.dataset.index);
         const key = input.dataset.key;
-        const line = lines[index];
-        if (!line) return;
-        // Existing transfer-order data is locked except Received Qty.
-        if (key !== "receivedQty" && line.isExtra !== true) {
-          renderLines();
-          return;
-        }
-        line[key] = ["expectedQty", "receivedQty"].includes(key)
+        lines[index][key] = ["expectedQty", "receivedQty"].includes(key)
           ? quantity(input.value) : input.value.trim();
         renderLines();
       });
@@ -256,28 +235,64 @@ function getOrderQty(order) {
 
     $("linesBody").querySelectorAll("[data-remove]").forEach(button => {
       button.addEventListener("click", () => {
-        const index = Number(button.dataset.remove);
-        if (lines[index]?.isExtra !== true) return;
-        lines.splice(index, 1);
+        lines.splice(Number(button.dataset.remove), 1);
         renderLines();
       });
     });
 
+   
     const matched = lines.filter(line => lineStatus(line) === "Matched").length;
-    const variance = lines.filter(line => ["Shortage", "Excess"].includes(lineStatus(line))).length;
-    const totalExpectedQty = lines.reduce((sum, line) => sum + quantity(line.expectedQty), 0);
-    const totalReceivedQty = lines.reduce((sum, line) => sum + quantity(line.receivedQty), 0);
-    const pendingQty = lines.reduce((sum, line) => sum + Math.max(0, quantity(line.expectedQty) - quantity(line.receivedQty)), 0);
+    const pending = lines.filter(line => lineStatus(line) === "Pending").length;
+    const variance = lines.filter(line =>
+      ["Shortage", "Excess"].includes(lineStatus(line))
+    ).length;
 
-    $("stats").innerHTML = `
-      <div class="stat"><strong>${lines.length}</strong> Total Lines</div>
-      <div class="stat"><strong>${totalExpectedQty}</strong> Total Expected Qty</div>
-      <div class="stat"><strong>${totalReceivedQty}</strong> Total Received Qty</div>
-      <div class="stat"><strong>${pendingQty}</strong> Total Pending Qty</div>
-      <div class="stat"><strong>${matched}</strong> Matched</div>
-      <div class="stat"><strong>${variance}</strong> Shortage / Excess</div>
-      <div class="stat"><strong>${overallStatus()}</strong> Overall Status</div>
-    `;
+    const totalExpectedQty = lines.reduce(
+      (sum, line) => sum + quantity(line.expectedQty), 0
+    );
+
+    const totalReceivedQty = lines.reduce(
+      (sum, line) => sum + quantity(line.receivedQty), 0
+    );
+
+    const pendingQty = lines.reduce(
+      (sum, line) => sum + Math.max(
+        0,
+        quantity(line.expectedQty) - quantity(line.receivedQty)
+      ), 0
+    );
+
+  
+$("stats").innerHTML = `
+  <div class="stat">
+    <strong>${lines.length}</strong> Total Lines
+  </div>
+
+  <div class="stat">
+    <strong>${totalExpectedQty}</strong> Total Expected Qty
+  </div>
+
+  <div class="stat">
+    <strong>${totalReceivedQty}</strong> Total Received Qty
+  </div>
+
+  <div class="stat">
+    <strong>${pendingQty}</strong> Total Pending Qty
+  </div>
+
+  <div class="stat">
+    <strong>${matched}</strong> Matched
+  </div>
+
+  <div class="stat">
+    <strong>${variance}</strong> Shortage / Excess
+  </div>
+
+  <div class="stat">
+    <strong>${overallStatus()}</strong> Overall Status
+  </div>
+`;
+
   }
 
 
@@ -314,40 +329,41 @@ function playScanBeep() {
 }
 
   
- function normalizeCode(value) {
-   return String(value ?? "").trim().toLowerCase();
- }
-
  function addScan(code) {
-   code = String(code || "").trim();
-   if (!code) return;
-   playScanBeep();
+  code = String(code || "").trim();
+  if (!code) return;
 
-   const scannedCode = normalizeCode(code);
-   const found = lines.find(line => [line.barcode, line.sku, line.productCode]
-     .some(value => normalizeCode(value) === scannedCode));
+  playScanBeep();
 
-   if (found) {
-     found.receivedQty = quantity(found.receivedQty) + 1;
-     renderLines();
-     showMessage("saveMessage", `Scanned ${code}. Received quantity increased by 1.`, "success");
-   } else {
-     lines.push({
-       barcode: code,
-       sku: code,
-       productCode: code,
-       name: "Extra item - verify",
-       expectedQty: 0,
-       receivedQty: 1,
-       isExtra: true
-     });
-     renderLines();
-     showMessage("saveMessage", `${code} was not on this order. Added as an extra line. Edit its details and verify before saving.`, "error");
-   }
+  // Keep the remaining existing code unchanged
 
-   $("barcodeInput").value = "";
-   $("barcodeInput").focus();
- }
+   const normalize = value =>
+  String(value ?? "").trim().toLowerCase();
+
+const scannedCode = normalize(code);
+
+const found = lines.find(line =>
+  scannedCode === normalize(line.barcode) ||
+  scannedCode === normalize(line.sku) ||
+  scannedCode === normalize(line.productCode)
+);
+
+    if (found) {
+      found.receivedQty = quantity(found.receivedQty) + 1;
+      renderLines();
+      showMessage("saveMessage", `Scanned ${code}. Received quantity increased by 1.`, "success");
+    } else {
+      lines.push({
+        barcode: code, sku: code, name: "Extra item - verify",
+        expectedQty: 0, receivedQty: 1
+      });
+      renderLines();
+      showMessage("saveMessage", `${code} was not on this order. Added as an extra line; verify before saving.`);
+    }
+
+    $("barcodeInput").value = "";
+    $("barcodeInput").focus();
+  }
 
   async function saveCheck() {
     if (!selectedOrder) return showMessage("saveMessage", "Select a transfer order first.", "error");
@@ -363,8 +379,6 @@ function playScanBeep() {
         lines: lines.map(line => ({
           barcode: line.barcode || line.sku,
           sku: line.sku || line.barcode,
-          productCode: line.productCode || "",
-          isExtra: line.isExtra === true,
           name: line.name,
           expectedQty: quantity(line.expectedQty),
           receivedQty: quantity(line.receivedQty)
