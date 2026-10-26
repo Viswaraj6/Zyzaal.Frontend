@@ -245,15 +245,21 @@
       },700);
     }catch(e){showNotice('saveNotice',`Could not open camera: ${e.message}. Check browser camera permission.`, 'error');}
   }
-  let lastCameraCode='',lastCameraAt=0;
-  function addBarcodeFromCamera(code){
+  let lastCameraCode='',lastCameraAt=0, cameraTransition=false, cameraReturnTimer=null;
+  async function addBarcodeFromCamera(code){
     const now=Date.now();
-    if(code===lastCameraCode&&now-lastCameraAt<2500)return;
+    if(cameraTransition || (code===lastCameraCode&&now-lastCameraAt<2500))return;
     lastCameraCode=code;lastCameraAt=now;
     const result=addBarcode(code);
     if(!result)return;
     const line=result.line;
     playScanSound(result.matched);
+    // Exit fullscreen briefly so the matched row can be shown, then return to scanner.
+    cameraTransition=true;
+    const wasFullscreen=!!(document.fullscreenElement && document.fullscreenElement===$('cameraBox'));
+    if(wasFullscreen && document.exitFullscreen){
+      try { await document.exitFullscreen(); } catch (_) {}
+    }
     highlightAndScroll(line);
     const received=number(line.receivedQty), expected=number(line.expectedQty);
     const balance=Math.max(0,number(line.expectedQty)-number(line.receivedQty));
@@ -263,6 +269,15 @@
     $('cameraStatus').textContent=result.matched
       ? `✓ Scanned: ${code} | ${line.name||line.sku||line.barcode} | Qty ${received}/${expected} | Item balance ${balance} | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`
       : `⚠ Scanned: ${code} | Extra item | Received 1 | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`;
+    if(cameraReturnTimer) clearTimeout(cameraReturnTimer);
+    cameraReturnTimer=setTimeout(async()=>{
+      if(!cameraStream){cameraTransition=false;return;}
+      $('cameraBox').scrollIntoView({behavior:'smooth',block:'center'});
+      if(wasFullscreen && $('cameraBox').requestFullscreen){
+        try { await $('cameraBox').requestFullscreen(); } catch (_) {}
+      }
+      cameraTransition=false;
+    }, 1300);
   }
   async function stopCamera(){
     if(scanTimer)clearInterval(scanTimer);
