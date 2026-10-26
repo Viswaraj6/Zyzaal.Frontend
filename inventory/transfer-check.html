@@ -125,7 +125,15 @@ label{font-size:12px;font-weight:700;color:#475569}input,select,button{font:inhe
     return raw.map((x,i)=>{
       const sku=String(x.sku||x.item_sku||x.item_id||'').trim();
       const barcode=String(x.barcode||x.ean||x.upc||sku).trim();
-      const qty=number(x.quantity_transferred??x.quantity??x.transfer_quantity??x.quantity_to_transfer??x.quantity_ordered??0);
+      const qty = number(
+  x.quantity_transfer ??
+  x.quantity_transferred ??
+  x.quantity ??
+  x.transfer_quantity ??
+  x.quantity_to_transfer ??
+  x.quantity_ordered ??
+  0
+);
       return {barcode,sku:sku||barcode,name:String(x.name||x.item_name||x.description||''),expectedQty:qty,receivedQty:0};
     });
   }
