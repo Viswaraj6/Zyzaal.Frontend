@@ -95,7 +95,27 @@ function getToken() {
       showMessage("orderMessage", error.message, "error");
     }
   }
+function getOrderQty(order) {
+  const items =
+    order.line_items ||
+    order.transfer_order_line_items ||
+    order.items ||
+    [];
 
+  return items.reduce((total, item) => {
+    const qty = Number(
+      item.quantity_transferred ??
+      item.quantity_transfer ??
+      item.quantity ??
+      item.transfer_quantity ??
+      item.quantity_to_transfer ??
+      item.quantity_ordered ??
+      0
+    );
+
+    return total + (Number.isFinite(qty) && qty > 0 ? qty : 0);
+  }, 0);
+}
   function renderOrders() {
     const search = $("searchInput").value.trim().toLowerCase();
     const filtered = orders.filter(order =>
