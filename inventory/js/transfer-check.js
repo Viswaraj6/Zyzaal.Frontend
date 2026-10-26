@@ -345,7 +345,8 @@ const scannedCode = normalize(code);
 const found = lines.find(line =>
   scannedCode === normalize(line.barcode) ||
   scannedCode === normalize(line.sku) ||
-  scannedCode === normalize(line.productCode)
+  scannedCode === normalize(line.productCode) ||
+  scannedCode === normalize(line.name)
 );
 
     if (found) {
