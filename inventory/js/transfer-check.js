@@ -1,7 +1,8 @@
 (() => {
   const API = 'https://fark618-backend.onrender.com/admin/inventory';
   const $ = id => document.getElementById(id);
-  let orders = [], selectedOrder = null, lines = [], cameraStream = null, scanTimer = null;
+  let orders = [], selectedOrder = null, lines = [], cameraStream = null, scanTimer = null, highlightedLineIndex = -1;
+  let audioContext = null;
   const token = () => localStorage.getItem('adminToken');
   function authHeaders(json=true) {
     const t = token();
@@ -82,7 +83,7 @@
     $('linesBody').innerHTML=lines.map((l,i)=>{
       const extra=l.isExtra===true;
       const status=lineStatus(l);
-      return `<tr class="${extra?'extra-line':''}">
+      return `<tr data-line-row="${i}" class="${extra?'extra-line ':''}${i===highlightedLineIndex?'scan-highlight':''}">
         <td><input aria-label="Barcode / SKU ${i+1}" data-i="${i}" data-k="barcode" value="${escapeHtml(l.barcode)}" ${extra?'':'readonly'}></td>
         <td><input aria-label="Product ${i+1}" data-i="${i}" data-k="name" value="${escapeHtml(l.name)}" ${extra?'':'readonly'}></td>
         <td><input type="number" min="0" step="1" aria-label="Expected quantity ${i+1}" data-i="${i}" data-k="expectedQty" value="${number(l.expectedQty)}" ${extra?'':'readonly'}></td>
@@ -114,7 +115,7 @@
 
     $('stats').innerHTML=`
       <div class="stat"><b>${lines.length}</b> Total Lines</div>
-      <div class="stat"><b>${totalExpected}</b> Total Transferred Qty</div>
+      <div class="stat"><b>${totalExpected}</b> Total Expected Qty</div>
       <div class="stat"><b>${totalReceived}</b> Total Received Qty</div>
       <div class="stat"><b>${totalPending}</b> Total Pending Qty</div>
       <div class="stat"><b>${matched}</b> Matched</div>
@@ -122,28 +123,61 @@
       <div class="stat"><b>${overallStatus()}</b> Overall Status</div>`;
   }
   function normalizeCode(value){return String(value??'').trim().toLowerCase();}
-  function addBarcode(){
-    const code=$('barcodeInput').value.trim();
-    if(!code)return;
+  function playScanSound(success=true){
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      audioContext = audioContext || new AudioCtx();
+      if (audioContext.state === 'suspended') audioContext.resume();
+      const now = audioContext.currentTime;
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.type = 'sine';
+      // Lower-pitched, deeper confirmation tone; a separate descending warning tone.
+      osc.frequency.setValueAtTime(success ? 440 : 220, now);
+      osc.frequency.exponentialRampToValueAtTime(success ? 330 : 110, now + (success ? 0.22 : 0.32));
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + (success ? 0.28 : 0.38));
+      osc.connect(gain); gain.connect(audioContext.destination);
+      osc.start(now); osc.stop(now + (success ? 0.3 : 0.4));
+    } catch (_) {}
+  }
+  function highlightAndScroll(line){
+    highlightedLineIndex = lines.indexOf(line);
+    renderLines();
+    const row = document.querySelector(`[data-line-row="${highlightedLineIndex}"]`);
+    if (row) { row.scrollIntoView({behavior:'smooth', block:'center'}); }
+  }
+
+  function addBarcode(codeFromCamera=''){
+    const code=(codeFromCamera || $('barcodeInput').value).trim();
+    if(!code)return null;
     const scanned=normalizeCode(code);
     const found=lines.find(l=>[
       l.barcode,l.sku,l.productCode,l.name
     ].some(value=>normalizeCode(value)===scanned));
 
+    let result;
     if(found){
       found.receivedQty=number(found.receivedQty)+1;
+      result={matched:true,code,line:found};
+      highlightedLineIndex = lines.indexOf(found);
       renderLines();
-      showNotice('saveNotice',`Scanned ${code}: received quantity increased by 1.`,'success');
+      showNotice('saveNotice',`✓ Scanned ${code}: ${found.name||found.sku||found.barcode} — Received ${number(found.receivedQty)} / Expected ${number(found.expectedQty)}.`,'success');
     } else {
-      lines.push({
+      const extra={
         barcode:code,sku:code,productCode:code,name:'Extra item - verify',
         expectedQty:0,receivedQty:1,isExtra:true
-      });
+      };
+      lines.push(extra);
+      result={matched:false,code,line:extra};
       renderLines();
-      showNotice('saveNotice',`Code ${code} was not matched to an order line. Added as an editable extra line; verify details before saving.`);
+      showNotice('saveNotice',`⚠ ${code} did not match an order line. Added as an extra item; verify it before saving.`);
     }
     $('barcodeInput').value='';
     $('barcodeInput').focus();
+    return result;
   }
   async function saveCheck(){
     if(!selectedOrder){showNotice('saveNotice','Choose a transfer order first.','error');return;}
@@ -177,7 +211,24 @@
     }catch(e){showNotice('saveNotice',`Could not open camera: ${e.message}. Check browser camera permission.`, 'error');}
   }
   let lastCameraCode='',lastCameraAt=0;
-  function addBarcodeFromCamera(code){const now=Date.now();if(code===lastCameraCode&&now-lastCameraAt<1800)return;lastCameraCode=code;lastCameraAt=now;$('barcodeInput').value=code;addBarcode();$('cameraStatus').textContent=`Last scan: ${code}`;}
+  function addBarcodeFromCamera(code){
+    const now=Date.now();
+    if(code===lastCameraCode&&now-lastCameraAt<2500)return;
+    lastCameraCode=code;lastCameraAt=now;
+    const result=addBarcode(code);
+    if(!result)return;
+    const line=result.line;
+    playScanSound(result.matched);
+    highlightAndScroll(line);
+    const received=number(line.receivedQty), expected=number(line.expectedQty);
+    const balance=Math.max(0,number(line.expectedQty)-number(line.receivedQty));
+    const totalExpected=lines.reduce((sum,l)=>sum+number(l.expectedQty),0);
+    const totalReceived=lines.reduce((sum,l)=>sum+number(l.receivedQty),0);
+    const totalBalance=lines.reduce((sum,l)=>sum+Math.max(0,number(l.expectedQty)-number(l.receivedQty)),0);
+    $('cameraStatus').textContent=result.matched
+      ? `✓ Scanned: ${code} | ${line.name||line.sku||line.barcode} | Qty ${received}/${expected} | Item balance ${balance} | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`
+      : `⚠ Scanned: ${code} | Extra item | Received 1 | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`;
+  }
   function stopCamera(){if(scanTimer)clearInterval(scanTimer);scanTimer=null;if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;$('video').srcObject=null;$('cameraBox').style.display='none';}
   $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
   $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcode();}});
