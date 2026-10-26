@@ -114,7 +114,7 @@
 
     $('stats').innerHTML=`
       <div class="stat"><b>${lines.length}</b> Total Lines</div>
-      <div class="stat"><b>${totalExpected}</b> Total Transferred Qty</div>
+      <div class="stat"><b>${totalExpected}</b> Total Expected Qty</div>
       <div class="stat"><b>${totalReceived}</b> Total Received Qty</div>
       <div class="stat"><b>${totalPending}</b> Total Pending Qty</div>
       <div class="stat"><b>${matched}</b> Matched</div>
