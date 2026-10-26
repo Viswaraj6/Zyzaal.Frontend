@@ -225,13 +225,13 @@
       }
       cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
       $('video').srcObject=cameraStream;
-      $('cameraBox').style.display='block';
+      $('cameraBox').style.display='block'; $('scanBottom').classList.remove('open');
       $('cameraBox').classList.add('camera-fullscreen-ready');
       $('video').style.width='100%';
       $('video').style.maxHeight='calc(100vh - 120px)';
       $('video').style.objectFit='contain';
       await $('video').play();
-      $('cameraStatus').textContent='Camera running — fullscreen scan active';
+      $('cameraStatus').textContent='Camera running — scan continuously'; $('scanResultTitle').textContent='Ready to scan'; $('scanResultSub').textContent='Scan a product barcode';
       // Fullscreen may be unavailable on some browsers/devices; camera still works inline.
       const box=$('cameraBox');
       if (box.requestFullscreen) {
@@ -246,38 +246,35 @@
     }catch(e){showNotice('saveNotice',`Could not open camera: ${e.message}. Check browser camera permission.`, 'error');}
   }
   let lastCameraCode='',lastCameraAt=0, cameraTransition=false, cameraReturnTimer=null;
-  async function addBarcodeFromCamera(code){
-    const now=Date.now();
-    if(cameraTransition || (code===lastCameraCode&&now-lastCameraAt<2500))return;
-    lastCameraCode=code;lastCameraAt=now;
-    const result=addBarcode(code);
-    if(!result)return;
+  function updateScanPanel(result, code){
     const line=result.line;
-    playScanSound(result.matched);
-    // Exit fullscreen briefly so the matched row can be shown, then return to scanner.
-    cameraTransition=true;
-    const wasFullscreen=!!(document.fullscreenElement && document.fullscreenElement===$('cameraBox'));
-    if(wasFullscreen && document.exitFullscreen){
-      try { await document.exitFullscreen(); } catch (_) {}
-    }
-    highlightAndScroll(line);
-    const received=number(line.receivedQty), expected=number(line.expectedQty);
-    const balance=Math.max(0,number(line.expectedQty)-number(line.receivedQty));
     const totalExpected=lines.reduce((sum,l)=>sum+number(l.expectedQty),0);
     const totalReceived=lines.reduce((sum,l)=>sum+number(l.receivedQty),0);
     const totalBalance=lines.reduce((sum,l)=>sum+Math.max(0,number(l.expectedQty)-number(l.receivedQty)),0);
-    $('cameraStatus').textContent=result.matched
-      ? `✓ Scanned: ${code} | ${line.name||line.sku||line.barcode} | Qty ${received}/${expected} | Item balance ${balance} | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`
-      : `⚠ Scanned: ${code} | Extra item | Received 1 | Total received ${totalReceived}/${totalExpected} | Total balance ${totalBalance}`;
-    if(cameraReturnTimer) clearTimeout(cameraReturnTimer);
-    cameraReturnTimer=setTimeout(async()=>{
-      if(!cameraStream){cameraTransition=false;return;}
-      $('cameraBox').scrollIntoView({behavior:'smooth',block:'center'});
-      if(wasFullscreen && $('cameraBox').requestFullscreen){
-        try { await $('cameraBox').requestFullscreen(); } catch (_) {}
-      }
-      cameraTransition=false;
-    }, 1300);
+    $('scanBottom').classList.toggle('warning',!result.matched);
+    $('scanTick').textContent=result.matched?'✓':'!';
+    $('scanResultTitle').textContent=result.matched?'Scan successful':'Product not matched';
+    $('scanResultSub').textContent=`${line.name||line.sku||line.barcode||code} · ${code}`;
+    $('scanExpected').textContent=totalExpected;
+    $('scanReceived').textContent=totalReceived;
+    $('scanBalance').textContent=totalBalance;
+    $('scanCode').textContent=code;
+    $('scanProduct').textContent=line.name||'—';
+    $('scanItemExpected').textContent=number(line.expectedQty);
+    $('scanItemReceived').textContent=number(line.receivedQty);
+    $('scanItemBalance').textContent=Math.max(0,number(line.expectedQty)-number(line.receivedQty));
+    $('scanTotalExpected').textContent=totalExpected;
+    $('cameraStatus').textContent=result.matched?'✓ Scanned — ready for next item':'⚠ Unmatched item added — verify details';
+  }
+  function addBarcodeFromCamera(code){
+    const now=Date.now();
+    if(now-lastCameraAt<1200 && code===lastCameraCode)return;
+    if(cameraTransition)return;
+    lastCameraCode=code;lastCameraAt=now;
+    const result=addBarcode(code);
+    if(!result)return;
+    playScanSound(result.matched);
+    updateScanPanel(result,code);
   }
   async function stopCamera(){
     if(scanTimer)clearInterval(scanTimer);
@@ -285,11 +282,16 @@
     if(cameraStream)cameraStream.getTracks().forEach(t=>t.stop());
     cameraStream=null;
     $('video').srcObject=null;
-    $('cameraBox').style.display='none';
+    $('cameraBox').style.display='none'; $('scanBottom').classList.remove('open');
     if(document.fullscreenElement && document.fullscreenElement === $('cameraBox')){
       try { await document.exitFullscreen(); } catch (_) {}
     }
   }
+  $('scanPanelToggle').addEventListener('click',()=>{
+    const panel=$('scanBottom');
+    panel.classList.toggle('open');
+    $('scanChevron').textContent=panel.classList.contains('open')?'▼':'▲';
+  });
   $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
   function addBarcodeManually(){
     const result = addBarcode();
