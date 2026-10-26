@@ -16,6 +16,8 @@ label{font-size:12px;font-weight:700;color:#475569}input,select,button{font:inhe
 .order{border:1px solid #dbe3ef;border-radius:10px;padding:13px;text-align:left;background:#fff;color:#172033}.order:hover,.order.active{border:2px solid #2563eb;background:#eff6ff}.order strong{display:block;font-size:15px;margin-bottom:5px}.order span{display:block;color:#64748b;font-size:12px;margin-top:4px}
 .tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:10px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:13px}th{background:#f8fafc;color:#475569}td input{min-width:90px;padding:8px}.status{display:inline-block;padding:4px 8px;border-radius:20px;background:#e2e8f0;font-size:11px;font-weight:700}.Matched{background:#dcfce7;color:#166534}.Shortage,.Excess{background:#ffedd5;color:#9a3412}.Pending{background:#fee2e2;color:#991b1b}
 .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar input{max-width:300px}.stats{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px;font-size:13px}.stat b{font-size:17px;margin-right:5px}
+  #linesBody input[readonly]{background:#f1f5f9;color:#64748b;border-color:#e2e8f0;cursor:not-allowed}
+  #linesBody tr.extra-line{background:#fffbeb}
 #cameraBox{display:none;margin-top:12px}video{width:100%;max-width:420px;border-radius:10px;background:#0f172a;display:block}footer{font-size:12px;color:#64748b;padding:8px 2px 25px}
 @media(max-width:600px){header{padding:15px}.wrap{margin:12px auto;padding:0 10px}.card{padding:13px}.field{min-width:100%}.toolbar input{max-width:none;flex:1}}
 </style>
@@ -122,23 +124,24 @@ label{font-size:12px;font-weight:700;color:#475569}input,select,button{font:inhe
   }
   function extractLines(o){
     const raw=o.line_items||o.transfer_order_line_items||o.items||[];
-
-    console.log('FULL TRANSFER ORDER:', o);
-console.log('LINE ITEMS:', raw);
-    
-    return raw.map((x,i)=>{
+    return raw.map(x=>{
       const sku=String(x.sku||x.item_sku||x.item_id||'').trim();
+      const productCode=String(x.item_code||x.product_code||x.code||x.productCode||'').trim();
       const barcode=String(x.barcode||x.ean||x.upc||sku).trim();
-      const qty = number(
-  x.quantity_transfer ??
-  x.quantity_transferred ??
-  x.quantity ??
-  x.transfer_quantity ??
-  x.quantity_to_transfer ??
-  x.quantity_ordered ??
-  0
-);
-      return {barcode,sku:sku||barcode,name:String(x.name||x.item_name||x.description||''),expectedQty:qty,receivedQty:0};
+      const qty=number(
+        x.quantity_transfer ??
+        x.quantity_transferred ??
+        x.quantity ??
+        x.transfer_quantity ??
+        x.quantity_to_transfer ??
+        x.quantity_ordered ??
+        0
+      );
+      return {
+        barcode, sku:sku||barcode, productCode,
+        name:String(x.name||x.item_name||x.description||''),
+        expectedQty:qty, receivedQty:0, isExtra:false
+      };
     });
   }
   async function chooseOrder(id){
@@ -158,37 +161,78 @@ console.log('LINE ITEMS:', raw);
     }catch(e){showNotice('orderNotice',e.message,'error');}
   }
   function renderLines(){
-    $('linesBody').innerHTML=lines.map((l,i)=>`<tr>
-      <td><input aria-label="Barcode ${i+1}" data-i="${i}" data-k="barcode" value="${escapeHtml(l.barcode)}"></td>
-      <td><input aria-label="Product ${i+1}" data-i="${i}" data-k="name" value="${escapeHtml(l.name)}"></td>
-      <td><input type="number" min="0" step="1" aria-label="Expected quantity ${i+1}" data-i="${i}" data-k="expectedQty" value="${number(l.expectedQty)}"></td>
-      <td><input type="number" min="0" step="1" aria-label="Received quantity ${i+1}" data-i="${i}" data-k="receivedQty" value="${number(l.receivedQty)}"></td>
-      <td><span class="status ${lineStatus(l)}">${lineStatus(l)}</span></td>
-      <td><button class="danger" data-remove="${i}" style="padding:7px 9px">Remove</button></td>
-    </tr>`).join('');
+    $('linesBody').innerHTML=lines.map((l,i)=>{
+      const extra=l.isExtra===true;
+      const status=lineStatus(l);
+      return `<tr class="${extra?'extra-line':''}">
+        <td><input aria-label="Barcode / SKU ${i+1}" data-i="${i}" data-k="barcode" value="${escapeHtml(l.barcode)}" ${extra?'':'readonly'}></td>
+        <td><input aria-label="Product ${i+1}" data-i="${i}" data-k="name" value="${escapeHtml(l.name)}" ${extra?'':'readonly'}></td>
+        <td><input type="number" min="0" step="1" aria-label="Expected quantity ${i+1}" data-i="${i}" data-k="expectedQty" value="${number(l.expectedQty)}" ${extra?'':'readonly'}></td>
+        <td><input type="number" min="0" step="1" aria-label="Received quantity ${i+1}" data-i="${i}" data-k="receivedQty" value="${number(l.receivedQty)}"></td>
+        <td><span class="status ${status}">${status}</span></td>
+        <td>${extra?`<button class="danger" data-remove="${i}" style="padding:7px 9px">Remove</button>`:'<span style="color:#94a3b8">Locked</span>'}</td>
+      </tr>`;
+    }).join('');
+
     $('linesBody').querySelectorAll('input[data-i]').forEach(inp=>inp.addEventListener('change',()=>{
       const i=Number(inp.dataset.i), k=inp.dataset.k;
-      lines[i][k]=k==='expectedQty'||k==='receivedQty'?number(inp.value):inp.value.trim();
-      if(k==='barcode'&&!lines[i].sku)lines[i].sku=inp.value.trim();
+      if(!lines[i]) return;
+      if(k!=='receivedQty' && lines[i].isExtra!==true) return;
+      lines[i][k]=(k==='expectedQty'||k==='receivedQty')?number(inp.value):inp.value.trim();
+      if(k==='barcode' && !lines[i].sku) lines[i].sku=inp.value.trim();
       renderLines();
     }));
-    $('linesBody').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{lines.splice(Number(b.dataset.remove),1);renderLines();}));
-    const matched=lines.filter(l=>lineStatus(l)==='Matched').length, variance=lines.filter(l=>['Shortage','Excess'].includes(lineStatus(l))).length, pending=lines.filter(l=>lineStatus(l)==='Pending').length;
-    $('stats').innerHTML=`<div class="stat"><b>${lines.length}</b> lines</div><div class="stat"><b>${matched}</b> matched</div><div class="stat"><b>${variance}</b> shortage/excess</div><div class="stat"><b>${pending}</b> pending</div><div class="stat"><b>${overallStatus()}</b> overall status</div>`;
+    $('linesBody').querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{
+      const i=Number(b.dataset.remove);
+      if(lines[i]?.isExtra===true){lines.splice(i,1);renderLines();}
+    }));
+
+    const matched=lines.filter(l=>lineStatus(l)==='Matched').length;
+    const variance=lines.filter(l=>['Shortage','Excess'].includes(lineStatus(l))).length;
+    const pending=lines.filter(l=>lineStatus(l)==='Pending').length;
+    const totalExpected=lines.reduce((sum,l)=>sum+number(l.expectedQty),0);
+    const totalReceived=lines.reduce((sum,l)=>sum+number(l.receivedQty),0);
+    const totalPending=lines.reduce((sum,l)=>sum+Math.max(0,number(l.expectedQty)-number(l.receivedQty)),0);
+
+    $('stats').innerHTML=`
+      <div class="stat"><b>${lines.length}</b> Total Lines</div>
+      <div class="stat"><b>${totalExpected}</b> Total Expected Qty</div>
+      <div class="stat"><b>${totalReceived}</b> Total Received Qty</div>
+      <div class="stat"><b>${totalPending}</b> Total Pending Qty</div>
+      <div class="stat"><b>${matched}</b> Matched</div>
+      <div class="stat"><b>${variance}</b> Shortage / Excess</div>
+      <div class="stat"><b>${overallStatus()}</b> Overall Status</div>`;
   }
+  function normalizeCode(value){return String(value??'').trim().toLowerCase();}
   function addBarcode(){
-    const code=$('barcodeInput').value.trim();if(!code)return;
-    let found=lines.find(l=>l.barcode.toLowerCase()===code.toLowerCase()||l.sku.toLowerCase()===code.toLowerCase());
-    if(found){found.receivedQty=number(found.receivedQty)+1;renderLines();showNotice('saveNotice',`Scanned ${code}: received quantity increased by 1.`,'success');}
-    else {lines.push({barcode:code,sku:code,name:'',expectedQty:0,receivedQty:1});renderLines();showNotice('saveNotice',`SKU ${code} was not on the selected order. Added as an extra line; confirm barcode and expected quantity.`);}
-    $('barcodeInput').value='';$('barcodeInput').focus();
+    const code=$('barcodeInput').value.trim();
+    if(!code)return;
+    const scanned=normalizeCode(code);
+    const found=lines.find(l=>[
+      l.barcode,l.sku,l.productCode,l.name
+    ].some(value=>normalizeCode(value)===scanned));
+
+    if(found){
+      found.receivedQty=number(found.receivedQty)+1;
+      renderLines();
+      showNotice('saveNotice',`Scanned ${code}: received quantity increased by 1.`,'success');
+    } else {
+      lines.push({
+        barcode:code,sku:code,productCode:code,name:'Extra item - verify',
+        expectedQty:0,receivedQty:1,isExtra:true
+      });
+      renderLines();
+      showNotice('saveNotice',`Code ${code} was not matched to an order line. Added as an editable extra line; verify details before saving.`);
+    }
+    $('barcodeInput').value='';
+    $('barcodeInput').focus();
   }
   async function saveCheck(){
     if(!selectedOrder){showNotice('saveNotice','Choose a transfer order first.','error');return;}
     if(!lines.length){showNotice('saveNotice','Add at least one line before saving.','error');return;}
     try{
       $('saveBtn').disabled=true;
-      const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
+      const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,productCode:l.productCode||'',name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
       const data=await api('/transfer-checks',{method:'POST',body:JSON.stringify(payload)});
       showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}.`,'success');
       loadChecks();
@@ -220,7 +264,7 @@ console.log('LINE ITEMS:', raw);
   $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
   $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcode();}});
   $('addBarcodeBtn').addEventListener('click',addBarcode);
-  $('addLineBtn').addEventListener('click',()=>{lines.push({barcode:'',sku:'',name:'',expectedQty:0,receivedQty:0});renderLines();});
+  $('addLineBtn').addEventListener('click',()=>{lines.push({barcode:'',sku:'',productCode:'',name:'',expectedQty:0,receivedQty:0,isExtra:true});renderLines();});
   $('saveBtn').addEventListener('click',saveCheck);$('loadChecksBtn').addEventListener('click',loadChecks);$('resetCountsBtn').addEventListener('click',()=>{if(confirm('Reset all received quantities to zero?')){lines.forEach(l=>l.receivedQty=0);renderLines();}});
   $('cameraBtn').addEventListener('click',()=>{if($('cameraBox').style.display==='block')stopCamera();else startCamera();});
   $('stopCameraBtn').addEventListener('click',stopCamera);
