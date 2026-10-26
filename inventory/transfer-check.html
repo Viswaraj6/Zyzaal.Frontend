@@ -122,6 +122,10 @@ label{font-size:12px;font-weight:700;color:#475569}input,select,button{font:inhe
   }
   function extractLines(o){
     const raw=o.line_items||o.transfer_order_line_items||o.items||[];
+
+    console.log('FULL TRANSFER ORDER:', o);
+console.log('LINE ITEMS:', raw);
+    
     return raw.map((x,i)=>{
       const sku=String(x.sku||x.item_sku||x.item_id||'').trim();
       const barcode=String(x.barcode||x.ean||x.upc||sku).trim();
