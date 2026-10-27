@@ -268,7 +268,7 @@
     ]);
 
     // UTF-8 BOM helps Excel display product names correctly.
-    const csv = + rows.map(row => row.map(csvCell).join(',')).join('\r\n');
+    const csv = '\\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const safeOrderNo = String(selectedOrder.transferOrderNo || selectedOrder.transferOrderId || 'transfer')
@@ -301,12 +301,8 @@
       $('saveBtn').disabled=true;
       const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,productCode:l.productCode||'',name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
       const data=await api('/transfer-checks',{method:'POST',body:JSON.stringify(payload)});
-     showNotice(
-  'saveNotice',
-  `Saved successfully. Overall status: ${data.check?.status || overallStatus()}.`,
-  'success'
-);
-loadChecks();
+      showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}.`,'success');
+      loadChecks();
     }catch(e){showNotice('saveNotice',e.message,'error');}finally{$('saveBtn').disabled=false;}
   }
 
@@ -499,5 +495,6 @@ loadChecks();
   });
   window.addEventListener('beforeunload',stopCamera);
   ensureStatusStyles();
-  loadOrders();
+  if (token()) loadOrders();
+  window.addEventListener('fark618:login', () => { loadOrders(); loadChecks(); });
 })();
