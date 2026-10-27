@@ -266,6 +266,17 @@
     $('scanTotalExpected').textContent=totalExpected;
     $('cameraStatus').textContent=result.matched?'✓ Scanned — ready for next item':'⚠ Unmatched item added — verify details';
   }
+  function returnToScanner(){
+    // In inline mode, bring the camera back into view after each scan.
+    // Native fullscreen already keeps the scanner visible, so don't disturb it.
+    if(document.fullscreenElement === $('cameraBox')) return;
+    const box=$('cameraBox');
+    if(!box || box.style.display==='none') return;
+    requestAnimationFrame(()=>{
+      const top=box.getBoundingClientRect().top + window.scrollY - 8;
+      window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+    });
+  }
   function addBarcodeFromCamera(code){
     const now=Date.now();
     if(now-lastCameraAt<1200 && code===lastCameraCode)return;
@@ -275,6 +286,8 @@
     if(!result)return;
     playScanSound(result.matched);
     updateScanPanel(result,code);
+    // Automatically return to the scanner after every successful or unmatched scan.
+    returnToScanner();
   }
   async function stopCamera(){
     if(scanTimer)clearInterval(scanTimer);
