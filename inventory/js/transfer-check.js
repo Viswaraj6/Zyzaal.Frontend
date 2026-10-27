@@ -91,6 +91,7 @@
       selectedOrder={...summary, raw:o};
       lines=extractLines(o);
       $('checkCard').hidden=false;
+      $('ordersCard').hidden=true;
       $('selectedTitle').textContent=summary.transferOrderNo||'Transfer order';
       $('selectedMeta').textContent=`${summary.fromStore||'—'} → ${summary.toStore||'—'} · ${summary.date||''} · Zoho status: ${summary.status||'—'}`;
       renderLines(); renderOrders();
@@ -474,6 +475,14 @@
     $('scanChevron').textContent=panel.classList.contains('open')?'▼':'▲';
   });
   $('reloadBtn').addEventListener('click',loadOrders);$('loadOrdersBtn').addEventListener('click',loadOrders);$('searchOrders').addEventListener('input',renderOrders);
+  $('backToOrdersBtn').addEventListener('click',()=>{
+    if(cameraStream) stopCamera();
+    selectedOrder=null; lines=[]; highlightedLineIndex=-1;
+    $('checkCard').hidden=true; $('ordersCard').hidden=false;
+    $('barcodeInput').value='';
+    window.scrollTo({top:0,behavior:'smooth'});
+    renderOrders();
+  });
   function addBarcodeManually(){
     const result = addBarcode();
     if(!result) return;
