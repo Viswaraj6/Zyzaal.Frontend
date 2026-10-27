@@ -21,10 +21,29 @@
     }
     return type.includes('json') ? response.json() : response;
   }
+
+  function ensureStatusStyles(){
+    if (document.getElementById('transferStatusColors')) return;
+    const style = document.createElement('style');
+    style.id = 'transferStatusColors';
+    style.textContent = `
+      .status { display:inline-flex; align-items:center; justify-content:center; padding:4px 9px; border-radius:999px; font-size:12px; font-weight:700; line-height:1.3; border:1px solid transparent; }
+      .status-matched { color:#166534 !important; background:#dcfce7 !important; border-color:#86efac !important; }
+      .status-pending { color:#92400e !important; background:#fef3c7 !important; border-color:#fcd34d !important; }
+      .status-excess { color:#9f1239 !important; background:#ffe4e6 !important; border-color:#fda4af !important; }
+      .status-shortage { color:#9a3412 !important; background:#ffedd5 !important; border-color:#fdba74 !important; }
+      .status-variance { color:#9a3412 !important; background:#ffedd5 !important; border-color:#fdba74 !important; }
+    `;
+    document.head.appendChild(style);
+  }
+
   function showNotice(id, message, kind='') { const el=$(id); el.textContent=message; el.className='notice'+(kind?' '+kind:''); el.hidden=false; }
   function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function number(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n):0;}
   function lineStatus(l){if(l.receivedQty===0&&l.expectedQty>0)return 'Pending';if(l.receivedQty<l.expectedQty)return 'Shortage';if(l.receivedQty>l.expectedQty)return 'Excess';return 'Matched';}
+  function statusClass(status){
+    return String(status || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+  }
   function overallStatus(){if(lines.every(l=>lineStatus(l)==='Matched'))return 'Matched';if(lines.some(l=>lineStatus(l)==='Pending'))return 'Pending';return 'Variance';}
   function renderOrders(){
     const q=$('searchOrders').value.trim().toLowerCase();
@@ -88,7 +107,7 @@
         <td><input aria-label="Product ${i+1}" data-i="${i}" data-k="name" value="${escapeHtml(l.name)}" ${extra?'':'readonly'}></td>
         <td><input type="number" min="0" step="1" aria-label="Expected quantity ${i+1}" data-i="${i}" data-k="expectedQty" value="${number(l.expectedQty)}" ${extra?'':'readonly'}></td>
         <td><input type="number" min="0" step="1" aria-label="Received quantity ${i+1}" data-i="${i}" data-k="receivedQty" value="${number(l.receivedQty)}"></td>
-        <td><span class="status ${status}">${status}</span></td>
+        <td><span class="status status-${statusClass(status)}">${status}</span></td>
         <td>${extra?`<button class="danger" data-remove="${i}" style="padding:7px 9px">Remove</button>`:'<span style="color:#94a3b8">Locked</span>'}</td>
       </tr>`;
     }).join('');
@@ -194,6 +213,87 @@
     $('barcodeInput').focus();
     return result;
   }
+
+  function csvCell(value) {
+    const s = String(value ?? '');
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+
+  function exportVerificationExcel(checkData = null) {
+    if (!selectedOrder || !lines.length) {
+      showNotice('saveNotice', 'Choose and verify a transfer order before exporting.', 'error');
+      return;
+    }
+
+    const verifiedAt = checkData?.verifiedAt || checkData?.createdAt || new Date().toISOString();
+    const checkNo = checkData?._id || checkData?.checkId || '';
+    const rows = [
+      ['FARK 618 - Transfer Verification Report'],
+      ['Transfer Order No', selectedOrder.transferOrderNo || selectedOrder.transferOrderId || ''],
+      ['From Store', selectedOrder.fromStore || ''],
+      ['To Store', selectedOrder.toStore || ''],
+      ['Verification Date', new Date(verifiedAt).toLocaleString()],
+      ['Overall Status', checkData?.status || overallStatus()],
+      [],
+      ['S.No', 'Barcode', 'SKU', 'Product Code', 'Product Name', 'Expected Qty', 'Received Qty', 'Balance Qty', 'Variance', 'Line Status']
+    ];
+
+    lines.forEach((line, index) => {
+      const expected = number(line.expectedQty);
+      const received = number(line.receivedQty);
+      const balance = expected - received;
+      const variance = received - expected;
+      rows.push([
+        index + 1,
+        line.barcode || '',
+        line.sku || '',
+        line.productCode || '',
+        line.name || '',
+        expected,
+        received,
+        balance,
+        variance,
+        lineStatus(line)
+      ]);
+    });
+
+    rows.push([]);
+    rows.push([
+      'TOTAL', '', '', '', '',
+      lines.reduce((sum, line) => sum + number(line.expectedQty), 0),
+      lines.reduce((sum, line) => sum + number(line.receivedQty), 0),
+      lines.reduce((sum, line) => sum + number(line.expectedQty) - number(line.receivedQty), 0),
+      lines.reduce((sum, line) => sum + number(line.receivedQty) - number(line.expectedQty), 0),
+      checkData?.status || overallStatus()
+    ]);
+
+    // UTF-8 BOM helps Excel display product names correctly.
+    const csv = '\\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const safeOrderNo = String(selectedOrder.transferOrderNo || selectedOrder.transferOrderId || 'transfer')
+      .replace(/[^a-z0-9_-]+/gi, '_');
+    const dateTag = new Date().toISOString().slice(0, 10);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `FARK618_Transfer_Verification_${safeOrderNo}_${dateTag}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function addVerificationExportButton() {
+    if ($('exportVerificationBtn') || !$('saveBtn')) return;
+    const btn = document.createElement('button');
+    btn.id = 'exportVerificationBtn';
+    btn.type = 'button';
+    btn.textContent = 'Export Verification to Excel';
+    btn.style.marginLeft = '8px';
+    btn.addEventListener('click', () => exportVerificationExcel());
+    $('saveBtn').insertAdjacentElement('afterend', btn);
+  }
+
   async function saveCheck(){
     if(!selectedOrder){showNotice('saveNotice','Choose a transfer order first.','error');return;}
     if(!lines.length){showNotice('saveNotice','Add at least one line before saving.','error');return;}
@@ -201,7 +301,8 @@
       $('saveBtn').disabled=true;
       const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,productCode:l.productCode||'',name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
       const data=await api('/transfer-checks',{method:'POST',body:JSON.stringify(payload)});
-      showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}.`,'success');
+      showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}. Exporting verification report…`,'success');
+      exportVerificationExcel(data.check || null);
       loadChecks();
     }catch(e){showNotice('saveNotice',e.message,'error');}finally{$('saveBtn').disabled=false;}
   }
@@ -210,7 +311,7 @@
       const status=$('filterStatus').value;
       const data=await api('/transfer-checks'+(status?'?status='+encodeURIComponent(status):''),{method:'GET'});
       const checks=data.checks||[];
-      $('checksBody').innerHTML=checks.map(c=>`<tr><td>${escapeHtml(c.transferOrderNo||c.transferOrderId||'—')}</td><td>${escapeHtml(c.fromStore||'—')}</td><td>${escapeHtml(c.toStore||'—')}</td><td><span class="status ${escapeHtml(c.status||'')}">${escapeHtml(c.status||'—')}</span></td><td>${escapeHtml(c.verifiedAt?new Date(c.verifiedAt).toLocaleString():'—')}</td><td>${Array.isArray(c.lines)?c.lines.length:0}</td></tr>`).join('')||'<tr><td colspan="6">No saved checks found.</td></tr>';
+      $('checksBody').innerHTML=checks.map(c=>`<tr><td>${escapeHtml(c.transferOrderNo||c.transferOrderId||'—')}</td><td>${escapeHtml(c.fromStore||'—')}</td><td>${escapeHtml(c.toStore||'—')}</td><td><span class="status status-${statusClass(c.status)}">${escapeHtml(c.status||'—')}</span></td><td>${escapeHtml(c.verifiedAt?new Date(c.verifiedAt).toLocaleString():'—')}</td><td>${Array.isArray(c.lines)?c.lines.length:0}</td></tr>`).join('')||'<tr><td colspan="6">No saved checks found.</td></tr>';
       showNotice('checksNotice',`Loaded ${checks.length} saved checks.`,'success');
     }catch(e){showNotice('checksNotice',e.message,'error');}
   }
@@ -315,6 +416,7 @@
   $('barcodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBarcodeManually();}});
   $('addBarcodeBtn').addEventListener('click',()=>addBarcodeManually());
   $('addLineBtn').addEventListener('click',()=>{lines.push({barcode:'',sku:'',productCode:'',name:'',expectedQty:0,receivedQty:0,isExtra:true});renderLines();});
+  addVerificationExportButton();
   $('saveBtn').addEventListener('click',saveCheck);$('loadChecksBtn').addEventListener('click',loadChecks);$('resetCountsBtn').addEventListener('click',()=>{if(confirm('Reset all received quantities to zero?')){lines.forEach(l=>l.receivedQty=0);renderLines();}});
   $('cameraBtn').addEventListener('click',()=>{if($('cameraBox').style.display==='block')stopCamera();else startCamera();});
   $('stopCameraBtn').addEventListener('click',stopCamera);
@@ -325,5 +427,6 @@
     }
   });
   window.addEventListener('beforeunload',stopCamera);
+  ensureStatusStyles();
   loadOrders();
 })();
