@@ -301,9 +301,12 @@
       $('saveBtn').disabled=true;
       const payload={transferOrderId:selectedOrder.transferOrderId,transferOrderNo:selectedOrder.transferOrderNo,fromStore:selectedOrder.fromStore,toStore:selectedOrder.toStore,lines:lines.map(l=>({barcode:l.barcode||l.sku,sku:l.sku||l.barcode,productCode:l.productCode||'',name:l.name,expectedQty:number(l.expectedQty),receivedQty:number(l.receivedQty)}))};
       const data=await api('/transfer-checks',{method:'POST',body:JSON.stringify(payload)});
-      showNotice('saveNotice',`Saved successfully. Overall status: ${data.check?.status||overallStatus()}. Exporting verification report…`,'success');
-      exportVerificationExcel(data.check || null);
-      loadChecks();
+     showNotice(
+  'saveNotice',
+  `Saved successfully. Overall status: ${data.check?.status || overallStatus()}.`,
+  'success'
+);
+loadChecks();
     }catch(e){showNotice('saveNotice',e.message,'error');}finally{$('saveBtn').disabled=false;}
   }
 
