@@ -165,12 +165,12 @@
         osc.stop(startAt + duration + 0.02);
       };
       if (success) {
-        // Deep, audible two-note confirmation.
-        playTone(330, 220, now, 0.24, 0.38);
-        playTone(247, 165, now + 0.12, 0.28, 0.34);
+        // Clear, short tick-like confirmation: two bright high notes.
+        playTone(1450, 1850, now, 0.075, 0.28);
+        playTone(1850, 2250, now + 0.055, 0.085, 0.26);
       } else {
-        // Lower descending warning tone.
-        playTone(185, 82, now, 0.42, 0.42);
+        // Distinct lower warning tone for unmatched barcode.
+        playTone(330, 180, now, 0.24, 0.34);
       }
     } catch (e) {
       console.warn('Scan sound could not play:', e);
@@ -306,12 +306,80 @@
       loadChecks();
     }catch(e){showNotice('saveNotice',e.message,'error');}finally{$('saveBtn').disabled=false;}
   }
+
+  function exportSavedCheck(check) {
+    const savedLines = Array.isArray(check?.lines) ? check.lines : [];
+    if (!savedLines.length) {
+      showNotice('checksNotice', 'This saved verification has no line details to export.', 'error');
+      return;
+    }
+
+    const expectedTotal = savedLines.reduce((sum, line) => sum + number(line.expectedQty), 0);
+    const receivedTotal = savedLines.reduce((sum, line) => sum + number(line.receivedQty), 0);
+    const balanceTotal = savedLines.reduce((sum, line) => sum + (number(line.expectedQty) - number(line.receivedQty)), 0);
+    const varianceTotal = savedLines.reduce((sum, line) => sum + (number(line.receivedQty) - number(line.expectedQty)), 0);
+    const created = check.verifiedAt || check.createdAt || check.updatedAt || '';
+    const rows = [
+      ['FARK 618 - Saved Transfer Verification Report'],
+      ['Transfer Order No', check.transferOrderNo || check.transferOrderId || ''],
+      ['From Store', check.fromStore || ''],
+      ['To Store', check.toStore || ''],
+      ['Verification Date', created ? new Date(created).toLocaleString() : ''],
+      ['Overall Status', check.status || ''],
+      [],
+      ['S.No', 'Barcode', 'SKU', 'Product Code', 'Product Name', 'Expected Qty', 'Received Qty', 'Balance Qty', 'Variance', 'Line Status']
+    ];
+
+    savedLines.forEach((line, index) => {
+      const expected = number(line.expectedQty);
+      const received = number(line.receivedQty);
+      const balance = expected - received;
+      const variance = received - expected;
+      let status = 'Matched';
+      if (received === 0 && expected > 0) status = 'Pending';
+      else if (received < expected) status = 'Shortage';
+      else if (received > expected) status = 'Excess';
+      rows.push([
+        index + 1,
+        line.barcode || '',
+        line.sku || '',
+        line.productCode || '',
+        line.name || '',
+        expected,
+        received,
+        balance,
+        variance,
+        status
+      ]);
+    });
+    rows.push([]);
+    rows.push(['TOTAL', '', '', '', '', expectedTotal, receivedTotal, balanceTotal, varianceTotal, check.status || '']);
+
+    const csv = '\\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const safeOrderNo = String(check.transferOrderNo || check.transferOrderId || 'transfer')
+      .replace(/[^a-z0-9_-]+/gi, '_');
+    const dateTag = created ? new Date(created).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `FARK618_Saved_Verification_${safeOrderNo}_${dateTag}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   async function loadChecks(){
     try{
       const status=$('filterStatus').value;
       const data=await api('/transfer-checks'+(status?'?status='+encodeURIComponent(status):''),{method:'GET'});
       const checks=data.checks||[];
-      $('checksBody').innerHTML=checks.map(c=>`<tr><td>${escapeHtml(c.transferOrderNo||c.transferOrderId||'—')}</td><td>${escapeHtml(c.fromStore||'—')}</td><td>${escapeHtml(c.toStore||'—')}</td><td><span class="status status-${statusClass(c.status)}">${escapeHtml(c.status||'—')}</span></td><td>${escapeHtml(c.verifiedAt?new Date(c.verifiedAt).toLocaleString():'—')}</td><td>${Array.isArray(c.lines)?c.lines.length:0}</td></tr>`).join('')||'<tr><td colspan="6">No saved checks found.</td></tr>';
+      $('checksBody').innerHTML=checks.map((c,i)=>`<tr><td>${escapeHtml(c.transferOrderNo||c.transferOrderId||'—')}</td><td>${escapeHtml(c.fromStore||'—')}</td><td>${escapeHtml(c.toStore||'—')}</td><td><span class="status status-${statusClass(c.status)}">${escapeHtml(c.status||'—')}</span></td><td>${escapeHtml(c.verifiedAt?new Date(c.verifiedAt).toLocaleString():(c.createdAt?new Date(c.createdAt).toLocaleString():'—'))}</td><td>${Array.isArray(c.lines)?c.lines.length:0}</td><td><button type="button" data-export-check="${i}" class="export-saved-check">Export Excel</button></td></tr>`).join('')||'<tr><td colspan="7">No saved checks found.</td></tr>';
+      $('checksBody').querySelectorAll('[data-export-check]').forEach(btn=>btn.addEventListener('click',()=>{
+        const check=checks[Number(btn.dataset.exportCheck)];
+        if(check) exportSavedCheck(check);
+      }));
       showNotice('checksNotice',`Loaded ${checks.length} saved checks.`,'success');
     }catch(e){showNotice('checksNotice',e.message,'error');}
   }
